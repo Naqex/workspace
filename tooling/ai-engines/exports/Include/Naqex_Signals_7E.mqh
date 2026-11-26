@@ -34,6 +34,9 @@ enum ENUM_NAQEX_SYM_IDX
 struct NaqexSignalIntent
 {
    string   intent_id;
+   string   opportunity_id;
+   int      opp_eval_count;
+   bool     opp_is_new;
    string   engine_id;
    long     magic;
    string   symbol;
@@ -46,6 +49,42 @@ struct NaqexSignalIntent
    bool     shadow_only;
    datetime session_day_key;
    string   tag;
+};
+
+#define NAQEX_MAX_OPP_EVENTS 32
+
+struct NaqexOppEpisode
+{
+   bool     active;
+   string   opp_id;
+   string   engine_id;
+   long     magic;
+   string   symbol;
+   datetime session_day;
+   int      side;              // +1 BUY, -1 SELL, 0 NONE
+   datetime opened_utc;
+   double   open_signal_price;
+   int      eval_count;
+   int      block_count;
+   string   last_block_key;
+   int      ep_seq;
+   datetime ep_seq_day;
+};
+
+struct NaqexOppTransition
+{
+   string   event_type;        // OPP_START, OPP_EXPIRED
+   string   opp_id;
+   string   engine_id;
+   long     magic;
+   string   symbol;
+   bool     is_buy;
+   datetime utc_ts;
+   double   signal_price;
+   int      eval_count;
+   int      block_count;
+   string   last_block_key;
+   string   reason;
 };
 
 struct NaqexSymbolFeedState
@@ -102,6 +141,110 @@ private:
 
    // Base risk % per engine (exact Registry values)
    double               m_baseRisk[8];
+
+   // v1.02-B opt-in opportunity lifecycle state (0 = frozen v1.01, 1 = stable opportunity_id + setup-validity expiry)
+   int                  m_oppLifecycleMode;
+   NaqexOppEpisode      m_opp[8];
+   NaqexOppTransition   m_oppEvents[NAQEX_MAX_OPP_EVENTS];
+   int                  m_oppEventCount;
+
+   void ResetOppEpisode(const int idx)
+   {
+      if(idx < 0 || idx >= 8) return;
+      m_opp[idx].active            = false;
+      m_opp[idx].opp_id            = "";
+      m_opp[idx].engine_id         = "";
+      m_opp[idx].magic             = 0;
+      m_opp[idx].symbol            = "";
+      m_opp[idx].session_day       = 0;
+      m_opp[idx].side              = 0;
+      m_opp[idx].opened_utc        = 0;
+      m_opp[idx].open_signal_price = 0.0;
+      m_opp[idx].eval_count        = 0;
+      m_opp[idx].block_count       = 0;
+      m_opp[idx].last_block_key    = "";
+      m_opp[idx].ep_seq            = 0;
+      m_opp[idx].ep_seq_day        = 0;
+   }
+
+   void PushOppTransition(const string evType, const NaqexOppEpisode &ep, const datetime nowUtc,
+                          const double sigPx, const string reason)
+   {
+      if(m_oppEventCount >= NAQEX_MAX_OPP_EVENTS) return;
+      m_oppEvents[m_oppEventCount].event_type     = evType;
+      m_oppEvents[m_oppEventCount].opp_id         = ep.opp_id;
+      m_oppEvents[m_oppEventCount].engine_id      = ep.engine_id;
+      m_oppEvents[m_oppEventCount].magic          = ep.magic;
+      m_oppEvents[m_oppEventCount].symbol         = ep.symbol;
+      m_oppEvents[m_oppEventCount].is_buy         = (ep.side > 0);
+      m_oppEvents[m_oppEventCount].utc_ts         = nowUtc;
+      m_oppEvents[m_oppEventCount].signal_price   = sigPx;
+      m_oppEvents[m_oppEventCount].eval_count     = ep.eval_count;
+      m_oppEvents[m_oppEventCount].block_count    = ep.block_count;
+      m_oppEvents[m_oppEventCount].last_block_key = ep.last_block_key;
+      m_oppEvents[m_oppEventCount].reason         = reason;
+      m_oppEventCount++;
+   }
+
+   void ExpireOppIfActive(const int idx, const datetime nowUtc, const double sigPx, const string reason)
+   {
+      if(m_oppLifecycleMode != 1 || idx < 0 || idx >= 8) return;
+      if(!m_opp[idx].active) return;
+      PushOppTransition("OPP_EXPIRED", m_opp[idx], nowUtc, sigPx, reason);
+      m_opp[idx].active            = false;
+      m_opp[idx].opp_id            = "";
+      m_opp[idx].side              = 0;
+      m_opp[idx].opened_utc        = 0;
+      m_opp[idx].open_signal_price = 0.0;
+      m_opp[idx].eval_count        = 0;
+      m_opp[idx].block_count       = 0;
+      m_opp[idx].last_block_key    = "";
+   }
+
+   // Update opportunity episode for a setup engine inside its valid session when fresh tick is observed.
+   // NOTE: On tick gaps (!hasFreshTick), callers MUST NOT call this with curSide=0 — tick gaps mean
+   // unobserved state only and NEVER imply price left the setup zone!
+   void UpdateSetupOppOnObservedTick(const int idx, const string engShort, const string engId, const long magic,
+                                     const string sym, const datetime curDay, const datetime nowUtc,
+                                     const int curSide, const double curPx,
+                                     string &outOppId, int &outEvalCount, bool &outIsNew)
+   {
+      outOppId = ""; outEvalCount = 0; outIsNew = false;
+      if(m_oppLifecycleMode != 1 || idx < 0 || idx >= 8) return;
+      if(m_opp[idx].active && m_opp[idx].session_day != curDay)
+         ExpireOppIfActive(idx, nowUtc, curPx, "SESSION_ENDED");
+      if(m_opp[idx].active && curSide != m_opp[idx].side)
+         ExpireOppIfActive(idx, nowUtc, curPx, "PRICE_CONDITION_LOST");
+      if(!m_opp[idx].active && curSide != 0)
+      {
+         if(m_opp[idx].ep_seq_day != curDay)
+         {
+            m_opp[idx].ep_seq     = 0;
+            m_opp[idx].ep_seq_day = curDay;
+         }
+         m_opp[idx].ep_seq++;
+         m_opp[idx].active            = true;
+         m_opp[idx].opp_id            = StringFormat("OPP_%s_%I64d_%d", engShort, (long)curDay, m_opp[idx].ep_seq);
+         m_opp[idx].engine_id         = engId;
+         m_opp[idx].magic             = magic;
+         m_opp[idx].symbol            = sym;
+         m_opp[idx].session_day       = curDay;
+         m_opp[idx].side              = curSide;
+         m_opp[idx].opened_utc        = nowUtc;
+         m_opp[idx].open_signal_price = curPx;
+         m_opp[idx].eval_count        = 0;
+         m_opp[idx].block_count       = 0;
+         m_opp[idx].last_block_key    = "";
+         PushOppTransition("OPP_START", m_opp[idx], nowUtc, curPx, "PRICE_CONDITION_ENTERED");
+         outIsNew = true;
+      }
+      if(m_opp[idx].active && curSide == m_opp[idx].side)
+      {
+         m_opp[idx].eval_count++;
+         outOppId     = m_opp[idx].opp_id;
+         outEvalCount = m_opp[idx].eval_count;
+      }
+   }
 
    static int LastSundayOfMonth(const int year, const int month)
    {
@@ -209,7 +352,9 @@ public:
       m_nyAnchorDay      = 0; m_nyAnchorReady = false; m_nyAnchorLastTry = 0; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
       m_e6CompCacheDay   = 0; m_e6CompCacheOk = false; m_e1ReconstLastTry = 0;
       for(int s = 0; s < NAQEX_SYM_COUNT; s++) { m_d1AtrCacheDay[s] = 0; m_d1AtrCacheVal[s] = 0.0; }
-      for(int i = 0; i < 8; i++) m_tradedDay[i] = 0;
+      for(int i = 0; i < 8; i++) { m_tradedDay[i] = 0; ResetOppEpisode(i); }
+      m_oppLifecycleMode = 0;
+      m_oppEventCount    = 0;
       // Registry exact base risk percentages (E1..E7 + S6)
       m_baseRisk[0] = 0.16; // E1_USDJPY_TOKYO
       m_baseRisk[1] = 0.59; // E2_USDJPY_EXP80
@@ -234,10 +379,14 @@ public:
    bool Init(const string symUsdjpy, const string symGbpusd, const string symEurjpy,
              const string symUs100, const string symUs500,
              const string symEurusd, const string symAudusd, const string symUsdcad,
-             const int maxBreakoutLagMs = 5000, const bool enableS6Shadow = true)
+             const int maxBreakoutLagMs = 5000, const bool enableS6Shadow = true,
+             const int oppLifecycleMode = 0)
    {
       m_maxBreakoutLagMs = maxBreakoutLagMs;
       m_enableS6Shadow   = enableS6Shadow;
+      m_oppLifecycleMode = oppLifecycleMode;
+      m_oppEventCount    = 0;
+      for(int i = 0; i < 8; i++) ResetOppEpisode(i);
       m_feeds[SYM_USDJPY].symbol = ResolveBrokerAlias(symUsdjpy, "USDJPY.pro", "USDJPY");
       m_feeds[SYM_GBPUSD].symbol = ResolveBrokerAlias(symGbpusd, "GBPUSD.pro", "GBPUSD");
       m_feeds[SYM_EURJPY].symbol = ResolveBrokerAlias(symEurjpy, "EURJPY.pro", "EURJPY");
@@ -302,7 +451,54 @@ public:
    {
       int idx = EngineIndexFromMagic(magic);
       if(idx >= 0 && idx < 8)
+      {
          m_tradedDay[idx] = dayKey;
+         // Clear active opportunity silently when engine completes trade (caller emits OPP_ACCEPTED)
+         if(m_oppLifecycleMode == 1 && m_opp[idx].active)
+         {
+            m_opp[idx].active            = false;
+            m_opp[idx].opp_id            = "";
+            m_opp[idx].side              = 0;
+            m_opp[idx].opened_utc        = 0;
+            m_opp[idx].open_signal_price = 0.0;
+            m_opp[idx].eval_count        = 0;
+            m_opp[idx].block_count       = 0;
+            m_opp[idx].last_block_key    = "";
+         }
+      }
+   }
+
+   int DrainOppTransitions(NaqexOppTransition &outEvents[])
+   {
+      int n = m_oppEventCount;
+      for(int i = 0; i < n; i++)
+         outEvents[i] = m_oppEvents[i];
+      m_oppEventCount = 0;
+      return n;
+   }
+
+   bool RecordOpportunityBlocked(const long magic, const string blockKey, int &outBlockCount, int &outEvalCount)
+   {
+      outBlockCount = 0; outEvalCount = 0;
+      if(m_oppLifecycleMode != 1) return false;
+      int idx = EngineIndexFromMagic(magic);
+      if(idx < 0 || idx >= 8 || !m_opp[idx].active) return false;
+      m_opp[idx].block_count++;
+      outBlockCount = m_opp[idx].block_count;
+      outEvalCount  = m_opp[idx].eval_count;
+      bool changed  = (m_opp[idx].block_count == 1 || m_opp[idx].last_block_key != blockKey);
+      m_opp[idx].last_block_key = blockKey;
+      return changed;
+   }
+
+   void GetOpportunityStats(const long magic, int &outEvalCount, int &outBlockCount, string &outLastBlockKey) const
+   {
+      outEvalCount = 0; outBlockCount = 0; outLastBlockKey = "";
+      int idx = EngineIndexFromMagic(magic);
+      if(idx < 0 || idx >= 8 || !m_opp[idx].active) return;
+      outEvalCount    = m_opp[idx].eval_count;
+      outBlockCount   = m_opp[idx].block_count;
+      outLastBlockKey = m_opp[idx].last_block_key;
    }
 
    bool IsEngineTraded(const int idx, const datetime dayKey) const
@@ -491,7 +687,12 @@ public:
    {
       int count = 0;
       MqlDateTime utc; TimeToStruct(nowUtc, utc);
-      if(utc.day_of_week == 0 || utc.day_of_week == 6) return 0;
+      if(utc.day_of_week == 0 || utc.day_of_week == 6)
+      {
+         for(int i = 0; i < 7; i++)
+            ExpireOppIfActive(i, nowUtc, 0.0, "SESSION_ENDED");
+         return 0;
+      }
 
       datetime utcDay = nowUtc - (nowUtc % 86400);
       datetime nowNy  = nowUtc + (datetime)(NewYorkUtcOffsetHours(utc) * 3600);
@@ -551,22 +752,33 @@ public:
             }
          }
          int flatH = 18 - HelsinkiUtcOffsetHours(utc);
-         if(m_e1BoxReady && m_e1BoxTop > m_e1BoxBot && !IsEngineTraded(0, utcDay) &&
-            utc.hour >= 3 && utc.hour < 10 && utc.hour < flatH && m_feeds[SYM_USDJPY].has_fresh_tick)
+         bool e1InSession = (m_e1BoxReady && m_e1BoxTop > m_e1BoxBot && !IsEngineTraded(0, utcDay) &&
+                             utc.hour >= 3 && utc.hour < 10 && utc.hour < flatH);
+         if(!e1InSession)
          {
-            if(ask >= m_e1BoxTop)
+            ExpireOppIfActive(0, nowUtc, ask, IsEngineTraded(0, utcDay) ? "TRADED_FILLED" : "SESSION_ENDED");
+         }
+         else if(m_feeds[SYM_USDJPY].has_fresh_tick)
+         {
+            int curSide = (ask >= m_e1BoxTop) ? 1 : ((bid <= m_e1BoxBot) ? -1 : 0);
+            double curPx = (curSide >= 0) ? ask : bid;
+            string oppId = ""; int oppEval = 0; bool oppNew = false;
+            UpdateSetupOppOnObservedTick(0, "E1", "E1_USDJPY_TOKYO", 20261122, sym, utcDay, nowUtc, curSide, curPx, oppId, oppEval, oppNew);
+            if(curSide == 1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E1", nowUtc); it.engine_id = "E1_USDJPY_TOKYO"; it.magic = 20261122;
+               it.intent_id = NextIntentId("E1", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E1_USDJPY_TOKYO"; it.magic = 20261122;
                it.symbol = sym; it.is_buy = true; it.signal_price = ask; it.sl_price = m_e1BoxBot;
                it.base_risk_pct = m_baseRisk[0]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_USDJPY].last_lag_ms;
                it.shadow_only = false; it.session_day_key = utcDay; it.tag = "Naqex_M_E1_BUY";
                PushIntent(outIntents, count, it);
             }
-            else if(bid <= m_e1BoxBot)
+            else if(curSide == -1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E1", nowUtc); it.engine_id = "E1_USDJPY_TOKYO"; it.magic = 20261122;
+               it.intent_id = NextIntentId("E1", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E1_USDJPY_TOKYO"; it.magic = 20261122;
                it.symbol = sym; it.is_buy = false; it.signal_price = bid; it.sl_price = m_e1BoxTop;
                it.base_risk_pct = m_baseRisk[0]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_USDJPY].last_lag_ms;
                it.shadow_only = false; it.session_day_key = utcDay; it.tag = "Naqex_M_E1_SELL";
@@ -576,27 +788,37 @@ public:
       }
 
       // --- E2: EXP_DAILY_OPEN_080 (USDJPY) ---
-      if(utc.hour >= 7 && utc.hour < 17 && m_feeds[SYM_USDJPY].has_fresh_tick)
       {
          string sym = m_feeds[SYM_USDJPY].symbol;
          datetime d1Start = iTime(sym, PERIOD_D1, 0);
          double atrD1 = 0.0, dayOpen = iOpen(sym, PERIOD_D1, 0);
-         if(!IsEngineTraded(1, d1Start) && ReadPriorD1Atr(SYM_USDJPY, atrD1) && dayOpen > 0.0)
+         bool e2InWindow = (utc.hour >= 7 && utc.hour < 17);
+         if(!e2InWindow || IsEngineTraded(1, d1Start))
+         {
+            ExpireOppIfActive(1, nowUtc, m_feeds[SYM_USDJPY].last_ask, IsEngineTraded(1, d1Start) ? "TRADED_FILLED" : "SESSION_ENDED");
+         }
+         else if(m_feeds[SYM_USDJPY].has_fresh_tick && ReadPriorD1Atr(SYM_USDJPY, atrD1) && dayOpen > 0.0)
          {
             double ask = m_feeds[SYM_USDJPY].last_ask, bid = m_feeds[SYM_USDJPY].last_bid;
-            if(ask >= dayOpen + 0.80 * atrD1)
+            int curSide = (ask >= dayOpen + 0.80 * atrD1) ? 1 : ((bid <= dayOpen - 0.80 * atrD1) ? -1 : 0);
+            double curPx = (curSide >= 0) ? ask : bid;
+            string oppId = ""; int oppEval = 0; bool oppNew = false;
+            UpdateSetupOppOnObservedTick(1, "E2", "E2_USDJPY_EXP80", 20261123, sym, d1Start, nowUtc, curSide, curPx, oppId, oppEval, oppNew);
+            if(curSide == 1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E2", nowUtc); it.engine_id = "E2_USDJPY_EXP80"; it.magic = 20261123;
+               it.intent_id = NextIntentId("E2", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E2_USDJPY_EXP80"; it.magic = 20261123;
                it.symbol = sym; it.is_buy = true; it.signal_price = ask; it.sl_price = ask - 0.75 * atrD1;
                it.base_risk_pct = m_baseRisk[1]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_USDJPY].last_lag_ms;
                it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E2_BUY";
                PushIntent(outIntents, count, it);
             }
-            else if(bid <= dayOpen - 0.80 * atrD1)
+            else if(curSide == -1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E2", nowUtc); it.engine_id = "E2_USDJPY_EXP80"; it.magic = 20261123;
+               it.intent_id = NextIntentId("E2", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E2_USDJPY_EXP80"; it.magic = 20261123;
                it.symbol = sym; it.is_buy = false; it.signal_price = bid; it.sl_price = bid + 0.75 * atrD1;
                it.base_risk_pct = m_baseRisk[1]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_USDJPY].last_lag_ms;
                it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E2_SELL";
@@ -606,46 +828,64 @@ public:
       }
 
       // --- E3: WB_EXP_80_VOL_HIGH (GBPUSD) ---
-      if(utc.hour >= 7 && utc.hour < 17 && m_feeds[SYM_GBPUSD].has_fresh_tick)
       {
          string sym = m_feeds[SYM_GBPUSD].symbol;
          datetime d1Start = iTime(sym, PERIOD_D1, 0);
          double atrD1 = 0.0, dayOpen = iOpen(sym, PERIOD_D1, 0);
-         if(!IsEngineTraded(2, d1Start) && ReadPriorD1Atr(SYM_GBPUSD, atrD1) && dayOpen > 0.0)
+         bool e3InWindow = (utc.hour >= 7 && utc.hour < 17);
+         if(!e3InWindow || IsEngineTraded(2, d1Start))
+         {
+            ExpireOppIfActive(2, nowUtc, m_feeds[SYM_GBPUSD].last_ask, IsEngineTraded(2, d1Start) ? "TRADED_FILLED" : "SESSION_ENDED");
+         }
+         else if(m_feeds[SYM_GBPUSD].has_fresh_tick && ReadPriorD1Atr(SYM_GBPUSD, atrD1) && dayOpen > 0.0)
          {
             double prevRng = iHigh(sym, PERIOD_D1, 1) - iLow(sym, PERIOD_D1, 1);
             if(prevRng >= 1.10 * atrD1)
             {
                double ask = m_feeds[SYM_GBPUSD].last_ask, bid = m_feeds[SYM_GBPUSD].last_bid;
-               if(ask >= dayOpen + 0.80 * atrD1)
+               int curSide = (ask >= dayOpen + 0.80 * atrD1) ? 1 : ((bid <= dayOpen - 0.80 * atrD1) ? -1 : 0);
+               double curPx = (curSide >= 0) ? ask : bid;
+               string oppId = ""; int oppEval = 0; bool oppNew = false;
+               UpdateSetupOppOnObservedTick(2, "E3", "E3_GBPUSD_VH", 20261125, sym, d1Start, nowUtc, curSide, curPx, oppId, oppEval, oppNew);
+               if(curSide == 1)
                {
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E3", nowUtc); it.engine_id = "E3_GBPUSD_VH"; it.magic = 20261125;
+                  it.intent_id = NextIntentId("E3", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E3_GBPUSD_VH"; it.magic = 20261125;
                   it.symbol = sym; it.is_buy = true; it.signal_price = ask; it.sl_price = ask - 0.75 * atrD1;
                   it.base_risk_pct = m_baseRisk[2]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_GBPUSD].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E3_BUY";
                   PushIntent(outIntents, count, it);
                }
-               else if(bid <= dayOpen - 0.80 * atrD1)
+               else if(curSide == -1)
                {
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E3", nowUtc); it.engine_id = "E3_GBPUSD_VH"; it.magic = 20261125;
+                  it.intent_id = NextIntentId("E3", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E3_GBPUSD_VH"; it.magic = 20261125;
                   it.symbol = sym; it.is_buy = false; it.signal_price = bid; it.sl_price = bid + 0.75 * atrD1;
                   it.base_risk_pct = m_baseRisk[2]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_GBPUSD].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E3_SELL";
                   PushIntent(outIntents, count, it);
                }
             }
+            else
+            {
+               ExpireOppIfActive(2, nowUtc, m_feeds[SYM_GBPUSD].last_ask, "SETUP_INVALID");
+            }
          }
       }
 
       // --- E6: EURJPY_VOLCOMP_EXP75 (EURJPY) ---
-      if(utc.hour >= 7 && utc.hour < 17 && m_feeds[SYM_EURJPY].has_fresh_tick)
       {
          string sym = m_feeds[SYM_EURJPY].symbol;
          datetime d1Start = iTime(sym, PERIOD_D1, 0);
          double atrD1 = 0.0, dayOpen = iOpen(sym, PERIOD_D1, 0);
-         if(!IsEngineTraded(5, d1Start) && ReadPriorD1Atr(SYM_EURJPY, atrD1) && dayOpen > 0.0)
+         bool e6InWindow = (utc.hour >= 7 && utc.hour < 17);
+         if(!e6InWindow || IsEngineTraded(5, d1Start))
+         {
+            ExpireOppIfActive(5, nowUtc, m_feeds[SYM_EURJPY].last_ask, IsEngineTraded(5, d1Start) ? "TRADED_FILLED" : "SESSION_ENDED");
+         }
+         else if(m_feeds[SYM_EURJPY].has_fresh_tick && ReadPriorD1Atr(SYM_EURJPY, atrD1) && dayOpen > 0.0)
          {
             if(m_e6CompCacheDay != d1Start)
             {
@@ -661,22 +901,32 @@ public:
                m_e6CompCacheDay = d1Start;
                m_e6CompCacheOk  = (okComp && ((sum5 / 5.0) / (sum20 / 20.0)) < 0.85);
             }
-            if(m_e6CompCacheOk)
+            if(!m_e6CompCacheOk)
+            {
+               ExpireOppIfActive(5, nowUtc, m_feeds[SYM_EURJPY].last_ask, "SETUP_INVALID");
+            }
+            else
             {
                double ask = m_feeds[SYM_EURJPY].last_ask, bid = m_feeds[SYM_EURJPY].last_bid;
-               if(ask >= dayOpen + 0.75 * atrD1)
+               int curSide = (ask >= dayOpen + 0.75 * atrD1) ? 1 : ((bid <= dayOpen - 0.75 * atrD1) ? -1 : 0);
+               double curPx = (curSide >= 0) ? ask : bid;
+               string oppId = ""; int oppEval = 0; bool oppNew = false;
+               UpdateSetupOppOnObservedTick(5, "E6", "E6_EURJPY_VOLCOMP", 20261128, sym, d1Start, nowUtc, curSide, curPx, oppId, oppEval, oppNew);
+               if(curSide == 1)
                {
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E6", nowUtc); it.engine_id = "E6_EURJPY_VOLCOMP"; it.magic = 20261128;
+                  it.intent_id = NextIntentId("E6", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E6_EURJPY_VOLCOMP"; it.magic = 20261128;
                   it.symbol = sym; it.is_buy = true; it.signal_price = ask; it.sl_price = ask - 0.75 * atrD1;
                   it.base_risk_pct = m_baseRisk[5]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_EURJPY].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E6_BUY";
                   PushIntent(outIntents, count, it);
                }
-               else if(bid <= dayOpen - 0.75 * atrD1)
+               else if(curSide == -1)
                {
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E6", nowUtc); it.engine_id = "E6_EURJPY_VOLCOMP"; it.magic = 20261128;
+                  it.intent_id = NextIntentId("E6", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E6_EURJPY_VOLCOMP"; it.magic = 20261128;
                   it.symbol = sym; it.is_buy = false; it.signal_price = bid; it.sl_price = bid + 0.75 * atrD1;
                   it.base_risk_pct = m_baseRisk[5]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_EURJPY].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = d1Start; it.tag = "Naqex_M_E6_SELL";
@@ -763,28 +1013,42 @@ public:
                else if(m_e4MornClose < m_e4MornOpen && pos <= 0.30) m_e4MornDir = -1;
             }
          }
-         if(m_e4MornFrozen && m_e4MornDir != 0 && !IsEngineTraded(3, nyDay) &&
-            m_feeds[SYM_US100].has_fresh_tick && ReadPriorD1Atr(SYM_US100, atrUs100))
+         bool e4InSession = (m_e4MornFrozen && m_e4MornDir != 0 && !IsEngineTraded(3, nyDay));
+         if(!e4InSession)
          {
-            if(m_e4MornDir == 1 && ask >= m_e4MornHigh)
+            ExpireOppIfActive(3, nowUtc, ask, IsEngineTraded(3, nyDay) ? "TRADED_FILLED" : "SESSION_ENDED");
+         }
+         else if(m_feeds[SYM_US100].has_fresh_tick && ReadPriorD1Atr(SYM_US100, atrUs100))
+         {
+            int curSide = (m_e4MornDir == 1 && ask >= m_e4MornHigh) ? 1 : ((m_e4MornDir == -1 && bid <= m_e4MornLow) ? -1 : 0);
+            double curPx = (curSide >= 0) ? ask : bid;
+            string oppId = ""; int oppEval = 0; bool oppNew = false;
+            UpdateSetupOppOnObservedTick(3, "E4", "E4_US100_SESS40", 20261124, sym, nyDay, nowUtc, curSide, curPx, oppId, oppEval, oppNew);
+            if(curSide == 1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E4", nowUtc); it.engine_id = "E4_US100_SESS40"; it.magic = 20261124;
+               it.intent_id = NextIntentId("E4", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E4_US100_SESS40"; it.magic = 20261124;
                it.symbol = sym; it.is_buy = true; it.signal_price = ask; it.sl_price = ask - 0.65 * atrUs100;
                it.base_risk_pct = m_baseRisk[3]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_US100].last_lag_ms;
                it.shadow_only = false; it.session_day_key = nyDay; it.tag = "Naqex_M_E4_BUY";
                PushIntent(outIntents, count, it);
             }
-            else if(m_e4MornDir == -1 && bid <= m_e4MornLow)
+            else if(curSide == -1)
             {
                NaqexSignalIntent it;
-               it.intent_id = NextIntentId("E4", nowUtc); it.engine_id = "E4_US100_SESS40"; it.magic = 20261124;
+               it.intent_id = NextIntentId("E4", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+               it.engine_id = "E4_US100_SESS40"; it.magic = 20261124;
                it.symbol = sym; it.is_buy = false; it.signal_price = bid; it.sl_price = bid + 0.65 * atrUs100;
                it.base_risk_pct = m_baseRisk[3]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_US100].last_lag_ms;
                it.shadow_only = false; it.session_day_key = nyDay; it.tag = "Naqex_M_E4_SELL";
                PushIntent(outIntents, count, it);
             }
          }
+      }
+      else
+      {
+         ExpireOppIfActive(3, nowUtc, m_feeds[SYM_US100].last_ask, "SESSION_ENDED");
       }
 
       // --- E5: IDX_RS_US100_LEAD_1130 (US100 vs US500, closed M1 bar) ---
@@ -803,6 +1067,7 @@ public:
                double rsDiff = zMain - zBench;
                if(MathAbs(rsDiff) < 0.25 || (zMain * rsDiff) <= 0.0)
                {
+                  ExpireOppIfActive(4, nowUtc, m_feeds[SYM_US100].last_ask, "SETUP_INVALID");
                   m_tradedDay[4] = nyDay; // Signal evaluated & declined for today
                }
                else
@@ -810,8 +1075,11 @@ public:
                   bool isBuy = (rsDiff > 0.0);
                   double px = isBuy ? m_feeds[SYM_US100].last_ask : m_feeds[SYM_US100].last_bid;
                   double sl = isBuy ? (px - 0.75 * atrMain) : (px + 0.75 * atrMain);
+                  string oppId = ""; int oppEval = 0; bool oppNew = false;
+                  UpdateSetupOppOnObservedTick(4, "E5", "E5_US100_RS1130", 20261126, m_feeds[SYM_US100].symbol, nyDay, nowUtc, isBuy ? 1 : -1, px, oppId, oppEval, oppNew);
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E5", nowUtc); it.engine_id = "E5_US100_RS1130"; it.magic = 20261126;
+                  it.intent_id = NextIntentId("E5", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E5_US100_RS1130"; it.magic = 20261126;
                   it.symbol = m_feeds[SYM_US100].symbol; it.is_buy = isBuy; it.signal_price = px; it.sl_price = sl;
                   it.base_risk_pct = m_baseRisk[4]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_US100].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = nyDay; it.tag = isBuy ? "Naqex_M_E5_BUY" : "Naqex_M_E5_SELL";
@@ -819,6 +1087,10 @@ public:
                }
             }
          }
+      }
+      else if(isUsHalf || nyMins < 11 * 60 + 30 || nyMins >= 11 * 60 + 40 || IsEngineTraded(4, nyDay))
+      {
+         ExpireOppIfActive(4, nowUtc, m_feeds[SYM_US100].last_ask, IsEngineTraded(4, nyDay) ? "TRADED_FILLED" : "SESSION_ENDED");
       }
 
       // --- E7: USDJPY_NY_RISK_FLOW_10ET (USDJPY) ---
@@ -849,6 +1121,7 @@ public:
                double usdFac = usdSum / 5.0;
                if(MathAbs(zEq) < 0.25 || MathAbs(usdFac) < 0.25 || (zEq * usdFac) <= 0.0)
                {
+                  ExpireOppIfActive(6, nowUtc, m_feeds[SYM_USDJPY].last_ask, "SETUP_INVALID");
                   m_tradedDay[6] = nyDay;
                }
                else
@@ -856,8 +1129,11 @@ public:
                   bool isBuy = (usdFac > 0.0);
                   double px = isBuy ? m_feeds[SYM_USDJPY].last_ask : m_feeds[SYM_USDJPY].last_bid;
                   double sl = isBuy ? (px - 0.75 * atrJpy) : (px + 0.75 * atrJpy);
+                  string oppId = ""; int oppEval = 0; bool oppNew = false;
+                  UpdateSetupOppOnObservedTick(6, "E7", "E7_USDJPY_NY10ET", 20261129, m_feeds[SYM_USDJPY].symbol, nyDay, nowUtc, isBuy ? 1 : -1, px, oppId, oppEval, oppNew);
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("E7", nowUtc); it.engine_id = "E7_USDJPY_NY10ET"; it.magic = 20261129;
+                  it.intent_id = NextIntentId("E7", nowUtc); it.opportunity_id = oppId; it.opp_eval_count = oppEval; it.opp_is_new = oppNew;
+                  it.engine_id = "E7_USDJPY_NY10ET"; it.magic = 20261129;
                   it.symbol = m_feeds[SYM_USDJPY].symbol; it.is_buy = isBuy; it.signal_price = px; it.sl_price = sl;
                   it.base_risk_pct = m_baseRisk[6]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[SYM_USDJPY].last_lag_ms;
                   it.shadow_only = false; it.session_day_key = nyDay; it.tag = isBuy ? "Naqex_M_E7_BUY" : "Naqex_M_E7_SELL";
@@ -865,6 +1141,10 @@ public:
                }
             }
          }
+      }
+      else if(isUsHalf || nyMins < 10 * 60 || nyMins >= 10 * 60 + 10 || IsEngineTraded(6, nyDay))
+      {
+         ExpireOppIfActive(6, nowUtc, m_feeds[SYM_USDJPY].last_ask, IsEngineTraded(6, nyDay) ? "TRADED_FILLED" : "SESSION_ENDED");
       }
 
       // --- S6 (SHADOW COMPARE ONLY by Round-3 decision): FX_USD_BASKET_12U_Z35 ---
@@ -906,7 +1186,8 @@ public:
                   double px = isBuy ? m_feeds[sIdx].last_ask : m_feeds[sIdx].last_bid;
                   double sl = isBuy ? (px - 0.75 * aVals[poolBskMap[bestP]]) : (px + 0.75 * aVals[poolBskMap[bestP]]);
                   NaqexSignalIntent it;
-                  it.intent_id = NextIntentId("S6", nowUtc); it.engine_id = "S6_FX_USD_BSK"; it.magic = 20261127;
+                  it.intent_id = NextIntentId("S6", nowUtc); it.opportunity_id = ""; it.opp_eval_count = 0; it.opp_is_new = false;
+                  it.engine_id = "S6_FX_USD_BSK"; it.magic = 20261127;
                   it.symbol = m_feeds[sIdx].symbol; it.is_buy = isBuy; it.signal_price = px; it.sl_price = sl;
                   it.base_risk_pct = m_baseRisk[7]; it.signal_utc = nowUtc; it.tick_lag_ms = m_feeds[sIdx].last_lag_ms;
                   it.shadow_only = true; it.session_day_key = utcDay; it.tag = isBuy ? "Naqex_M_S6_SHADOW_BUY" : "Naqex_M_S6_SHADOW_SELL";

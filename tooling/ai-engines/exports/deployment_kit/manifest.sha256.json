@@ -1,6 +1,6 @@
 {
   "schema": "naqex-mt5-deployment-kit-manifest-v1",
-  "generated_utc": "2026-11-26T04:21:27+00:00",
+  "generated_utc": "2026-11-26T05:19:47+00:00",
   "order_send_count": 0,
   "profile_count": 10,
   "profiles": {
@@ -189,8 +189,8 @@
       "bytes": 15857
     },
     "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5": {
-      "sha256": "19a38eddf51636e5a9abb1dfe2af3cf5f67ef246f4cfc891d6a733a7d87062ad",
-      "bytes": 65760
+      "sha256": "975d9755f9ab217de3e12ce1ed12e4f6ef7bba1256c9d7e7c2c4271aff5b7ec9",
+      "bytes": 76889
     },
     "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5": {
       "sha256": "db96490856662a2e2c70729ff8bc70e277e2bcb71d5ca895733a516183dada64",
@@ -229,8 +229,8 @@
       "bytes": 53623
     },
     "tooling/ai-engines/exports/Include/Naqex_Signals_7E.mqh": {
-      "sha256": "d20d36874aa5e6a3fad80fe3746260862a0d18fae5cc9cefe3c9cca281411ab5",
-      "bytes": 41058
+      "sha256": "4887a1a580129c3fbc139bb1f224cf373a5aeb520fb815a18c89e11db7fe72ef",
+      "bytes": 54501
     },
     "tooling/ai-engines/exports/mql5_parity_checker.py": {
       "sha256": "419737aea20ccc091cb7fc54cd95199c46d7ee0f4baf943d2e24940237a44eb7",
@@ -713,8 +713,8 @@
       "bytes": 57724
     },
     ".runtime/mt5-compiled-ex5/Naqex_Master_Prop7E.ex5": {
-      "sha256": "f395512e395085521b20090a48c96f0a2621703f5facdbc1e5baaaf0fb63a3f4",
-      "bytes": 131856
+      "sha256": "e82056a748b193b6799cca03d31f843eb1cf3fa51582d83efa6ce078acdb6634",
+      "bytes": 148896
     },
     ".runtime/mt5-compiled-ex5/Naqex_WB_EXP080_USDJPY.ex5": {
       "sha256": "060f636946a09a40924ef0be176984e2e41511de348f132c97c02b52f5992374",

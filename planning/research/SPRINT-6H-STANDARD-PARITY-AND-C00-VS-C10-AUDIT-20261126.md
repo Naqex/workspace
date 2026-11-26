@@ -120,7 +120,9 @@ Chạy thật `Naqex_Master_Prop7E.ex5` (`v1.01`) trong MT5 Tester (`Model=4` Re
 
 ---
 
-## 7. Prompt Sẵn Dán Gửi Astra Vòng 4 (Kiểm Toán Hậu Thực Thi Sprint 6 Giờ)
+## 7. Phụ Lục Lịch Sử (Đã Được Thay Thế) — Prompt Vòng 4 Gốc Trước Đính Chính
+
+> **CẢNH BÁO — PROMPT LỊCH SỬ ĐÃ ĐƯỢC THAY THẾ (`26/11/2026`):** Khung dưới đây chỉ lưu nguyên văn prompt đã gửi Astra ở Vòng 4 để giữ dấu vết kiểm toán. Các điểm chưa chuẩn trong khung cũ (`OrderSend = 0` chưa tách rõ Tester vs broker, ước lượng `~28.800 tick` ở `ADV_B2`, mốc `1725364801350 ms` là fixture cơ chế, dải tháng `9–12/2024`) **đã được đính chính ở phần thân báo cáo trên và kiểm chứng lại bằng ảnh chụp trước quyết định tại [STEP1-V101-PREDECISION-OBSERVABILITY-AND-FORMULA-PARITY-20261126.md](STEP1-V101-PREDECISION-OBSERVABILITY-AND-FORMULA-PARITY-20261126.md)**. Agent mới **KHÔNG** dùng khung cũ này làm đầu vào chạy tác vụ.
 
 ```text
 Xin Astra kiểm toán Vòng 4 (hậu thực thi Sprint 6 giờ theo PLAN v3.1) dựa trên gói log thô MT5 (18 lượt Model=4 / 90 tệp gốc) và báo cáo đối chiếu vừa chốt (`Holdout 2025+ SEALED`, `holdout_rows_analysed = 0`, `OrderSend = 0`, `naqex-node1` untouched, `0 VND`):
