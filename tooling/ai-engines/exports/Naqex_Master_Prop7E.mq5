@@ -66,6 +66,8 @@ input int    InpMaxBreakoutTickLagMs   = 5000;
 input int    InpHeartbeatSec           = 15;
 input string InpHeartbeatFile          = "naqex_master_heartbeat.json";
 input string InpShadowCsvFile          = "naqex_master_shadow.csv";
+input bool   InpTesterEmitDecisionLog  = false;      // Opt-in Tester-only pre-decision audit CSV (0 behavior change)
+input string InpTesterDecisionLogFile  = "naqex_tester_decisions.csv";
 input bool   InpAllowManualHaltFile    = false;
 input string InpManualHaltFile         = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin          = 20261120;
@@ -102,6 +104,94 @@ datetime g_lastHydrateRetry  = 0;
 datetime g_lastHbWrite       = 0;
 long     g_lastTickLagMs     = 0;
 long     g_maxTickLagMs      = 0;
+
+//--- Opt-in Tester pre-decision observability state (read-only mirror, zero trading side effects)
+int      g_testerLogHandle   = INVALID_HANDLE;
+long     g_testerLogSeq      = 0;
+double   g_curDailyDdPct     = 0.0;
+double   g_curStaticDdPct    = 0.0;
+double   g_curProfitPct      = 0.0;
+string   g_curRegime         = "NORMAL";
+double   g_curUnTaperedMult  = 1.0;
+double   g_curDailyHeadroom  = 99.0;
+double   g_curDailyScale     = 1.0;
+double   g_curRiskMult       = 1.0;
+string   g_prevLogRegime     = "";
+double   g_prevLogMult       = -1.0;
+
+void OpenTesterDecisionLog()
+{
+   g_testerLogHandle = INVALID_HANDLE;
+   g_testerLogSeq    = 0;
+   g_prevLogRegime   = "";
+   g_prevLogMult     = -1.0;
+   if(!MQLInfoInteger(MQL_TESTER) || !InpTesterEmitDecisionLog) return;
+   g_testerLogHandle = FileOpen(InpTesterDecisionLogFile, FILE_WRITE | FILE_TXT | FILE_ANSI);
+   if(g_testerLogHandle != INVALID_HANDLE)
+   {
+      FileWriteString(
+         g_testerLogHandle,
+         "seq,server_ts,utc_ts,event_type,engine_id,magic,intent_id,symbol,side,"
+         "signal_price,bid,ask,raw_sl,norm_sl,sl_dist,point,stops_level,tick_size,tick_value_loss,tick_value_raw,"
+         "vol_min,vol_step,vol_max,balance,equity,free_margin,day_anchor_bal,day_anchor_eq,"
+         "daily_dd_pct,static_dd_pct,profit_pct,regime,base_phase_mult,un_tapered_mult,daily_headroom,daily_scale,risk_mult,"
+         "base_risk_pct,req_risk_pct,used_sym_pct,sym_headroom,factor_headroom,allowed_risk_pct,"
+         "risk_money,raw_lots,margin_clamped_lots,final_lots,req_margin,max_allow_margin,"
+         "deal_ticket,order_ticket,pos_ticket,fill_price,close_profit,retcode,reason\n"
+      );
+   }
+}
+
+void CloseTesterDecisionLog()
+{
+   if(g_testerLogHandle != INVALID_HANDLE)
+   {
+      FileFlush(g_testerLogHandle);
+      FileClose(g_testerLogHandle);
+      g_testerLogHandle = INVALID_HANDLE;
+   }
+}
+
+void EmitTesterDecisionRow(const datetime nowUtc, const string evType, const string engId, const long magic,
+                           const string intentId, const string sym, const string side,
+                           const double sigPx, const double bid, const double ask,
+                           const double rawSl, const double normSl, const double slDist,
+                           const double pt, const long stopsLvl, const double tickSize,
+                           const double tickValLoss, const double tickValRaw,
+                           const double volMin, const double volStep, const double volMax,
+                           const double bal, const double eq, const double freeMargin,
+                           const double baseRiskPct, const double reqRiskPct, const double usedSymPct,
+                           const double symHeadroom, const double factorHeadroom, const double allowedRiskPct,
+                           const double riskMoney, const double rawLots, const double marginClampedLots,
+                           const double finalLots, const double reqMargin, const double maxAllowM,
+                           const ulong dealTk, const ulong ordTk, const ulong posTk,
+                           const double fillPx, const double closeProfit, const uint retcode, const string reason)
+{
+   if(!MQLInfoInteger(MQL_TESTER) || !InpTesterEmitDecisionLog || g_testerLogHandle == INVALID_HANDLE) return;
+   g_testerLogSeq++;
+   string cleanReason = reason;
+   StringReplace(cleanReason, ",", ";");
+   StringReplace(cleanReason, "\n", " ");
+   StringReplace(cleanReason, "\r", " ");
+   string line = StringFormat(
+      "%I64d,%I64d,%I64d,%s,%s,%I64d,%s,%s,%s,"
+      "%.8f,%.8f,%.8f,%.8f,%.8f,%.8f,%.8f,%I64d,%.8f,%.8f,%.8f,"
+      "%.4f,%.4f,%.4f,%.6f,%.6f,%.6f,%.6f,%.6f,"
+      "%.6f,%.6f,%.6f,%s,%.6f,%.6f,%.6f,%.6f,%.6f,"
+      "%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,"
+      "%.6f,%.8f,%.8f,%.4f,%.6f,%.6f,"
+      "%I64u,%I64u,%I64u,%.8f,%.6f,%u,%s\n",
+      g_testerLogSeq, (long)CNaqexPropGuard::ServerNow(), (long)nowUtc, evType, engId, magic, intentId, sym, side,
+      sigPx, bid, ask, rawSl, normSl, slDist, pt, stopsLvl, tickSize, tickValLoss, tickValRaw,
+      volMin, volStep, volMax, bal, eq, freeMargin, g_dayAnchorBal, g_dayAnchorEq,
+      g_curDailyDdPct, g_curStaticDdPct, g_curProfitPct, g_curRegime, InpBasePhaseMult,
+      g_curUnTaperedMult, g_curDailyHeadroom, g_curDailyScale, g_curRiskMult,
+      baseRiskPct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+      riskMoney, rawLots, marginClampedLots, finalLots, reqMargin, maxAllowM,
+      dealTk, ordTk, posTk, fillPx, closeProfit, retcode, cleanReason
+   );
+   FileWriteString(g_testerLogHandle, line);
+}
 
 int LastSundayOfMonthM(const int year, const int month)
 {
@@ -413,11 +503,15 @@ double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDd
       outRegime = "PROFIT_LOCK";
    }
 
+   g_curUnTaperedMult = mult;
    // V101-07: Unconditional dailyHeadroom < 2.0% taper (even when InpSizingMode == 0) guarantees 0.0% daily DD breaches!
    double dailyHeadroom = MathMax(0.0, InpKillDailyDdPct - dailyDdPct);
+   g_curDailyHeadroom = dailyHeadroom;
+   g_curDailyScale    = 1.0;
    if(dailyHeadroom < 2.0)
    {
       double dailyScale = MathMax(0.25, dailyHeadroom / 2.0);
+      g_curDailyScale = dailyScale;
       mult = MathMin(mult, InpBasePhaseMult * dailyScale);
       if(outRegime == "NORMAL")
          outRegime = "DAILY_HEADROOM_TAPER";
@@ -520,8 +614,70 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
          // V101-04: Never execute non-emergency clock/session close inside +/-135s hard red-news ban!
          if(!flattenAll && g_guard.IsInsideRedNewsHardBanFor(psym))
             continue;
+         bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
+         double preBal = 0.0, preEq = 0.0, preFm = 0.0, pvol = 0.0, psl = 0.0, pOpen = 0.0, pBid = 0.0, pAsk = 0.0;
+         ulong pId = 0;
+         string pSide = "";
+         if(emitLog)
+         {
+            preBal = AccountInfoDouble(ACCOUNT_BALANCE);
+            preEq  = AccountInfoDouble(ACCOUNT_EQUITY);
+            preFm  = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
+            pvol   = PositionGetDouble(POSITION_VOLUME);
+            psl    = PositionGetDouble(POSITION_SL);
+            pOpen  = PositionGetDouble(POSITION_PRICE_OPEN);
+            pId    = (ulong)PositionGetInteger(POSITION_IDENTIFIER);
+            pSide  = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? "SELL" : "BUY";
+            pBid   = SymbolInfoDouble(psym, SYMBOL_BID);
+            pAsk   = SymbolInfoDouble(psym, SYMBOL_ASK);
+            double reqPx = (pSide == "SELL") ? pBid : pAsk;
+            EmitTesterDecisionRow(nowUtc, "CLOSE_REQUEST", "", pm, "", psym, pSide,
+                                  reqPx, pBid, pAsk, psl, psl, MathAbs(pOpen - psl),
+                                  SymbolInfoDouble(psym, SYMBOL_POINT), SymbolInfoInteger(psym, SYMBOL_TRADE_STOPS_LEVEL),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_SIZE),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MIN),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_STEP),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MAX),
+                                  preBal, preEq, preFm,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, pvol, pvol, pvol, 0.0, 0.0,
+                                  0, 0, pId, 0.0, 0.0, 0, reason);
+         }
          g_trade.SetExpertMagicNumber(pm);
-         g_guard.ClosePositionChecked(g_trade, tk, reason, isDry);
+         bool okClose = g_guard.ClosePositionChecked(g_trade, tk, reason, isDry);
+         if(emitLog)
+         {
+            ulong cDeal = (ulong)g_trade.ResultDeal();
+            ulong cOrd  = (ulong)g_trade.ResultOrder();
+            uint  cRet  = g_trade.ResultRetcode();
+            double cPx  = g_trade.ResultPrice();
+            double cNet = 0.0;
+            if(cDeal > 0 && HistoryDealSelect(cDeal))
+            {
+               if(cPx <= 0.0) cPx = HistoryDealGetDouble(cDeal, DEAL_PRICE);
+               cNet = HistoryDealGetDouble(cDeal, DEAL_PROFIT)
+                    + HistoryDealGetDouble(cDeal, DEAL_COMMISSION)
+                    + HistoryDealGetDouble(cDeal, DEAL_SWAP);
+            }
+            EmitTesterDecisionRow(nowUtc, okClose ? "CLOSE_FILL" : "CLOSE_FAIL", "", pm, "", psym, pSide,
+                                  (pSide == "SELL") ? pBid : pAsk,
+                                  SymbolInfoDouble(psym, SYMBOL_BID), SymbolInfoDouble(psym, SYMBOL_ASK),
+                                  psl, psl, MathAbs(pOpen - psl),
+                                  SymbolInfoDouble(psym, SYMBOL_POINT), SymbolInfoInteger(psym, SYMBOL_TRADE_STOPS_LEVEL),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_SIZE),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                                  SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MIN),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_STEP),
+                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MAX),
+                                  AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY),
+                                  AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, pvol, pvol, pvol, 0.0, 0.0,
+                                  cDeal, cOrd, pId, cPx, cNet, cRet, reason);
+         }
       }
    }
 }
@@ -587,21 +743,74 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
 {
    bool isShadowOrDry = (it.shadow_only || InpShadowCompareMode || InpDryRunLogOnly || InpGuardDryRunLogOnly);
    if(HasOpenOrInFlightForMagic(it.magic)) return;
+   bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
+   string sideStrLog = it.is_buy ? "BUY" : "SELL";
+   double preBid = emitLog ? SymbolInfoDouble(it.symbol, SYMBOL_BID) : 0.0;
+   double preAsk = emitLog ? SymbolInfoDouble(it.symbol, SYMBOL_ASK) : 0.0;
+   double preBal = emitLog ? AccountInfoDouble(ACCOUNT_BALANCE) : 0.0;
+   double preEq  = emitLog ? AccountInfoDouble(ACCOUNT_EQUITY) : 0.0;
+   double preFm  = emitLog ? AccountInfoDouble(ACCOUNT_MARGIN_FREE) : 0.0;
+
    if(g_guard.IsInsideRedNewsWindowFor(it.symbol))
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_NEWS", 0.0, 0.0, "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR");
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_NEWS", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, 0.0, 0.0,
+                               SymbolInfoDouble(it.symbol, SYMBOL_POINT), SymbolInfoInteger(it.symbol, SYMBOL_TRADE_STOPS_LEVEL),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                               preBal, preEq, preFm,
+                               it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR");
       return;
    }
    if(!g_guard.IsSpreadAndSessionSafeFor(it.symbol, MaxSpreadCapForSymbol(it.symbol)))
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_SPREAD", 0.0, 0.0, "SPREAD_OR_ROLLOVER_GUARD");
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_SPREAD", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, 0.0, 0.0,
+                               SymbolInfoDouble(it.symbol, SYMBOL_POINT), SymbolInfoInteger(it.symbol, SYMBOL_TRADE_STOPS_LEVEL),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                               preBal, preEq, preFm,
+                               it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "SPREAD_OR_ROLLOVER_GUARD");
       return;
    }
 
    double normSl = CNaqexPropGuard::NormalizePriceToTick(it.symbol, it.sl_price);
    double stopLoss = normSl;
    double slDist = MathAbs(it.signal_price - stopLoss);
-   if(slDist <= 0.0 || stopLoss <= 0.0) return;
+   if(slDist <= 0.0 || stopLoss <= 0.0)
+   {
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SL", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               SymbolInfoDouble(it.symbol, SYMBOL_POINT), SymbolInfoInteger(it.symbol, SYMBOL_TRADE_STOPS_LEVEL),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                               preBal, preEq, preFm,
+                               it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "SL_DIST_OR_SL_LE_0");
+      return;
+   }
    double pt = SymbolInfoDouble(it.symbol, SYMBOL_POINT);
    long stopsLvl = SymbolInfoInteger(it.symbol, SYMBOL_TRADE_STOPS_LEVEL);
    // V101-06: Verify STOPS_LEVEL against actual liquidation price (Bid - SL for BUY, SL - Ask for SELL)
@@ -611,6 +820,20 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    if(pt > 0.0 && stopsLvl > 0 && stopsGap < (double)stopsLvl * pt)
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_STOPS", 0.0, 0.0, "SL_BELOW_BROKER_STOPS_LEVEL");
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_STOPS", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl,
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                               preBal, preEq, preFm,
+                               it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "SL_BELOW_BROKER_STOPS_LEVEL");
       return;
    }
 
@@ -633,24 +856,73 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       string why = (factorHeadroom <= symHeadroom) ? "ORDER_BLOCKED_FACTOR" : "ORDER_BLOCKED_SYMCAP";
       LogMasterShadowRow(it, why, reqRiskPct, 0.0,
                          StringFormat("symRem=%.2f|facRem=%.2f", symHeadroom, factorHeadroom));
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_CAP", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl,
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                               preBal, preEq, preFm,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, why);
       return;
    }
 
    // Compute safe lots with 5% commission cushion + volDigits rounding + fail-closed OrderCalcMargin <= 85% (V101-06)
    double bal = AccountInfoDouble(ACCOUNT_BALANCE);
    double tickSize = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE);
-   double tickVal  = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
-   if(tickVal <= 0.0) tickVal = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE);
+   double tickValLoss = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
+   double tickValRaw  = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE);
+   double tickVal  = (tickValLoss > 0.0) ? tickValLoss : tickValRaw;
    double volMin  = SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN);
    double volMax  = SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX);
    double volStep = SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP);
-   if(bal <= 0.0 || tickSize <= 0.0 || tickVal <= 0.0 || volStep <= 0.0) return;
+   if(bal <= 0.0 || tickSize <= 0.0 || tickVal <= 0.0 || volStep <= 0.0)
+   {
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SPEC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, preFm,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "INVALID_SYMBOL_OR_BAL_SPEC");
+      return;
+   }
 
    double lossPerLot = (slDist / tickSize) * tickVal;
-   if(lossPerLot <= 0.0) return;
+   if(lossPerLot <= 0.0)
+   {
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SPEC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, preFm,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "LOSS_PER_LOT_LE_0");
+      return;
+   }
    double riskMoney = bal * (allowedRiskPct / 100.0) * 0.95;
-   double lots = CNaqexPropGuard::RoundVolumeDownToStep(riskMoney / lossPerLot, volStep, volMin, volMax);
-   if(lots < volMin) return;
+   double rawLots = riskMoney / lossPerLot;
+   double lots = CNaqexPropGuard::RoundVolumeDownToStep(rawLots, volStep, volMin, volMax);
+   if(lots < volMin)
+   {
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, preFm,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, lots, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, "RAW_LOTS_BELOW_VOLMIN");
+      return;
+   }
 
    ENUM_ORDER_TYPE ordType = it.is_buy ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
    double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
@@ -658,19 +930,65 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    if(freeMargin <= 0.0 || !OrderCalcMargin(ordType, it.symbol, lots, it.signal_price, reqMargin) || reqMargin <= 0.0)
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN", allowedRiskPct, 0.0, "FAIL_CLOSED_MARGIN_CHECK");
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_MARGIN_CALC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, lots, 0.0, reqMargin, freeMargin * 0.85,
+                               0, 0, 0, 0.0, 0.0, 0, "FAIL_CLOSED_MARGIN_CHECK");
       return;
    }
    double maxAllowM = freeMargin * 0.85;
+   double preMarginLots = lots;
+   bool marginClamped = false;
    if(reqMargin > maxAllowM)
    {
+      marginClamped = true;
       lots = CNaqexPropGuard::RoundVolumeDownToStep(lots * (maxAllowM / reqMargin), volStep, volMin, volMax);
-      if(lots < volMin) return;
+      if(lots < volMin)
+      {
+         if(emitLog)
+            EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_MARGIN_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                                  it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                                  pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                                  bal, preEq, freeMargin,
+                                  it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                                  riskMoney, rawLots, lots, 0.0, reqMargin, maxAllowM,
+                                  0, 0, 0, 0.0, 0.0, 0, "MARGIN_CLAMP_BELOW_VOLMIN");
+         return;
+      }
+   }
+
+   if(emitLog)
+   {
+      string taperWhy = "";
+      if(g_curDailyHeadroom < 2.0 && g_curRiskMult < g_curUnTaperedMult - 1e-9) taperWhy += "DAILY_HEADROOM_TAPER";
+      if(allowedRiskPct < reqRiskPct - 1e-9) taperWhy += (taperWhy == "" ? "" : "|") + "CAP_CLAMP";
+      if(marginClamped && lots < preMarginLots - 1e-9) taperWhy += (taperWhy == "" ? "" : "|") + "MARGIN_CLAMP";
+      if(taperWhy != "")
+         EmitTesterDecisionRow(it.signal_utc, "LOT_TAPER", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, preMarginLots, lots, reqMargin, maxAllowM,
+                               0, 0, 0, 0.0, 0.0, 0, taperWhy);
    }
 
    // Always record shadow intent in shadow/dry-run mode (ZERO OrderSend!)
    if(isShadowOrDry)
    {
       LogMasterShadowRow(it, it.shadow_only ? "SHADOW_INTENT" : "DRYRUN_SIGNAL", allowedRiskPct, lots, it.tag);
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_ACCEPT_DRYRUN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, preMarginLots, lots, reqMargin, maxAllowM,
+                               0, 0, 0, 0.0, 0.0, 0, it.tag);
       g_signals.MarkEngineTraded(it.magic, it.session_day_key);
       return;
    }
@@ -697,6 +1015,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       g_guard.LogExecAuditFor(it.symbol, sideStr, "FILL_UNRESOLVED", it.signal_price, -1.0, normSl, lots, latMs, ret,
                               StringFormat("%s|intent=%s|ord=%I64u|UNKNOWN_INFLIGHT", it.tag, it.intent_id, (ulong)g_trade.ResultOrder()),
                               it.magic);
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_UNRESOLVED", it.engine_id, it.magic, it.intent_id, it.symbol, sideStr,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, preMarginLots, lots, reqMargin, maxAllowM,
+                               0, (ulong)g_trade.ResultOrder(), 0, -1.0, 0.0, ret, "UNKNOWN_INFLIGHT");
       return;
    }
    if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
@@ -704,6 +1030,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       g_guard.LogExecAuditFor(it.symbol, sideStr, "ORDER_REJECT", it.signal_price, g_trade.ResultPrice(), normSl, lots, latMs, ret,
                               StringFormat("%s|intent=%s|%s", it.tag, it.intent_id, g_trade.ResultRetcodeDescription()),
                               it.magic);
+      if(emitLog)
+         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BROKER", it.engine_id, it.magic, it.intent_id, it.symbol, sideStr,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, preMarginLots, lots, reqMargin, maxAllowM,
+                               0, (ulong)g_trade.ResultOrder(), 0, g_trade.ResultPrice(), 0.0, ret, g_trade.ResultRetcodeDescription());
       return;
    }
 
@@ -740,6 +1074,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                         it.tag, it.intent_id, dealId, ordId, ordId, posId,
                                         (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : ""),
                            it.magic);
+   if(emitLog)
+      EmitTesterDecisionRow(it.signal_utc, "INTENT_ACCEPT_FILL", it.engine_id, it.magic, it.intent_id, it.symbol, sideStr,
+                            it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                            pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                            bal, preEq, freeMargin,
+                            it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                            riskMoney, rawLots, preMarginLots, execLots, reqMargin, maxAllowM,
+                            dealId, ordId, posId, fillPx, 0.0, ret, it.tag);
    g_signals.MarkEngineTraded(it.magic, it.session_day_key);
 }
 
@@ -777,6 +1119,27 @@ void RunMasterCycle()
 
    string regime = "NORMAL";
    double riskMult = ComputePhaseRiskMultiplier(dailyDdPct, staticDdPct, profitPct, regime);
+   g_curDailyDdPct  = dailyDdPct;
+   g_curStaticDdPct = staticDdPct;
+   g_curProfitPct   = profitPct;
+   g_curRegime      = regime;
+   g_curRiskMult    = riskMult;
+   if(MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE)
+   {
+      if(regime != g_prevLogRegime || MathAbs(riskMult - g_prevLogMult) > 1e-9)
+      {
+         string chgReason = StringFormat("prev=%s@%.4f->%s@%.4f", g_prevLogRegime, g_prevLogMult, regime, riskMult);
+         EmitTesterDecisionRow(nowUtc, "REGIME_OR_TAPER_CHANGE", "", 0, "", "", "",
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               bal, eq, AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, chgReason);
+         g_prevLogRegime = regime;
+         g_prevLogMult   = riskMult;
+      }
+   }
 
    bool manualHalt = false;
    bool manualFlatten = false;
@@ -798,6 +1161,17 @@ void RunMasterCycle()
       {
          g_autoKillActive = true;
          PersistAutoKillStateM(g_dayKey, true);
+         if(MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE)
+         {
+            string kWhy = (dailyDdPct >= InpKillDailyDdPct) ? "MASTER_KILL_DAILY_DD" : "MASTER_KILL_STATIC_DD";
+            EmitTesterDecisionRow(nowUtc, "KILL_ACTIVATED", "", 0, "", "", "",
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  bal, eq, AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0, 0, 0, 0.0, 0.0, 0, kWhy);
+         }
       }
    }
    bool effectiveKill = g_autoKillActive || manualHalt || g_anchorUnrecovered;
@@ -857,6 +1231,7 @@ int OnInit()
                       InpSymEURUSD, InpSymAUDUSD, InpSymUSDCAD, InpMaxBreakoutTickLagMs, InpEnableS6Shadow))
       return INIT_FAILED;
    g_guard.Init(g_trade, g_signals.SymbolAt(SYM_USDJPY), InpMagicRangeMin, InpKillDailyDdPct);
+   OpenTesterDecisionLog();
    RestoreOrInitDayAnchorM();
    g_signals.HydrateTradedDaysFromHistory(g_guard.NowUTC());
    PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
@@ -873,6 +1248,7 @@ int OnInit()
 void OnDeinit(const int reason)
 {
    EventKillTimer();
+   CloseTesterDecisionLog();
    g_signals.Deinit();
 }
 

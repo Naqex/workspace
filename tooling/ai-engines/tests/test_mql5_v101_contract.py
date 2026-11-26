@@ -373,6 +373,9 @@ class Mql5V101ContractTests(unittest.TestCase):
         guard_raw = (EXPORTS_DIR / "Include/Naqex_PropGuard.mqh").read_text(encoding="utf-8")
         self.assertRegex(master_raw, r"input\s+bool\s+InpDryRunLogOnly\s*=\s*true\s*;")
         self.assertRegex(master_raw, r"input\s+bool\s+InpShadowCompareMode\s*=\s*true\s*;")
+        self.assertRegex(master_raw, r"input\s+bool\s+InpTesterEmitDecisionLog\s*=\s*false\s*;")
+        for diag_tok in ("EmitTesterDecisionRow", "LOT_TAPER", "KILL_ACTIVATED", "CLOSE_REQUEST", "CLOSE_FILL", "INTENT_REJECT_CAP", "INTENT_ACCEPT_FILL"):
+            self.assertIn(diag_tok, master_raw, f"Missing Step-1 pre-decision observability token '{diag_tok}'")
         self.assertRegex(guard_raw, r"input\s+bool\s+InpGuardDryRunLogOnly\s*=\s*true\s*;")
         m_idx_dev = re.search(r"input\s+int\s+InpMaxSlippagePointsIdx\s*=\s*(\d+)\s*;", master_raw)
         self.assertIsNotNone(m_idx_dev)
