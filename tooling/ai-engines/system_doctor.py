@@ -405,25 +405,14 @@ def check_anti_bloat() -> dict:
     t0 = time.perf_counter()
     import check_anti_bloat as cab
 
-    p = subprocess.run(
-        ["git", "diff", "--name-only", "--diff-filter=ACMR", "-z", "origin/main", "HEAD"],
-        cwd=str(ROOT),
-        capture_output=True,
-        check=False,
-    )
-    if p.returncode != 0:
+    rc, records = cab.collect_changed_records("origin/main", root=ROOT)
+    if rc != 0:
         return {
             "name": "anti_bloat",
             "ok": False,
             "seconds": round(time.perf_counter() - t0, 3),
-            "detail": f"git diff failed (rc={p.returncode})",
+            "detail": f"git diff failed (rc={rc})",
         }
-    records = []
-    for rel in p.stdout.decode("utf-8", errors="replace").split("\0"):
-        if rel:
-            candidate = ROOT / rel
-            if candidate.is_file():
-                records.append({"path": rel, "bytes": candidate.stat().st_size})
     j = cab.evaluate(records)
     passed = bool(j.get("passed"))
     detail = f"passed={passed}, raw_files={j.get('raw_files')}, failures={len(j.get('failures', []))}"
