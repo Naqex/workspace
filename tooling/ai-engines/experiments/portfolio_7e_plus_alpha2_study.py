@@ -66,7 +66,11 @@ from quant_factory.data_store import (  # noqa: E402
 )
 from quant_factory.eval_pipeline import deflated_sharpe_ratio, tail_correlation_report  # noqa: E402
 from quant_factory.funding_rate_carry import FUNDING_CACHE_DIR, PERP_UNIVERSE_20  # noqa: E402
-from quant_lab.causal_universe import causal_rolling_top_n_mask  # noqa: E402
+
+try:
+    from quant_lab.causal_universe import causal_rolling_top_n_mask  # noqa: E402
+except ModuleNotFoundError:  # Fallback when projects/quant-trading submodule pin predates causal_universe.py
+    from quant_factory.crypto_causal_universe import causal_rolling_top_n_mask  # noqa: E402
 
 try:
     from quant_lab.funding_carry_v2 import (  # noqa: E402

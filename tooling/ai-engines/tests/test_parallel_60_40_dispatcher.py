@@ -555,6 +555,7 @@ def test_safe_lease_queue_retries_busy_lock_with_jittered_backoff_and_fails_fast
 # ==============================================================================
 
 
+@pytest.mark.local_cache
 def test_real_workspace_dev_cache_allowlist_excludes_holdout_guard_and_verifies_tapes_v2() -> None:
     collected = cr.collect_dev_cache_files(root=cr.ROOT, include_tapes=True)
     arcs = [arc for arc, _ in collected["entries"]]

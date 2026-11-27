@@ -45,7 +45,11 @@ from experiments.portfolio_7e_plus_alpha2_study import (  # noqa: E402
     validate_strict_pre_holdout_dates,
 )
 from quant_factory import crypto_shadow_runner as csr  # noqa: E402
-from quant_lab.causal_universe import causal_rolling_top_n_mask  # noqa: E402
+
+try:
+    from quant_lab.causal_universe import causal_rolling_top_n_mask  # noqa: E402
+except ModuleNotFoundError:  # Older projects/quant-trading submodule pin on workspace CI
+    from quant_factory.crypto_causal_universe import causal_rolling_top_n_mask  # noqa: E402
 
 try:
     from quant_lab import F4EmaConfig, UnifiedSpotEngine  # noqa: E402
