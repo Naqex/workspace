@@ -1,0 +1,27 @@
+{
+  "builtin": "schedule",
+  "args": [
+    "CRON_TZ=Asia/Ho_Chi_Minh 30 7 * * *",
+    "agentapi",
+    "new-conversation",
+    "--",
+    "Compile the Naqex Morning Chief-of-Staff Briefing inside D:/ANNAM/TradingWorkspace using D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto briefing --json and D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto status --offline --json. Report the 48-hour Red-News radar, the 6-milestone countdown (30/11 BF Bill Lock at 0 VND, 01/12 Holdout v2 Lock, 04/12 NFP, 08/12 FTMO Free Trial expiry on naqex-node1, 10/12 CPI, 14/12 BF 14-day payment cutoff), and latest sanitized watchdog, nightly QA, research radar, and strategy-intel handoff summaries in plain Vietnamese. Enforce hard invariants: 0 VND spend, OrderSend=0, MT5_PROCS=0 on PC Dev, Holdout 2025+ SEALED, zero bare dollar signs in prose, zero raw IPs/tokens/user paths, zero git push, and never modify user_config.json."
+  ],
+  "restart_policy": "always",
+  "display_name": "Naqex Morning Chief-of-Staff Briefing",
+  "description": "Every day at 07:30 (Asia/Ho_Chi_Minh), compiles the read-only morning ops briefing, 48-hour red-news radar, 6-milestone countdown, and sanitized automation status with OrderSend=0.",
+  "agent_permissions": {
+    "workspace_uris": [
+      "file:///D:/ANNAM/TradingWorkspace"
+    ],
+    "access_grants": [
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto briefing)",
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto status)",
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto research-radar)",
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto intel-sync)",
+      "read_file(D:/ANNAM/TradingWorkspace/.runtime/automation)",
+      "read_file(D:/ANNAM/TradingWorkspace/tooling/ai-engines/configs/calendars)",
+      "write_file(D:/ANNAM/TradingWorkspace/.runtime/automation)"
+    ]
+  }
+}

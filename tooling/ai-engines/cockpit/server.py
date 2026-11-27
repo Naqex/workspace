@@ -17,6 +17,9 @@ Live JSON API endpoints:
   - GET  /api/rebalancer       -> Dry-run Sleeve #3B IBKR Macro ETF weights & order tickets (`OrderSend = 0`)
   - GET  /api/blackfriday-sprint -> Cached 30s Black Friday 30/11 countdown, Mũi 1-3 metrics & Vault status
   - GET  /api/node1-summary    -> Cached 30s sanitized naqex-node1 health summary (live SSH 4s cap or fallback)
+  - GET  /api/automation/status   -> Stateless read-only 24/7 automation & ops-cloud summary (`OrderSend = 0`)
+  - GET  /api/automation/events   -> Stateless read-only automation event queue tail (`OrderSend = 0`)
+  - GET  /api/automation/features -> Stateless read-only feature_map + product QA overlay (`OrderSend = 0`)
 """
 
 from __future__ import annotations
@@ -32,6 +35,12 @@ _AI_ENGINES_BOOT = Path(__file__).resolve().parents[1]
 if str(_AI_ENGINES_BOOT) not in sys.path:
     sys.path.insert(0, str(_AI_ENGINES_BOOT))
 
+from cockpit.modules.automation import (  # noqa: E402, F401
+    build_automation_events_payload,
+    build_automation_features_payload,
+    build_automation_status_payload,
+    validate_sidecar_config,
+)
 from cockpit.modules.helpers import (  # noqa: E402, F401
     _coerce_opt_bool,
     _coerce_opt_float,
@@ -160,6 +169,9 @@ __all__ = [
     "apply_emergency_cover_action",
     "audit_prop_terms_text",
     "build_allocations_payload",
+    "build_automation_events_payload",
+    "build_automation_features_payload",
+    "build_automation_status_payload",
     "build_blackfriday_sprint_payload",
     "build_live_telemetry_payload",
     "build_node1_summary_payload",
@@ -179,6 +191,7 @@ __all__ = [
     "make_handler",
     "read_emergency_cover_state",
     "urllib",
+    "validate_sidecar_config",
 ]
 
 

@@ -3,7 +3,21 @@
 > **Quy tắc tra cứu:** Xem kế hoạch tổng thể duy nhất (SSOT) tại [TOP1-SOLO-QUANT-MASTER-PLAN.md](../TOP1-SOLO-QUANT-MASTER-PLAN.md), trạng thái phiên hiện hành tại [CURRENT-CONTEXT.md](../CURRENT-CONTEXT.md), và sổ đăng ký danh mục máy đọc được tại [PORTFOLIO-REGISTRY.json](PORTFOLIO-REGISTRY.json).
 > Kiểm tra chứng nhận metadata bằng `python -X utf8 tooling/ai-engines/research_inventory.py` ([catalogue JSON](STRATEGY-CATALOGUE-20261107.json) · [hướng dẫn](STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn)).
 
-## 1. Kiến Trúc Nền Tảng, Kiểm Toán Hệ Thống & Dữ Liệu (`25–27/11/2026`)
+## 1. Chiến Dịch Total Offensive #2 v2.5 (`27/11/2026` — `9` Báo Cáo Mới)
+
+| Hạng mục / Làn | Phạm vi & kết quả chuẩn hóa (`0 VND`, `OrderSend = 0`, `Holdout = 0`) | Tài liệu gốc |
+|---|---|---|
+| **Phòng thủ Flash-Crash & `v1.03` (`D2`)** | Quét Pareto Khiên `A/B/C` (`<= 2024-12-31`, `frozen_9e_tapes_v2`, `SpreadGuard` + `6-CCY`) hạ sốc gap `<= 4,50%` và ứng viên `Naqex_Master_Prop7E_v103.mq5` (`InpDryRunLogOnly=true`). | [FLASHCRASH-PARETO-DEFENSE-V103-20261127.md](FLASHCRASH-PARETO-DEFENSE-V103-20261127.md) |
+| **Kiểm toán `naqex-node1` & Pre-NFP (`D4`)** | Kiểm toán chỉ-đọc `naqex-node1` + Heroku Deadman, khóa SOP thu log trước hạn **FTMO Free Trial `08/12/2026`** sau NFP `04/12` & cổng staging khi phẳng lệnh. | [NODE1-PRE-NFP-STAGING-AUDIT-20261127.md](NODE1-PRE-NFP-STAGING-AUDIT-20261127.md) |
+| **Tối ưu vốn đa quỹ `V3` (`O1`)** | Bổ sung kiểm tra `flat_at_reset_verified`, độ nhạy sốc floating equity `00:00` rollover, định giá quyền chọn hóa đơn BF `14` ngày (`30/11 -> 14/12`, `0 VND`) & worker X13. | [MULTI-FIRM-CAPITAL-OPTIMIZER-V3-20261127.md](MULTI-FIRM-CAPITAL-OPTIMIZER-V3-20261127.md) |
+| **Alpha #2 Unified & Ghép `7E` (`O2`)** | Động cơ đơn nhất Backtest/Shadow (`projects/quant-trading`), vá `5` lỗi `crypto_shadow_runner.py`, đo `DSR/PBO/CPCV`, `|r|` với `PORT_7E` & giảm tháng đói (`<= 2024-12-31`). | [ALPHA2-UNIFIED-ENGINE-AND-PORTFOLIO-COMBINATION-20261127.md](ALPHA2-UNIFIED-ENGINE-AND-PORTFOLIO-COMBINATION-20261127.md) |
+| **Danh mục 3 Nhánh & Holdout `v2` (`O3`)** | Nghiên cứu ghép `3` nhánh (`PORT_7E` + Crypto nhân quả + Macro ETF `<= 2024-12-31`), ngưỡng vốn `10k/25k USD` & khóa đăng ký trước `holdout_v2_prospective (>= 2026-12-01)`. | [THREE-SLEEVE-TOP1-ROADMAP-AUDIT-20261127.md](THREE-SLEEVE-TOP1-ROADMAP-AUDIT-20261127.md) |
+| **Radar Luật Quỹ & Sale Black Friday (`R2`)** | Đối chiếu nguồn gốc `ftmo.com`/`the5ers.com`/`icfunded.com` (`untrusted_external_data: true`), luật giữ giá hóa đơn chưa trả `14` ngày (`30/11 -> 14/12`) & sai lệch so với SSOT. | [PROP-LIVE-TERMS-AND-BLACKFRIDAY-RADAR-20261127.md](PROP-LIVE-TERMS-AND-BLACKFRIDAY-RADAR-20261127.md) |
+| **Radar Alpha Lệch Pha Frontier (`R3`)** | Nghiên cứu đa nguồn (`2024–2026`) chọn `3–5` cơ chế lệch pha (`|r| < 0,15`, sạch danh sách cấm `§3.4`, `untrusted_external_data: true`) kèm `frontier_alpha_candidates.json`. | [FRONTIER-UNCORRELATED-ALPHA-RADAR-20261127.md](FRONTIER-UNCORRELATED-ALPHA-RADAR-20261127.md) |
+| **Radar Harness AI & Công cụ Quant (`R4`)** | Khảo sát nguồn gốc (`2025–2026`, `untrusted_external_data: true`) về Agent Harness (`@poteto`/OpenAI/Anthropic), công cụ Quant & kiến trúc kiểm chứng tự động cho Naqex. | [FRONTIER-AI-AGENT-AND-QUANT-TOOLING-RADAR-20261127.md](FRONTIER-AI-AGENT-AND-QUANT-TOOLING-RADAR-20261127.md) |
+| **Cầu Sạch 1 Chiều `strategy-intel` (`R5`)** | Kiến trúc cách ly 1 chiều `D:/ANNAM/strategy-intel` (`0` ghi ngược, `4/4` cổng sạch, lọc `2024..2029`/`oos2` & danh sách cấm `§3.4`, `untrusted_external_data: true`). | [STRATEGY-INTEL-CLEANROOM-PIPELINE-20261127.md](STRATEGY-INTEL-CLEANROOM-PIPELINE-20261127.md) |
+
+## 2. Kiến Trúc Nền Tảng, Kiểm Toán Hệ Thống & Dữ Liệu (`25–27/11/2026`)
 
 | Chủ đề | Kết luận chính (`0 VND`, `OrderSend = 0`) | Tài liệu gốc |
 |---|---|---|
@@ -14,7 +28,7 @@
 | **Đối chiếu `C10_NEWS_ON` hậu-SSOT** | Tái dựng băng nhân quả `frozen_9e_tapes_v2` (`PORT_7E` `-0,098%`, `FTMO 10K` `EV/Phí +8,25x`, `61,89/5,60/32,51%`), `15.000` mẫu fuzz `<X13_WORKER>`, lộ sốc gap P1/P2 `7,19–16,88%`. | [C10-POST-SSOT-LOOKAHEAD-RECONCILIATION-20261127.md](C10-POST-SSOT-LOOKAHEAD-RECONCILIATION-20261127.md) |
 | **Tối ưu vốn & Sale 4 Quỹ `v2`** | `C10_NEWS_ON`, `42/42` gói có hạn `verified_utc`, quét dày `0..180` ngày, đủ TB/Trung vị/`P<=0` & `Đậu/Rớt/Chờ = 100%`. | [MULTI-FIRM-CAPITAL-PROMO-OPTIMIZER-20261126.md](MULTI-FIRM-CAPITAL-PROMO-OPTIMIZER-20261126.md) |
 
-## 2. Chuỗi Đồng Bộ Python ↔ MT5 `Master_Prop7E` (`Bước 1–7` & `Vòng 2–5`, `25–26/11/2026`)
+## 3. Chuỗi Đồng Bộ Python ↔ MT5 `Master_Prop7E` (`Bước 1–7` & `Vòng 2–5`, `25–26/11/2026`)
 
 | Đợt | Tóm tắt bằng chứng xác minh | Tài liệu gốc |
 |---|---|---|
@@ -23,7 +37,7 @@
 | **Kiến trúc Vòng 3 & Đối chứng** | Chốt `7E` cố định + khóa cụm hướng `USD/JPY/US100` + `1` Master EA + thước đo `Settled Cash` (gỡ `Gate-42`/`350K`/`30/50/20`/Crypto Shadow). | [Vòng 3](ASTRA-ROUND3-FIRST-PRINCIPLES-ARCHITECTURE-AND-STRATEGY-20261125.md) · [Đối chứng `N=5.000`](ROUND3-FRAME-COUNTERFACTUAL-BENCHMARK-20261125.md) · [Vòng 2](ASTRA-ROUND2-VERIFICATION-AND-SYSTEM-AUDIT-20261125.md) · [Red-Team F01–F20](ASTRA-INDEPENDENT-REDTEAM-AUDIT-20261125.md) |
 | **Vòng 4–5, Real-Tick & Pháp lý VN** | Phân tích vốn `12–15 tr`, 1 vé không retry, Real-Tick 2024, pháp lý rút tiền VN & kiểm toán sống `naqex-node1`. | [Vòng 5](ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md) · [Vòng 4](ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md) · [Real-Tick 7E](MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md) · [Pháp lý VN](PROP-VN-PAYOUT-LEGAL-AND-VPS-COMPLIANCE-20261125.md) · [Live Node1](LIVE-NODE1-TELEMETRY-AND-SHADOW-AUDIT-20261124.md) |
 
-## 3. Holdout `v1` (`CONSUMED`), Pass 23–32 & Các Nhánh Đa Tài Sản (`23–24/11/2026`)
+## 4. Holdout `v1` (`CONSUMED`), Pass 23–32 & Các Nhánh Đa Tài Sản (`23–24/11/2026`)
 
 | Chủ đề | Tóm tắt ngắn gọn | Tài liệu gốc |
 |---|---|---|
@@ -33,7 +47,7 @@
 | **Nhánh Own-Book & Đa tài sản (`Labs #1–#9`)** | Crypto Spot nhân quả `S2`, Funding `S3A` (`BTC+ETH`), Macro ETF `S3B`/`S4` (`r ~ 0`), trần `CEX <= 25%` (`NCO_CexCap25`), hoãn triển khai dưới `10k USD`. | [Crypto S2](CRYPTO-SLEEVE2-SURVIVORSHIP-FREE-20261124.md) · [Carry S3A](SLEEVE3A-FUNDING-RATE-CARRY-20261124.md) · [ETF S3B](SLEEVE3B-MACRO-ETF-TREND-18YR-20261124.md) · [Lab #4 ETF40](LAB4-40ETF-MULTIFACTOR-VRP-20261124.md) · [Lab #7](LAB7-OVERNIGHT-DRIFT-AND-RD-LOOP-20261124.md) · [Lab #8 CME](LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md) · [Lab #9](LAB9-MULTICOIN-FUNDING-CARRY-V2-20261124.md) · [Pod v2 CexCap25](QUANT-POD-V2-NCO-CEXCAP-AND-REBALANCE-20261124.md) · [IBKR Lot](OWNBOOK-ETF-SUPER-SLEEVE-AND-IBKR-LOT-AUDIT-20261124.md) |
 | **Hồ sơ Quỹ, Real-Tick & Công cụ** | MT5 Build/Real-Tick `24/24`, hồ sơ The5ers, Red-Team `10k` MC, đánh giá TypeSafe AI & kiểm toán lưu trữ. | [MT5 Kit](MT5-COMPILE-PARITY-AND-DEPLOYMENT-KIT-20261124.md) · [Real-Tick](MT5-REALTICK-RECONCILIATION-20261124.md) · [The5ers](THE5ERS-PARALLEL-PROFILE-AND-SPEC-PLAN-20261123.md) · [Red-Team](RED-TEAM-ADVERSARIAL-AUDIT-20261124.md) · [EV Frontier](PROP-EV-FRONTIER-BALANCED-VS-SPRINT-20261124.md) · [Robustness](ROBUSTNESS-GATE-DEV-AUDIT-20261124.md) · [TypeSafe](TYPESAFE-AI-EVALUATION-AND-BENCHMARK-20261124.md) · [Storage](STORAGE-HYGIENE-AUDIT-20261124.md) |
 
-## 4. Lưu Trữ Lịch Sử (Pass 1 → Pass 22, Chiến Dịch V1–V26, US500/INDEX/PROP-V*)
+## 5. Lưu Trữ Lịch Sử (Pass 1 → Pass 22, Chiến Dịch V1–V26, US500/INDEX/PROP-V*)
 
 - **Mục lục lưu trữ đầy đủ (100% link đã cập nhật vào `archive/`):** [ARCHIVE-INDEX-202611.md](ARCHIVE-INDEX-202611.md)
 - **Thư mục báo cáo lịch sử đã phân tầng:** `planning/research/archive/`

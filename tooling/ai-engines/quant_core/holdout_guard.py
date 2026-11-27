@@ -43,9 +43,7 @@ DEFAULT_REGISTRY_PATH: Path = REPO_ROOT / ".runtime" / "run_registry" / "registr
 _SAFE_ID_RE = re.compile(r"[^A-Za-z0-9_.:-]+")
 _DOT_DATE_RE = re.compile(r"^(\d{4})\.(\d{2})\.(\d{2})(.*)$")
 _ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-_ISO_DATETIME_RE = re.compile(
-    r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|z|[+-]\d{2}:?\d{2})?$"
-)
+_ISO_DATETIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|z|[+-]\d{2}:?\d{2})?$")
 _MAX_SAFE_FLOAT_TS: float = 9.0e15
 
 
@@ -104,14 +102,10 @@ def _parse_to_utc_date(item: Any, *, context: str) -> date:
         try:
             dt = datetime.fromisoformat(text)
         except ValueError as exc:
-            raise HoldoutLockError(
-                f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid ISO datetime {item!r}: {exc}"
-            ) from exc
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid ISO datetime {item!r}: {exc}") from exc
         return dt.astimezone(UTC).date() if dt.tzinfo is not None else dt.date()
 
-    raise HoldoutLockError(
-        f"HOLDOUT_LOCK_VIOLATION [{context}]: malformed/non-ISO date {item!r} rejected"
-    )
+    raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: malformed/non-ISO date {item!r} rejected")
 
 
 def enforce_pre_holdout_dates(
@@ -139,9 +133,7 @@ def enforce_pre_holdout_dates(
         try:
             raw_items = list(dates)
         except TypeError as exc:
-            raise HoldoutLockError(
-                f"HOLDOUT_LOCK_VIOLATION [{context}]: non-iterable dates input {dates!r}"
-            ) from exc
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: non-iterable dates input {dates!r}") from exc
 
     if not raw_items:
         if not allow_empty:
@@ -167,9 +159,7 @@ def _check_scalar_int_ts(
     context: str,
 ) -> None:
     if start_i is not None and val < start_i:
-        raise HoldoutLockError(
-            f"HOLDOUT_OR_RANGE_BREACH [{context}]: timestamp {val} < start_ts ({start_i})"
-        )
+        raise HoldoutLockError(f"HOLDOUT_OR_RANGE_BREACH [{context}]: timestamp {val} < start_ts ({start_i})")
     if val >= stop_i:
         raise HoldoutLockError(
             f"HOLDOUT_CONTAMINATION / HOLDOUT_LOCK_VIOLATION [{context}]: timestamp {val} >= stop_ts ({stop_i})"
@@ -215,35 +205,27 @@ def enforce_pre_holdout_ts(
         try:
             seq = list(ts_int)
         except TypeError as exc:
-            raise HoldoutLockError(
-                f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid timestamp input {ts_int!r}"
-            ) from exc
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid timestamp input {ts_int!r}") from exc
         arr = np.asarray(seq)
 
     if arr.dtype == np.bool_:
         raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: boolean timestamp array rejected")
     if arr.size == 0:
         if not allow_empty:
-            raise HoldoutLockError(
-                f"HOLDOUT_LOCK_VIOLATION [{context}]: empty timestamp sequence rejected"
-            )
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: empty timestamp sequence rejected")
         return
 
     if arr.ndim == 0:
         scalar = arr.item()
         if isinstance(scalar, bool) or not isinstance(scalar, (int, np.integer)):
-            raise HoldoutLockError(
-                f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid 0-d timestamp {scalar!r}"
-            )
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid 0-d timestamp {scalar!r}")
         _check_scalar_int_ts(int(scalar), start_i=start_i, stop_i=stop_i, context=context)
         return
 
     if arr.dtype == object:
         for elem in arr.flat:
             if isinstance(elem, bool) or elem is None:
-                raise HoldoutLockError(
-                    f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid object timestamp element {elem!r}"
-                )
+                raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: invalid object timestamp element {elem!r}")
             if isinstance(elem, (int, np.integer)):
                 _check_scalar_int_ts(int(elem), start_i=start_i, stop_i=stop_i, context=context)
             elif isinstance(elem, (float, np.floating)):
@@ -262,9 +244,7 @@ def enforce_pre_holdout_ts(
                         f"timestamp {fv} >= stop_ts ({stop_i})"
                     )
             else:
-                raise HoldoutLockError(
-                    f"HOLDOUT_LOCK_VIOLATION [{context}]: unsupported timestamp element {elem!r}"
-                )
+                raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: unsupported timestamp element {elem!r}")
         return
 
     if np.issubdtype(arr.dtype, np.floating):
@@ -278,9 +258,7 @@ def enforce_pre_holdout_ts(
                 f"HOLDOUT_LOCK_VIOLATION [{context}]: out-of-range float timestamp bounds [{min_f}, {max_f}]"
             )
         if start_i is not None and min_f < float(start_i):
-            raise HoldoutLockError(
-                f"HOLDOUT_OR_RANGE_BREACH [{context}]: min timestamp {min_f} < start_ts ({start_i})"
-            )
+            raise HoldoutLockError(f"HOLDOUT_OR_RANGE_BREACH [{context}]: min timestamp {min_f} < start_ts ({start_i})")
         if max_f >= float(stop_i):
             raise HoldoutLockError(
                 f"HOLDOUT_CONTAMINATION / HOLDOUT_LOCK_VIOLATION [{context}]: "
@@ -309,13 +287,9 @@ def enforce_pre_holdout_ts(
 def enforce_holdout_zero_rows(holdout_rows: Any, *, context: str = "dev_research") -> None:
     """Fail-closed guard ensuring `holdout_rows == 0`."""
     if isinstance(holdout_rows, bool) or holdout_rows is None:
-        raise HoldoutLockError(
-            f"HOLDOUT_CONTAMINATION_DETECTED [{context}]: invalid holdout_rows={holdout_rows!r}"
-        )
+        raise HoldoutLockError(f"HOLDOUT_CONTAMINATION_DETECTED [{context}]: invalid holdout_rows={holdout_rows!r}")
     if int(holdout_rows) != 0:
-        raise HoldoutLockError(
-            f"HOLDOUT_CONTAMINATION_DETECTED [{context}]: holdout_rows={int(holdout_rows)} != 0"
-        )
+        raise HoldoutLockError(f"HOLDOUT_CONTAMINATION_DETECTED [{context}]: holdout_rows={int(holdout_rows)} != 0")
 
 
 def _safe_registry_id(raw: str, *, prefix: str = "id", max_len: int = 120) -> str:

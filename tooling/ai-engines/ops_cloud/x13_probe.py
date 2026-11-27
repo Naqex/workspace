@@ -261,12 +261,13 @@ def count_forbidden_files(base_dir: Path) -> tuple[int, list[str]]:
 
 def collect_probe(base_dir: Path = DEFAULT_BASE_DIR) -> dict[str, Any]:
     t0 = time.perf_counter()
+    # Sample CPU utilization sequentially BEFORE spawning powershell.exe / w32tm
+    # subprocesses so probe child processes do not self-inflate idle CPU %.
+    cpu_pct = read_cpu_util_pct(0.15)
     pwr = read_power_status()
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        f_cpu = pool.submit(read_cpu_util_pct, 0.15)
+    with ThreadPoolExecutor(max_workers=2) as pool:
         f_bat = pool.submit(read_battery_status_code)
         f_ntp = pool.submit(read_ntp_offset_ms)
-        cpu_pct = f_cpu.result()
         bat_code = f_bat.result()
         ntp_ms = f_ntp.result()
 

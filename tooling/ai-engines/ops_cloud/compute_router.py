@@ -19,12 +19,14 @@ import hashlib
 import json
 import math
 import os
+import random
 import re
 import subprocess
 import sys
 import tarfile
 import tempfile
 import time
+from collections.abc import Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
@@ -39,12 +41,19 @@ X13_HOSTS: tuple[str, ...] = ("naqex-x13", "naqex-x13-ts")
 X13_BASE_DIR = r"C:\NaqexResearch"
 X13_REMOTE_PYTHON = r"C:\NaqexResearch\.venv\Scripts\python.exe"
 X13_REMOTE_PROBE = r"C:\NaqexResearch\x13_probe.py"
+_X13_AC_UNPLUGGED_RC: int = 77
+_X13_LOCK_BUSY_RC: int = 78
 
 _FORBIDDEN_SHELL_META: frozenset[str] = frozenset('&|;><^%$()`"\'!\r\n\t')
 _SAFE_HOST_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 _SAFE_JOB_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 _SAFE_EXTRA_ARG_RE = re.compile(r"^[A-Za-z0-9._:=\\/@,-]+$")
+_SAFE_FLAG_RE = re.compile(r"^--[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 _NTP_OFFSET_RE = re.compile(r"([+-]\d+(?:\.\d+)?)s\b")
+_DEV_CALENDAR_ALLOWLIST: tuple[str, ...] = (
+    "red_news_official_2018_2024_6ccy.json",
+    "red_news_official_2018_2024.json",
+)
 _FORBIDDEN_DEV_TOKENS: tuple[str, ...] = (
     "holdout",
     "2025",
@@ -300,19 +309,21 @@ def classify_dev_pc_mode(dev_pc: dict[str, Any]) -> str:
 
 
 def probe_dev_pc(*, now_utc: datetime | None = None) -> dict[str, Any]:
-    """Read local `<DEV_PC>` OS sensors concurrently (< 400 ms, 100% read-only)."""
+    """Read local `<DEV_PC>` OS sensors with sequential CPU sampling before subprocess probes (100% read-only)."""
     now = now_utc or datetime.now(UTC)
     now_ict = now.astimezone(timezone(timedelta(hours=7)))
     in_overnight = 0 <= now_ict.hour < 7
 
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        f_cpu = pool.submit(_read_cpu_util_pct, 0.20)
+    # Sample CPU utilization sequentially BEFORE spawning nvidia-smi / w32tm
+    # subprocesses so probe child processes do not self-inflate idle CPU %.
+    cpu_pct = _read_cpu_util_pct(0.20)
+    idle_sec = _read_idle_sec()
+    fullscreen = _read_fullscreen_busy()
+    free_ram = _read_free_ram_gb()
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
         f_gpu = pool.submit(_read_gpu_util_pct)
         f_ntp = pool.submit(_read_ntp_offset_ms)
-        idle_sec = _read_idle_sec()
-        fullscreen = _read_fullscreen_busy()
-        free_ram = _read_free_ram_gb()
-        cpu_pct = f_cpu.result()
         gpu_pct = f_gpu.result()
         ntp_ms = f_ntp.result()
 
@@ -504,8 +515,122 @@ def probe_x13_worker(
     }
 
 
+def _is_only_active_lock_busy(reasons: list[str]) -> bool:
+    """Return True iff X13 failed eligibility solely because another job holds `active_job.lock`."""
+    return len(reasons) == 1 and reasons[0] == "x13_busy_active_job_lock"
+
+
+def wait_for_x13_lease(
+    *,
+    probe_fn: Callable[[], dict[str, Any]] | None = None,
+    lan_only: bool = False,
+    strict_ntp: bool = False,
+    allow_ntp_drift: bool = False,
+    min_ram_gb: float = 4.0,
+    max_wait_sec: float = 120.0,
+    base_backoff_sec: float = 2.0,
+    max_backoff_sec: float = 15.0,
+    jitter_frac: float = 0.25,
+    max_attempts: int | None = None,
+    sleep_fn: Callable[[float], None] = time.sleep,
+    rng: random.Random | None = None,
+) -> dict[str, Any]:
+    """Safe Lease Queue wrapper around `<X13_WORKER>` `active_job.lock` with jittered exponential backoff.
+
+    Retries ONLY when X13 is healthy on every gate except `x13_busy_active_job_lock`.
+    Fails fast immediately on unreachable, battery discharging, NTP drift, low RAM/disk,
+    or forbidden-file violations so silent `<DEV_PC>` fallback executes without delay.
+    """
+    max_w = _finite_float(max_wait_sec)
+    base_b = _finite_float(base_backoff_sec)
+    max_b = _finite_float(max_backoff_sec)
+    j_frac = _finite_float(jitter_frac)
+    if max_w is None or max_w < 0.0:
+        raise ValueError(f"Invalid max_wait_sec (must be finite >= 0): {max_wait_sec!r}")
+    if base_b is None or base_b < 0.0:
+        raise ValueError(f"Invalid base_backoff_sec (must be finite >= 0): {base_backoff_sec!r}")
+    if max_b is None or max_b < 0.0:
+        raise ValueError(f"Invalid max_backoff_sec (must be finite >= 0): {max_backoff_sec!r}")
+    if j_frac is None or not (0.0 <= j_frac <= 1.0):
+        raise ValueError(f"Invalid jitter_frac (must be in [0, 1]): {jitter_frac!r}")
+    if max_attempts is not None and (isinstance(max_attempts, bool) or max_attempts < 1):
+        raise ValueError(f"Invalid max_attempts (must be >= 1): {max_attempts!r}")
+
+    prober = probe_fn or (
+        lambda: probe_x13_worker(
+            lan_only=lan_only,
+            strict_ntp=strict_ntp,
+            allow_ntp_drift=allow_ntp_drift,
+        )
+    )
+    rand = rng or random.Random()
+    waited = 0.0
+    attempt = 0
+    sleeps: list[float] = []
+
+    while True:
+        attempt += 1
+        x13 = prober()
+        eligible, reasons = evaluate_x13_eligibility(
+            x13,
+            min_ram_gb=min_ram_gb,
+            strict_ntp=strict_ntp,
+            allow_ntp_drift=allow_ntp_drift,
+        )
+        if eligible:
+            return {
+                "acquired": True,
+                "status": "LEASE_ACQUIRED",
+                "attempts": attempt,
+                "waited_sec": round(waited, 4),
+                "sleep_history_sec": sleeps,
+                "x13_worker": x13,
+                "reasons": [],
+            }
+        if not _is_only_active_lock_busy(reasons):
+            return {
+                "acquired": False,
+                "status": "X13_INELIGIBLE",
+                "attempts": attempt,
+                "waited_sec": round(waited, 4),
+                "sleep_history_sec": sleeps,
+                "x13_worker": x13,
+                "reasons": reasons,
+            }
+        remaining = max_w - waited
+        if (max_attempts is not None and attempt >= max_attempts) or remaining <= 0.0:
+            return {
+                "acquired": False,
+                "status": "LEASE_TIMEOUT",
+                "attempts": attempt,
+                "waited_sec": round(waited, 4),
+                "sleep_history_sec": sleeps,
+                "x13_worker": x13,
+                "reasons": reasons,
+            }
+
+        raw_delay = min(max_b, base_b * (2.0 ** (attempt - 1)))
+        factor = 1.0 + rand.uniform(-j_frac, j_frac) if j_frac > 0.0 else 1.0
+        delay = min(remaining, max(0.0, raw_delay * factor))
+        if delay <= 0.0:
+            if max_attempts is None:
+                return {
+                    "acquired": False,
+                    "status": "LEASE_TIMEOUT",
+                    "attempts": attempt,
+                    "waited_sec": round(waited, 4),
+                    "sleep_history_sec": sleeps,
+                    "x13_worker": x13,
+                    "reasons": reasons,
+                }
+        else:
+            sleep_fn(delay)
+        sleeps.append(round(delay, 4))
+        waited += delay
+
+
 # ==============================================================================
-# 3. DETERMINISTIC ROUTING POLICY (MODE A / MODE B / 60-40 / SILENT FALLBACK)
+# 3. DETERMINISTIC ROUTING POLICY (MODE A / MODE B / 60-40 / 20-80 / FALLBACK)
 # ==============================================================================
 
 def decide_route(
@@ -523,6 +648,7 @@ def decide_route(
     strict_ntp: bool = False,
     allow_ntp_drift: bool = False,
     force_x13: bool = False,
+    allow_mode_a_assist: bool = False,
 ) -> dict[str, Any]:
     """Apply locked `/grill-me Q1` routing table deterministically with silent fallback on X13 failure."""
     est_m = _finite_float(est_minutes)
@@ -662,9 +788,34 @@ def decide_route(
             reasons=reasons,
         )
 
-    # Mode A (owner active) + heavy Dev job >= 10m -> offload 100% to X13 or silent fallback
+    # Mode A (owner active) + heavy Dev job >= 10m -> default offload 100% to X13,
+    # or optional gentle 20/80 assist when `allow_mode_a_assist=True` and shardable.
     if mode == "MODE_A_OWNER_ACTIVE":
         if x13_ok:
+            if allow_mode_a_assist and shardable:
+                n_total = max(2, int(shards))
+                n_dev = max(1, int(round(n_total * 0.20)))
+                if n_dev >= n_total:
+                    n_dev = n_total - 1
+                n_x13 = n_total - n_dev
+                assist_cores = min(2, mode_a_cores)
+                reasons.append(
+                    f"PC Dev in Mode A (gpu={dev_pc.get('gpu_util_pct')}%, fullscreen={dev_pc.get('fullscreen_busy')}) "
+                    f"with gentle Mode-A assist (cap={assist_cores} cores BELOW_NORMAL, 0% GPU) + X13 ready -> "
+                    f"20/80 split ({n_dev}/{n_x13} micro-shards)"
+                )
+                return _build_decision(
+                    target="PARALLEL_20_80_MODE_A",
+                    tier=tier,
+                    ask_owner=False,
+                    dev_cores=assist_cores,
+                    dev_priority="BELOW_NORMAL",
+                    dev_gpu=False,
+                    x13_threads=7,
+                    split={"dev_pc": 20, "x13_worker": 80},
+                    micro_shards={"total": n_total, "dev_pc": n_dev, "x13_worker": n_x13},
+                    reasons=reasons,
+                )
             reasons.append(
                 f"PC Dev in Mode A (gpu={dev_pc.get('gpu_util_pct')}%, fullscreen={dev_pc.get('fullscreen_busy')})"
             )
@@ -810,12 +961,16 @@ def build_job_bundle(
     out_dir: Path,
     *,
     extra_files: tuple[Path, ...] = (),
+    shard_batch_arc: str | None = None,
+    shard_arg_flag: str | None = None,
 ) -> dict[str, Any]:
     """Package an immutable Dev-only tar.gz bundle + SHA-256 manifest (rejects Holdout/secrets fail-closed)."""
     jid = _validate_job_id(job_id)
     entry = entry_script.resolve()
     if not entry.is_file():
         raise FileNotFoundError(f"Entry script not found: {entry}")
+    if shard_arg_flag is not None and not _SAFE_FLAG_RE.fullmatch(shard_arg_flag):
+        raise ValueError(f"Unsafe shard_arg_flag rejected: {shard_arg_flag!r}")
 
     files_to_pack: list[tuple[str, Path]] = []
     seen_arc: set[str] = set()
@@ -830,16 +985,22 @@ def build_job_bundle(
             seen_arc.add(arc)
             files_to_pack.append((arc, p))
 
+    if shard_batch_arc is not None:
+        assert_dev_only_path(shard_batch_arc)
+        if shard_batch_arc not in seen_arc:
+            raise ValueError(f"shard_batch_arc not present in bundled files: {shard_batch_arc!r}")
+
     out_dir.mkdir(parents=True, exist_ok=True)
     tar_path = out_dir / "bundle.tar.gz"
     file_hashes: dict[str, str] = {}
     with tarfile.open(tar_path, "w:gz") as tf:
         for arc, p in sorted(files_to_pack):
+            assert_dev_only_path(arc)
             tf.add(str(p), arcname=arc)
             file_hashes[arc] = _sha256_file(p)
 
     bundle_sha = _sha256_file(tar_path)
-    manifest = {
+    manifest: dict[str, Any] = {
         "schema": "naqex-job-bundle-v1",
         "job_id": jid,
         "git_sha": _current_git_sha(),
@@ -848,6 +1009,10 @@ def build_job_bundle(
         "bundle_tar_sha256": bundle_sha,
         "files": file_hashes,
     }
+    if shard_batch_arc is not None:
+        manifest["shard_batch_arc"] = shard_batch_arc
+    if shard_arg_flag is not None:
+        manifest["shard_arg_flag"] = shard_arg_flag
     manifest_path = out_dir / "bundle_manifest.sha256.json"
     _atomic_write_json(manifest_path, manifest)
     return {
@@ -942,10 +1107,12 @@ def verify_result_manifest(result_dir: Path) -> dict[str, Any]:
     }
 
 
-_REMOTE_RUNNER_PY = r'''"""Immutable remote job runner on <X13_WORKER> with AC-power guard & atomic manifest."""
+_REMOTE_RUNNER_PY = r'''"""Immutable remote job runner on <X13_WORKER> with AC-power guard, atomic lock & manifest."""
 from __future__ import annotations
-import ctypes, hashlib, json, os, pathlib, subprocess, sys, tarfile, tempfile, time
+import ctypes, hashlib, json, os, pathlib, re, subprocess, sys, tarfile, tempfile, time
 from datetime import datetime, timezone
+
+_SAFE_FLAG_RE = re.compile(r"^--[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 
 def _ac_online() -> bool:
     if os.name != "nt":
@@ -956,7 +1123,19 @@ def _ac_online() -> bool:
     s = _SPS()
     return bool(ctypes.windll.kernel32.GetSystemPowerStatus(ctypes.byref(s))) and int(s.AC) == 1
 
-def _proc_created_at(pid: int) -> str:
+def _inspect_pid_created_at(pid: int) -> tuple[bool, str]:
+    if not isinstance(pid, int) or isinstance(pid, bool) or pid <= 0:
+        return True, ""
+    if os.name != "nt":
+        try:
+            os.kill(pid, 0)
+            return True, str(pid)
+        except ProcessLookupError:
+            return True, ""
+        except PermissionError:
+            return True, str(pid)
+        except Exception:
+            return False, ""
     try:
         ps = (
             f"$p=Get-CimInstance Win32_Process -Filter 'ProcessId = {int(pid)}'; "
@@ -966,9 +1145,57 @@ def _proc_created_at(pid: int) -> str:
             ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", ps],
             capture_output=True, text=True, timeout=3,
         )
-        return r.stdout.strip()
+        if r.returncode != 0:
+            return False, ""
+        return True, r.stdout.strip()
     except Exception:
-        return datetime.now(timezone.utc).isoformat()
+        return False, ""
+
+def _proc_created_at(pid: int) -> str:
+    ok, val = _inspect_pid_created_at(pid)
+    if ok and val:
+        return val
+    return datetime.now(timezone.utc).isoformat()
+
+def _is_lock_stale(lock_path: pathlib.Path) -> bool:
+    try:
+        saved = json.loads(lock_path.read_text(encoding="utf-8"))
+    except Exception:
+        return False
+    pid = saved.get("pid")
+    if not isinstance(pid, int) or isinstance(pid, bool) or pid <= 0:
+        return False
+    ok, cur_created = _inspect_pid_created_at(pid)
+    if not ok:
+        return False
+    if not cur_created:
+        return True
+    saved_created = saved.get("created_at") or saved.get("createdAt")
+    if not saved_created:
+        return False
+    return str(cur_created) != str(saved_created)
+
+def _acquire_active_lock(lock_path: pathlib.Path, lock_meta: dict) -> bool:
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = (json.dumps(lock_meta, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    for _ in range(2):
+        try:
+            fd = os.open(str(lock_path), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            if _is_lock_stale(lock_path):
+                try:
+                    lock_path.unlink(missing_ok=True)
+                except OSError:
+                    return False
+                continue
+            return False
+        try:
+            os.write(fd, payload)
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        return True
+    return False
 
 def _sha(p: pathlib.Path) -> str:
     with p.open("rb") as fh:
@@ -997,7 +1224,8 @@ def main() -> int:
         "job_id": job_id, "pid": os.getpid(),
         "created_at": _proc_created_at(os.getpid()), "executable": sys.executable,
     }
-    _atomic_json(lock_path, lock_meta)
+    if not _acquire_active_lock(lock_path, lock_meta):
+        return 78
     t0 = time.perf_counter()
     try:
         bm = json.loads((job_dir / "bundle_manifest.sha256.json").read_text(encoding="utf-8"))
@@ -1022,7 +1250,33 @@ def main() -> int:
         env["OMP_NUM_THREADS"] = threads_s
         env["NAQEX_RESULT_DIR"] = str(res_dir)
         env["NAQEX_JOB_ID"] = job_id
+        env["NAQEX_WORKER_ROLE"] = "X13_WORKER"
+        env["NAQEX_WORKSPACE_ROOT"] = str(base)
         env["PYTHONUTF8"] = "1"
+        ai_engines_dir = base / "tooling" / "ai-engines"
+        py_parts = [str(ai_engines_dir), str(src_dir)]
+        if env.get("PYTHONPATH"):
+            py_parts.append(env["PYTHONPATH"])
+        env["PYTHONPATH"] = os.pathsep.join(py_parts)
+        child_args = list(extra_args)
+        sb_arc = bm.get("shard_batch_arc")
+        if isinstance(sb_arc, str) and sb_arc:
+            sb_path = (src_dir / sb_arc).resolve()
+            sb_path.relative_to(src_dir.resolve())
+            env["NAQEX_SHARD_BATCH_FILE"] = str(sb_path)
+            try:
+                sb_obj = json.loads(sb_path.read_text(encoding="utf-8"))
+                idxs = sb_obj.get("shard_indices")
+                if isinstance(idxs, list):
+                    env["NAQEX_SHARD_INDICES"] = ",".join(str(int(i)) for i in idxs)
+                    env["NAQEX_SHARD_COUNT"] = str(len(idxs))
+                if isinstance(sb_obj.get("total_shards"), int):
+                    env["NAQEX_TOTAL_SHARDS"] = str(int(sb_obj["total_shards"]))
+            except Exception:
+                pass
+            sb_flag = bm.get("shard_arg_flag")
+            if isinstance(sb_flag, str) and _SAFE_FLAG_RE.fullmatch(sb_flag):
+                child_args.extend([sb_flag, str(sb_path)])
         stdout_p = res_dir / "stdout.log"
         stderr_p = res_dir / "stderr.log"
         with (
@@ -1030,7 +1284,7 @@ def main() -> int:
             stderr_p.open("w", encoding="utf-8", newline="\n") as err_fh,
         ):
             proc = subprocess.Popen(
-                [sys.executable, str(entry), *extra_args],
+                [sys.executable, str(entry), *child_args],
                 cwd=str(src_dir), env=env, stdout=out_fh, stderr=err_fh,
             )
             off_ac_since = None
@@ -1079,6 +1333,7 @@ def _run_local_dev_job(
     cores: int,
     priority: str,
     extra_args: list[str] | None = None,
+    extra_env: dict[str, str] | None = None,
     timeout: int = 3600,
 ) -> dict[str, Any]:
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -1087,7 +1342,15 @@ def _run_local_dev_job(
     env["OMP_NUM_THREADS"] = str(max(1, cores))
     env["NAQEX_RESULT_DIR"] = str(dest_dir)
     env["NAQEX_JOB_ID"] = job_id
+    env["NAQEX_WORKER_ROLE"] = "DEV_PC"
+    env["NAQEX_WORKSPACE_ROOT"] = str(ROOT)
     env["PYTHONUTF8"] = "1"
+    py_parts = [str(AI_ENGINES_DIR)]
+    if env.get("PYTHONPATH"):
+        py_parts.append(env["PYTHONPATH"])
+    env["PYTHONPATH"] = os.pathsep.join(py_parts)
+    if extra_env:
+        env.update(extra_env)
     flags = 0
     if os.name == "nt":
         flags = _BELOW_NORMAL_PRIORITY_CLASS if priority == "BELOW_NORMAL" else _NORMAL_PRIORITY_CLASS
@@ -1122,7 +1385,13 @@ def _run_local_dev_job(
         raise RuntimeError(f"Local job {job_id} failed (rc={proc.returncode}): {(proc.stderr or '').strip()[:300]}")
     write_result_manifest(dest_dir, job_id=job_id, host_label="DEV_PC")
     verify = verify_result_manifest(dest_dir)
-    return {"executed_on": "DEV_PC", "returncode": proc.returncode, "verify": verify}
+    return {
+        "executed_on": "DEV_PC",
+        "returncode": proc.returncode,
+        "cores": cores,
+        "priority": priority,
+        "verify": verify,
+    }
 
 
 def pull_results(
@@ -1192,6 +1461,142 @@ def pull_results(
     }
 
 
+def _fallback_dev_policy(dev_pc: dict[str, Any]) -> tuple[int, str]:
+    """Compute fail-closed local `<DEV_PC>` core cap & OS priority matching Mode A / Mode B."""
+    mode = dev_pc.get("mode") or classify_dev_pc_mode(dev_pc)
+    gpu_val = _finite_float(dev_pc.get("gpu_util_pct"))
+    gaming = (gpu_val is None or gpu_val > 25.0) or bool(dev_pc.get("fullscreen_busy", False))
+    if mode == "MODE_A_OWNER_ACTIVE":
+        return (2 if gaming else 3), "BELOW_NORMAL"
+    return 5, "NORMAL"
+
+
+def _execute_x13_bundle(
+    job_id: str,
+    entry: Path,
+    out_dir: Path,
+    *,
+    alias: str,
+    x13_threads: int,
+    safe_args: list[str],
+    extra_files: tuple[Path, ...] = (),
+    shard_batch_arc: str | None = None,
+    shard_arg_flag: str | None = None,
+    timeout: int = 3600,
+    lease_max_wait_sec: float = 0.0,
+    lease_base_backoff_sec: float = 2.0,
+    lease_max_backoff_sec: float = 15.0,
+    lease_sleep_fn: Callable[[float], None] = time.sleep,
+    lan_only: bool = False,
+    strict_ntp: bool = False,
+    allow_ntp_drift: bool = False,
+    ram_gb: float = 4.0,
+) -> dict[str, Any]:
+    """Upload immutable Dev-only bundle and execute 1 atomic job on `<X13_WORKER>` with rc=78 lock retry."""
+    jid = _validate_job_id(job_id)
+    safe_alias = _validate_host(alias)
+    with tempfile.TemporaryDirectory(prefix=f"bundle_{jid}_") as td:
+        bdir = Path(td)
+        bundle = build_job_bundle(
+            jid,
+            entry,
+            bdir,
+            extra_files=extra_files,
+            shard_batch_arc=shard_batch_arc,
+            shard_arg_flag=shard_arg_flag,
+        )
+        runner_local = bdir / "run_job.py"
+        runner_local.write_text(_REMOTE_RUNNER_PY, encoding="utf-8", newline="\n")
+
+        mk = subprocess.run(
+            [
+                "ssh",
+                "-o",
+                "ConnectTimeout=4",
+                "-o",
+                "BatchMode=yes",
+                safe_alias,
+                f'if not exist "{X13_BASE_DIR}\\jobs\\{jid}" mkdir "{X13_BASE_DIR}\\jobs\\{jid}" '
+                f'& if not exist "{X13_BASE_DIR}\\locks" mkdir "{X13_BASE_DIR}\\locks" '
+                f'& if not exist "{X13_BASE_DIR}\\results\\{jid}" mkdir "{X13_BASE_DIR}\\results\\{jid}"',
+            ],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        if mk.returncode != 0:
+            raise RuntimeError(f"x13_mkdir_failed(rc={mk.returncode})")
+
+        for local_p in (bundle["tar_path"], bundle["manifest_path"], runner_local):
+            cp = subprocess.run(
+                [
+                    "scp",
+                    "-o",
+                    "ConnectTimeout=6",
+                    "-o",
+                    "BatchMode=yes",
+                    str(local_p),
+                    f"{safe_alias}:C:/NaqexResearch/jobs/{jid}/{local_p.name}",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            if cp.returncode != 0:
+                raise RuntimeError(f"x13_scp_upload_failed({local_p.name},rc={cp.returncode})")
+
+        quoted_extra = " ".join(f'"{a}"' for a in safe_args)
+        run_cmd = (
+            f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\jobs\\{jid}\\run_job.py" '
+            f'"{jid}" "{int(x13_threads)}" {quoted_extra}'
+        ).strip()
+
+        lock_retries = 0
+        remaining_lease = max(0.0, float(lease_max_wait_sec))
+        while True:
+            run_p = subprocess.run(
+                ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", safe_alias, run_cmd],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
+            if run_p.returncode == _X13_LOCK_BUSY_RC:
+                if remaining_lease > 0.0 and lock_retries < 5:
+                    lock_retries += 1
+                    lease = wait_for_x13_lease(
+                        lan_only=lan_only,
+                        strict_ntp=strict_ntp,
+                        allow_ntp_drift=allow_ntp_drift,
+                        min_ram_gb=ram_gb,
+                        max_wait_sec=remaining_lease,
+                        base_backoff_sec=lease_base_backoff_sec,
+                        max_backoff_sec=lease_max_backoff_sec,
+                        sleep_fn=lease_sleep_fn,
+                    )
+                    remaining_lease = max(0.0, remaining_lease - float(lease["waited_sec"]))
+                    if lease["acquired"]:
+                        continue
+                    raise RuntimeError(f"x13_busy_active_job_lock_timeout({','.join(lease['reasons'])})")
+                raise RuntimeError("x13_busy_active_job_lock")
+            if run_p.returncode == _X13_AC_UNPLUGGED_RC:
+                raise RuntimeError("x13_ac_unplugged_during_run")
+            if run_p.returncode != 0:
+                raise RuntimeError(f"x13_remote_exec_failed(rc={run_p.returncode}): {run_p.stderr.strip()[:200]}")
+            break
+
+        pulled = pull_results(jid, out_dir, host=safe_alias, cleanup_remote=False)
+        if not pulled["ok"]:
+            raise RuntimeError(f"x13_pull_or_sha_failed({pulled['status']})")
+        return {
+            "executed_on": "X13_WORKER",
+            "ssh_alias": safe_alias,
+            "x13_threads": int(x13_threads),
+            "lock_retries": lock_retries,
+            "pull": pulled,
+            "verify": pulled["verify"],
+        }
+
+
 def dispatch_job(
     job_id: str,
     entry_script: Path,
@@ -1207,10 +1612,15 @@ def dispatch_job(
     strict_ntp: bool = False,
     allow_ntp_drift: bool = False,
     force_x13: bool = False,
+    allow_mode_a_assist: bool = False,
     lan_only: bool = False,
     dry_run: bool = False,
     dest_dir: Path | None = None,
     extra_args: list[str] | None = None,
+    lease_max_wait_sec: float = 0.0,
+    lease_base_backoff_sec: float = 2.0,
+    lease_max_backoff_sec: float = 15.0,
+    lease_sleep_fn: Callable[[float], None] = time.sleep,
 ) -> dict[str, Any]:
     """Probe, route, and execute a Dev-only job with immutable bundle + SHA-256 verification + silent fallback."""
     jid = _validate_job_id(job_id)
@@ -1220,7 +1630,29 @@ def dispatch_job(
         assert_dev_only_path(entry)
 
     dev_pc = probe_dev_pc()
-    x13 = probe_x13_worker(lan_only=lan_only, strict_ntp=strict_ntp, allow_ntp_drift=allow_ntp_drift)
+    lease_info: dict[str, Any] | None = None
+    if (
+        not dry_run
+        and lease_max_wait_sec > 0.0
+        and not touches_holdout
+        and not touches_vps
+        and not requires_admin
+        and not needs_gpu
+    ):
+        lease_info = wait_for_x13_lease(
+            lan_only=lan_only,
+            strict_ntp=strict_ntp,
+            allow_ntp_drift=allow_ntp_drift,
+            min_ram_gb=ram_gb,
+            max_wait_sec=lease_max_wait_sec,
+            base_backoff_sec=lease_base_backoff_sec,
+            max_backoff_sec=lease_max_backoff_sec,
+            sleep_fn=lease_sleep_fn,
+        )
+        x13 = lease_info["x13_worker"]
+    else:
+        x13 = probe_x13_worker(lan_only=lan_only, strict_ntp=strict_ntp, allow_ntp_drift=allow_ntp_drift)
+
     decision = decide_route(
         dev_pc,
         x13,
@@ -1235,6 +1667,7 @@ def dispatch_job(
         strict_ntp=strict_ntp,
         allow_ntp_drift=allow_ntp_drift,
         force_x13=force_x13,
+        allow_mode_a_assist=allow_mode_a_assist,
     )
     out_dir = dest_dir or (ROOT / ".tmp" / "compute_results" / jid)
     receipt: dict[str, Any] = {
@@ -1248,6 +1681,13 @@ def dispatch_job(
         "decision": decision,
         "dest_dir": str(out_dir),
     }
+    if lease_info is not None:
+        receipt["lease"] = {
+            "acquired": lease_info["acquired"],
+            "status": lease_info["status"],
+            "attempts": lease_info["attempts"],
+            "waited_sec": lease_info["waited_sec"],
+        }
 
     blocked = (
         decision["target"] == "BLOCKED_NEEDS_APPROVAL"
@@ -1262,60 +1702,31 @@ def dispatch_job(
     if decision["target"] == "X13_ONLY":
         alias = str(x13["ssh_alias"])
         try:
-            with tempfile.TemporaryDirectory(prefix=f"bundle_{jid}_") as td:
-                bdir = Path(td)
-                bundle = build_job_bundle(jid, entry, bdir)
-                runner_local = bdir / "run_job.py"
-                runner_local.write_text(_REMOTE_RUNNER_PY, encoding="utf-8", newline="\n")
-
-                mk = subprocess.run(
-                    ["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias,
-                     f'if not exist "{X13_BASE_DIR}\\jobs\\{jid}" mkdir "{X13_BASE_DIR}\\jobs\\{jid}" '
-                     f'& if not exist "{X13_BASE_DIR}\\locks" mkdir "{X13_BASE_DIR}\\locks" '
-                     f'& if not exist "{X13_BASE_DIR}\\results\\{jid}" mkdir "{X13_BASE_DIR}\\results\\{jid}"'],
-                    capture_output=True, text=True, timeout=15,
-                )
-                if mk.returncode != 0:
-                    raise RuntimeError(f"x13_mkdir_failed(rc={mk.returncode})")
-
-                for local_p in (bundle["tar_path"], bundle["manifest_path"], runner_local):
-                    cp = subprocess.run(
-                        ["scp", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes",
-                         str(local_p), f"{alias}:C:/NaqexResearch/jobs/{jid}/{local_p.name}"],
-                        capture_output=True, text=True, timeout=60,
-                    )
-                    if cp.returncode != 0:
-                        raise RuntimeError(f"x13_scp_upload_failed({local_p.name},rc={cp.returncode})")
-
-                quoted_extra = " ".join(f'"{a}"' for a in safe_args)
-                run_cmd = (
-                    f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\jobs\\{jid}\\run_job.py" '
-                    f'"{jid}" "{int(decision["x13_threads"])}" {quoted_extra}'
-                ).strip()
-                run_p = subprocess.run(
-                    ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", alias, run_cmd],
-                    capture_output=True, text=True, timeout=3600,
-                )
-                if run_p.returncode == 77:
-                    raise RuntimeError("x13_ac_unplugged_during_run")
-                if run_p.returncode != 0:
-                    raise RuntimeError(f"x13_remote_exec_failed(rc={run_p.returncode}): {run_p.stderr.strip()[:200]}")
-
-                pulled = pull_results(jid, out_dir, host=alias, cleanup_remote=False)
-                if not pulled["ok"]:
-                    raise RuntimeError(f"x13_pull_or_sha_failed({pulled['status']})")
-                receipt["ok"] = True
-                receipt["execution"] = {"executed_on": "X13_WORKER", "ssh_alias": alias, "pull": pulled}
-                return receipt
+            x13_exec = _execute_x13_bundle(
+                jid,
+                entry,
+                out_dir,
+                alias=alias,
+                x13_threads=int(decision["x13_threads"]),
+                safe_args=safe_args,
+                lease_max_wait_sec=lease_max_wait_sec,
+                lease_base_backoff_sec=lease_base_backoff_sec,
+                lease_max_backoff_sec=lease_max_backoff_sec,
+                lease_sleep_fn=lease_sleep_fn,
+                lan_only=lan_only,
+                strict_ntp=strict_ntp,
+                allow_ntp_drift=allow_ntp_drift,
+                ram_gb=ram_gb,
+            )
+            receipt["ok"] = True
+            receipt["execution"] = x13_exec
+            return receipt
         except Exception as exc:
             # Silent automatic fallback to <DEV_PC> if X13 drops or loses AC power mid-flight
             fb_reason = f"x13_runtime_fallback: {exc}"
             decision["fallback_used"] = True
             decision["fallback_reason"] = fb_reason
-            mode = dev_pc["mode"]
-            gaming = dev_pc["gpu_util_pct"] > 25 or dev_pc["fullscreen_busy"]
-            cores = 2 if gaming else (3 if mode == "MODE_A_OWNER_ACTIVE" else 5)
-            prio = "BELOW_NORMAL" if mode == "MODE_A_OWNER_ACTIVE" else "NORMAL"
+            cores, prio = _fallback_dev_policy(dev_pc)
             local_res = _run_local_dev_job(jid, entry, out_dir, cores=cores, priority=prio, extra_args=safe_args)
             receipt["ok"] = bool(local_res["verify"]["ok"])
             receipt["execution"] = local_res
@@ -1334,63 +1745,805 @@ def dispatch_job(
     return receipt
 
 
+def _normalize_shard_specs(shard_specs: Sequence[Any] | int) -> list[Any]:
+    if isinstance(shard_specs, bool):
+        raise ValueError("shard_specs must be a positive int or non-empty sequence, not bool")
+    if isinstance(shard_specs, int):
+        if shard_specs < 1:
+            raise ValueError(f"shard_specs count must be >= 1, got {shard_specs}")
+        return [{"shard_id": i, "index": i} for i in range(shard_specs)]
+    items = list(shard_specs)
+    if not items:
+        raise ValueError("shard_specs sequence must be non-empty")
+    return items
+
+
+def _default_merge_shard_payloads(worker_records: list[dict[str, Any]]) -> dict[str, Any]:
+    merged_shards: list[Any] = []
+    worker_summaries: list[dict[str, Any]] = []
+    for rec in worker_records:
+        payload = rec["payload"]
+        worker_summaries.append(
+            {
+                "worker": rec["worker"],
+                "executed_on": rec["executed_on"],
+                "shard_indices": rec["shard_indices"],
+            }
+        )
+        if isinstance(payload, dict) and isinstance(payload.get("shards"), list):
+            merged_shards.extend(payload["shards"])
+        elif isinstance(payload, dict) and isinstance(payload.get("results"), list):
+            merged_shards.extend(payload["results"])
+        elif isinstance(payload, list):
+            merged_shards.extend(payload)
+        else:
+            merged_shards.append(payload)
+
+    if merged_shards and all(
+        isinstance(item, dict) and ("shard_id" in item or "index" in item) for item in merged_shards
+    ):
+        merged_shards.sort(key=lambda item: (item.get("index", item.get("shard_id", 0)), str(item.get("shard_id", ""))))
+
+    return {
+        "schema": "naqex-merged-shard-results-v1",
+        "total_merged_items": len(merged_shards),
+        "workers": worker_summaries,
+        "shards": merged_shards,
+    }
+
+
+def dispatch_parallel_shards(
+    job_id: str,
+    entry_script: Path,
+    shard_specs: Sequence[Any] | int,
+    *,
+    est_minutes: float = 20.0,
+    ram_gb: float = 4.0,
+    touches_holdout: bool = False,
+    touches_vps: bool = False,
+    requires_admin: bool = False,
+    needs_gpu: bool = False,
+    strict_ntp: bool = False,
+    allow_ntp_drift: bool = False,
+    allow_mode_a_assist: bool = False,
+    lan_only: bool = False,
+    dry_run: bool = False,
+    dest_dir: Path | None = None,
+    extra_files: tuple[Path, ...] = (),
+    extra_args: list[str] | None = None,
+    shard_arg_flag: str | None = None,
+    lease_max_wait_sec: float = 60.0,
+    lease_base_backoff_sec: float = 2.0,
+    lease_max_backoff_sec: float = 15.0,
+    lease_sleep_fn: Callable[[float], None] = time.sleep,
+    result_filename: str = "shard_results.json",
+    merge_fn: Callable[[list[dict[str, Any]]], dict[str, Any]] | None = None,
+    timeout: int = 3600,
+) -> dict[str, Any]:
+    """Mode-aware parallel shard dispatcher (`PARALLEL_60_40`, `PARALLEL_20_80_MODE_A`, `X13_ONLY`, fallback).
+
+    Runs `<X13_WORKER>`'s assigned shard slice as ONE atomic batched job (respecting the single
+    `active_job.lock` via the Safe Lease Queue) concurrently with `<DEV_PC>`'s local slice,
+    verifies every worker's `manifest.sha256.json`, merges results deterministically, and
+    silently falls back to `<DEV_PC>` (strictly obeying Mode A/B core caps & priority) if X13
+    is unreachable, ineligible, or drops mid-flight.
+    """
+    jid = _validate_job_id(job_id)
+    safe_args = _validate_extra_args(extra_args)
+    if shard_arg_flag is not None and not _SAFE_FLAG_RE.fullmatch(shard_arg_flag):
+        raise ValueError(f"Unsafe shard_arg_flag rejected: {shard_arg_flag!r}")
+    shards_list = _normalize_shard_specs(shard_specs)
+    n_total = len(shards_list)
+
+    entry = entry_script.resolve()
+    if not touches_holdout:
+        assert_dev_only_path(entry)
+        for ef in extra_files:
+            assert_dev_only_path(ef.resolve())
+
+    dev_pc = probe_dev_pc()
+    may_use_x13 = (
+        not touches_holdout
+        and not touches_vps
+        and not requires_admin
+        and not needs_gpu
+        and est_minutes >= 10.0
+        and est_minutes <= 60.0
+    )
+    lease_info: dict[str, Any] | None = None
+    if not dry_run and may_use_x13 and lease_max_wait_sec > 0.0:
+        lease_info = wait_for_x13_lease(
+            lan_only=lan_only,
+            strict_ntp=strict_ntp,
+            allow_ntp_drift=allow_ntp_drift,
+            min_ram_gb=ram_gb,
+            max_wait_sec=lease_max_wait_sec,
+            base_backoff_sec=lease_base_backoff_sec,
+            max_backoff_sec=lease_max_backoff_sec,
+            sleep_fn=lease_sleep_fn,
+        )
+        x13 = lease_info["x13_worker"]
+    else:
+        x13 = probe_x13_worker(lan_only=lan_only, strict_ntp=strict_ntp, allow_ntp_drift=allow_ntp_drift)
+
+    decision = decide_route(
+        dev_pc,
+        x13,
+        est_minutes=est_minutes,
+        ram_gb=ram_gb,
+        shardable=True,
+        shards=max(2, n_total),
+        touches_holdout=touches_holdout,
+        touches_vps=touches_vps,
+        requires_admin=requires_admin,
+        needs_gpu=needs_gpu,
+        strict_ntp=strict_ntp,
+        allow_ntp_drift=allow_ntp_drift,
+        allow_mode_a_assist=allow_mode_a_assist,
+    )
+
+    target = str(decision["target"])
+    dev_indices: list[int] = []
+    x13_indices: list[int] = []
+    if target in ("PARALLEL_60_40", "PARALLEL_20_80_MODE_A"):
+        if n_total == 1:
+            if dev_pc.get("mode") == "MODE_A_OWNER_ACTIVE" and not allow_mode_a_assist:
+                x13_indices = [0]
+            else:
+                dev_indices = [0]
+        else:
+            n_dev = int(decision["micro_shards"]["dev_pc"])
+            n_dev = max(1, min(n_total - 1, n_dev))
+            dev_indices = list(range(0, n_dev))
+            x13_indices = list(range(n_dev, n_total))
+    elif target == "X13_ONLY":
+        x13_indices = list(range(0, n_total))
+    elif target == "DEV_PC_ONLY":
+        dev_indices = list(range(0, n_total))
+
+    out_dir = dest_dir or (ROOT / ".tmp" / "compute_results" / jid)
+    shard_plan: dict[str, Any] = {
+        "total_shards": n_total,
+        "dev_pc_indices": dev_indices,
+        "x13_worker_indices": x13_indices,
+        "x13_atomic_batch": bool(x13_indices),
+    }
+    receipt: dict[str, Any] = {
+        "schema": "naqex-parallel-dispatch-v1",
+        "job_id": jid,
+        "checked_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "order_send_count": ORDER_SEND_COUNT,
+        "dry_run": dry_run,
+        "dev_pc": dev_pc,
+        "x13_worker": x13,
+        "decision": decision,
+        "shard_plan": shard_plan,
+        "dest_dir": str(out_dir),
+    }
+    if lease_info is not None:
+        receipt["lease"] = {
+            "acquired": lease_info["acquired"],
+            "status": lease_info["status"],
+            "attempts": lease_info["attempts"],
+            "waited_sec": lease_info["waited_sec"],
+            "sleep_history_sec": lease_info["sleep_history_sec"],
+        }
+
+    blocked = target == "BLOCKED_NEEDS_APPROVAL" or bool(decision.get("ask_owner_required"))
+    if dry_run or blocked:
+        receipt["ok"] = not blocked
+        if blocked:
+            receipt["blocked_reason"] = "TIER_3_ASK_OWNER_APPROVAL_REQUIRED"
+        return receipt
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    workers_root = out_dir / "workers"
+    workers_root.mkdir(parents=True, exist_ok=True)
+
+    def _write_batch_file(path: Path, worker_role: str, batch_job_id: str, idxs: list[int]) -> Path:
+        payload = {
+            "schema": "naqex-shard-batch-v1",
+            "job_id": jid,
+            "batch_job_id": batch_job_id,
+            "worker": worker_role,
+            "total_shards": n_total,
+            "shard_indices": idxs,
+            "shards": [shards_list[i] for i in idxs],
+        }
+        _atomic_write_json(path, payload)
+        return path
+
+    def _run_dev_slice(slice_name: str, idxs: list[int], cores: int, prio: str) -> dict[str, Any]:
+        sub_jid = f"{jid}_{slice_name}"[:64]
+        sub_dir = workers_root / slice_name
+        sub_dir.mkdir(parents=True, exist_ok=True)
+        batch_path = _write_batch_file(sub_dir / "shard_batch.json", "DEV_PC", sub_jid, idxs)
+        local_args = list(safe_args)
+        if shard_arg_flag is not None:
+            local_args.extend([shard_arg_flag, str(batch_path)])
+        local_env = {
+            "NAQEX_SHARD_BATCH_FILE": str(batch_path),
+            "NAQEX_SHARD_INDICES": ",".join(str(i) for i in idxs),
+            "NAQEX_SHARD_COUNT": str(len(idxs)),
+            "NAQEX_TOTAL_SHARDS": str(n_total),
+        }
+        res = _run_local_dev_job(
+            sub_jid,
+            entry,
+            sub_dir,
+            cores=cores,
+            priority=prio,
+            extra_args=local_args,
+            extra_env=local_env,
+            timeout=timeout,
+        )
+        return {
+            "worker": slice_name,
+            "executed_on": "DEV_PC",
+            "shard_indices": idxs,
+            "result_dir": sub_dir,
+            "execution": res,
+            "verify": res["verify"],
+        }
+
+    def _run_x13_slice(idxs: list[int]) -> dict[str, Any]:
+        sub_jid = f"{jid}_x13"[:64]
+        sub_dir = workers_root / "x13_worker"
+        sub_dir.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix=f"x13_batch_{sub_jid}_") as td:
+            batch_path = _write_batch_file(Path(td) / "shard_batch.json", "X13_WORKER", sub_jid, idxs)
+            res = _execute_x13_bundle(
+                sub_jid,
+                entry,
+                sub_dir,
+                alias=str(x13["ssh_alias"]),
+                x13_threads=int(decision["x13_threads"]),
+                safe_args=safe_args,
+                extra_files=(*extra_files, batch_path),
+                shard_batch_arc="shard_batch.json",
+                shard_arg_flag=shard_arg_flag,
+                timeout=timeout,
+                lease_max_wait_sec=lease_max_wait_sec,
+                lease_base_backoff_sec=lease_base_backoff_sec,
+                lease_max_backoff_sec=lease_max_backoff_sec,
+                lease_sleep_fn=lease_sleep_fn,
+                lan_only=lan_only,
+                strict_ntp=strict_ntp,
+                allow_ntp_drift=allow_ntp_drift,
+                ram_gb=ram_gb,
+            )
+        return {
+            "worker": "x13_worker",
+            "executed_on": "X13_WORKER",
+            "shard_indices": idxs,
+            "result_dir": sub_dir,
+            "execution": res,
+            "verify": res["verify"],
+        }
+
+    completed_workers: list[dict[str, Any]] = []
+    x13_error: Exception | None = None
+    dev_cores = max(1, int(decision["dev_pc_cores"])) if dev_indices else 0
+    dev_prio = str(decision["dev_pc_priority"])
+
+    if dev_indices and x13_indices:
+        # Execute PC Dev local slice and X13 1 atomic batched job concurrently.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            f_dev = pool.submit(_run_dev_slice, "dev_pc", dev_indices, dev_cores, dev_prio)
+            f_x13 = pool.submit(_run_x13_slice, x13_indices)
+            # Always await PC Dev slice first so any X13 fallback never oversubscribes local cores.
+            dev_worker = f_dev.result()
+            completed_workers.append(dev_worker)
+            try:
+                x13_worker_res = f_x13.result()
+                completed_workers.append(x13_worker_res)
+            except Exception as exc:
+                x13_error = exc
+    elif x13_indices:
+        try:
+            completed_workers.append(_run_x13_slice(x13_indices))
+        except Exception as exc:
+            x13_error = exc
+    elif dev_indices:
+        completed_workers.append(_run_dev_slice("dev_pc", dev_indices, dev_cores, dev_prio))
+
+    if x13_error is not None:
+        # Silent automatic fallback to <DEV_PC> strictly obeying Mode A/B core caps & priority.
+        fb_reason = f"x13_runtime_fallback: {x13_error}"
+        decision["fallback_used"] = True
+        decision["fallback_reason"] = fb_reason
+        fb_cores, fb_prio = _fallback_dev_policy(dev_pc)
+        completed_workers.append(_run_dev_slice("x13_fallback_dev_pc", x13_indices, fb_cores, fb_prio))
+
+    # Fail-closed SHA-256 verification of EVERY worker manifest before merging
+    worker_payloads: list[dict[str, Any]] = []
+    worker_receipts: list[dict[str, Any]] = []
+    all_workers_ok = True
+    for w in completed_workers:
+        v = verify_result_manifest(w["result_dir"])
+        if not v["ok"]:
+            all_workers_ok = False
+        worker_receipts.append(
+            {
+                "worker": w["worker"],
+                "executed_on": w["executed_on"],
+                "shard_indices": w["shard_indices"],
+                "result_dir": str(w["result_dir"]),
+                "verify": v,
+            }
+        )
+        res_file = w["result_dir"] / result_filename
+        if v["ok"] and res_file.is_file():
+            worker_payloads.append(
+                {
+                    "worker": w["worker"],
+                    "executed_on": w["executed_on"],
+                    "shard_indices": w["shard_indices"],
+                    "payload": json.loads(res_file.read_text(encoding="utf-8")),
+                }
+            )
+
+    if not all_workers_ok:
+        receipt["ok"] = False
+        receipt["status"] = "FAILED_INTEGRITY"
+        receipt["workers"] = worker_receipts
+        return receipt
+
+    merged_payload: dict[str, Any] | None = None
+    if worker_payloads:
+        merged_payload = (
+            merge_fn(worker_payloads)
+            if merge_fn is not None
+            else _default_merge_shard_payloads(worker_payloads)
+        )
+        _atomic_write_json(out_dir / "merged_results.json", merged_payload)
+
+    hosts_used = sorted({w["executed_on"] for w in completed_workers})
+    host_label = "+".join(hosts_used) if hosts_used else "DEV_PC"
+    summary_doc: dict[str, Any] = {
+        "schema": "naqex-parallel-summary-v1",
+        "job_id": jid,
+        "target": target,
+        "dev_pc_mode": dev_pc.get("mode"),
+        "fallback_used": bool(decision.get("fallback_used")),
+        "fallback_reason": decision.get("fallback_reason"),
+        "hosts_executed": hosts_used,
+        "shard_plan": shard_plan,
+        "workers": worker_receipts,
+        "merged_results_present": merged_payload is not None,
+        "order_send_count": ORDER_SEND_COUNT,
+        "completed_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    _atomic_write_json(out_dir / "parallel_summary.json", summary_doc)
+    write_result_manifest(out_dir, job_id=jid, host_label=host_label)
+    merged_verify = verify_result_manifest(out_dir)
+
+    receipt["ok"] = bool(merged_verify["ok"])
+    receipt["status"] = merged_verify["status"]
+    receipt["hosts_executed"] = hosts_used
+    receipt["workers"] = worker_receipts
+    receipt["merged_verify"] = merged_verify
+    if merged_payload is not None:
+        receipt["merged_results_path"] = str(out_dir / "merged_results.json")
+    return receipt
+
+
+# ==============================================================================
+# 4B. ATOMIC DEV-ONLY CACHE SYNC (P0-2)
+# ==============================================================================
+
+_REMOTE_CACHE_UNPACK_PY = r'''"""Atomic fail-closed Dev-only cache unpacker on <X13_WORKER> (0 Holdout/secrets)."""
+from __future__ import annotations
+import hashlib, json, os, pathlib, shutil, sys, tarfile
+
+_FORBIDDEN_TOKENS = (
+    "holdout",
+    "2025",
+    "2026",
+    "native_ftmo_holdout_lock",
+    "accounts.dat",
+    ".ssh",
+    "id_ed25519",
+    "private_vault",
+)
+
+def _sha(p: pathlib.Path) -> str:
+    with p.open("rb") as fh:
+        return hashlib.file_digest(fh, "sha256").hexdigest()
+
+def main() -> int:
+    base = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(r"C:\NaqexResearch")
+    staging = base / "cache_staging"
+    tar_p = staging / "dev_cache_bundle.tar.gz"
+    man_p = staging / "dev_cache_manifest.sha256.json"
+    manifest = json.loads(man_p.read_text(encoding="utf-8"))
+    if _sha(tar_p) != manifest["archive_sha256"]:
+        raise RuntimeError("dev_cache_bundle.tar.gz SHA-256 mismatch")
+
+    extract_dir = staging / "extract"
+    if extract_dir.exists():
+        shutil.rmtree(extract_dir)
+    extract_dir.mkdir(parents=True, exist_ok=True)
+
+    with tarfile.open(tar_p, "r:gz") as tf:
+        members = tf.getmembers()
+        for m in members:
+            norm = m.name.replace("\\", "/")
+            if norm.startswith("/") or ".." in pathlib.PurePosixPath(norm).parts or "\\" in m.name:
+                raise RuntimeError(f"Unsafe tar member path: {m.name!r}")
+            if not (m.isfile() or m.isdir()):
+                raise RuntimeError(f"Unsupported non-regular tar member: {m.name!r}")
+            low = norm.lower()
+            for tok in _FORBIDDEN_TOKENS:
+                if tok in low:
+                    raise RuntimeError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION in tar member: {m.name!r}")
+            dest = (extract_dir / norm).resolve()
+            dest.relative_to(extract_dir.resolve())
+        if sys.version_info >= (3, 12):
+            tf.extractall(extract_dir, filter="data")
+        else:
+            tf.extractall(extract_dir)
+
+    expected_files = manifest["files"]
+    verified = 0
+    for rel, meta in sorted(expected_files.items()):
+        src = (extract_dir / rel).resolve()
+        src.relative_to(extract_dir.resolve())
+        if not src.is_file():
+            raise RuntimeError(f"Missing extracted cache file: {rel}")
+        if _sha(src) != meta["sha256"]:
+            raise RuntimeError(f"SHA-256 mismatch on extracted cache file: {rel}")
+        dst = (base / rel).resolve()
+        dst.relative_to(base.resolve())
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        os.replace(src, dst)
+        verified += 1
+
+    tapes_v2_verified = False
+    v2_json_rel = ".runtime/hot-m1-cache/_derived/frozen_9e_tapes_v2.json"
+    v2_npz_rel = ".runtime/hot-m1-cache/_derived/frozen_9e_tapes_v2.npz"
+    if v2_json_rel in expected_files and v2_npz_rel in expected_files:
+        j_ok = _sha(base / v2_json_rel) == expected_files[v2_json_rel]["sha256"]
+        n_ok = _sha(base / v2_npz_rel) == expected_files[v2_npz_rel]["sha256"]
+        if not (j_ok and n_ok):
+            raise RuntimeError("frozen_9e_tapes_v2 post-install SHA-256 verification failed")
+        tapes_v2_verified = True
+
+    shutil.rmtree(extract_dir, ignore_errors=True)
+    tar_p.unlink(missing_ok=True)
+    print(json.dumps({
+        "ok": True,
+        "files_verified": verified,
+        "forbidden_members": 0,
+        "frozen_9e_tapes_v2_verified": tapes_v2_verified,
+    }))
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+'''
+
+
+def verify_frozen_9e_tapes_v2(derived_dir: Path) -> dict[str, Any]:
+    """Fail-closed integrity & pre-2025 air-gap verifier for `frozen_9e_tapes_v2.{json,npz}`."""
+    json_path = derived_dir / "frozen_9e_tapes_v2.json"
+    npz_path = derived_dir / "frozen_9e_tapes_v2.npz"
+    if not json_path.is_file() and not npz_path.is_file():
+        return {"present": False, "verified": False, "errors": ["frozen_9e_tapes_v2_not_found"]}
+
+    errors: list[str] = []
+    if not json_path.is_file():
+        errors.append("missing frozen_9e_tapes_v2.json")
+    if not npz_path.is_file():
+        errors.append("missing frozen_9e_tapes_v2.npz")
+    if errors:
+        return {"present": True, "verified": False, "errors": errors}
+
+    try:
+        meta = json.loads(json_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {"present": True, "verified": False, "errors": [f"invalid_json: {exc}"]}
+
+    if not isinstance(meta, dict):
+        return {"present": True, "verified": False, "errors": ["json_root_not_object"]}
+
+    schema = meta.get("schema")
+    if schema != "naqex-frozen-tapes-v2":
+        errors.append(f"unexpected_schema({schema!r})")
+
+    npz_sha = _sha256_file(npz_path)
+    expected_npz_sha = meta.get("npz_sha256")
+    if (
+        not isinstance(expected_npz_sha, str)
+        or len(expected_npz_sha) != 64
+        or any(ch not in "0123456789abcdefABCDEF" for ch in expected_npz_sha)
+    ):
+        errors.append(f"missing_or_invalid_npz_sha256({expected_npz_sha!r})")
+    elif expected_npz_sha.lower() != npz_sha.lower():
+        errors.append(f"npz_sha256_mismatch(expected={expected_npz_sha},got={npz_sha})")
+
+    ext_days = meta.get("ext_days")
+    if not isinstance(ext_days, list) or not ext_days:
+        errors.append("missing_or_empty_ext_days")
+    else:
+        bad_ext = [str(d) for d in ext_days if not isinstance(d, str) or not d.strip() or d >= "2025-01-01"]
+        if bad_ext:
+            errors.append(f"holdout_date_leak_in_ext_days({bad_ext[0]!r})")
+
+    strict_days = meta.get("strict_cluster_a_days")
+    if strict_days is not None:
+        if not isinstance(strict_days, list):
+            errors.append("invalid_strict_cluster_a_days")
+        else:
+            bad_ca = [str(d) for d in strict_days if not isinstance(d, str) or not d.strip() or d >= "2025-01-01"]
+            if bad_ca:
+                errors.append(f"holdout_date_leak_in_strict_cluster_a_days({bad_ca[0]!r})")
+
+    return {
+        "present": True,
+        "verified": len(errors) == 0,
+        "schema": schema,
+        "json_sha256": _sha256_file(json_path),
+        "npz_sha256": npz_sha,
+        "ext_days_count": len(meta.get("ext_days") or []) if isinstance(meta.get("ext_days"), list) else 0,
+        "errors": errors,
+    }
+
+
+def collect_dev_cache_files(
+    *,
+    root: Path = ROOT,
+    include_tapes: bool = True,
+) -> dict[str, Any]:
+    """Collect the strict Dev-only allowlist for `<X13_WORKER>` (`40/41` quant_core excl. holdout_guard, etc.)."""
+    ai_dir = root / "tooling/ai-engines"
+    selected: dict[str, Path] = {}
+    counts: dict[str, int] = {
+        "quant_core": 0,
+        "quant_factory_root": 0,
+        "capital_optimizer": 0,
+        "ssot_configs": 0,
+        "calendars": 0,
+        "frozen_tapes": 0,
+    }
+
+    def _add(p: Path, bucket: str) -> None:
+        rel = p.relative_to(root).as_posix()
+        assert_dev_only_path(rel)
+        assert_dev_only_path(p.name)
+        if rel not in selected:
+            selected[rel] = p
+            counts[bucket] += 1
+
+    # 1. quant_core/*.py — strictly EXCLUDING holdout_guard.py (40/41 files on PC Dev)
+    qc_dir = ai_dir / "quant_core"
+    if qc_dir.is_dir():
+        for p in sorted(qc_dir.glob("*.py")):
+            low_name = p.name.lower()
+            if low_name == "holdout_guard.py" or any(tok in low_name for tok in _FORBIDDEN_DEV_TOKENS):
+                continue
+            _add(p, "quant_core")
+
+    # 2. quant_factory/*.py (excluding holdout/2025/2026) + quant_factory/capital_optimizer/
+    qf_dir = ai_dir / "quant_factory"
+    if qf_dir.is_dir():
+        for p in sorted(qf_dir.glob("*.py")):
+            if any(tok in p.name.lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                continue
+            _add(p, "quant_factory_root")
+        cap_dir = qf_dir / "capital_optimizer"
+        if cap_dir.is_dir():
+            for p in sorted(cap_dir.rglob("*")):
+                if not p.is_file() or "__pycache__" in p.parts:
+                    continue
+                if p.suffix.lower() not in (".py", ".json"):
+                    continue
+                if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                    continue
+                _add(p, "capital_optimizer")
+
+    # 3. configs/ssot/
+    ssot_dir = ai_dir / "configs/ssot"
+    if ssot_dir.is_dir():
+        for p in sorted(ssot_dir.rglob("*")):
+            if not p.is_file() or p.suffix.lower() != ".json":
+                continue
+            if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                continue
+            _add(p, "ssot_configs")
+
+    # 4. configs/calendars/ — explicit pre-2025 allowlist (includes red_news_official_2018_2024_6ccy.json)
+    cal_dir = ai_dir / "configs/calendars"
+    if cal_dir.is_dir():
+        for fname in _DEV_CALENDAR_ALLOWLIST:
+            cand = cal_dir / fname
+            if cand.is_file():
+                _add(cand, "calendars")
+
+    # 5. .runtime/hot-m1-cache/_derived/frozen_9e_tapes_v2.{json,npz} (with strict integrity verification)
+    derived_dir = root / ".runtime/hot-m1-cache/_derived"
+    tapes_v2_check = (
+        verify_frozen_9e_tapes_v2(derived_dir)
+        if include_tapes
+        else {"present": False, "verified": False, "errors": []}
+    )
+    if include_tapes:
+        if tapes_v2_check["present"]:
+            if not tapes_v2_check["verified"]:
+                raise ValueError(f"frozen_9e_tapes_v2 verification failed: {tapes_v2_check['errors']}")
+            for ext in (".json", ".npz"):
+                _add(derived_dir / f"frozen_9e_tapes_v2{ext}", "frozen_tapes")
+        else:
+            for ext in (".json", ".npz"):
+                cand = derived_dir / f"frozen_9e_tapes_v1{ext}"
+                if cand.is_file():
+                    _add(cand, "frozen_tapes")
+
+    # Final fail-closed audit across every collected archive path
+    for rel in selected:
+        assert_dev_only_path(rel)
+        if "holdout_guard" in rel.lower():
+            raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: holdout_guard leaked into cache list: {rel}")
+
+    ordered = [(rel, selected[rel]) for rel in sorted(selected)]
+    return {
+        "entries": ordered,
+        "counts": counts,
+        "frozen_9e_tapes_v2": tapes_v2_check,
+        "holdout_guard_excluded": not any("holdout_guard" in rel.lower() for rel, _ in ordered),
+    }
+
+
+def build_dev_cache_archive(
+    out_dir: Path,
+    *,
+    root: Path = ROOT,
+    include_tapes: bool = True,
+) -> dict[str, Any]:
+    """Pack 1 atomic `dev_cache_bundle.tar.gz` + `dev_cache_manifest.sha256.json` passing every member via air-gap."""
+    collected = collect_dev_cache_files(root=root, include_tapes=include_tapes)
+    entries: list[tuple[str, Path]] = collected["entries"]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    tar_path = out_dir / "dev_cache_bundle.tar.gz"
+    file_entries: dict[str, dict[str, Any]] = {}
+
+    tmp_tar: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=out_dir,
+            prefix=".dev_cache_bundle.",
+            suffix=".tar.gz.tmp",
+            delete=False,
+        ) as raw_fh:
+            tmp_tar = Path(raw_fh.name)
+        with tarfile.open(tmp_tar, "w:gz", compresslevel=1) as tf:
+            for arc, src in entries:
+                assert_dev_only_path(arc)
+                assert_dev_only_path(src.name)
+                tf.add(str(src), arcname=arc)
+                file_entries[arc] = {"sha256": _sha256_file(src), "bytes": src.stat().st_size}
+        os.replace(tmp_tar, tar_path)
+        tmp_tar = None
+    finally:
+        if tmp_tar is not None:
+            tmp_tar.unlink(missing_ok=True)
+
+    archive_sha = _sha256_file(tar_path)
+    manifest: dict[str, Any] = {
+        "schema": "naqex-dev-cache-bundle-v2",
+        "created_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "git_sha": _current_git_sha(),
+        "archive_name": tar_path.name,
+        "archive_sha256": archive_sha,
+        "archive_bytes": tar_path.stat().st_size,
+        "file_count": len(file_entries),
+        "total_bytes": sum(m["bytes"] for m in file_entries.values()),
+        "counts": collected["counts"],
+        "holdout_airgap_enforced": True,
+        "holdout_guard_excluded": True,
+        "forbidden_files_count": 0,
+        "frozen_9e_tapes_v2_verified": bool(collected["frozen_9e_tapes_v2"]["verified"]),
+        "files": file_entries,
+    }
+    manifest_path = out_dir / "dev_cache_manifest.sha256.json"
+    _atomic_write_json(manifest_path, manifest)
+    return {
+        "tar_path": tar_path,
+        "manifest_path": manifest_path,
+        "manifest": manifest,
+        "frozen_9e_tapes_v2": collected["frozen_9e_tapes_v2"],
+    }
+
+
 def sync_dev_cache(
     *,
     lan_only: bool = False,
     dry_run: bool = False,
     verify_only: bool = False,
     host: str | None = None,
+    root: Path = ROOT,
+    include_tapes: bool = True,
 ) -> dict[str, Any]:
-    """One-way allowlist sync of Dev-only (<= 2024) artifacts to `<X13_WORKER>` with zero Holdout leakage."""
+    """One-way atomic `tar.gz` allowlist sync of Dev-only (<= 2024) assets to `<X13_WORKER>` (0 Holdout)."""
     x13 = probe_x13_worker(hosts=(host,) if host else X13_HOSTS, lan_only=lan_only)
     if not x13["reachable"]:
         return {"ok": False, "status": "X13_UNREACHABLE", "x13_worker": x13}
 
-    allow_files: list[Path] = []
-    qf_dir = AI_ENGINES_DIR / "quant_factory"
-    if qf_dir.is_dir():
-        for p in sorted(qf_dir.glob("*.py")):
-            if not any(tok in p.name.lower() for tok in _FORBIDDEN_DEV_TOKENS):
-                allow_files.append(p)
-    derived_dir = ROOT / ".runtime/hot-m1-cache/_derived"
-    for stem in ("frozen_9e_tapes_v2", "frozen_9e_tapes_v1"):
-        for ext in (".json", ".npz"):
-            cand = derived_dir / f"{stem}{ext}"
-            if cand.is_file():
-                allow_files.append(cand)
-        if any(stem in p.name for p in allow_files):
-            break
-
-    for p in allow_files:
-        assert_dev_only_path(p.relative_to(ROOT))
-
+    collected = collect_dev_cache_files(root=root, include_tapes=include_tapes)
+    entries: list[tuple[str, Path]] = collected["entries"]
     summary: dict[str, Any] = {
-        "schema": "naqex-sync-dev-cache-v1",
+        "schema": "naqex-sync-dev-cache-v2",
         "ok": True,
         "ssh_alias": x13["ssh_alias"],
         "dry_run": dry_run,
         "verify_only": verify_only,
-        "file_count": len(allow_files),
-        "total_bytes": sum(p.stat().st_size for p in allow_files),
+        "archive_format": "tar.gz",
+        "atomic_single_archive": True,
+        "file_count": len(entries),
+        "total_bytes": sum(p.stat().st_size for _, p in entries),
+        "counts": collected["counts"],
+        "frozen_9e_tapes_v2_verified": bool(collected["frozen_9e_tapes_v2"]["verified"]),
+        "frozen_9e_tapes_v2": collected["frozen_9e_tapes_v2"],
         "holdout_airgap_enforced": True,
+        "holdout_guard_excluded": bool(collected["holdout_guard_excluded"]),
+        "forbidden_files": 0,
     }
     if dry_run or verify_only:
-        summary["files"] = [p.relative_to(ROOT).as_posix() for p in allow_files]
+        summary["files"] = [arc for arc, _ in entries]
         return summary
 
-    alias = str(x13["ssh_alias"])
-    for p in allow_files:
-        rel = p.relative_to(ROOT).as_posix()
-        remote_dir = f"{X13_BASE_DIR}\\{str(Path(rel).parent).replace('/', '\\')}"
+    alias = _validate_host(str(x13["ssh_alias"]))
+    with tempfile.TemporaryDirectory(prefix="x13_dev_cache_") as td:
+        stage_dir = Path(td)
+        packed = build_dev_cache_archive(stage_dir, root=root, include_tapes=include_tapes)
+        unpack_local = stage_dir / "unpack_cache.py"
+        unpack_local.write_text(_REMOTE_CACHE_UNPACK_PY, encoding="utf-8", newline="\n")
+
         subprocess.run(
-            ["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias,
-             f'if not exist "{remote_dir}" mkdir "{remote_dir}"'],
-            check=True, capture_output=True, text=True, timeout=15,
+            [
+                "ssh",
+                "-o",
+                "ConnectTimeout=4",
+                "-o",
+                "BatchMode=yes",
+                alias,
+                f'if not exist "{X13_BASE_DIR}\\cache_staging" mkdir "{X13_BASE_DIR}\\cache_staging"',
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
-        subprocess.run(
-            ["scp", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", str(p), f"{alias}:C:/NaqexResearch/{rel}"],
-            check=True, capture_output=True, text=True, timeout=120,
+        for local_p in (packed["tar_path"], packed["manifest_path"], unpack_local):
+            subprocess.run(
+                [
+                    "scp",
+                    "-o",
+                    "ConnectTimeout=6",
+                    "-o",
+                    "BatchMode=yes",
+                    str(local_p),
+                    f"{alias}:C:/NaqexResearch/cache_staging/{local_p.name}",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
+
+        unpack_cmd = f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\cache_staging\\unpack_cache.py" "{X13_BASE_DIR}"'
+        proc = subprocess.run(
+            ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", alias, unpack_cmd],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=300,
         )
+        remote_receipt = json.loads((proc.stdout or "{}").strip())
+        summary["archive_sha256"] = packed["manifest"]["archive_sha256"]
+        summary["archive_bytes"] = packed["manifest"]["archive_bytes"]
+        summary["remote_verify"] = remote_receipt
     return summary
 
 
@@ -1417,6 +2570,7 @@ def main(argv: list[str] | None = None) -> int:
     p_route.add_argument("--needs-gpu", action="store_true")
     p_route.add_argument("--strict-ntp", action="store_true")
     p_route.add_argument("--lan-only", action="store_true")
+    p_route.add_argument("--allow-mode-a-assist", action="store_true")
 
     p_disp = sub.add_parser("dispatch")
     p_disp.add_argument("--job-id", required=True)
@@ -1432,6 +2586,8 @@ def main(argv: list[str] | None = None) -> int:
     p_disp.add_argument("--strict-ntp", action="store_true")
     p_disp.add_argument("--allow-ntp-drift", action="store_true")
     p_disp.add_argument("--force-x13", action="store_true")
+    p_disp.add_argument("--allow-mode-a-assist", action="store_true")
+    p_disp.add_argument("--lease-wait-sec", type=float, default=0.0)
     p_disp.add_argument("--lan-only", action="store_true")
     p_disp.add_argument("--dry-run", action="store_true")
     p_disp.add_argument("--dest", type=Path, default=None)
@@ -1484,6 +2640,7 @@ def main(argv: list[str] | None = None) -> int:
             requires_admin=args.requires_admin,
             needs_gpu=args.needs_gpu,
             strict_ntp=args.strict_ntp,
+            allow_mode_a_assist=args.allow_mode_a_assist,
         )
         out = {
             "schema": "naqex-compute-router-v1",
@@ -1518,9 +2675,11 @@ def main(argv: list[str] | None = None) -> int:
             strict_ntp=args.strict_ntp,
             allow_ntp_drift=args.allow_ntp_drift,
             force_x13=args.force_x13,
+            allow_mode_a_assist=args.allow_mode_a_assist,
             lan_only=args.lan_only,
             dry_run=args.dry_run,
             dest_dir=args.dest,
+            lease_max_wait_sec=args.lease_wait_sec,
         )
         print(json.dumps(res, indent=2, ensure_ascii=False))
         dec = res["decision"]

@@ -25,3 +25,15 @@ paths = [
 regexes = [
   '''"key":\s*"[A-Za-z0-9_./:-]+"''',
 ]
+
+[[allowlists]]
+description = "Verified non-secret Holdout v2 pre-registration MQL5 include filename key field (regexTarget=line)"
+condition = "AND"
+regexTarget = "line"
+paths = [
+  '''^planning/research/HOLDOUT-V2-PREREGISTRATION-20261127\.json$''',
+  '''^tooling/ai-engines/quant_factory/preregister_holdout_v2\.py$''',
+]
+regexes = [
+  '''(?:key=|"key":\s*)"Naqex_Signals_7E\.mqh"''',
+]

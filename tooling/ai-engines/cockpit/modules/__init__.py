@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+from cockpit.modules.automation import (
+    build_automation_events_payload,
+    build_automation_features_payload,
+    build_automation_status_payload,
+    validate_sidecar_config,
+)
 from cockpit.modules.node1 import build_node1_summary_payload
 from cockpit.modules.portfolio import build_allocations_payload, build_overview_payload, build_summary_payload
 from cockpit.modules.prop_metrix import build_prop_metrix_payload
@@ -59,6 +65,9 @@ __all__ = [
     "VN_TZ",
     "apply_emergency_cover_action",
     "build_allocations_payload",
+    "build_automation_events_payload",
+    "build_automation_features_payload",
+    "build_automation_status_payload",
     "build_blackfriday_sprint_payload",
     "build_live_telemetry_payload",
     "build_node1_summary_payload",
@@ -73,4 +82,5 @@ __all__ = [
     "main",
     "make_handler",
     "read_emergency_cover_state",
+    "validate_sidecar_config",
 ]

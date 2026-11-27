@@ -1,0 +1,104 @@
+{
+  "active_candidate": "C10_NEWS_ON",
+  "artifacts": {
+    "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json": {
+      "bytes": 21525,
+      "key": "NATIVE_FTMO_HOLDOUT_LOCK.json",
+      "present": true,
+      "required": true,
+      "role": "immutable_dev_holdout_lock_readonly",
+      "sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486"
+    },
+    "tooling/ai-engines/configs/ssot/firms_catalog.json": {
+      "bytes": 30546,
+      "key": "firms_catalog.json",
+      "present": true,
+      "required": true,
+      "role": "ssot_prop_firms_catalog",
+      "sha256": "b575f1acb82304860eaf1ccf30e45e5d4115c2308bf4d38968fbb6b3517f17ed"
+    },
+    "tooling/ai-engines/configs/ssot/risk_profiles.json": {
+      "bytes": 8028,
+      "key": "risk_profiles.json",
+      "present": true,
+      "required": true,
+      "role": "ssot_risk_profiles",
+      "sha256": "58491c41ef9059c8d782e59098bd4a4f9b999c2fad9d18163b65ce4a82210829"
+    },
+    "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv": {
+      "bytes": 14131,
+      "key": "naqex_red_news_utc.csv",
+      "present": true,
+      "required": true,
+      "role": "official_red_news_calendar_csv",
+      "sha256": "235722ed1821499f8d81b169418486d3a8b9c0e8911857c88fea8d2270d3dff7"
+    },
+    "tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh": {
+      "bytes": 65365,
+      "key": "Naqex_PropGuard.mqh",
+      "present": true,
+      "required": true,
+      "role": "propguard_risk_shield_include",
+      "sha256": "9d7fb3c966688df9cd13ec376b7ea9d4770f5c30bb97b7e5a978d1fe0840e5ed"
+    },
+    "tooling/ai-engines/exports/Include/Naqex_Signals_7E.mqh": {
+      "bytes": 64738,
+      "key": "Naqex_Signals_7E.mqh",
+      "present": true,
+      "required": true,
+      "role": "signals_7e_include",
+      "sha256": "2f5b7d7ccd7b8a88b7b9896259cbda846e5553cf6ceb868866f9566a860be738"
+    },
+    "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5": {
+      "bytes": 89737,
+      "key": "Naqex_Master_Prop7E.mq5",
+      "present": true,
+      "required": true,
+      "role": "master_ea_v101_production",
+      "sha256": "6b7ea2ee0d5bfa12b27b3ced1003c3c95b3f05d7970e3cda126f5d59fa5250ef"
+    },
+    "tooling/ai-engines/exports/Naqex_Master_Prop7E_v103.mq5": {
+      "bytes": 53396,
+      "key": "Naqex_Master_Prop7E_v103.mq5",
+      "present": true,
+      "required": false,
+      "role": "master_ea_v103_pareto_candidate",
+      "sha256": "e6b1b88be00a8470505c86dd1878664e08ce12d8e45203c05f733825f35c9ef5"
+    }
+  },
+  "dev_cutoff_day": "2025-01-01",
+  "frozen_utc": "2026-11-27T07:49:41Z",
+  "holdout_rows_analysed": 0,
+  "holdout_v1_status": "CONSUMED_2025_2026_COMMIT_521926f",
+  "holdout_v2_prospective_start_day": "2026-12-01",
+  "holdout_v2_prospective_start_utc": "2026-12-01T00:00:00Z",
+  "holdout_v2_status": "SEALED_PROSPECTIVE",
+  "manifest_payload_sha256": "23d1aaee9fd1b7fdaea0afc3a43d560dcde7548e77e6ccb23878111befd8b859",
+  "order_send_count": 0,
+  "portfolio_id": "PORT_7E",
+  "preregistration_id": "HOLDOUT-V2-PREREGISTRATION-20261127",
+  "schema_version": "naqex-holdout-v2-preregistration-v1",
+  "thresholds": {
+    "kill_adverse_slippage_mult": 1.75,
+    "kill_daily_dd_frac": 0.04,
+    "kill_float_peak_dd_frac": 0.09,
+    "max_adverse_slippage_mult": 1.5,
+    "max_daily_dd_frac": 0.03,
+    "max_fill_unresolved_events": 0,
+    "max_float_peak_dd_frac": 0.075,
+    "max_missing_sl_orders": 0,
+    "max_ntp_offset_ms": 1000,
+    "max_parameter_retunes_after_unlock": 0,
+    "max_parity_restart_errors": 0,
+    "min_conditional_ann_return_frac": 0.01,
+    "min_healthy_core_engines": 5,
+    "min_live_demo_cal_days": 90,
+    "min_pass_ann_return_frac": 0.04,
+    "min_pass_calmar": 0.7,
+    "required_swap_usd": 0.0,
+    "requires_explicit_owner_g6_approval": true,
+    "requires_written_firm_ea_clearance": true,
+    "single_shot_unlock_only": true,
+    "total_core_engines": 7
+  }
+}

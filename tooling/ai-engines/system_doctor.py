@@ -32,6 +32,7 @@ for _path in (AI_ENGINES, AI_ENGINES_LEGACY, FOUNDATION_SRC, QUANT_TRADING_SRC, 
 README_BYTE_BUDGET = 15_000
 README_HARD_CEILING_BYTES = 50_000
 CURRENT_CONTEXT_BYTE_BUDGET = 12_000
+_BELOW_NORMAL_PRIORITY_CLASS = 0x00004000
 
 ALL_WORKSPACE_TESTPATHS: tuple[str, ...] = (
     "tooling/ai-engines/tests",
@@ -88,9 +89,12 @@ def _subproc_env() -> dict[str, str]:
     return env
 
 
-def _run(cmd: list[str], *, cwd: Path = ROOT, timeout: int = 180) -> tuple[int, str, float]:
+def _run(cmd: list[str], *, cwd: Path = ROOT, timeout: int = 180, creationflags: int = 0) -> tuple[int, str, float]:
     t0 = time.perf_counter()
-    p = subprocess.run(cmd, cwd=str(cwd), env=_subproc_env(), capture_output=True, text=True, timeout=timeout)
+    kwargs: dict[str, object] = {}
+    if os.name == "nt" and creationflags:
+        kwargs["creationflags"] = int(creationflags)
+    p = subprocess.run(cmd, cwd=str(cwd), env=_subproc_env(), capture_output=True, text=True, timeout=timeout, **kwargs)
     out = (p.stdout or "") + ("\n" + p.stderr if p.stderr else "")
     return p.returncode, out.strip(), round(time.perf_counter() - t0, 2)
 
@@ -303,12 +307,12 @@ def check_brain_index() -> dict:
 
 
 def check_architecture() -> dict:
-    """Run Harness Engineering architecture gate [ARCH-01..07].
+    """Run Harness Engineering architecture gate [ARCH-01..10].
 
     Before Wave 2 compacts `planning/research/README.md` to <= 15_000 B, runs in
-    transition mode: hard-fails immediately on Wave-1-enforced rules (ARCH-03, ARCH-06,
-    ARCH-07, and CURRENT-CONTEXT > 12KB) while reporting pending Wave-2 items as advisory.
-    Once README <= 15_000 B, enforces full `--strict` 0-error compliance across all 7 rules.
+    transition mode: hard-fails immediately on Wave-1-enforced rules (ARCH-01, ARCH-03,
+    ARCH-06..ARCH-10, and CURRENT-CONTEXT > 12KB) while reporting pending Wave-2 items as advisory.
+    Once README <= 15_000 B, enforces full `--strict` 0-error compliance across all 10 rules.
     """
     t0 = time.perf_counter()
     import check_architecture as arch
@@ -322,7 +326,7 @@ def check_architecture() -> dict:
     if strict_mode:
         ok = bool(report["passed"])
         if ok:
-            detail = "STRICT PASS (0 errors across [ARCH-01..07])"
+            detail = "STRICT PASS (0 errors across [ARCH-01..10])"
         else:
             nonzero = ", ".join(f"{k}={v}" for k, v in by_rule.items() if v)
             detail = f"STRICT FAIL ({report['error_count']} errors: {nonzero})"
@@ -336,7 +340,7 @@ def check_architecture() -> dict:
     hard_errors = [
         err
         for err in report["errors"]
-        if err["rule"] in ("ARCH-01", "ARCH-03", "ARCH-06", "ARCH-07")
+        if err["rule"] in ("ARCH-01", "ARCH-03", "ARCH-06", "ARCH-07", "ARCH-08", "ARCH-09", "ARCH-10")
         or (err["rule"] == "ARCH-05" and err["file"].endswith("CURRENT-CONTEXT.md"))
     ]
     pending_counts = {k: v for k, v in by_rule.items() if v and k in ("ARCH-02", "ARCH-04", "ARCH-05")}
@@ -348,7 +352,7 @@ def check_architecture() -> dict:
         pending_str = ", ".join(f"{k}={v}" for k, v in sorted(pending_counts.items()))
         detail = f"ADVISORY (pre-Wave-2 README={readme_bytes}B>15KB; 0 hard fails; pending: {pending_str})"
     else:
-        detail = "PASS (0 violations across [ARCH-01..07])"
+        detail = "PASS (0 violations across [ARCH-01..10])"
     return {
         "name": "check_architecture",
         "ok": ok,
@@ -446,7 +450,23 @@ def check_ai_env() -> dict:
     return {"name": "ai_environment", "ok": ok, "seconds": sec, "detail": f"rc={rc}, errors={errs}, warnings={warns}"}
 
 
-def _run_pytest_shard(idx: int, targets: tuple[str, ...]) -> tuple[int, str, float]:
+def _resolve_pytest_workers(workers: str | None) -> tuple[str, bool]:
+    """Resolve pytest-xdist worker spec from CLI `--workers` or `NAQEX_PYTEST_WORKERS` env.
+
+    Returns `(worker_spec, below_normal)` where numeric Mode-A caps (`<= 3` workers)
+    automatically run under Windows `BELOW_NORMAL` priority to keep PC Dev responsive.
+    """
+    raw = workers if workers is not None else os.environ.get("NAQEX_PYTEST_WORKERS", "")
+    spec = str(raw).strip().lower() or "auto"
+    if spec == "auto":
+        return "auto", False
+    if spec.isdigit():
+        n = int(spec)
+        return str(n), (n <= 3)
+    raise ValueError(f"Invalid --workers / NAQEX_PYTEST_WORKERS value: {raw!r} (expected 'auto' or non-negative int)")
+
+
+def _run_pytest_shard(idx: int, targets: tuple[str, ...], *, creationflags: int = 0) -> tuple[int, str, float]:
     cmd = [
         sys.executable,
         "-X",
@@ -465,14 +485,22 @@ def _run_pytest_shard(idx: int, targets: tuple[str, ...]) -> tuple[int, str, flo
         "-q",
         *targets,
     ]
-    return _run(cmd, timeout=180)
+    return _run(cmd, timeout=180, creationflags=creationflags)
 
 
-def check_pytest(mode: str, *, ci_offline: bool = False) -> dict:
+def check_pytest(mode: str, *, ci_offline: bool = False, workers: str | None = None) -> dict:
     t0 = time.perf_counter()
+    worker_spec, use_below_normal = _resolve_pytest_workers(workers)
+    c_flags = _BELOW_NORMAL_PRIORITY_CLASS if (os.name == "nt" and use_below_normal) else 0
     if mode == "fast":
-        with ThreadPoolExecutor(max_workers=len(FAST_PYTEST_SHARDS)) as pool:
-            futs = [pool.submit(_run_pytest_shard, idx, shard) for idx, shard in enumerate(FAST_PYTEST_SHARDS)]
+        max_pool = len(FAST_PYTEST_SHARDS)
+        if worker_spec.isdigit() and int(worker_spec) > 0:
+            max_pool = min(max_pool, int(worker_spec))
+        with ThreadPoolExecutor(max_workers=max_pool) as pool:
+            futs = [
+                pool.submit(_run_pytest_shard, idx, shard, creationflags=c_flags)
+                for idx, shard in enumerate(FAST_PYTEST_SHARDS)
+            ]
             shard_results = [f.result() for f in futs]
         all_ok = all(rc == 0 for rc, _, _ in shard_results)
         total_passed = 0
@@ -498,19 +526,26 @@ def check_pytest(mode: str, *, ci_offline: bool = False) -> dict:
         "utf8",
         "-m",
         "pytest",
-        "-n",
-        "auto",
-        "--dist",
-        "worksteal",
-        "-o",
-        "cache_dir=.tmp/pytest-doctor-full",
-        "-q",
     ]
+    if worker_spec in ("0", "1"):
+        cmd.extend(["-p", "no:xdist"])
+    else:
+        cmd.extend(["-n", worker_spec, "--dist", "worksteal"])
+    cmd.extend(
+        [
+            "-o",
+            "cache_dir=.tmp/pytest-doctor-full",
+            "-q",
+        ]
+    )
     if ci_offline:
         cmd.extend(["-m", "not local_cache"])
     cmd.extend(ALL_WORKSPACE_TESTPATHS)
-    rc, out, sec = _run(cmd, timeout=360)
+    full_timeout = 900 if use_below_normal else 360
+    rc, out, sec = _run(cmd, timeout=full_timeout, creationflags=c_flags)
     summary = out.splitlines()[-1] if out else f"rc={rc}"
+    if use_below_normal:
+        summary = f"{summary} [workers={worker_spec}, BELOW_NORMAL]"
     return {"name": "pytest_full", "ok": rc == 0, "seconds": sec, "detail": summary}
 
 
@@ -522,12 +557,20 @@ def main() -> int:
     parser.add_argument(
         "--ci-offline", action="store_true", help="In full mode, exclude @pytest.mark.local_cache tests"
     )
+    parser.add_argument(
+        "--workers",
+        default=None,
+        help=(
+            "Pytest worker count ('auto' or integer, e.g. '2' for Mode-A BELOW_NORMAL; "
+            "defaults to NAQEX_PYTEST_WORKERS env or 'auto')"
+        ),
+    )
     args = parser.parse_args()
 
     t0 = time.perf_counter()
     # Submit pytest first so the slowest parallel check starts at t=0.00s.
     tasks = [
-        ("pytest", lambda: check_pytest(args.mode, ci_offline=args.ci_offline)),
+        ("pytest", lambda: check_pytest(args.mode, ci_offline=args.ci_offline, workers=args.workers)),
         ("holdout_lock", check_holdout_lock),
         ("index_bloat", check_index_bloat),
         ("exports_static_audit", check_exports_static_audit),

@@ -1058,13 +1058,21 @@ class TestMqlContractDrift:
         assert hashes_before == hashes_after, "mql_contract_drift MUST remain 100% read-only"
         assert report["read_only"] is True
         assert report["mutated_files"] == 0
+        assert report["order_send_count"] == 0
         assert report["orchestrator_status"] == "LEGACY_DEPRECATED_DST_BUG"
-        assert report["has_blocking_drift"] is True
         assert report["scanned_c10_set_files"] == 3
 
-        drifts = report["drifts"]
-        # 1. Signals base risk rounding drift (0.1606 vs 0.16 and 0.5894 vs 0.59)
-        risk_drifts = [d for d in drifts if d["code"] == "BASE_RISK_ROUNDING_DRIFT"]
+        # 1. Active C10 blocking drifts MUST be zero (P1/P2/Funded all align with C10_NEWS_ON)
+        assert report["active_c10_blocking_drifts"] == []
+        assert report["active_c10_blocking_count"] == 0
+        assert report["has_active_c10_blocking_drift"] is False
+        assert report["active_c10_severity_counts"]["HIGH"] == 0
+        news_drifts = [d for d in report["drifts"] if d["code"] == "C10_NEWS_ON_RED_NEWS_DISABLED_DRIFT"]
+        assert news_drifts == []
+
+        # 2. Active C10 advisory drifts (Signals base risk rounding: 0.1606 vs 0.16, 0.5894 vs 0.59)
+        advisory = report["active_c10_advisory_drifts"]
+        risk_drifts = [d for d in advisory if d["code"] == "BASE_RISK_ROUNDING_DRIFT"]
         assert len(risk_drifts) == 2
         e1_drift = next(d for d in risk_drifts if "E1_USDJPY_TOKYO" in d["field"])
         assert e1_drift["ssot_value"] == pytest.approx(0.1606)
@@ -1073,31 +1081,48 @@ class TestMqlContractDrift:
         assert e2_drift["ssot_value"] == pytest.approx(0.5894)
         assert e2_drift["observed_value"] == pytest.approx(0.59)
 
-        # 2. Legacy Orchestrator DST bug flagged explicitly
-        orch_drifts = [d for d in drifts if d["code"] == "LEGACY_DEPRECATED_DST_BUG"]
-        assert len(orch_drifts) == 1
+        # 3. Legacy archived drifts transparently reported (18 locked FTMO_FreeTrial_Demo/*.set + Orchestrator)
+        legacy = report["legacy_archived_drifts"]
+        legacy_high = [d for d in legacy if d["severity"] == "HIGH"]
+        assert len(legacy_high) == 19
+        assert report["legacy_archived_blocking_count"] == 19
+        assert report["has_blocking_drift"] is True
 
-        # 3. C10 P1 & P2 presets have InpGuardEnableRedNews=false (violating C10_NEWS_ON)
-        news_drifts = [d for d in drifts if d["code"] == "C10_NEWS_ON_RED_NEWS_DISABLED_DRIFT"]
-        assert len(news_drifts) == 2
-        news_files = {Path(d["file"]).name for d in news_drifts}
-        assert news_files == {
-            "FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set",
-            "FTMO_Std10K_MasterProp7E_C10_P2_35x.set",
-        }
+        orch_drifts = [d for d in legacy_high if d["code"] == "LEGACY_DEPRECATED_DST_BUG"]
+        assert len(orch_drifts) == 1
+        demo_disarmed = [
+            d
+            for d in legacy_high
+            if d["code"] in {"SET_FAIL_CLOSED_DRYRUN_DISARMED", "SET_FAIL_CLOSED_GUARD_DRYRUN_DISARMED"}
+        ]
+        assert len(demo_disarmed) == 18
+        assert all("FTMO_FreeTrial_Demo" in Path(d["file"]).parts for d in demo_disarmed)
+
+        # 4. Exact disjoint partition across active blocking + active advisory + legacy archived
+        assert len(report["active_c10_blocking_drifts"]) + len(advisory) + len(legacy) == len(report["drifts"])
 
     def test_cli_check_exit_codes_blocking_vs_clean_fixture(
         self,
         tmp_path: Path,
         capsys: pytest.CaptureFixture[str],
     ) -> None:
-        # Real repo has HIGH drifts -> --check returns exit code 1
+        # Real repo: --check fails (19 legacy HIGH drifts), while --check-active passes (0 active C10 blocking drifts)
         rc_real = drift_cli_main(["--check"])
         captured_real = json.loads(capsys.readouterr().out)
         assert rc_real == 1
         assert captured_real["has_blocking_drift"] is True
+        assert captured_real["has_active_c10_blocking_drift"] is False
+        assert captured_real["active_c10_blocking_drifts"] == []
+        assert captured_real["legacy_archived_blocking_count"] == 19
 
-        # Clean synthetic exports fixture -> --check returns exit code 0
+        rc_active_real = drift_cli_main(["--check-active"])
+        captured_active_real = json.loads(capsys.readouterr().out)
+        assert rc_active_real == 0
+        assert captured_active_real["has_active_c10_blocking_drift"] is False
+        assert captured_active_real["active_c10_blocking_drifts"] == []
+        assert captured_active_real["legacy_archived_blocking_count"] == 19
+
+        # Clean synthetic exports fixture -> both --check and --check-active return exit code 0
         exp = tmp_path / "exports"
         (exp / "Include").mkdir(parents=True)
         (exp / "deployment_kit/presets").mkdir(parents=True)
@@ -1137,7 +1162,8 @@ class TestMqlContractDrift:
             + "\n",
             encoding="utf-8",
         )
-        (exp / "deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set").write_text(
+        c10_p1_path = exp / "deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set"
+        c10_p1_clean = (
             "\n".join(
                 [
                     "InpDryRunLogOnly=true",
@@ -1162,13 +1188,50 @@ class TestMqlContractDrift:
                     "InpGuardNewsHardBanSec=135",
                 ]
             )
-            + "\n",
-            encoding="utf-8",
+            + "\n"
         )
+        c10_p1_path.write_text(c10_p1_clean, encoding="utf-8")
 
         rc_clean = drift_cli_main(["--check", "--exports-dir", str(exp)])
         captured_clean = json.loads(capsys.readouterr().out)
         assert rc_clean == 0
         assert captured_clean["has_blocking_drift"] is False
+        assert captured_clean["has_active_c10_blocking_drift"] is False
+        assert captured_clean["active_c10_blocking_drifts"] == []
         assert captured_clean["severity_counts"]["HIGH"] == 0
         assert captured_clean["severity_counts"]["MEDIUM"] == 0
+
+        rc_clean_active = drift_cli_main(["--check-active", "--exports-dir", str(exp)])
+        _ = capsys.readouterr()
+        assert rc_clean_active == 0
+
+        # Adding locked legacy FTMO_FreeTrial_Demo preset: --check fails (1) while --check-active stays green (0)
+        legacy_demo_dir = exp / "deployment_kit/presets/FTMO_FreeTrial_Demo"
+        legacy_demo_dir.mkdir(parents=True)
+        (legacy_demo_dir / "Naqex_WB_EXP080_USDJPY.set").write_text(
+            "InpDryRunLogOnly=false\nInpGuardDryRunLogOnly=false\n",
+            encoding="utf-8",
+        )
+        rc_legacy_all = drift_cli_main(["--check", "--exports-dir", str(exp)])
+        captured_legacy_all = json.loads(capsys.readouterr().out)
+        assert rc_legacy_all == 1
+        assert captured_legacy_all["legacy_archived_blocking_count"] == 2
+        assert captured_legacy_all["active_c10_blocking_drifts"] == []
+
+        rc_legacy_active = drift_cli_main(["--check-active", "--exports-dir", str(exp)])
+        captured_legacy_active = json.loads(capsys.readouterr().out)
+        assert rc_legacy_active == 0
+        assert captured_legacy_active["has_active_c10_blocking_drift"] is False
+        assert captured_legacy_active["legacy_archived_blocking_count"] == 2
+
+        # Active C10 drift (InpGuardEnableRedNews=false) MUST fail --check-active with exit code 1
+        c10_p1_path.write_text(
+            c10_p1_clean.replace("InpGuardEnableRedNews=true", "InpGuardEnableRedNews=false"),
+            encoding="utf-8",
+        )
+        rc_active_fail = drift_cli_main(["--check-active", "--exports-dir", str(exp)])
+        captured_active_fail = json.loads(capsys.readouterr().out)
+        assert rc_active_fail == 1
+        assert captured_active_fail["has_active_c10_blocking_drift"] is True
+        assert captured_active_fail["active_c10_blocking_count"] == 1
+        assert captured_active_fail["active_c10_blocking_drifts"][0]["code"] == "C10_NEWS_ON_RED_NEWS_DISABLED_DRIFT"

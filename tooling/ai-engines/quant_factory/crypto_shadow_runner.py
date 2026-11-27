@@ -3,11 +3,15 @@
 STRICT SAFETY BOUNDARIES:
   - OrderSend = 0, ZERO API keys, ZERO authenticated endpoints!
   - Uses ONLY public Binance Spot (/api/v3/*) and USD-M Futures (/fapi/v1/*) read-only endpoints.
-  - Signal calculation uses STRICTLY CLOSED 4H/D1 bars (drops currently open forming candle).
-  - Logs live bid/ask, L2 orderbook depth slippage for 10k & 50k USD orders, live Spot-Perp basis &
-    8h funding rates, and paper shadow target positions/TCA for:
-      1. Sleeve #2 Primary: `F4_4H_EMA_24_120_BTC` (causal Top-15 universe)
-      2. Sleeve #3A Primary: `CARRY_BTC_ETH_CONS_2XBUF` (2x equity buffer, BTC + ETH)
+  - Signal calculation uses STRICTLY CLOSED 4H/D1 bars (drops currently open forming candle)
+    and delegates directly to canonical `quant_lab.unified_engine` & `quant_lab.funding_carry_v2`
+    so live Shadow matches offline Backtest bit-for-bit:
+      1. Exact EMA warmup parity (`valid_streak >= span`, resetting on NaN/non-positive closes).
+      2. Exact rebalance deadband parity (`0.015`, matching `causal_universe.py`).
+      3. `SHADOW_4H_KLINE_LIMIT = 1000` (>= 600) eliminating ~11.5% EMA(300) initialization drift.
+      4. Strict 4H bar idempotency lock keyed on `last_4h_close_ms` (zero repeat fees on 5m polls).
+      5. Full exited-coin MTM tracking: fetches live `mid` & L2 depth for
+         `top15 | {BTCUSDT, ETHUSDT} | set(s2_prev_w.keys())`.
   - Outputs:
       - `.runtime/live-overnight/crypto_shadow_log.jsonl` (append-only JSONL telemetry)
       - `.runtime/live-overnight/crypto_shadow_latest.json` (atomic latest snapshot for Cockpit UI)
@@ -17,13 +21,15 @@ STRICT SAFETY BOUNDARIES:
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
 import json
 import math
-from pathlib import Path
 import sys
 import time
+from collections.abc import Mapping, Sequence
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -31,37 +37,369 @@ import numpy as np
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
-if str(AI_ENGINES) not in sys.path:
-    sys.path.insert(0, str(AI_ENGINES))
+QUANT_LAB_SRC = ROOT / "projects" / "quant-trading" / "src"
+for _p in (str(AI_ENGINES), str(QUANT_LAB_SRC)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
-from quant_factory.crypto_causal_universe import (
+try:
+    from quant_lab.funding_carry_v2 import compute_carry_btc_eth_live_step  # noqa: E402
+    from quant_lab.unified_engine import (  # noqa: E402
+        DEFAULT_SHADOW_4H_KLINE_LIMIT,
+        F4EmaConfig,
+        apply_deadband_step,
+        causal_ema_1d,
+        compute_f4_ema_step,
+        update_shadow_spot_accounting,
+    )
+except ModuleNotFoundError:  # Fallback when projects/quant-trading submodule pin predates unified_engine.py
+    DEFAULT_SHADOW_4H_KLINE_LIMIT = 1000
+
+    @dataclass(frozen=True, slots=True)
+    class F4EmaConfig:  # type: ignore[no-redef]
+        btc_symbol: str = "BTCUSDT"
+        fast_span: int = 24
+        slow_span: int = 120
+        btc_fast: int = 60
+        btc_slow: int = 300
+        vol_window: int = 120
+        target_ann_vol: float = 0.15
+        bars_per_year: float = 365.0 * 6.0
+        deadband: float = 0.015
+        min_recommended_history_bars: int = 600
+
+    def causal_ema_1d(values: np.ndarray, span: int) -> np.ndarray:  # type: ignore[no-redef]
+        arr = np.asarray(values, dtype=np.float64)
+        out = np.full(arr.shape[0], np.nan, dtype=np.float64)
+        alpha = 2.0 / (span + 1.0)
+        prev = np.nan
+        valid_streak = 0
+        for t in range(arr.shape[0]):
+            c = float(arr[t])
+            if not math.isfinite(c) or c <= 0.0:
+                prev = np.nan
+                valid_streak = 0
+                continue
+            prev = c if not math.isfinite(prev) else (alpha * c + (1.0 - alpha) * prev)
+            valid_streak += 1
+            if valid_streak >= span:
+                out[t] = prev
+        return out
+
+    def _fb_rolling_vol_1d(values: np.ndarray, window: int) -> np.ndarray:
+        arr = np.asarray(values, dtype=np.float64)
+        n_t = arr.shape[0]
+        out = np.full(n_t, np.nan, dtype=np.float64)
+        if n_t <= window:
+            return out
+        rets = np.full(n_t, np.nan, dtype=np.float64)
+        valid = np.isfinite(arr[1:]) & np.isfinite(arr[:-1]) & (arr[:-1] > 0.0) & (arr[1:] > 0.0)
+        rets[1:][valid] = arr[1:][valid] / arr[:-1][valid] - 1.0
+        for t in range(window, n_t):
+            win = rets[t - window + 1 : t + 1]
+            if np.all(np.isfinite(win)):
+                out[t] = float(np.std(win, ddof=1))
+        return out
+
+    def apply_deadband_step(  # type: ignore[no-redef]
+        raw_weights: Mapping[str, float],
+        prev_weights: Mapping[str, float] | None = None,
+        *,
+        deadband: float = 0.015,
+    ) -> dict[str, float]:
+        cleaned_raw = {str(k): float(v) for k, v in raw_weights.items() if float(v) > 0.0}
+        raw_total = sum(cleaned_raw.values())
+        if raw_total > 1.0:
+            cleaned_raw = {k: v / raw_total for k, v in cleaned_raw.items()}
+        if prev_weights is None or float(deadband) == 0.0:
+            return dict(sorted(cleaned_raw.items()))
+        cleaned_prev = {str(k): float(v) for k, v in prev_weights.items() if float(v) > 0.0}
+        db = float(deadband)
+        updated: dict[str, float] = {}
+        for sym in sorted(set(cleaned_raw) | set(cleaned_prev)):
+            cur = cleaned_raw.get(sym, 0.0)
+            prv = cleaned_prev.get(sym, 0.0)
+            flip = (cur == 0.0) != (prv == 0.0)
+            new_w = cur if (flip or abs(cur - prv) >= db) else prv
+            if new_w > 0.0:
+                updated[sym] = new_w
+        tot = sum(updated.values())
+        if tot > 1.0:
+            updated = {k: v / tot for k, v in updated.items()}
+        return updated
+
+    def compute_f4_ema_step(  # type: ignore[no-redef]
+        closed_closes: Mapping[str, np.ndarray | Sequence[float]],
+        eligible_symbols: Sequence[str],
+        *,
+        config: F4EmaConfig | None = None,
+        prev_weights: Mapping[str, float] | None = None,
+        round_digits: int | None = None,
+    ) -> dict[str, Any]:
+        cfg = config or F4EmaConfig()
+        btc_raw = closed_closes.get(cfg.btc_symbol)
+        if btc_raw is None:
+            return {
+                "btc_regime_bull": False,
+                "btc_ema60": None,
+                "btc_ema300": None,
+                "btc_history_bars": 0,
+                "ema300_drift_warning": True,
+                "active_count": 0,
+                "gross_exposure": 0.0,
+                "weights": {},
+                "raw_weights": {},
+                "diagnostics": {},
+                "reason": "INSUFFICIENT_BTC_BARS",
+            }
+        btc_arr = np.asarray(btc_raw, dtype=np.float64)
+        btc_bars = int(btc_arr.shape[0]) if btc_arr.ndim == 1 else 0
+        btc_ef = float(causal_ema_1d(btc_arr, cfg.btc_fast)[-1]) if btc_bars > 0 else float("nan")
+        btc_es = float(causal_ema_1d(btc_arr, cfg.btc_slow)[-1]) if btc_bars > 0 else float("nan")
+        if not math.isfinite(btc_ef) or not math.isfinite(btc_es):
+            return {
+                "btc_regime_bull": False,
+                "btc_ema60": round(btc_ef, 2) if math.isfinite(btc_ef) else None,
+                "btc_ema300": round(btc_es, 2) if math.isfinite(btc_es) else None,
+                "btc_history_bars": btc_bars,
+                "ema300_drift_warning": btc_bars < cfg.min_recommended_history_bars,
+                "active_count": 0,
+                "gross_exposure": 0.0,
+                "weights": {},
+                "raw_weights": {},
+                "diagnostics": {},
+                "reason": "INSUFFICIENT_BTC_BARS",
+            }
+        btc_bull = bool(btc_ef > btc_es)
+        vt_bar = cfg.target_ann_vol / math.sqrt(cfg.bars_per_year)
+        elig_unique = list(dict.fromkeys(str(s) for s in eligible_symbols))
+        n_elig = max(1, len(elig_unique))
+        raw: dict[str, float] = {}
+        diagnostics: dict[str, dict[str, Any]] = {}
+        for sym in elig_unique:
+            s_raw = closed_closes.get(sym)
+            if s_raw is None:
+                continue
+            c = np.asarray(s_raw, dtype=np.float64)
+            if c.ndim != 1 or c.size == 0:
+                continue
+            ef_val = float(causal_ema_1d(c, cfg.fast_span)[-1])
+            es_val = float(causal_ema_1d(c, cfg.slow_span)[-1])
+            vol_val = float(_fb_rolling_vol_1d(c, cfg.vol_window)[-1])
+            last_c = float(c[-1])
+            sig_on = bool(
+                btc_bull
+                and math.isfinite(last_c)
+                and last_c > 0.0
+                and math.isfinite(ef_val)
+                and math.isfinite(es_val)
+                and (ef_val > es_val)
+                and math.isfinite(vol_val)
+                and (vol_val > 1e-6)
+            )
+            w_val = (vt_bar / vol_val) / float(n_elig) if sig_on else 0.0
+            if w_val > 0.0:
+                raw[sym] = w_val
+            diagnostics[sym] = {
+                "last_closed_4h": round(last_c, 6) if math.isfinite(last_c) else None,
+                "ema24": round(ef_val, 6) if math.isfinite(ef_val) else None,
+                "ema120": round(es_val, 6) if math.isfinite(es_val) else None,
+                "vol120_ann_pct": (
+                    round(vol_val * math.sqrt(cfg.bars_per_year) * 100.0, 2) if math.isfinite(vol_val) else None
+                ),
+                "signal_long": sig_on,
+            }
+        tot_raw = sum(raw.values())
+        capped_raw = {k: v / tot_raw for k, v in raw.items()} if tot_raw > 1.0 else dict(raw)
+        weights = apply_deadband_step(capped_raw, prev_weights, deadband=cfg.deadband)
+        if round_digits is not None:
+            weights = {k: round(v, round_digits) for k, v in weights.items() if round(v, round_digits) > 0.0}
+            tot_r = sum(weights.values())
+            if tot_r > 1.0:
+                weights = {k: round(v / tot_r, round_digits) for k, v in weights.items()}
+        gross_exp = sum(weights.values())
+        return {
+            "btc_regime_bull": btc_bull,
+            "btc_ema60": round(btc_ef, 2),
+            "btc_ema300": round(btc_es, 2),
+            "btc_history_bars": btc_bars,
+            "ema300_drift_warning": btc_bars < cfg.min_recommended_history_bars,
+            "active_count": len(weights),
+            "gross_exposure": round(gross_exp, 6) if round_digits is not None else gross_exp,
+            "weights": weights,
+            "raw_weights": capped_raw,
+            "diagnostics": diagnostics,
+        }
+
+    def _fb_pos_price(val: Any) -> float | None:
+        if val is None or isinstance(val, bool):
+            return None
+        try:
+            p = float(val)
+        except (TypeError, ValueError):
+            return None
+        return p if (math.isfinite(p) and p > 0.0) else None
+
+    def _fb_nonneg_slip(val: Any, fallback: float) -> float:
+        if val is None or isinstance(val, bool):
+            return fallback
+        try:
+            p = float(val)
+        except (TypeError, ValueError):
+            return fallback
+        return p if (math.isfinite(p) and p >= 0.0) else fallback
+
+    def update_shadow_spot_accounting(  # type: ignore[no-redef]
+        *,
+        prev_weights: Mapping[str, float],
+        prev_mids: Mapping[str, float],
+        prev_equity_usd: float,
+        prev_bar_close_ms: int | None,
+        current_bar_close_ms: int,
+        candidate_weights: Mapping[str, float],
+        depth_metrics: Mapping[str, Mapping[str, Any]],
+        taker_fee_bps: float = 10.0,
+        fallback_slip_bps: float = 5.0,
+    ) -> dict[str, Any]:
+        if isinstance(current_bar_close_ms, bool) or int(current_bar_close_ms) <= 0:
+            raise ValueError("current_bar_close_ms must be a positive int.")
+        cur_ms = int(current_bar_close_ms)
+        prev_ms = None if prev_bar_close_ms is None else int(prev_bar_close_ms)
+        clean_prev = {str(k): float(v) for k, v in prev_weights.items() if float(v) > 0.0}
+        clean_cand = {str(k): float(v) for k, v in candidate_weights.items() if float(v) > 0.0}
+        cand_sum = sum(clean_cand.values())
+        if cand_sum > 1.0 + 1e-6:
+            raise ValueError("Spot candidate_weights sum exceeds 1.0.")
+        if cand_sum > 1.0:
+            clean_cand = {k: v / cand_sum for k, v in clean_cand.items()}
+        mtm_ret = 0.0
+        missing_exit_mids: list[str] = []
+        for sym, w in sorted(clean_prev.items()):
+            p0 = _fb_pos_price(prev_mids.get(sym))
+            p1 = _fb_pos_price(depth_metrics.get(sym, {}).get("mid"))
+            if p0 is not None and p1 is not None:
+                mtm_ret += w * (p1 / p0 - 1.0)
+            else:
+                missing_exit_mids.append(sym)
+        is_new_bar = (prev_ms is None) or (cur_ms > prev_ms)
+        if is_new_bar:
+            active_weights = clean_cand
+            all_keys = sorted(set(clean_prev) | set(active_weights))
+            turnover = sum(abs(active_weights.get(k, 0.0) - clean_prev.get(k, 0.0)) for k in all_keys)
+            live_tca_bps = 0.0
+            if turnover > 1e-9:
+                w_slip = 0.0
+                for k in all_keys:
+                    dw = abs(active_weights.get(k, 0.0) - clean_prev.get(k, 0.0))
+                    if dw > 1e-9:
+                        slip_k = _fb_nonneg_slip(depth_metrics.get(k, {}).get("slip_10k_bps"), float(fallback_slip_bps))
+                        w_slip += dw * (float(taker_fee_bps) + slip_k)
+                live_tca_bps = w_slip / turnover
+            cost_ret = turnover * (live_tca_bps / 10_000.0)
+            locked_ms = cur_ms
+        else:
+            active_weights = clean_prev
+            turnover = 0.0
+            live_tca_bps = 0.0
+            cost_ret = 0.0
+            locked_ms = prev_ms  # type: ignore[assignment]
+        return {
+            "weights": active_weights,
+            "equity_usd": max(0.0, float(prev_equity_usd) * (1.0 + mtm_ret - cost_ret)),
+            "mtm_return": mtm_ret,
+            "turnover": turnover,
+            "live_tca_bps": live_tca_bps,
+            "cost_return": cost_ret,
+            "bar_rebalanced": is_new_bar,
+            "last_4h_close_ms": locked_ms,
+            "missing_exit_mids": missing_exit_mids,
+        }
+
+    def compute_carry_btc_eth_live_step(  # type: ignore[no-redef]
+        funding_hist_8h: Mapping[str, Sequence[float]],
+        prev_state: Mapping[str, bool] | None = None,
+        *,
+        symbols: tuple[str, str] = ("BTCUSDT", "ETHUSDT"),
+        equity_buffer_mult: float = 2.0,
+        enter_ann: float = 0.03,
+        exit_ann: float = 0.0,
+        min_settlements: int = 18,
+        window_settlements: int = 21,
+    ) -> dict[str, Any]:
+        prev = dict(prev_state or {sym: False for sym in symbols})
+        notional_cap = 1.0 / float(equity_buffer_mult)
+        per_coin_eq_w = notional_cap / float(max(1, len(symbols)))
+        new_state: dict[str, bool] = {}
+        notional_w: dict[str, float] = {}
+        stats: dict[str, dict[str, Any]] = {}
+        for sym in symbols:
+            clean_rates = [float(x) for x in funding_hist_8h.get(sym, ()) if math.isfinite(float(x))]
+            if len(clean_rates) < min_settlements:
+                new_state[sym] = False
+                stats[sym] = {"n_settlements": len(clean_rates), "trail_7d_ann_pct": None, "active": False}
+                continue
+            w_tail = clean_rates[-window_settlements:]
+            ann_7d = float(np.mean(w_tail)) * 3.0 * 365.0
+            was_on = bool(prev.get(sym, False))
+            is_on = (ann_7d > exit_ann) if was_on else (ann_7d >= enter_ann)
+            new_state[sym] = is_on
+            if is_on:
+                notional_w[sym] = round(per_coin_eq_w, 6)
+            stats[sym] = {
+                "n_settlements": len(w_tail),
+                "last_8h_bps": round(float(w_tail[-1]) * 10_000.0, 3),
+                "trail_7d_ann_pct": round(ann_7d * 100.0, 2),
+                "active": is_on,
+            }
+        return {
+            "equity_buffer_mult": float(equity_buffer_mult),
+            "state": new_state,
+            "notional_weights_of_equity": notional_w,
+            "gross_carry_notional_pct": round(sum(notional_w.values()) * 100.0, 1),
+            "per_coin": stats,
+        }
+
+from quant_factory.crypto_causal_universe import (  # noqa: E402
     BINANCE_SPOT_BASE,
     UNIVERSE_50_SYMBOLS,
 )
-from quant_factory.funding_rate_carry import BINANCE_FAPI_BASE
+from quant_factory.funding_rate_carry import BINANCE_FAPI_BASE  # noqa: E402
 
 DEFAULT_LIVE_DIR = ROOT / ".runtime" / "live-overnight"
 DEFAULT_LOG_PATH = DEFAULT_LIVE_DIR / "crypto_shadow_log.jsonl"
 DEFAULT_LATEST_PATH = DEFAULT_LIVE_DIR / "crypto_shadow_latest.json"
 DEFAULT_STATE_PATH = DEFAULT_LIVE_DIR / "crypto_shadow_state.json"
 
+SHADOW_4H_KLINE_LIMIT: int = DEFAULT_SHADOW_4H_KLINE_LIMIT  # 1000 (>= 600) for EMA(300) warmup parity
+
 
 # ==============================================================================
 # ORDERBOOK DEPTH SLIPPAGE MODEL (PURE, DETERMINISTIC, UNIT-TESTABLE)
 # ==============================================================================
 
+
 def compute_orderbook_slippage_bps(
     bids: list[list[str | float]],
     asks: list[list[str | float]],
     notional_usd: float,
-) -> dict[str, float]:
+) -> dict[str, Any]:
     """Compute exact L2 VWAP execution slippage (bps vs mid) for a market buy & sell of `notional_usd`."""
     if not bids or not asks:
-        return {"spread_bps": float("nan"), "buy_slip_bps": float("nan"), "sell_slip_bps": float("nan"), "depth_ok": 0.0}
+        return {
+            "spread_bps": float("nan"),
+            "buy_slip_bps": float("nan"),
+            "sell_slip_bps": float("nan"),
+            "depth_ok": 0.0,
+        }
     best_bid = float(bids[0][0])
     best_ask = float(asks[0][0])
     if best_bid <= 0 or best_ask <= 0 or best_ask < best_bid:
-        return {"spread_bps": float("nan"), "buy_slip_bps": float("nan"), "sell_slip_bps": float("nan"), "depth_ok": 0.0}
+        return {
+            "spread_bps": float("nan"),
+            "buy_slip_bps": float("nan"),
+            "sell_slip_bps": float("nan"),
+            "depth_ok": 0.0,
+        }
     mid = 0.5 * (best_bid + best_ask)
     spread_bps = (best_ask - best_bid) / mid * 10_000.0
 
@@ -93,6 +431,9 @@ def compute_orderbook_slippage_bps(
     sell_vwap, sell_ok = _walk(bids, notional_usd)
     buy_slip = ((buy_vwap - mid) / mid * 10_000.0) if math.isfinite(buy_vwap) else float("nan")
     sell_slip = ((mid - sell_vwap) / mid * 10_000.0) if math.isfinite(sell_vwap) else float("nan")
+    avg_oneway = (
+        round(0.5 * (buy_slip + sell_slip), 3) if (math.isfinite(buy_slip) and math.isfinite(sell_slip)) else None
+    )
     return {
         "best_bid": round(best_bid, 8),
         "best_ask": round(best_ask, 8),
@@ -100,126 +441,60 @@ def compute_orderbook_slippage_bps(
         "spread_bps": round(spread_bps, 3),
         "buy_slip_bps": round(buy_slip, 3) if math.isfinite(buy_slip) else None,
         "sell_slip_bps": round(sell_slip, 3) if math.isfinite(sell_slip) else None,
-        "avg_oneway_slip_bps": round(0.5 * (buy_slip + sell_slip), 3) if (math.isfinite(buy_slip) and math.isfinite(sell_slip)) else None,
+        "avg_oneway_slip_bps": avg_oneway,
         "depth_ok": bool(buy_ok and sell_ok),
     }
 
 
 def _causal_ema_1d(arr: np.ndarray, span: int) -> np.ndarray:
-    out = np.empty_like(arr, dtype=np.float64)
-    alpha = 2.0 / (span + 1.0)
-    prev = float(arr[0])
-    out[0] = prev
-    for i in range(1, len(arr)):
-        prev = alpha * float(arr[i]) + (1.0 - alpha) * prev
-        out[i] = prev
-    return out
+    """Delegate strictly to `quant_lab.unified_engine.causal_ema_1d` (`valid_streak >= span` parity)."""
+    return causal_ema_1d(arr, span)
+
+
+def build_shadow_watch_symbols(
+    top15_symbols: Sequence[str],
+    prev_weights: Mapping[str, float] | None = None,
+) -> list[str]:
+    """Return sorted watch universe: `top15 | {BTCUSDT, ETHUSDT} | set(prev_weights.keys())`.
+
+    Guarantees coins that drop out of Top-15 still have live `mid` and L2 slippage fetched so
+    their exit mark-to-market return and exit TCA are accounted accurately (never `p1 = 0.0`).
+    """
+    held_keys = set(prev_weights.keys()) if prev_weights else set()
+    return sorted(set(top15_symbols) | {"BTCUSDT", "ETHUSDT"} | held_keys)
 
 
 def compute_f4_4h_ema_live_weights(
-    closed_4h_closes: dict[str, np.ndarray],
-    top15_symbols: list[str],
+    closed_4h_closes: Mapping[str, np.ndarray],
+    top15_symbols: Sequence[str],
+    *,
+    prev_weights: Mapping[str, float] | None = None,
+    deadband: float = 0.015,
+    round_digits: int | None = None,
 ) -> dict[str, Any]:
-    """Compute exact live causal F4_4H_EMA_24_120_BTC target weights strictly from CLOSED 4H bars."""
-    btc_c = closed_4h_closes.get("BTCUSDT")
-    if btc_c is None or len(btc_c) < 305:
-        return {"btc_regime_bull": False, "weights": {}, "active_count": 0, "reason": "INSUFFICIENT_BTC_BARS"}
-
-    btc_e60 = _causal_ema_1d(btc_c, 60)[-1]
-    btc_e300 = _causal_ema_1d(btc_c, 300)[-1]
-    btc_bull = bool(btc_e60 > btc_e300)
-
-    vt15_4h = 0.15 / math.sqrt(365.0 * 6.0)
-    raw: dict[str, float] = {}
-    diagnostics: dict[str, dict[str, Any]] = {}
-    n_elig = max(1, len(top15_symbols))
-
-    for sym in top15_symbols:
-        c = closed_4h_closes.get(sym)
-        if c is None or len(c) < 130:
-            continue
-        e24 = float(_causal_ema_1d(c, 24)[-1])
-        e120 = float(_causal_ema_1d(c, 120)[-1])
-        rets = c[1:] / c[:-1] - 1.0
-        vol120 = float(np.std(rets[-120:], ddof=1))
-        sig_on = bool(btc_bull and (e24 > e120) and vol120 > 1e-6)
-        w_val = (vt15_4h / vol120) / n_elig if sig_on else 0.0
-        if w_val > 0.0:
-            raw[sym] = w_val
-        diagnostics[sym] = {
-            "last_closed_4h": round(float(c[-1]), 6),
-            "ema24": round(e24, 6),
-            "ema120": round(e120, 6),
-            "vol120_ann_pct": round(vol120 * math.sqrt(365.0 * 6.0) * 100.0, 2),
-            "signal_long": sig_on,
-        }
-
-    tot = sum(raw.values())
-    if tot > 1.0:
-        weights = {k: round(v / tot, 6) for k, v in raw.items()}
-    else:
-        weights = {k: round(v, 6) for k, v in raw.items()}
-
-    return {
-        "btc_regime_bull": btc_bull,
-        "btc_ema60": round(float(btc_e60), 2),
-        "btc_ema300": round(float(btc_e300), 2),
-        "active_count": len(weights),
-        "gross_exposure": round(sum(weights.values()), 6),
-        "weights": weights,
-        "diagnostics": diagnostics,
-    }
+    """Compute exact live causal `F4_4H_EMA_24_120_BTC` weights via canonical `quant_lab.unified_engine`."""
+    cfg = F4EmaConfig(deadband=deadband)
+    return compute_f4_ema_step(
+        closed_4h_closes,
+        top15_symbols,
+        config=cfg,
+        prev_weights=prev_weights,
+        round_digits=round_digits,
+    )
 
 
 def compute_carry_btc_eth_live_weights(
-    funding_hist_8h: dict[str, list[float]],
-    prev_state: dict[str, bool] | None = None,
+    funding_hist_8h: Mapping[str, Sequence[float]],
+    prev_state: Mapping[str, bool] | None = None,
 ) -> dict[str, Any]:
-    """Compute exact live causal CARRY_BTC_ETH_CONS_2XBUF notional weights (2x equity buffer, max 25% equity/coin)."""
-    prev = dict(prev_state or {"BTCUSDT": False, "ETHUSDT": False})
-    enter_thr = 0.03  # +3.0% annualized funding rate
-    exit_thr = 0.0    # <= 0.0% annualized funding rate
-    new_state: dict[str, bool] = {}
-    notional_w: dict[str, float] = {}
-    stats: dict[str, Any] = {}
-
-    for sym in ("BTCUSDT", "ETHUSDT"):
-        rates = funding_hist_8h.get(sym, [])
-        if len(rates) < 18:
-            new_state[sym] = False
-            stats[sym] = {"n_settlements": len(rates), "trail_7d_ann_pct": None, "active": False}
-            continue
-        # Last 21 settlements = exact trailing 7 days (3 settlements/day * 7)
-        w21 = rates[-21:]
-        ann_7d = float(np.mean(w21)) * 3.0 * 365.0
-        was_on = bool(prev.get(sym, False))
-        if was_on:
-            is_on = ann_7d > exit_thr
-        else:
-            is_on = ann_7d >= enter_thr
-        new_state[sym] = is_on
-        if is_on:
-            # 2x equity buffer -> 0.50 total carry notional cap -> 0.25 equity per coin when both active
-            notional_w[sym] = 0.25
-        stats[sym] = {
-            "n_settlements": len(w21),
-            "last_8h_bps": round(float(w21[-1]) * 10_000.0, 3),
-            "trail_7d_ann_pct": round(ann_7d * 100.0, 2),
-            "active": is_on,
-        }
-
-    return {
-        "equity_buffer_mult": 2.0,
-        "state": new_state,
-        "notional_weights_of_equity": notional_w,
-        "gross_carry_notional_pct": round(sum(notional_w.values()) * 100.0, 1),
-        "per_coin": stats,
-    }
+    """Compute exact live causal `CARRY_BTC_ETH_CONS_2XBUF` weights via canonical `quant_lab.funding_carry_v2`."""
+    return compute_carry_btc_eth_live_step(funding_hist_8h, prev_state=prev_state)
 
 
 # ==============================================================================
 # LIVE PUBLIC BINANCE COLLECTOR (ZERO API KEY, ZERO ORDERSEND)
 # ==============================================================================
+
 
 def _fetch_json(client: httpx.Client, url: str, params: dict[str, Any] | None = None) -> Any:
     for attempt in range(3):
@@ -243,7 +518,11 @@ def select_live_top15_causal(client: httpx.Client, universe: tuple[str, ...] = U
 
     def _d1_qv(sym: str) -> tuple[str, float]:
         with httpx.Client(timeout=10.0, headers={"User-Agent": "NaqexShadowRunner/1.0"}) as c2:
-            rows = _fetch_json(c2, f"{BINANCE_SPOT_BASE}/api/v3/klines", {"symbol": sym, "interval": "1d", "limit": 32})
+            rows = _fetch_json(
+                c2,
+                f"{BINANCE_SPOT_BASE}/api/v3/klines",
+                {"symbol": sym, "interval": "1d", "limit": 32},
+            )
             # Drop currently forming today bar (rows[:-1]) -> strictly closed last 30 UTC days!
             closed = rows[:-1][-30:] if len(rows) > 1 else rows
             if len(closed) < 25:
@@ -255,10 +534,24 @@ def select_live_top15_causal(client: httpx.Client, universe: tuple[str, ...] = U
             s, v = fut.result()
             if v > 0:
                 vol30[s] = v
-    ranked = sorted(vol30.keys(), key=lambda s: vol30[s], reverse=True)[:15]
+    ranked = sorted(vol30.keys(), key=lambda s: (-vol30[s], s))[:15]
     if "BTCUSDT" not in ranked:
         ranked = ["BTCUSDT"] + ranked[:14]
     return ranked
+
+
+def _finite_float_or_none(value: Any, *, positive_only: bool = False) -> float | None:
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(parsed):
+        return None
+    if positive_only and parsed <= 0.0:
+        return None
+    return parsed
 
 
 def collect_live_shadow_snapshot(
@@ -266,10 +559,16 @@ def collect_live_shadow_snapshot(
     state_path: Path = DEFAULT_STATE_PATH,
     log_path: Path = DEFAULT_LOG_PATH,
     latest_path: Path = DEFAULT_LATEST_PATH,
+    kline_limit_4h: int = SHADOW_4H_KLINE_LIMIT,
 ) -> dict[str, Any]:
     """Execute one complete read-only live shadow cycle and update JSONL + latest + paper state."""
+    if isinstance(kline_limit_4h, bool) or not isinstance(kline_limit_4h, int) or kline_limit_4h < 600:
+        raise ValueError(
+            f"kline_limit_4h must be an integer >= 600 for EMA(300) warmup parity, got {kline_limit_4h!r}."
+        )
+
     t0 = time.perf_counter()
-    now_utc = datetime.now(timezone.utc)
+    now_utc = datetime.now(UTC)
     now_iso = now_utc.isoformat()
 
     prev_state: dict[str, Any] = {}
@@ -279,18 +578,28 @@ def collect_live_shadow_snapshot(
         except Exception:
             prev_state = {}
 
+    s2_prev_w: dict[str, float] = dict(prev_state.get("s2_weights", {}))
+    s2_prev_mids: dict[str, float] = dict(prev_state.get("s2_mids", {}))
+    s2_prev_bar_close_ms: int | None = prev_state.get("s2_last_4h_close_ms")
+    s2_eq = float(prev_state.get("s2_paper_equity_usd", 10_000.0))
+
     with httpx.Client(timeout=12.0, headers={"User-Agent": "NaqexShadowRunner/1.0"}) as client:
         top15 = select_live_top15_causal(client)
-        watch_syms = sorted(set(top15) | {"BTCUSDT", "ETHUSDT"})
+        # Bug #5 fix: always include previously held symbols so dropped Top-15 coins get real exit MTM!
+        watch_syms = build_shadow_watch_symbols(top15, s2_prev_w)
 
-        # 1. Fetch closed 4H klines + live L2 depth (10k/50k USD slippage) in parallel
+        # 1. Fetch closed 4H klines (limit >= 600, default 1000) + live L2 depth (10k/50k USD slippage)
         closed_4h: dict[str, np.ndarray] = {}
         last_4h_close_ms: dict[str, int] = {}
         depth_metrics: dict[str, dict[str, Any]] = {}
 
         def _fetch_coin_bundle(sym: str) -> tuple[str, np.ndarray, int, dict[str, Any]]:
             with httpx.Client(timeout=12.0, headers={"User-Agent": "NaqexShadowRunner/1.0"}) as c2:
-                kl = _fetch_json(c2, f"{BINANCE_SPOT_BASE}/api/v3/klines", {"symbol": sym, "interval": "4h", "limit": 325})
+                kl = _fetch_json(
+                    c2,
+                    f"{BINANCE_SPOT_BASE}/api/v3/klines",
+                    {"symbol": sym, "interval": "4h", "limit": int(kline_limit_4h)},
+                )
                 # Drop forming unclosed bar (`kl[:-1]`)
                 closed_kl = kl[:-1] if len(kl) > 1 else kl
                 closes = np.array([float(r[4]) for r in closed_kl], dtype=np.float64)
@@ -299,13 +608,13 @@ def collect_live_shadow_snapshot(
                 s10k = compute_orderbook_slippage_bps(ob.get("bids", []), ob.get("asks", []), 10_000.0)
                 s50k = compute_orderbook_slippage_bps(ob.get("bids", []), ob.get("asks", []), 50_000.0)
                 dm = {
-                    "best_bid": s10k.get("best_bid"),
-                    "best_ask": s10k.get("best_ask"),
-                    "mid": s10k.get("mid"),
-                    "spread_bps": s10k.get("spread_bps"),
-                    "slip_10k_bps": s10k.get("avg_oneway_slip_bps"),
-                    "slip_50k_bps": s50k.get("avg_oneway_slip_bps"),
-                    "depth_50k_ok": s50k.get("depth_ok"),
+                    "best_bid": _finite_float_or_none(s10k.get("best_bid"), positive_only=True),
+                    "best_ask": _finite_float_or_none(s10k.get("best_ask"), positive_only=True),
+                    "mid": _finite_float_or_none(s10k.get("mid"), positive_only=True),
+                    "spread_bps": _finite_float_or_none(s10k.get("spread_bps")),
+                    "slip_10k_bps": _finite_float_or_none(s10k.get("avg_oneway_slip_bps")),
+                    "slip_50k_bps": _finite_float_or_none(s50k.get("avg_oneway_slip_bps")),
+                    "depth_50k_ok": bool(s50k.get("depth_ok")),
                 }
                 return sym, closes, last_close_t, dm
 
@@ -335,41 +644,32 @@ def collect_live_shadow_snapshot(
                 "spot_perp_basis_bps": round(basis_bps, 2),
             }
 
-    # 3. Compute live causal paper target weights
-    s2_sig = compute_f4_4h_ema_live_weights(closed_4h, top15)
+    # 3. Compute live causal paper target weights via canonical unified engine (with deadband parity!)
+    s2_sig = compute_f4_4h_ema_live_weights(closed_4h, top15, prev_weights=s2_prev_w)
     s3a_sig = compute_carry_btc_eth_live_weights(funding_hist, prev_state.get("carry_state"))
 
-    # 4. Update paper shadow portfolio accounting & live TCA tracking (10,000 USD ref capital per sleeve)
-    s2_prev_w: dict[str, float] = prev_state.get("s2_weights", {})
-    s2_prev_mids: dict[str, float] = prev_state.get("s2_mids", {})
-    s2_eq = float(prev_state.get("s2_paper_equity_usd", 10_000.0))
+    # 4. Update paper shadow portfolio accounting with 4H bar idempotency lock & full exited-coin MTM
+    bar_close_ms = int(last_4h_close_ms.get("BTCUSDT", max(last_4h_close_ms.values(), default=0)))
+    if bar_close_ms <= 0:
+        raise ValueError(f"Empty or invalid closed 4H kline timestamp (last_4h_close_ms={bar_close_ms}).")
+    acct = update_shadow_spot_accounting(
+        prev_weights=s2_prev_w,
+        prev_mids=s2_prev_mids,
+        prev_equity_usd=s2_eq,
+        prev_bar_close_ms=s2_prev_bar_close_ms,
+        current_bar_close_ms=bar_close_ms,
+        candidate_weights=s2_sig["weights"],
+        depth_metrics=depth_metrics,
+    )
+    active_weights = acct["weights"]
+    s2_eq_new = float(acct["equity_usd"])
+    s2_turnover = float(acct["turnover"])
+    s2_live_tca_bps = float(acct["live_tca_bps"])
 
-    # Mark-to-market previous paper weights against current live mids
-    s2_mtm_ret = 0.0
-    for sym, w in s2_prev_w.items():
-        p0 = float(s2_prev_mids.get(sym, 0.0))
-        p1 = float(depth_metrics.get(sym, {}).get("mid") or 0.0)
-        if p0 > 0 and p1 > 0:
-            s2_mtm_ret += w * (p1 / p0 - 1.0)
-    # Turnover & live orderbook TCA cost if weights changed
-    all_s2_keys = set(s2_prev_w.keys()) | set(s2_sig["weights"].keys())
-    s2_turnover = sum(abs(s2_sig["weights"].get(k, 0.0) - s2_prev_w.get(k, 0.0)) for k in all_s2_keys)
-    s2_live_tca_bps = 0.0
-    if s2_turnover > 1e-6:
-        w_slip = 0.0
-        for k in all_s2_keys:
-            dw = abs(s2_sig["weights"].get(k, 0.0) - s2_prev_w.get(k, 0.0))
-            if dw > 1e-6:
-                slip_k = float(depth_metrics.get(k, {}).get("slip_10k_bps") or 5.0)
-                w_slip += dw * (10.0 + slip_k)  # 10 bps Binance Spot taker fee + live L2 10k slip
-        s2_live_tca_bps = w_slip / s2_turnover
-    s2_cost_ret = s2_turnover * (s2_live_tca_bps / 10_000.0)
-    s2_eq = s2_eq * (1.0 + s2_mtm_ret - s2_cost_ret)
-
-    # Aggregate median/mean live L2 slippage across Top-15
-    slips_10k = [float(depth_metrics[s]["slip_10k_bps"]) for s in top15 if depth_metrics[s].get("slip_10k_bps") is not None]
-    slips_50k = [float(depth_metrics[s]["slip_50k_bps"]) for s in top15 if depth_metrics[s].get("slip_50k_bps") is not None]
-    spreads = [float(depth_metrics[s]["spread_bps"]) for s in top15 if depth_metrics[s].get("spread_bps") is not None]
+    # Aggregate median/mean live L2 slippage across Top-15 (strictly finite values -> valid strict JSON)
+    slips_10k = [v for s in top15 if (v := _finite_float_or_none(depth_metrics[s].get("slip_10k_bps"))) is not None]
+    slips_50k = [v for s in top15 if (v := _finite_float_or_none(depth_metrics[s].get("slip_50k_bps"))) is not None]
+    spreads = [v for s in top15 if (v := _finite_float_or_none(depth_metrics[s].get("spread_bps"))) is not None]
 
     record = {
         "schema": "naqex-crypto-shadow-telemetry-v1",
@@ -391,12 +691,16 @@ def collect_live_shadow_snapshot(
             "btc_regime_bull": s2_sig["btc_regime_bull"],
             "btc_ema60": s2_sig["btc_ema60"],
             "btc_ema300": s2_sig["btc_ema300"],
-            "active_count": s2_sig["active_count"],
-            "gross_exposure": s2_sig["gross_exposure"],
-            "weights": s2_sig["weights"],
-            "paper_equity_usd": round(s2_eq, 2),
+            "active_count": len(active_weights),
+            "gross_exposure": round(sum(active_weights.values()), 6),
+            "weights": active_weights,
+            "paper_equity_usd": round(s2_eq_new, 2),
             "cycle_turnover": round(s2_turnover, 6),
             "cycle_live_tca_bps": round(s2_live_tca_bps, 3),
+            "bar_rebalanced": bool(acct["bar_rebalanced"]),
+            "last_4h_close_ms": int(acct["last_4h_close_ms"]),
+            "kline_limit_4h": int(kline_limit_4h),
+            "missing_exit_mids": list(acct["missing_exit_mids"]),
         },
         "sleeve3a_carry_btc_eth": {
             "equity_buffer_mult": s3a_sig["equity_buffer_mult"],
@@ -408,20 +712,40 @@ def collect_live_shadow_snapshot(
         "orderbook_depth_top15": {s: depth_metrics[s] for s in top15},
     }
 
+    # Persist live finite positive mids; carry forward prior cost-basis `p0` for held coins if mid transiently absent!
+    persisted_mids: dict[str, float] = {}
+    for s in watch_syms:
+        live_mid = _finite_float_or_none(depth_metrics[s].get("mid"), positive_only=True)
+        if live_mid is not None:
+            persisted_mids[s] = live_mid
+        elif s in active_weights:
+            prev_mid = _finite_float_or_none(s2_prev_mids.get(s), positive_only=True)
+            if prev_mid is not None:
+                persisted_mids[s] = prev_mid
+
     new_state = {
         "updated_utc": now_iso,
         "cycle_num": record["cycle_num"],
-        "s2_weights": s2_sig["weights"],
-        "s2_mids": {s: depth_metrics[s]["mid"] for s in watch_syms if depth_metrics[s].get("mid")},
-        "s2_paper_equity_usd": round(s2_eq, 4),
+        "s2_weights": active_weights,
+        "s2_last_4h_close_ms": int(acct["last_4h_close_ms"]),
+        "s2_mids": persisted_mids,
+        "s2_paper_equity_usd": round(s2_eq_new, 4),
         "carry_state": s3a_sig["state"],
     }
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("a", encoding="utf-8", newline="\n") as f:
-        f.write(json.dumps(record, ensure_ascii=False) + "\n")
-    latest_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
-    state_path.write_text(json.dumps(new_state, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+        f.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + "\n")
+    latest_path.write_text(
+        json.dumps(record, indent=2, ensure_ascii=False, allow_nan=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    state_path.write_text(
+        json.dumps(new_state, indent=2, ensure_ascii=False, allow_nan=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     return record
 
 
@@ -435,29 +759,46 @@ def main() -> int:
 
     if not args.daemon:
         rec = collect_live_shadow_snapshot()
-        print(json.dumps({
-            "timestamp_utc": rec["timestamp_utc"],
-            "elapsed_sec": rec["elapsed_sec"],
-            "order_send_count": rec["order_send_count"],
-            "top15": rec["top15_causal_universe"],
-            "tca_summary_top15": rec["tca_summary_top15"],
-            "sleeve2_f4_4h_ema": rec["sleeve2_f4_4h_ema"],
-            "sleeve3a_carry_btc_eth": {
-                "gross_carry_notional_pct": rec["sleeve3a_carry_btc_eth"]["gross_carry_notional_pct"],
-                "per_coin_funding": rec["sleeve3a_carry_btc_eth"]["per_coin_funding"],
-                "perp_live_basis": rec["sleeve3a_carry_btc_eth"]["perp_live_basis"],
-            },
-            "log_path": str(DEFAULT_LOG_PATH),
-        }, indent=2, ensure_ascii=False))
+        print(
+            json.dumps(
+                {
+                    "timestamp_utc": rec["timestamp_utc"],
+                    "elapsed_sec": rec["elapsed_sec"],
+                    "order_send_count": rec["order_send_count"],
+                    "top15": rec["top15_causal_universe"],
+                    "tca_summary_top15": rec["tca_summary_top15"],
+                    "sleeve2_f4_4h_ema": rec["sleeve2_f4_4h_ema"],
+                    "sleeve3a_carry_btc_eth": {
+                        "gross_carry_notional_pct": rec["sleeve3a_carry_btc_eth"]["gross_carry_notional_pct"],
+                        "per_coin_funding": rec["sleeve3a_carry_btc_eth"]["per_coin_funding"],
+                        "perp_live_basis": rec["sleeve3a_carry_btc_eth"]["perp_live_basis"],
+                    },
+                    "log_path": str(DEFAULT_LOG_PATH),
+                },
+                indent=2,
+                ensure_ascii=False,
+            )
+        )
         return 0
 
     cycles = 0
     while True:
         try:
             rec = collect_live_shadow_snapshot()
-            print(f"[{rec['timestamp_utc']}] cycle={rec['cycle_num']} s2_exp={rec['sleeve2_f4_4h_ema']['gross_exposure']:.3f} s3a_exp={rec['sleeve3a_carry_btc_eth']['gross_carry_notional_pct']}% med_10k_slip={rec['tca_summary_top15']['median_slip_10k_bps']}bps", flush=True)
+            print(
+                f"[{rec['timestamp_utc']}] cycle={rec['cycle_num']} "
+                f"s2_exp={rec['sleeve2_f4_4h_ema']['gross_exposure']:.3f} "
+                f"rebal={rec['sleeve2_f4_4h_ema']['bar_rebalanced']} "
+                f"s3a_exp={rec['sleeve3a_carry_btc_eth']['gross_carry_notional_pct']}% "
+                f"med_10k_slip={rec['tca_summary_top15']['median_slip_10k_bps']}bps",
+                flush=True,
+            )
         except Exception as exc:
-            err_rec = {"timestamp_utc": datetime.now(timezone.utc).isoformat(), "status": "ERROR", "error": f"{type(exc).__name__}:{exc}"}
+            err_rec = {
+                "timestamp_utc": datetime.now(UTC).isoformat(),
+                "status": "ERROR",
+                "error": f"{type(exc).__name__}:{exc}",
+            }
             DEFAULT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
             with DEFAULT_LOG_PATH.open("a", encoding="utf-8", newline="\n") as f:
                 f.write(json.dumps(err_rec) + "\n")
@@ -467,6 +808,24 @@ def main() -> int:
             break
         time.sleep(max(10, int(args.interval_sec)))
     return 0
+
+
+__all__ = [
+    "DEFAULT_LATEST_PATH",
+    "DEFAULT_LIVE_DIR",
+    "DEFAULT_LOG_PATH",
+    "DEFAULT_STATE_PATH",
+    "SHADOW_4H_KLINE_LIMIT",
+    "_causal_ema_1d",
+    "apply_deadband_step",
+    "build_shadow_watch_symbols",
+    "collect_live_shadow_snapshot",
+    "compute_carry_btc_eth_live_weights",
+    "compute_f4_4h_ema_live_weights",
+    "compute_orderbook_slippage_bps",
+    "select_live_top15_causal",
+    "update_shadow_spot_accounting",
+]
 
 
 if __name__ == "__main__":

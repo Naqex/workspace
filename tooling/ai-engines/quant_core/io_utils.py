@@ -150,6 +150,4 @@ def repo_root_from(
         if any((candidate / marker).exists() for marker in markers):
             return candidate
 
-    raise FileNotFoundError(
-        f"Could not locate repository root upward from '{file_path}' using markers {markers!r}."
-    )
+    raise FileNotFoundError(f"Could not locate repository root upward from '{file_path}' using markers {markers!r}.")

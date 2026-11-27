@@ -1,0 +1,337 @@
+{
+  "schema_version": "naqex-automation-feature-map-v1",
+  "version": "1.0.0",
+  "order_send_count": 0,
+  "spend_vnd": 0,
+  "mt5_procs": 0,
+  "holdout_cutoff_utc": "2025-01-01T00:00:00Z",
+  "holdout_rows_analysed": 0,
+  "dev_pc_mode": "MODE_A_OWNER_ACTIVE",
+  "mode_a_max_workers": 2,
+  "forbid_root_uv_run": true,
+  "forbid_pytest_n_auto": true,
+  "python_runtime": ".runtime/quant-audit-v24/Scripts/python.exe",
+  "features": [
+    {
+      "id": "quant_core_ssot",
+      "name": "TradingWorkspace Quant Core & Holdout/TCA Guards",
+      "domain": "quant_core",
+      "owner_paths": [
+        "tooling/ai-engines/quant_core",
+        "tooling/ai-engines/quant_factory",
+        "tooling/ai-engines/configs/ssot"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-O",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "-o",
+        "cache_dir=.tmp/pytest-feature-quant-core",
+        "-q",
+        "tooling/ai-engines/tests/test_quant_ssot_core.py",
+        "tooling/ai-engines/tests/test_holdout_and_tca_guards.py",
+        "tooling/ai-engines/tests/test_quant_core_io_utils.py"
+      ],
+      "cwd": ".",
+      "timeout_sec": 90,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "quant_core",
+      "tags": ["quant", "ssot", "holdout", "python-O"],
+      "description": "Verifies SSOT schemas, fail-closed Holdout 2025+ guards under python -O, and atomic I/O utilities."
+    },
+    {
+      "id": "architecture_gate",
+      "name": "Harness Architecture Gate (ARCH-01..10)",
+      "domain": "architecture",
+      "owner_paths": [
+        "tooling/check_architecture.py",
+        "tooling/automation",
+        "tooling/ai-engines/experiments"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "tooling/check_architecture.py",
+        "--strict",
+        "--json"
+      ],
+      "cwd": ".",
+      "timeout_sec": 30,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "architecture",
+      "tags": ["arch", "ast", "strict", "ratchet"],
+      "description": "Runs strict ARCH-01..10 checks including offline no-OrderSend, no bare assert guards, and automation OPSEC."
+    },
+    {
+      "id": "opsec_and_skill_links",
+      "name": "Layer-1 OPSEC Guard & Skill Link Integrity",
+      "domain": "security_and_skills",
+      "owner_paths": [
+        ".agents/skills",
+        "tooling/check_skill_links.py",
+        "tooling/ai-engines/tests/test_layer1_opsec_guard.py"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "tooling/check_skill_links.py",
+        "--skills-dir",
+        ".agents/skills",
+        "--review-triggers"
+      ],
+      "secondary_commands": [
+        [
+          ".runtime/quant-audit-v24/Scripts/python.exe",
+          "-X",
+          "utf8",
+          "-m",
+          "pytest",
+          "-o",
+          "cache_dir=.tmp/pytest-feature-opsec",
+          "-q",
+          "tooling/ai-engines/tests/test_layer1_opsec_guard.py"
+        ]
+      ],
+      "cwd": ".",
+      "timeout_sec": 45,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "opsec",
+      "tags": ["opsec", "skills", "links"],
+      "description": "Verifies zero broken relative skill links, English negative triggers, and zero Layer-1 OPSEC leaks."
+    },
+    {
+      "id": "cockpit_api_facade",
+      "name": "Cockpit Stateless API & Facade Parity",
+      "domain": "cockpit",
+      "owner_paths": [
+        "tooling/ai-engines/cockpit",
+        "tooling/ai-engines/cockpit/modules"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "-o",
+        "cache_dir=.tmp/pytest-feature-cockpit",
+        "-q",
+        "tooling/ai-engines/tests/test_l8_facade_sync.py",
+        "tooling/ai-engines/tests/test_wave2_cockpit_and_treasury.py"
+      ],
+      "cwd": ".",
+      "timeout_sec": 120,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "cockpit",
+      "tags": ["cockpit", "api", "stateless"],
+      "description": "Validates Cockpit offline HTTP routes, facade parity, and stateless automation readers."
+    },
+    {
+      "id": "naqex_cli_runner",
+      "name": "Unified naqex_cli & Worktree/Arch Suite",
+      "domain": "naqex_cli",
+      "owner_paths": [
+        "tooling/naqex_cli.py",
+        "tooling/worktree_ctl.py",
+        "tooling/tests/test_check_architecture.py"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "-o",
+        "cache_dir=.tmp/pytest-feature-cli",
+        "-q",
+        "tooling/tests/test_check_architecture.py"
+      ],
+      "cwd": ".",
+      "timeout_sec": 45,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "cli",
+      "tags": ["cli", "worktree", "arch"],
+      "description": "Verifies naqex_cli command routing, worktree safety, and ARCH-01..10 unit tests."
+    },
+    {
+      "id": "quant_trading_lab",
+      "name": "Quant Lab (projects/quant-trading) Offline Suite",
+      "domain": "projects/quant-trading",
+      "owner_paths": [
+        "projects/quant-trading/src",
+        "projects/quant-trading/tests"
+      ],
+      "verify_command": [
+        "projects/quant-trading/.venv/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "fallback_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "-q",
+        "projects/quant-trading/tests"
+      ],
+      "cwd": "projects/quant-trading",
+      "timeout_sec": 120,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "quant_trading",
+      "tags": ["submodule", "quant-trading", "crypto-spot"],
+      "description": "Runs single-process offline regression tests for projects/quant-trading without root uv run."
+    },
+    {
+      "id": "trader_readonly_qa",
+      "name": "Naqex Trader (projects/trader) Read-Only QA",
+      "domain": "projects/trader",
+      "owner_paths": [
+        "projects/trader/scripts/check_paths.py",
+        "projects/trader/tests/test_release_workflow.py"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "projects/trader/scripts/check_paths.py"
+      ],
+      "secondary_commands": [
+        [
+          ".runtime/quant-audit-v24/Scripts/python.exe",
+          "-X",
+          "utf8",
+          "-m",
+          "pytest",
+          "-o",
+          "cache_dir=.tmp/pytest-feature-trader-qa",
+          "-q",
+          "projects/trader/tests/test_release_workflow.py"
+        ]
+      ],
+      "cwd": ".",
+      "timeout_sec": 60,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "trader_qa",
+      "tags": ["submodule", "trader", "read-only-qa"],
+      "description": "Read-only path, link, and release-workflow QA for projects/trader (zero src/ edits permitted)."
+    },
+    {
+      "id": "education_tutor_setup",
+      "name": "Trading Education Course & Answer-Key Validator",
+      "domain": "education",
+      "owner_paths": [
+        "education/check_setup.py",
+        "education/course.json",
+        "education/progress.json"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "education/check_setup.py"
+      ],
+      "cwd": ".",
+      "timeout_sec": 30,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "ratchet_group": "education",
+      "tags": ["education", "course", "offline"],
+      "description": "Validates local bilingual course schema, progress state, and numeric answer-key consistency."
+    },
+    {
+      "id": "strategy_intel_bridge",
+      "name": "Strategy-Intel Cleanroom Handoff Bridge (Read-Only)",
+      "domain": "strategy-intel",
+      "owner_paths": [
+        "tooling/automation/configs/feature_map.json",
+        "tooling/naqex_cli.py"
+      ],
+      "verify_command": [
+        ".runtime/quant-audit-v24/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "tooling/naqex_cli.py",
+        "auto",
+        "intel-sync",
+        "--offline",
+        "--dry-run"
+      ],
+      "cwd": ".",
+      "timeout_sec": 30,
+      "offline_safe": true,
+      "mode_a_safe": true,
+      "max_workers": 1,
+      "order_send_count": 0,
+      "holdout_rows_analysed": 0,
+      "read_only": true,
+      "allow_src_edits": false,
+      "cleanroom_contract": {
+        "sibling_repo_rel": "../strategy-intel",
+        "immutable_master_leads_rel": "../strategy-intel/handoff/sanitized_master_leads.json",
+        "immutable_master_leads_count": 15,
+        "auto_ingest_leads_rel": "../strategy-intel/handoff/sanitized_auto_leads.json",
+        "writes_back_from_trading_workspace": 0,
+        "runtime_handoff_latest": ".runtime/automation/strategy_intel_handoff_latest.json"
+      },
+      "ratchet_group": "strategy_intel",
+      "tags": ["strategy-intel", "cleanroom", "read-only"],
+      "description": "Dry-run read-only verification of the cleanroom handoff bridge (15 immutable master leads, 0 writes back)."
+    }
+  ]
+}

@@ -11,8 +11,159 @@ from quant_factory.capital_optimizer.constants import CORE7_IDS, TRADING_DAYS_PE
 from quant_factory.capital_optimizer.lot_sizing import assert_strict_pre_holdout_days, floor_lot_step
 
 
+def _asset_currencies(asset: str) -> tuple[str, ...]:
+    """Pure currency mapping matching `pass28_final_discovery_rednews_frontier.asset_currencies`."""
+    if asset in ("US100", "US500", "XAUUSD"):
+        return ("USD",)
+    if asset == "GER40":
+        return ("EUR",)
+    if len(asset) == 6:
+        return (asset[:3], asset[3:])
+    return ("USD",)
+
+
+def _margin_per_lot_usd(
+    asset: str,
+    entry_price: float,
+    profile_mode: str = "Swing",
+) -> tuple[float, float, float, float, float]:
+    """Pure FTMO Demo bound margin/volume/commission specs (bit-identical to pass27, X13-safe)."""
+    is_std = profile_mode == "Standard"
+    if asset in ("US100", "US100.cash", "US500", "US500.cash"):
+        mgn = entry_price * (0.02 if is_std else (1.0 / 15.0))
+        return mgn, 0.01, 0.01, 1000.0, 0.0
+    if asset == "XAUUSD":
+        mgn = entry_price * 100.0 * (0.02 if is_std else 0.10)
+        return mgn, 0.01, 0.01, 100.0, 5.20
+    lev = 100.0 if is_std else 30.0
+    if asset in ("USDJPY", "USDCAD", "USDCHF"):
+        notional_usd = 100_000.0
+    elif asset.startswith("EUR") and not asset.endswith("USD"):
+        notional_usd = 100_000.0 * 1.15
+    elif asset.startswith("GBP") and not asset.endswith("USD"):
+        notional_usd = 100_000.0 * 1.35
+    else:
+        notional_usd = 100_000.0 * entry_price
+    return notional_usd / lev, 0.01, 0.01, 50.0, 5.0
+
+
+def _estimate_base_friction_usd_per_lot(row: dict[str, Any]) -> float:
+    """Estimate per-lot round-trip friction USD (bit-identical to portfolio_v1_vs_v2_study, X13-safe)."""
+    stop_cost = float(row.get("stop_risk_with_cost_usd") or 0.0)
+    if stop_cost <= 0.0:
+        return 0.0
+    init_r = row.get("initial_risk_usd")
+    if init_r is not None and float(init_r) > 0.0:
+        diff = max(0.0, stop_cost - float(init_r))
+        if diff > 0.0:
+            return diff
+    ep = row.get("entry_price")
+    slp = row.get("sl_price") or row.get("stop")
+    asset = str(row.get("asset") or "")
+    if ep is not None and slp is not None and float(ep) > 0.0 and float(slp) > 0.0:
+        dist = abs(float(ep) - float(slp))
+        if asset in ("EURUSD", "GBPUSD", "AUDUSD"):
+            raw_sl = dist * 100_000.0
+        elif asset in ("USDJPY", "EURJPY", "GBPJPY"):
+            usd_jpy = float(ep) if asset == "USDJPY" else 135.0
+            raw_sl = dist * 100_000.0 / max(80.0, usd_jpy)
+        elif asset in ("US100", "US500", "GER40"):
+            raw_sl = dist * 1.0
+        elif asset == "XAUUSD":
+            raw_sl = dist * 100.0
+        else:
+            raw_sl = stop_cost * 0.96
+        if 0.50 * stop_cost <= raw_sl < stop_cost:
+            return max(stop_cost - raw_sl, 0.03 * stop_cost)
+    return 0.035 * stop_cost
+
+
+def _apply_cost_stress_to_tapes(
+    tapes: dict[str, dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]]],
+    cost_mult: float,
+) -> dict[str, dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]]]:
+    """Pure NumPy cost stress transform (bit-identical to portfolio_v1_vs_v2_study, X13-safe)."""
+    if abs(cost_mult - 1.0) < 1e-9:
+        return tapes
+    delta_factor = float(cost_mult) - 1.0
+    stressed: dict[str, dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]]] = {}
+    for eng, dm in tapes.items():
+        new_dm: dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]] = {}
+        for dk, (row, stamps, marks) in dm.items():
+            base_fric = _estimate_base_friction_usd_per_lot(row)
+            extra = delta_factor * base_fric
+            new_row = {
+                **row,
+                "net_usd_per_lot": float(row["net_usd_per_lot"]) - extra,
+                "stop_risk_with_cost_usd": float(row["stop_risk_with_cost_usd"]) + extra,
+            }
+            new_marks = np.asarray(marks, dtype=np.float64) - extra
+            new_dm[dk] = (new_row, stamps, new_marks)
+        stressed[eng] = new_dm
+    return stressed
+
+
+def _apply_red_news_guard_to_tape(
+    tape: dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]],
+    news_cal: dict[str, list[tuple[int, str]]],
+    *,
+    mode: str = "FLATTEN_5M",
+    pad_sec: int = 300,
+) -> tuple[dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]], dict[str, int]]:
+    """Pure NumPy causal ±pad_sec red-news compliance guard (bit-identical to pass28, X13-safe)."""
+    out: dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]] = {}
+    stats = {
+        "total_in": len(tape),
+        "kept_untouched": 0,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0,
+    }
+    for dk, (row, stamps, marks) in tape.items():
+        asset = str(row.get("asset", "USDJPY"))
+        ccys = set(_asset_currencies(asset))
+        day_ev = [ts for ts, c in news_cal.get(dk, []) if c in ccys]
+        if not day_ev:
+            out[dk] = (row, stamps, marks)
+            stats["kept_untouched"] += 1
+            continue
+        if mode == "SKIP_DAY":
+            stats["skipped_day"] += 1
+            continue
+        t_ent = int(stamps[0])
+        t_ext = int(row["exit"])
+        if any(abs(t_ent - tn) <= pad_sec for tn in day_ev):
+            stats["blocked_entry"] += 1
+            continue
+        cut_events = [tn - pad_sec for tn in day_ev if t_ent < (tn - pad_sec) < t_ext]
+        if not cut_events:
+            out[dk] = (row, stamps, marks)
+            stats["kept_untouched"] += 1
+            continue
+        t_cut = min(cut_events)
+        k = int(stamps.searchsorted(t_cut, side="right")) - 1
+        if k < 0:
+            stats["blocked_entry"] += 1
+            continue
+        new_stamps = stamps[: k + 1].copy()
+        new_marks = marks[: k + 1].copy()
+        term_pnl = float(new_marks[-1, 3])
+        new_marks[-1, 3] = term_pnl
+        new_row = {
+            **row,
+            "exit": int(new_stamps[-1]) + 60,
+            "at_open": False,
+            "reason": "NEWS_PRE_FLATTEN",
+            "net_usd_per_lot": term_pnl,
+            "net_R": float(term_pnl / row["stop_risk_with_cost_usd"]),
+        }
+        out[dk] = (new_row, new_stamps, new_marks)
+        stats["flattened_pre_news"] += 1
+    return out, stats
+
+
 class ExactTierReplayCache:
-    """Bit-exact pre-aligned M1 per-tier replay cache (35x faster than repeated `replay_portfolio_m1`)."""
+    """Bit-exact pre-aligned M1 per-tier replay cache (pure Python/NumPy, X13-safe)."""
 
     def __init__(
         self,
@@ -37,12 +188,10 @@ class ExactTierReplayCache:
         key = (round(float(friction_mult), 4), bool(use_red_news))
         if key in self._stressed_tapes:
             return self._stressed_tapes[key]
-        import pass28_final_discovery_rednews_frontier as p28
-        from experiments.portfolio_v1_vs_v2_study import apply_cost_stress_to_tapes
 
         base_key = (round(float(friction_mult), 4), False)
         if base_key not in self._stressed_tapes:
-            stressed = apply_cost_stress_to_tapes(self.raw_tapes, float(friction_mult))
+            stressed = _apply_cost_stress_to_tapes(self.raw_tapes, float(friction_mult))
             self._stressed_tapes[base_key] = stressed
         else:
             stressed = self._stressed_tapes[base_key]
@@ -52,7 +201,7 @@ class ExactTierReplayCache:
 
         guarded: dict[str, dict[str, Any]] = {}
         for eng in CORE7_IDS:
-            gt, _ = p28.apply_red_news_guard_to_tape(
+            gt, _ = _apply_red_news_guard_to_tape(
                 stressed[eng], self.red_news_cal, mode="FLATTEN_5M", pad_sec=300
             )
             guarded[eng] = gt
@@ -64,8 +213,6 @@ class ExactTierReplayCache:
         key = (round(float(friction_mult), 4), bool(use_red_news))
         if key in self._prealigned_days:
             return self._prealigned_days[key]
-
-        import pass27_portfolio_m1_phase_audit as p27
 
         tapes = self.get_prepared_tapes(friction_mult, use_red_news)
         pre_days: list[dict[str, Any]] = []
@@ -91,8 +238,8 @@ class ExactTierReplayCache:
                 net_1lot = float(row["net_usd_per_lot"])
                 stop_cost = float(row["stop_risk_with_cost_usd"])
                 ep = float(row["entry_price"])
-                mgn_std, vmin_s, vstep_s, vmax_s, comm_s = p27.margin_per_lot_usd(asset, ep, "Standard")
-                mgn_swg, _vmin_w, _vstep_w, _vmax_w, comm_w = p27.margin_per_lot_usd(asset, ep, "Swing")
+                mgn_std, vmin_s, vstep_s, vmax_s, comm_s = _margin_per_lot_usd(asset, ep, "Standard")
+                mgn_swg, _vmin_w, _vstep_w, _vmax_w, comm_w = _margin_per_lot_usd(asset, ep, "Swing")
 
                 offsets = (stamps - min_e) // 60
                 start_o, end_o = int(offsets[0]), int(offsets[-1])

@@ -1,7 +1,10 @@
 """Array-based raw endpoint screen; conditional quotes, never a stop/account replay."""
+
 from dataclasses import dataclass
 from math import erfc, sqrt
 from statistics import NormalDist
+from typing import Any
+
 import numpy as np
 
 HOUR, DAY = 3_600_000, 86_400_000
@@ -23,10 +26,11 @@ def costs(asset, model):
     if model not in ("SYM", "ASYM"):
         raise ValueError("unknown_cost_view")
     if asset == "XAUUSD":
-        return AssetCosts(asset, 1000, 100, .4, -.4 if model == "SYM" else -.45,
-                          -.4 if model == "SYM" else -.05, .000007)
+        return AssetCosts(
+            asset, 1000, 100, 0.4, -0.4 if model == "SYM" else -0.45, -0.4 if model == "SYM" else -0.05, 0.000007
+        )
     if asset == "EURUSD":
-        return AssetCosts(asset, 100000, 100000, .00009, -.0004, -.0004)
+        return AssetCosts(asset, 100000, 100000, 0.00009, -0.0004, -0.0004)
     raise ValueError("asset_cost_not_admitted")
 
 
@@ -41,8 +45,10 @@ def funding_multipliers(entry, exit_at):
     events = days * DAY + 22 * HOUR
     weights = np.where(weekday < 5, np.where(weekday == 2, 3, 1), 0)
     cumulative = np.r_[0, np.cumsum(weights)]
-    return cumulative[np.searchsorted(events, exit_at, side="right")] - cumulative[
-        np.searchsorted(events, entry, side="right")]
+    return (
+        cumulative[np.searchsorted(events, exit_at, side="right")]
+        - cumulative[np.searchsorted(events, entry, side="right")]
+    )
 
 
 def deadlines(entries, horizon, calendar):
@@ -65,7 +71,7 @@ def deadlines(entries, horizon, calendar):
 
 def endpoint_indices(bars, targets, cutoff):
     times = bars["t"]
-    admitted = times[:times.searchsorted(cutoff)]
+    admitted = times[: times.searchsorted(cutoff)]
     if not len(admitted) and np.size(targets):
         raise ValueError("no_admitted_endpoint_prices")
     indices = admitted.searchsorted(targets)
@@ -82,15 +88,23 @@ def economics(asset, side, entry_price_units, exit_price_units, entry, exit_at, 
     gross = sign * (px - p0)
     # Gold reference is 1 lot/100oz, with each commission leg rounded to cents.
     if asset == "XAUUSD":
-        fees = sum(np.floor(p * spec.contract * spec.notional_side * 100 + .5 + 1e-9) / 100
-                   for p in (p0, px)) / spec.contract
+        fees = (
+            sum(np.floor(p * spec.contract * spec.notional_side * 100 + 0.5 + 1e-9) / 100 for p in (p0, px))
+            / spec.contract
+        )
     else:
         fees = np.zeros(len(p0))
     mult = funding_multipliers(entry, exit_at)
     swap = np.where(side == 1, spec.swap_long, spec.swap_short) * mult
     friction = fees + spec.extra_roundtrip
-    return dict(gross=gross, commission=fees, other=spec.extra_roundtrip,
-                funding=swap, funding_multipliers=mult, net=gross - friction + swap)
+    return dict(
+        gross=gross,
+        commission=fees,
+        other=spec.extra_roundtrip,
+        funding=swap,
+        funding_multipliers=mult,
+        net=gross - friction + swap,
+    )
 
 
 def measure(asset, recipe, bars, calendar, first, cutoff):
@@ -109,7 +123,7 @@ def measure(asset, recipe, bars, calendar, first, cutoff):
     # A Friday signal after hard-flat cannot be carried into the following week.
     valid &= (weekday < 5) & ~((weekday == 4) & (at % DAY >= 20 * HOUR + HOUR // 2))
     ratio = np.divide(friction, natural, out=np.full(len(natural), np.inf), where=natural > 0)
-    years = (decision.astype("datetime64[ms]").astype("datetime64[Y]").astype(int) + 1970)
+    years = decision.astype("datetime64[ms]").astype("datetime64[Y]").astype(int) + 1970
     result = []
     for horizon in HORIZONS:
         target = deadlines(at, horizon, calendar)
@@ -118,11 +132,27 @@ def measure(asset, recipe, bars, calendar, first, cutoff):
         end = bars["t"][exits]
         # DAY has no executable same-day endpoint for decisions after its close.
         ok = valid & exit_ok & (target >= at) & (end >= at)
-        row = dict(asset=asset, recipe=recipe["id"], family=recipe["family"], horizon=horizon,
-                   at=decision, entry_at=at, exit_at=end, deadline=target, side=side,
-                   entry_price=p0, exit_price=px, stop=stops, natural=natural,
-                   friction=friction, ratio=ratio, ok=ok, admitted=ok & (ratio <= .15),
-                   years=years, model={})
+        row: dict[str, Any] = dict(
+            asset=asset,
+            recipe=recipe["id"],
+            family=recipe["family"],
+            horizon=horizon,
+            at=decision,
+            entry_at=at,
+            exit_at=end,
+            deadline=target,
+            side=side,
+            entry_price=p0,
+            exit_price=px,
+            stop=stops,
+            natural=natural,
+            friction=friction,
+            ratio=ratio,
+            ok=ok,
+            admitted=ok & (ratio <= 0.15),
+            years=years,
+            model={},
+        )
         for model in ("SYM", "ASYM"):
             money = economics(asset, side, p0, px, at, np.maximum(end, at), model)
             money["net_R"] = np.divide(money["net"], natural, out=np.zeros(len(at)), where=natural > 0)
@@ -153,87 +183,112 @@ def daily_statistics(values, trials):
     n = x.shape[1]
     mu = x.mean(axis=1)
     centered = x - mu[:, None]
-    v0 = np.mean(centered ** 2, axis=1)
+    v0 = np.mean(centered**2, axis=1)
     long_var = v0.copy()
     for lag in range(1, 6):
         long_var += 2 * (1 - lag / 6) * np.sum(centered[:, lag:] * centered[:, :-lag], axis=1) / n
     long_var = np.maximum(long_var, v0 * 1e-6)
     se = np.sqrt(long_var / n)
     t = np.divide(mu, se, out=np.zeros_like(mu), where=se > 0)
-    p = np.array([.5 * erfc(v / sqrt(2)) for v in t])
+    p = np.array([0.5 * erfc(v / sqrt(2)) for v in t])
     std = np.sqrt(v0)
     sr = np.divide(mu, std, out=np.zeros_like(mu), where=std > 0)
-    skew = np.divide(np.mean(centered ** 3, axis=1), std ** 3,
-                     out=np.zeros_like(mu), where=std > 0)
-    kurt = np.divide(np.mean(centered ** 4, axis=1), v0 ** 2,
-                     out=np.full_like(mu, 3), where=v0 > 0)
+    skew = np.divide(np.mean(centered**3, axis=1), std**3, out=np.zeros_like(mu), where=std > 0)
+    kurt = np.divide(np.mean(centered**4, axis=1), v0**2, out=np.full_like(mu, 3), where=v0 > 0)
     effective = np.clip(np.divide(n * v0, long_var, out=np.ones_like(mu), where=long_var > 0), 2, n)
     norm = NormalDist()
-    euler = .5772156649015329
-    max_sr = ((1 - euler) * norm.inv_cdf(1 - 1 / trials) +
-              euler * norm.inv_cdf(1 - 1 / (trials * np.e))) / np.sqrt(effective - 1) if trials > 1 else np.zeros_like(mu)
+    euler = 0.5772156649015329
+    max_sr = (
+        ((1 - euler) * norm.inv_cdf(1 - 1 / trials) + euler * norm.inv_cdf(1 - 1 / (trials * np.e)))
+        / np.sqrt(effective - 1)
+        if trials > 1
+        else np.zeros_like(mu)
+    )
     denom = np.sqrt(np.maximum(1e-12, 1 - skew * sr + (kurt - 1) * sr * sr / 4))
     z = (sr - max_sr) * np.sqrt(effective - 1) / denom
-    dsr = np.array([.5 * erfc(-v / sqrt(2)) for v in z])
-    return dict(t_stat=t, p_one_sided=p, p_holm=holm(p, trials), sharpe_daily=sr,
-                DSR_proxy=dsr, effective_days=effective, n_days=n,
-                HAC_lag=5, trials=trials, exact_DSR=False)
+    dsr = np.array([0.5 * erfc(-v / sqrt(2)) for v in z])
+    return dict(
+        t_stat=t,
+        p_one_sided=p,
+        p_holm=holm(p, trials),
+        sharpe_daily=sr,
+        DSR_proxy=dsr,
+        effective_days=effective,
+        n_days=n,
+        HAC_lag=5,
+        trials=trials,
+        exact_DSR=False,
+    )
 
 
 def summaries(measurements, first, end, trials):
     weekdays = np.arange(first // DAY, end // DAY)
     weekdays = weekdays[(weekdays + 3) % 7 < 5]
     daily = np.zeros((len(measurements), len(weekdays)))
-    output = []
+    output: list[dict[str, Any]] = []
     for j, m in enumerate(measurements):
-        annual = []
+        annual: list[dict[str, Any]] = []
         for year in range(2018, 2024):
             raw = m["years"] == year
             ok, admitted = raw & m["ok"], raw & m["admitted"]
-            row = dict(year=year, raw=int(raw.sum()), priced=int(ok.sum()), admitted=int(admitted.sum()),
-                       cost12=int((ok & (m["ratio"] <= .12)).sum()),
-                       retention=float(admitted.sum() / raw.sum()) if raw.sum() else 0,
-                       median_SL=float(np.median(m["natural"][ok])) if ok.any() else None,
-                       scale_ratio=float(np.median(m["friction"][ok]) / np.median(m["natural"][ok])) if ok.any() else None,
-                       economics={})
+            row: dict[str, Any] = dict(
+                year=year,
+                raw=int(raw.sum()),
+                priced=int(ok.sum()),
+                admitted=int(admitted.sum()),
+                cost12=int((ok & (m["ratio"] <= 0.12)).sum()),
+                retention=float(admitted.sum() / raw.sum()) if raw.sum() else 0,
+                median_SL=float(np.median(m["natural"][ok])) if ok.any() else None,
+                scale_ratio=float(np.median(m["friction"][ok]) / np.median(m["natural"][ok])) if ok.any() else None,
+                economics={},
+            )
             for model in ("SYM", "ASYM"):
                 x = m["model"][model]
-                row["economics"][model] = dict(raw_net_R=float(x["net_R"][ok].sum()),
+                row["economics"][model] = dict(
+                    raw_net_R=float(x["net_R"][ok].sum()),
                     admitted_net_R=float(x["net_R"][admitted].sum()),
                     mean_net_price_units=float(x["net"][ok].mean()) if ok.any() else None,
                     gross_price_units=float(x["gross"][ok].mean()) if ok.any() else None,
                     swap_price_units=float(x["funding"][ok].sum()),
-                    per_lot_net=float(x["net"][ok].mean() * costs(m["asset"], model).contract) if ok.any() else None)
+                    per_lot_net=float(x["net"][ok].mean() * costs(m["asset"], model).contract) if ok.any() else None,
+                )
             annual.append(row)
         indices = weekdays.searchsorted(m["at"][m["ok"]] // DAY)
         np.add.at(daily[j], indices, m["model"]["SYM"]["net_R"][m["ok"]])
-        output.append(dict(asset=m["asset"], recipe=m["recipe"], family=m["family"], horizon=m["horizon"],
-                           annual=annual))
+        output.append(
+            dict(asset=m["asset"], recipe=m["recipe"], family=m["family"], horizon=m["horizon"], annual=annual)
+        )
     statistics = daily_statistics(daily, trials)
     for j, row in enumerate(output):
         measurement = measurements[j]
         row["statistics"] = {k: (float(v[j]) if isinstance(v, np.ndarray) else v) for k, v in statistics.items()}
-        reasons, clusters = [], []
+        reasons: list[str] = []
+        clusters: list[dict[str, Any]] = []
         for years in ((2018, 2019, 2020), (2021, 2022, 2023)):
-            a = [r for r in row["annual"] if r["year"] in years]
+            a: list[dict[str, Any]] = [r for r in row["annual"] if r["year"] in years]
             raw, admitted = sum(r["raw"] for r in a), sum(r["admitted"] for r in a)
-            c = dict(years=list(years), raw=raw, admitted=admitted,
-                     retention=admitted / raw if raw else 0, net={})
+            c: dict[str, Any] = dict(
+                years=list(years), raw=raw, admitted=admitted, retention=admitted / raw if raw else 0, net={}
+            )
             cohort = np.isin(measurement["years"], years) & measurement["ok"]
-            c["scale_ratio"] = (float(np.median(measurement["friction"][cohort]) /
-                                      np.median(measurement["natural"][cohort]))
-                                if cohort.any() else None)
-            if raw == 0 or c["retention"] < .6:
+            c["scale_ratio"] = (
+                float(np.median(measurement["friction"][cohort]) / np.median(measurement["natural"][cohort]))
+                if cohort.any()
+                else None
+            )
+            if raw == 0 or c["retention"] < 0.6:
                 reasons.append(f"{years[0]}:RETENTION")
             if admitted < 60:
                 reasons.append(f"{years[0]}:CADENCE")
             if sum(r["priced"] for r in a) != raw:
                 reasons.append(f"{years[0]}:ENDPOINT")
-            if c["scale_ratio"] is None or c["scale_ratio"] > .15:
+            if c["scale_ratio"] is None or c["scale_ratio"] > 0.15:
                 reasons.append(f"{years[0]}:SCALE")
             for model in ("SYM", "ASYM"):
-                totals = dict(raw=sum(r["economics"][model]["raw_net_R"] for r in a),
-                              admitted=sum(r["economics"][model]["admitted_net_R"] for r in a))
+                totals = dict(
+                    raw=sum(r["economics"][model]["raw_net_R"] for r in a),
+                    admitted=sum(r["economics"][model]["admitted_net_R"] for r in a),
+                )
                 c["net"][model] = totals
                 if min(totals.values()) <= 0:
                     reasons.append(f"{years[0]}:{model}:CLUSTER_ECONOMIC")
@@ -243,10 +298,14 @@ def summaries(measurements, first, end, trials):
             if positives < 4:
                 reasons.append(model + ":FEWER_THAN_4_POSITIVE_YEARS")
         row["economic_gate"] = not reasons
-        if row["statistics"]["p_holm"] > .05:
+        if row["statistics"]["p_holm"] > 0.05:
             reasons.append("HOLM_MULTIPLE_TESTING")
-        if row["statistics"]["DSR_proxy"] < .95:
+        if row["statistics"]["DSR_proxy"] < 0.95:
             reasons.append("DEFLATED_SHARPE_PROXY")
-        row.update(clusters=clusters, eligible=not reasons, reasons=reasons,
-                   score=min(c["net"]["SYM"]["raw"] / 3 for c in clusters))
+        row.update(
+            clusters=clusters,
+            eligible=not reasons,
+            reasons=reasons,
+            score=min(c["net"]["SYM"]["raw"] / 3 for c in clusters),
+        )
     return output, daily

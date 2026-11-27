@@ -1,5 +1,7 @@
 """Exact three-sleeve, mean-constrained variance fit; no outcome search grid."""
+
 from itertools import product
+
 import numpy as np
 
 
@@ -16,7 +18,7 @@ def constrained_minimum_variance(daily_pnl):
     for states in product((-1, 0, 1), repeat=3):
         free = np.flatnonzero(np.array(states) == 0)
         fixed = np.flatnonzero(np.array(states) != 0)
-        w = np.array([.25 if s == -1 else 2. if s == 1 else 0. for s in states])
+        w = np.array([0.25 if s == -1 else 2.0 if s == 1 else 0.0 for s in states])
         if len(free):
             a = cov[np.ix_(free, free)]
             rhs = -cov[np.ix_(free, fixed)] @ w[fixed] if len(fixed) else np.zeros(len(free))
@@ -27,10 +29,9 @@ def constrained_minimum_variance(daily_pnl):
             except np.linalg.LinAlgError:
                 continue
             w[free] = solution[:-1]
-        if (np.any(w < .25 - 1e-10) or np.any(w > 2 + 1e-10) or
-                abs(float(mu @ w) - target) > 1e-8):
+        if np.any(w < 0.25 - 1e-10) or np.any(w > 2 + 1e-10) or abs(float(mu @ w) - target) > 1e-8:
             continue
-        w = np.clip(w, .25, 2)
+        w = np.clip(w, 0.25, 2)
         candidates.append((float(w @ cov @ w), w, states))
     if not candidates:
         raise ValueError("all_ones_feasible_but_solver_found_none")
@@ -38,8 +39,17 @@ def constrained_minimum_variance(daily_pnl):
     equal = float(np.ones(3) @ cov @ np.ones(3))
     if variance > equal + 1e-7:
         raise ValueError("minimum_variance_worse_than_feasible_incumbent")
-    return dict(eligible=True, weights=weights.tolist(), means=mu.tolist(), covariance=cov.tolist(),
-                target_mean=target, weighted_mean=float(mu @ weights),
-                equal_variance=equal, weighted_variance=variance, active_set=list(active),
-                feasible_active_sets=len(candidates), analytic_sets_checked=27,
-                no_ridge_shrinkage_or_outcome_selected_hyperparameter=True)
+    return dict(
+        eligible=True,
+        weights=weights.tolist(),
+        means=mu.tolist(),
+        covariance=cov.tolist(),
+        target_mean=target,
+        weighted_mean=float(mu @ weights),
+        equal_variance=equal,
+        weighted_variance=variance,
+        active_set=list(active),
+        feasible_active_sets=len(candidates),
+        analytic_sets_checked=27,
+        no_ridge_shrinkage_or_outcome_selected_hyperparameter=True,
+    )

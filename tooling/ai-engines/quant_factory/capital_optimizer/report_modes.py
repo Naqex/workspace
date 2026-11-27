@@ -185,6 +185,6 @@ def append_section_4(
         lines.append(
             "> Vì `C10` (tắt tin đỏ) thua nặng ở P1 Q4/2024 (`-337,64 USD`, `EqDD 8,82%`), trong khi Step 6 chứng "
             "minh **`C10_NEWS_ON`** (giữ cỡ lệnh & ProfitLock `C10` + **BẬT khiên tin đỏ ở mọi pha**) vượt cả `C00` "
-            "lẫn `C10` News-OFF, toàn bộ bản tối ưu `v2` đã khóa nhánh chính là **`C10_NEWS_ON`**."
+            "lẫn `C10` News-OFF, toàn bộ bản tối ưu `v2/v3` đã khóa nhánh chính là **`C10_NEWS_ON`**."
         )
         lines.append("")

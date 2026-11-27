@@ -10,6 +10,11 @@ from quant_core.io_utils import atomic_write_json
 from quant_factory.capital_optimizer.constants import DEFAULT_OUT_JSON
 from quant_factory.capital_optimizer.report_modes import append_section_4
 from quant_factory.capital_optimizer.report_sections import append_sections_5_to_8
+from quant_factory.capital_optimizer.report_v3 import (
+    append_law15_color_dot_scorecard,
+    append_v3_rollover_section,
+    append_v3_x13_shard_section,
+)
 
 
 def save_results_json(results: dict[str, Any], out_path: Path = DEFAULT_OUT_JSON) -> Path:
@@ -142,15 +147,29 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
     ) or _find_mode("FTMO_2STEP_STD", 100_000.0, 1.00, p_var)
     ref_ftmo_100k_reg = _find_mode("FTMO_2STEP_STANDARD", 100_000.0, 1.00, p_var, "ALL_REGULAR")
 
+    is_v3 = bool(results.get("v3_upgrades") or results.get("rollover_reset_sensitivity"))
+    prov = results.get("tape_provenance") or {}
     lines: list[str] = []
-    lines.append(
-        "# Tối Ưu Hóa Vốn Thi Quỹ Đa Hãng, Làm Tròn Lot 0,01 & Lịch Khuyến Mãi — "
-        "Bản v2 (Đóng Đủ 9 Điểm Astra Vòng 10)"
-    )
+    if is_v3:
+        lines.append(
+            "# Tối Ưu Hóa Vốn Thi Quỹ Đa Hãng, Độ Nhạy Rollover 00:00 & Quyền Chọn Black Friday 2 Mốc Hạn — "
+            "Bản v3 (`frozen_9e_tapes_v2` Hậu-L7)"
+        )
+    else:
+        lines.append(
+            "# Tối Ưu Hóa Vốn Thi Quỹ Đa Hãng, Làm Tròn Lot 0,01 & Lịch Khuyến Mãi — "
+            "Bản v2 (Đóng Đủ 9 Điểm Astra Vòng 10)"
+        )
     lines.append("")
+    tape_tag = (
+        f" · **Băng giá M1:** `frozen_9e_tapes_v2` (NPZ SHA `{str(prov.get('npz_sha256', ''))[:16]}...`, "
+        f"Binding `{str(prov.get('binding_sha256', ''))[:16]}...`)"
+        if prov.get("npz_sha256")
+        else ""
+    )
     lines.append(
         f"- **Ngày tạo:** `{results['generated_utc'][:19]}Z` · **Cửa sổ dữ liệu:** Phát triển niêm phong "
-        f"`{inv['dev_window']}` (`{inv['dev_days_count']}` phiên giao dịch) · **Nhãn mô phỏng:** "
+        f"`{inv['dev_window']}` (`{inv['dev_days_count']}` phiên giao dịch){tape_tag} · **Nhãn mô phỏng:** "
         "**`DAILY_APPROX`** *(xấp xỉ cấp ngày từ băng giá M1 thực tế)*"
     )
     lines.append(
@@ -172,9 +191,10 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
         "*(kiểm độ nhạy `1,5%` kênh rút bên dưới)* · Phí rút lợi nhuận + quy đổi VND **`1,5%–4,0%`** tùy hãng · "
         f"Chiết khấu **NPV**: **`{r_disc:.1f}%/năm`**."
     )
+    ver_tag = "v3" if is_v3 else "v2"
     lines.append(
-        f"- **Nhánh chính `v2` & kiểm soát công bằng:** Toàn bộ bảng đánh giá, lịch sale động và lưới Pareto chạy "
-        f"trên **`{p_var}`** *(bật khiên tin đỏ ở mọi pha P1/P2/Funded)* kèm đối chứng **`C00`**; **tắt hoàn toàn "
+        f"- **Nhánh chính `{ver_tag}` & kiểm soát công bằng:** Toàn bộ bảng đánh giá, lịch sale động và lưới Pareto "
+        f"chạy trên **`{p_var}`** *(bật khiên tin đỏ ở mọi pha P1/P2/Funded)* kèm đối chứng **`C00`**; **tắt hoàn toàn "
         "`own_book` (`0,0`)** trong mọi bảng xếp hạng chính sách prop; giá vé áp **đúng ngày mua** (`BF Ngày 0 + "
         "vé mua lại/mở sau tính giá gốc`, kèm bảng đối chứng **`Toàn bộ giá gốc`**); **loại `E8 Pro`** khỏi danh "
         "mục đa quỹ ít rủi ro (`P5/P5B` chỉ còn `3` quỹ sống sót: `FTMO + The5ers + IC Funded`)."
@@ -182,7 +202,7 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
     lines.append("")
 
     # Section 1
-    lines.append("## 1. Tóm Tắt Dễ Hiểu Cho Chủ Sở Hữu (5 Kết Luận Quan Trọng Nhất — Bản v2)")
+    lines.append(f"## 1. Tóm Tắt Dễ Hiểu Cho Chủ Sở Hữu (5 Kết Luận Quan Trọng Nhất — Bản {ver_tag})")
     lines.append("")
     ratios = traps.get("details", {}).get("ftmo_2step_std_fee_ratio_pct", {})
     lines.append(
@@ -230,10 +250,10 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
         )
     lines.append(
         "4. **Cảnh báo trung vị âm ở chế độ stress nặng `1,50x` (KHÔNG che sau số trung bình dương):** "
-        "Trên mọi ô Pareto ở Mục 7, báo cáo `v2` công bố đầy đủ bộ ba **`NPV24 Trung bình (TB)` + `NPV24 Trung vị "
-        "(TV)` + `Xác suất lỗ ròng P(NPV24 <= 0)`**. Khi trượt giá tăng `+50%` (`1,50x`), dù trung bình vẫn dương "
-        "nhờ nhánh thắng lớn, **trung vị nhiều chính sách rơi xuống âm và hơn `50%` kịch bản hòa/lỗ sau 24 tháng** — "
-        "nhắc nhở dứt khoát phải giữ cổng đo trượt giá thực tế `< 1,25x`."
+        f"Trên mọi ô Pareto ở Mục 7, báo cáo `{ver_tag}` công bố đầy đủ bộ ba **`NPV24 Trung bình (TB)` + "
+        "`NPV24 Trung vị (TV)` + `Xác suất lỗ ròng P(NPV24 <= 0)`**. Khi trượt giá tăng `+50%` (`1,50x`), dù trung "
+        "bình vẫn dương nhờ nhánh thắng lớn, **trung vị nhiều chính sách rơi xuống âm và hơn `50%` kịch bản hòa/lỗ "
+        "sau 24 tháng** — nhắc nhở dứt khoát phải giữ cổng đo trượt giá thực tế `< 1,25x`."
     )
     lines.append(
         "5. **Loại `E8 Pro` khỏi danh mục đa quỹ ít rủi ro (`P5/P5B` chỉ gồm `3` hãng: "
@@ -248,79 +268,16 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
     )
     lines.append("")
 
-    # Section 2
-    lines.append("## 2. Bộ Chỉ Số Cân Bằng Lõi `PORT_7E` & Định Vị Trên Thang `Xấu -> Top 1%` (Luật 15)")
-    lines.append("")
-    lines.append(
-        "Dưới đây là toàn bộ chỉ số lõi của danh mục `7` động cơ trong ngày (`swap = 0`) ở mức rủi ro chuẩn Funded "
-        "`1,0x` (tài khoản `100K`, ma sát nền `1,00x`, có khiên tin đỏ `±5` phút, dữ liệu quá khứ `2018–2024`):"
+    # Section 2 (Law-15 vertical color-dot balanced scorecard)
+    append_law15_color_dot_scorecard(
+        lines,
+        core_100k=core_100k,
+        ref_ftmo_100k=ref_ftmo_100k,
+        p_var=p_var,
+        usd_vnd=usd_vnd,
+        be_x=be_x,
+        rank_fn=_rank_law15_tier,
     )
-    lines.append("")
-    ev_fee_ref = ref_ftmo_100k["single_ticket_zero_retry"]["ev_per_fee_npv24"] if ref_ftmo_100k else 0.0
-    fn_br_ref = (
-        ref_ftmo_100k["single_ticket_zero_retry"]["funded_12m_breach"]["breach_12m_pct"] if ref_ftmo_100k else 0.0
-    )
-    pay1_mo_ref = (
-        (ref_ftmo_100k["single_ticket_zero_retry"]["cond_med_pay1_cal_days"] / 30.4) if ref_ftmo_100k else 0.0
-    )
-
-    lines.append(
-        "| Chỉ số (giải thích đơn giản) | Kết quả hiện tại (`100K`, Dev `1,00x`) | Thang `Xấu` "
-        "| Thang `Đủ dùng` | Thang `Tốt` | Thang `Top 1% thực tế` | Đang đứng ở bậc nào? |"
-    )
-    lines.append("|---|---:|---|---|---|---|---|")
-    lines.append(
-        f"| **Tỷ lệ thắng (`Winrate`) & Tỷ lệ ăn/thua (`RR`)** | **`{core_100k['winrate_pct']:.1f}%`** / "
-        f"**`{core_100k['avg_rr']:.2f}x`** (`{core_100k['sized_trades']}` lệnh) | `EV <= 0` | Cân đối dương "
-        "| Cân đối bền | Bền trên tiền thật | **Tốt (trên quá khứ)** |"
-    )
-    lines.append(
-        f"| **Kỳ vọng mỗi lệnh (`EV / lệnh`)** | **`{core_100k['ev_per_trade_r']:+.3f}R`** | `<= 0,00R` "
-        "| `+0,03R..+0,06R` | `+0,07R..+0,15R` | `> +0,15R` bền trên tiền thật "
-        f"| **{_rank_law15_tier('ev_r', core_100k['ev_per_trade_r'])}** |"
-    )
-    lines.append(
-        f"| **Hệ số sinh lời (`Profit Factor`)** | **`{core_100k['profit_factor']:.2f}`** | `< 1,05` "
-        "| `1,10..1,20` | `1,25..1,50` | `1,50..2,00+` tiền thật `>=12T` "
-        f"| **{_rank_law15_tier('pf', core_100k['profit_factor'])}** |"
-    )
-    lines.append(
-        f"| **Tụt sâu nhất (`Max DD` ở `1,0x`) & chuỗi thua** | **`{core_100k['peak_dd_pct']:.2f}%`** "
-        f"(chuỗi **`{core_100k['max_loss_streak_trades']}`** lệnh) | `> 10%` | `7,5%..9,0%` | `5,0%..7,0%` "
-        f"| `4,0%..7,0%` đường tiền đều | **{_rank_law15_tier('dd', core_100k['peak_dd_pct'])}** |"
-    )
-    lines.append(
-        f"| **Hiệu suất trên rủi ro (`Calmar`)** | **`{core_100k['calmar']:.2f}`** "
-        f"(lãi năm `+{core_100k['ann_pct']:.2f}%`) | `< 0,5` | `0,6..1,0` | `1,2..2,0` "
-        f"| `> 2,0..3,0` trên tiền thật | **{_rank_law15_tier('calmar', core_100k['calmar'])}** |"
-    )
-    lines.append(
-        f"| **Độ êm lợi nhuận (`Sharpe`)** | **`{core_100k['sharpe']:.2f}`** | `< 0,6` | `0,8..1,1` "
-        f"| `1,2..1,8` | `2,0..3,0` tiền thật `>=12T` | **{_rank_law15_tier('sharpe', core_100k['sharpe'])}** |"
-    )
-    lines.append(
-        f"| **Thi quỹ Prop (`{p_var}`: `EV NPV / 1 đồng phí`, cháy Funded, chờ rút)** "
-        f"| **`{ev_fee_ref:+.2f}x`** · cháy `12T` **`{fn_br_ref:.2f}%`** · chờ **`{pay1_mo_ref:.1f}T`** "
-        "| `<= 0x` hoặc cháy `>5%` | `+1x..+2x` | `+3x..+5x`, cháy `<1%`, chờ `5–10T` "
-        "| `>= +5x`, cháy `<1%`, rút `2–4T` nhiều nhánh lệch pha "
-        f"| **{_rank_law15_tier('ev_fee', ev_fee_ref)}** |"
-    )
-    lines.append("")
-    lines.append(
-        "- **Ngưỡng gãy / điểm chết trượt giá (Break-Even Threshold):** Khi chi phí khớp lệnh thực tế (spread + "
-        f"trượt giá) xấu đi tới khoảng **`{be_x if be_x is not None else '>4.00'}x`** so với băng giá M1 chuẩn, "
-        "kỳ vọng lợi nhuận chiến lược rơi về `<= 0` (chuyển âm). Do đó quy tắc dừng mua vé mới (cắt chi phí chìm) "
-        "được khóa cứng tại **`> 1,75x`**."
-    )
-    dry_ref = ref_ftmo_100k["single_ticket_zero_retry"]["funded_dry_months_pct"] if ref_ftmo_100k else 50.0
-    lines.append(
-        "- **Còn thiếu gì để chạm `Top 1%` thực tế?** (1) Bằng chứng hiện mới là **Dev backtest + 28 lệnh Demo FTMO** "
-        "— chưa có Holdout mù `2025+` và chưa có `>= 12` tháng chạy tiền thật rút tiền; (2) `Max DD` ở `1,0x` "
-        f"(`{core_100k['peak_dd_pct']:.2f}%`) và `Calmar` (`{core_100k['calmar']:.2f}`) mới ở vùng **Đủ dùng**, cần "
-        "thêm nhánh độc lập lệch pha (không tăng đòn bẩy liều) để kéo `Calmar > 1,5–2,0`, rút thời gian chờ payout "
-        f"xuống `2–4` tháng và hạ tháng đói Funded từ `~{dry_ref:.0f}%` xuống `< 25%`."
-    )
-    lines.append("")
 
     # Section 2.1
     lines.append(
@@ -395,7 +352,10 @@ def render_vietnamese_law15_report(results: dict[str, Any]) -> str:
     lines.append("")
 
     append_section_4(lines, results, p_var=p_var, s5=s5, find_mode=_find_mode)
+    append_v3_rollover_section(lines, results)
     append_sections_5_to_8(lines, results, p_var=p_var, policy_vi_name=_policy_vi_name)
+    if is_v3:
+        append_v3_x13_shard_section(lines, results)
 
     md = "\n".join(lines)
     if "$" in md:

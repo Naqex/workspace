@@ -1,6 +1,6 @@
 {
   "schema": "naqex-mt5-deployment-kit-manifest-v1",
-  "generated_utc": "2026-11-26T11:37:40+00:00",
+  "generated_utc": "2026-11-27T07:49:15+00:00",
   "order_send_count": 0,
   "profile_count": 10,
   "profiles": {
@@ -182,7 +182,7 @@
     "FTMO_Std10K_MasterProp7E_P1_Sprint_4x.set",
     "FTMO_Std10K_MasterProp7E_P2_Verify_2x.set"
   ],
-  "tracked_files_count": 130,
+  "tracked_files_count": 131,
   "tracked_files": {
     "tooling/ai-engines/exports/Naqex_AccountOrchestrator.mq5": {
       "sha256": "a03ad4621704266b2f2c1a6f3f738ab5af8ef80ada4f0df004af9eadedfab54f",
@@ -191,6 +191,10 @@
     "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5": {
       "sha256": "6b7ea2ee0d5bfa12b27b3ced1003c3c95b3f05d7970e3cda126f5d59fa5250ef",
       "bytes": 89737
+    },
+    "tooling/ai-engines/exports/Naqex_Master_Prop7E_v103.mq5": {
+      "sha256": "e6b1b88be00a8470505c86dd1878664e08ce12d8e45203c05f733825f35c9ef5",
+      "bytes": 53396
     },
     "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5": {
       "sha256": "db96490856662a2e2c70729ff8bc70e277e2bcb71d5ca895733a516183dada64",
@@ -513,12 +517,12 @@
       "bytes": 2122
     },
     "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set": {
-      "sha256": "ad698bbfe18195223fe3d842ddc1eec4f040d907083482d7e647ae40e36f6bb9",
-      "bytes": 2126
+      "sha256": "414d28881e08dbb23d57d6cb4006644dbc65581d27c4e75e1f8048ce74af90a2",
+      "bytes": 2132
     },
     "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P2_35x.set": {
-      "sha256": "a2a683c8aa7b7e5f7a2ae032678c97dbd6a13fa9c4788393a3dcf5ca7d895ed7",
-      "bytes": 2172
+      "sha256": "a58816a6251d2724dff1074a63c24cff45e048bcd7d9b0c9d64718d06b530148",
+      "bytes": 2178
     },
     "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_Funded_Safe_1x.set": {
       "sha256": "c520f60278a2d2e61587bf67ddbcd7397148004256ac83872b900a753251b2c5",

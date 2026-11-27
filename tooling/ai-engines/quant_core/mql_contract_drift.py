@@ -6,7 +6,9 @@ Compares canonical Pydantic-validated `risk_profiles.json` against:
   3. `exports/Naqex_AccountOrchestrator.mq5` (explicitly flags `LEGACY_DEPRECATED_DST_BUG`)
   4. `exports/deployment_kit/**/*.set` (arm-locked dry-run, `C10_NEWS_ON` red-news & phase parity)
 
-NEVER mutates any `.mq5`, `.mqh`, or `.set` file. Supports `--check` CLI mode (exit 1 on HIGH/ERROR drift).
+NEVER mutates any `.mq5`, `.mqh`, or `.set` file. Partitions findings cleanly into
+`active_c10_blocking_drifts`, `active_c10_advisory_drifts`, and `legacy_archived_drifts`.
+Supports `--check` (exit 1 on any HIGH drift) and `--check-active` (exit 1 only on active C10 HIGH drift).
 """
 
 from __future__ import annotations
@@ -29,6 +31,7 @@ except ImportError:  # pragma: no cover - direct script execution fallback
     from quant_core.schemas import PhaseKey, PhaseRiskProfile, RiskBrakeProfile, SSOTRiskProfiles
 
 Severity = Literal["HIGH", "MEDIUM", "INFO"]
+DriftScope = Literal["active_c10", "legacy_archived"]
 
 _BASE_RISK_RE = re.compile(r"m_baseRisk\[(\d+)\]\s*=\s*([0-9]+(?:\.[0-9]+)?)\s*;")
 _MAGIC_INDEX_RE = re.compile(r"if\s*\(\s*magic\s*==\s*(\d+)\s*\)\s*return\s+(\d+)\s*;")
@@ -52,6 +55,7 @@ class DriftItem:
     observed_value: Any
     detail: str
     line: int | None = None
+    scope: DriftScope = "active_c10"
 
 
 def _file_sha256(path: Path) -> str:
@@ -75,8 +79,15 @@ def _parse_mql_scalar(raw: str) -> Any:
 
 
 def _parse_set_file(path: Path) -> dict[str, Any]:
+    raw = path.read_bytes()
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        text = raw.decode("utf-16", errors="replace")
+    elif raw.startswith(b"\xef\xbb\xbf"):
+        text = raw.decode("utf-8-sig", errors="replace")
+    else:
+        text = raw.decode("utf-8", errors="replace")
     out: dict[str, Any] = {}
-    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+    for line in text.splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith(";") or "=" not in stripped:
             continue
@@ -318,6 +329,7 @@ def _check_legacy_orchestrator(orch_path: Path, base_dir: Path) -> tuple[str, li
                 observed_value=status,
                 detail="Naqex_AccountOrchestrator.mq5 flagged LEGACY_DEPRECATED_DST_BUG: " + "; ".join(defects),
                 line=_find_line("CurrentResetStartServerTime") or 1,
+                scope="legacy_archived",
             )
         )
     return status, items
@@ -446,6 +458,7 @@ def _check_deployment_sets(
     for sf in set_files:
         rel = _rel_str(sf, base_dir)
         kv = _parse_set_file(sf)
+        dryrun_scope: DriftScope = "legacy_archived" if "FTMO_FreeTrial_Demo" in sf.parts else "active_c10"
 
         # Fail-closed arm-lock invariant across ALL tracked deployment presets
         if "InpDryRunLogOnly" in kv and kv["InpDryRunLogOnly"] is not True:
@@ -458,6 +471,7 @@ def _check_deployment_sets(
                     ssot_value=True,
                     observed_value=kv["InpDryRunLogOnly"],
                     detail=f"Tracked preset {rel} has InpDryRunLogOnly={kv['InpDryRunLogOnly']!r} (must be true)",
+                    scope=dryrun_scope,
                 )
             )
         if "InpGuardDryRunLogOnly" in kv and kv["InpGuardDryRunLogOnly"] is not True:
@@ -472,6 +486,7 @@ def _check_deployment_sets(
                     detail=(
                         f"Tracked preset {rel} has InpGuardDryRunLogOnly={kv['InpGuardDryRunLogOnly']!r} (must be true)"
                     ),
+                    scope=dryrun_scope,
                 )
             )
 
@@ -485,6 +500,7 @@ def _check_deployment_sets(
                     ssot_value="Naqex_Master_Prop7E.mq5",
                     observed_value="Naqex_AccountOrchestrator.mq5 (LEGACY_DEPRECATED_DST_BUG)",
                     detail="Legacy preset targets deprecated Naqex_AccountOrchestrator.mq5 (DST/absolute-brake bug)",
+                    scope="legacy_archived",
                 )
             )
 
@@ -494,6 +510,14 @@ def _check_deployment_sets(
             items.extend(_check_c10_set_against_ssot(rel, kv, phase_key, profile, profile.phases[phase_key]))
 
     return len(set_files), c10_count, items
+
+
+def _count_severities(items: list[DriftItem]) -> dict[str, int]:
+    return {
+        "HIGH": sum(1 for d in items if d.severity == "HIGH"),
+        "MEDIUM": sum(1 for d in items if d.severity == "MEDIUM"),
+        "INFO": sum(1 for d in items if d.severity == "INFO"),
+    }
 
 
 def run_drift_audit(
@@ -524,11 +548,15 @@ def run_drift_audit(
     total_sets, c10_sets, set_drifts = _check_deployment_sets(kit_dir, profile, base_dir)
     drifts.extend(set_drifts)
 
-    severity_counts = {
-        "HIGH": sum(1 for d in drifts if d.severity == "HIGH"),
-        "MEDIUM": sum(1 for d in drifts if d.severity == "MEDIUM"),
-        "INFO": sum(1 for d in drifts if d.severity == "INFO"),
-    }
+    active_c10_all = [d for d in drifts if d.scope == "active_c10"]
+    active_c10_blocking = [d for d in active_c10_all if d.severity == "HIGH"]
+    active_c10_advisory = [d for d in active_c10_all if d.severity != "HIGH"]
+    legacy_archived = [d for d in drifts if d.scope == "legacy_archived"]
+
+    severity_counts = _count_severities(drifts)
+    active_c10_severity_counts = _count_severities(active_c10_all)
+    legacy_archived_severity_counts = _count_severities(legacy_archived)
+
     code_counts: dict[str, int] = {}
     for d in drifts:
         code_counts[d.code] = code_counts.get(d.code, 0) + 1
@@ -554,8 +582,17 @@ def run_drift_audit(
         "scanned_c10_set_files": c10_sets,
         "target_sha256": target_hashes,
         "severity_counts": severity_counts,
+        "active_c10_severity_counts": active_c10_severity_counts,
+        "legacy_archived_severity_counts": legacy_archived_severity_counts,
         "code_counts": dict(sorted(code_counts.items())),
         "has_blocking_drift": severity_counts["HIGH"] > 0,
+        "has_active_c10_blocking_drift": len(active_c10_blocking) > 0,
+        "active_c10_blocking_count": len(active_c10_blocking),
+        "legacy_archived_blocking_count": legacy_archived_severity_counts["HIGH"],
+        "legacy_archived_count": len(legacy_archived),
+        "active_c10_blocking_drifts": [asdict(item) for item in active_c10_blocking],
+        "active_c10_advisory_drifts": [asdict(item) for item in active_c10_advisory],
+        "legacy_archived_drifts": [asdict(item) for item in legacy_archived],
         "drifts": [asdict(item) for item in drifts],
     }
 
@@ -565,7 +602,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Exit non-zero (1) if any HIGH-severity contract drift is detected (read-only).",
+        help="Exit non-zero (1) if any HIGH-severity contract drift (active or legacy) is detected (read-only).",
+    )
+    parser.add_argument(
+        "--check-active",
+        action="store_true",
+        help=(
+            "Exit non-zero (1) only if any active C10 HIGH-severity blocking drift is detected "
+            "(transparently reports legacy_archived_drifts without failing)."
+        ),
     )
     parser.add_argument(
         "--risk-profiles",
@@ -593,6 +638,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(json.dumps(report, indent=2, ensure_ascii=False))
     if args.check and report["has_blocking_drift"]:
+        return 1
+    if args.check_active and report["has_active_c10_blocking_drift"]:
         return 1
     return 0
 

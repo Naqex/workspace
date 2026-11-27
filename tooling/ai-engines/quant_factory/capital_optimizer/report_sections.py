@@ -6,6 +6,7 @@ from collections.abc import Callable
 from typing import Any
 
 from quant_factory.capital_optimizer.constants import BANKROLL_GRID_VND_TR, TOPUP_GRID_VND_TR
+from quant_factory.capital_optimizer.report_v3 import append_v3_black_friday_2deadline_section
 
 
 def append_sections_5_to_8(
@@ -116,6 +117,8 @@ def append_sections_5_to_8(
                 "phải lấy mốc **`Liên tục` (`max_continuous_positive_wait_days`)** làm ngưỡng an toàn bảo thủ."
             )
             lines.append("")
+
+    append_v3_black_friday_2deadline_section(lines, results)
 
     # Section 6
     lines.append("## 6. Các Kiểm Chứng Tài Chính Thực Tế (`own_book = 0`, Vé Mua Lại Giá Gốc, Hoàn Phí Thẻ FTMO `0%`)")

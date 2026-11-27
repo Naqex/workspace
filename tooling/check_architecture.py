@@ -1,4 +1,4 @@
-"""Naqex Harness Engineering Architecture Gate ([ARCH-01..07]).
+"""Naqex Harness Engineering Architecture Gate ([ARCH-01..10]).
 
 Every violation prints in the canonical agent-actionable format:
   [ARCH-XX] <file>:<line> | <issue> | REMEDIATION: <exact fix instruction>
@@ -21,6 +21,15 @@ Rules:
             (`_frac` finite numeric in [0, 1], `_pct` finite numeric in [0, 100]).
   [ARCH-07] Copyleft / Commons-Clause import ban (`backtesting`, `backtrader`, `vectorbt`)
             across Naqex core packages (`quant_core`, `quant_factory`, `ops_cloud`).
+  [ARCH-08] AST-safe ban on raw `OrderSend` / live broker order calls and `MetaTrader5`
+            imports inside offline `tooling/automation/` or `tooling/ai-engines/experiments/`.
+  [ARCH-09] AST-safe ban on bare Python `assert` guards inside `tooling/automation/` and
+            `tooling/ai-engines/quant_core/holdout_guard.py` (stripped under `python -O`).
+  [ARCH-10] OPSEC ban on hardcoded Windows user profile paths (`C:\\Users\\<name>`) and raw
+            IPv4 literals inside `tooling/automation/`.
+
+Note (P0-9): `tooling/workflows/` is excluded from all AST parsing checks because
+`run_workflow` scripts legitimately use top-level `await` syntax.
 """
 
 from __future__ import annotations
@@ -61,7 +70,40 @@ BANNED_COPYLEFT_ROOTS: frozenset[str] = frozenset(
 README_MAX_BYTES = 15_000
 CURRENT_CONTEXT_MAX_BYTES = 12_000
 
+EXCLUDED_AST_PREFIXES: tuple[str, ...] = ("tooling/workflows/",)
+
+BANNED_LIVE_ORDER_CALLS: frozenset[str] = frozenset(
+    {
+        "OrderSend",
+        "OrderSendAsync",
+        "order_send",
+        "order_send_async",
+        "place_order",
+        "submit_order",
+        "send_order",
+        "execute_live_order",
+    }
+)
+BANNED_LIVE_ORDER_MODULES: frozenset[str] = frozenset({"MetaTrader5"})
+ARCH_08_OFFLINE_DIRS: tuple[str, ...] = (
+    "tooling/automation",
+    "tooling/ai-engines/experiments",
+)
+ARCH_09_GUARD_DIRS: tuple[str, ...] = ("tooling/automation",)
+ARCH_09_GUARD_FILES: tuple[str, ...] = ("tooling/ai-engines/quant_core/holdout_guard.py",)
+ARCH_10_AUTOMATION_DIR: str = "tooling/automation"
+ARCH_10_TEXT_EXTS: frozenset[str] = frozenset(
+    {".py", ".json", ".ps1", ".sh", ".yml", ".yaml", ".md", ".txt", ".toml", ".cfg", ".ini"}
+)
+
 _HOLDOUT_ASSERT_RE = re.compile(r"\b(?:STOP|HOLDOUT|holdout_rows|cutoff_day)\b|2025|holdout", re.IGNORECASE)
+_ARCH_10_WIN_USER_PATH_RE = re.compile(
+    r"(?i)(?:[A-Z]:|/mnt/[a-z])[\\/]+Users[\\/]+(?!<|YOUR_|user\b|username\b|example\b|runneradmin\b|public\b|default\b)[A-Za-z0-9._-]+"
+)
+_ARCH_10_RAW_IPV4_RE = re.compile(
+    r"(?<![0-9.vV])(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(?![0-9.])"
+)
+_ARCH_10_SAFE_IPV4_LITERALS: frozenset[str] = frozenset({"127.0.0.1", "0.0.0.0"})
 
 # Baseline allowlist of existing loose root `.py` files in `tooling/ai-engines/` (233 files, tightened post-L9).
 # Shrinking this list as files migrate to `legacy/` or `experiments/` only tightens the rule.
@@ -326,7 +368,44 @@ def _rel(path: Path, root: Path) -> str:
         return path.as_posix()
 
 
-def _parse_python(path: Path, *, required_substrings: tuple[str, ...] = ()) -> tuple[str, ast.Module | None]:
+def _is_excluded_ast_path(path: Path, root: Path) -> bool:
+    """Return True if `path` lies inside `tooling/workflows/` (top-level `await` scripts, P0-9)."""
+    rel = _rel(path, root)
+    if rel == "tooling/workflows" or any(rel.startswith(prefix) for prefix in EXCLUDED_AST_PREFIXES):
+        return True
+    parts = path.parts
+    for idx in range(len(parts) - 1):
+        if parts[idx] == "tooling" and parts[idx + 1] == "workflows":
+            return True
+    return False
+
+
+def _iter_python_files(directory: Path, root: Path, *, skip_tests: bool = False) -> list[Path]:
+    """Yield `.py` files under `directory`, skipping caches and `tooling/workflows/`."""
+    if not directory.is_dir():
+        return []
+    out: list[Path] = []
+    for path in sorted(directory.rglob("*.py")):
+        if not path.is_file():
+            continue
+        if any(part in {"__pycache__", ".venv", "venv", ".pytest_cache"} for part in path.parts):
+            continue
+        if _is_excluded_ast_path(path, root):
+            continue
+        if skip_tests and ("tests" in path.parts or path.name.startswith("test_")):
+            continue
+        out.append(path)
+    return out
+
+
+def _parse_python(
+    path: Path,
+    *,
+    required_substrings: tuple[str, ...] = (),
+    root: Path | None = None,
+) -> tuple[str, ast.Module | None]:
+    if _is_excluded_ast_path(path, root or ROOT):
+        return "", None
     src = path.read_text(encoding="utf-8", errors="replace")
     if required_substrings and not any(tok in src for tok in required_substrings):
         return src, None
@@ -391,7 +470,7 @@ def check_arch_01_hot_path_scipy(root: Path) -> list[ArchViolation]:
         if rp in seen:
             continue
         seen.add(rp)
-        _, tree = _parse_python(path, required_substrings=("scipy",))
+        _, tree = _parse_python(path, required_substrings=("scipy",), root=root)
         if tree is None:
             continue
         for stmt in _iter_module_level_stmts(tree.body):
@@ -449,6 +528,8 @@ def check_arch_02_holdout_asserts(root: Path) -> list[ArchViolation]:
         if rp in seen:
             continue
         seen.add(rp)
+        if _is_excluded_ast_path(path, root):
+            continue
         src = path.read_text(encoding="utf-8", errors="replace")
         if "assert" not in src or not _HOLDOUT_ASSERT_RE.search(src):
             continue
@@ -742,8 +823,8 @@ def check_arch_07_copyleft_imports(root: Path) -> list[ArchViolation]:
         pkg_dir = ai_dir / pkg
         if not pkg_dir.is_dir():
             continue
-        for path in sorted(pkg_dir.rglob("*.py")):
-            _, tree = _parse_python(path, required_substrings=tuple(BANNED_COPYLEFT_ROOTS))
+        for path in _iter_python_files(pkg_dir, root):
+            _, tree = _parse_python(path, required_substrings=tuple(BANNED_COPYLEFT_ROOTS), root=root)
             if tree is None:
                 continue
             rel_file = _rel(path, root)
@@ -801,8 +882,211 @@ def check_arch_07_copyleft_imports(root: Path) -> list[ArchViolation]:
     return violations
 
 
+def check_arch_08_offline_no_ordersend(root: Path) -> list[ArchViolation]:
+    """[ARCH-08] AST-safe ban on live OrderSend/broker calls in offline automation & experiments."""
+    remediation = (
+        "Remove live broker execution calls ('OrderSend', 'order_send', 'place_order', 'MetaTrader5') "
+        "from offline tooling/automation/ and tooling/ai-engines/experiments/ (keep OrderSend = 0)."
+    )
+    required_tokens = tuple(BANNED_LIVE_ORDER_CALLS | BANNED_LIVE_ORDER_MODULES)
+    violations: list[ArchViolation] = []
+    seen: set[Path] = set()
+
+    for rel_dir in ARCH_08_OFFLINE_DIRS:
+        for path in _iter_python_files(root / rel_dir, root):
+            rp = path.resolve()
+            if rp in seen:
+                continue
+            seen.add(rp)
+            _, tree = _parse_python(path, required_substrings=required_tokens, root=root)
+            if tree is None:
+                continue
+            rel_file = _rel(path, root)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        if alias.name.split(".")[0] in BANNED_LIVE_ORDER_MODULES:
+                            violations.append(
+                                ArchViolation(
+                                    rule="ARCH-08",
+                                    file=rel_file,
+                                    line=node.lineno,
+                                    issue=f"Live broker module import ('import {alias.name}') in offline module",
+                                    remediation=remediation,
+                                )
+                            )
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    if node.module.split(".")[0] in BANNED_LIVE_ORDER_MODULES:
+                        violations.append(
+                            ArchViolation(
+                                rule="ARCH-08",
+                                file=rel_file,
+                                line=node.lineno,
+                                issue=f"Live broker module import ('from {node.module} import ...') in offline module",
+                                remediation=remediation,
+                            )
+                        )
+                elif isinstance(node, ast.Call):
+                    fn_name = ""
+                    if isinstance(node.func, ast.Name):
+                        fn_name = node.func.id
+                    elif isinstance(node.func, ast.Attribute):
+                        fn_name = node.func.attr
+                    if fn_name in BANNED_LIVE_ORDER_CALLS:
+                        violations.append(
+                            ArchViolation(
+                                rule="ARCH-08",
+                                file=rel_file,
+                                line=node.lineno,
+                                issue=f"Live broker order call '{fn_name}(...)' forbidden in offline module",
+                                remediation=remediation,
+                            )
+                        )
+                    elif fn_name == "getattr" and len(node.args) >= 2:
+                        attr_arg = node.args[1]
+                        if (
+                            isinstance(attr_arg, ast.Constant)
+                            and isinstance(attr_arg.value, str)
+                            and attr_arg.value in BANNED_LIVE_ORDER_CALLS
+                        ):
+                            violations.append(
+                                ArchViolation(
+                                    rule="ARCH-08",
+                                    file=rel_file,
+                                    line=node.lineno,
+                                    issue=f"Dynamic live order lookup getattr(..., {attr_arg.value!r}) forbidden",
+                                    remediation=remediation,
+                                )
+                            )
+                    elif fn_name in ("import_module", "__import__"):
+                        mod_arg: ast.expr | None = node.args[0] if node.args else None
+                        if mod_arg is None:
+                            for kw in node.keywords:
+                                if kw.arg == "name":
+                                    mod_arg = kw.value
+                                    break
+                        if isinstance(mod_arg, ast.Constant) and isinstance(mod_arg.value, str):
+                            if mod_arg.value.split(".")[0] in BANNED_LIVE_ORDER_MODULES:
+                                msg = f"Dynamic live broker import '{mod_arg.value}' forbidden in offline module"
+                                violations.append(
+                                    ArchViolation(
+                                        rule="ARCH-08",
+                                        file=rel_file,
+                                        line=node.lineno,
+                                        issue=msg,
+                                        remediation=remediation,
+                                    )
+                                )
+    return violations
+
+
+def check_arch_09_no_bare_assert_guards(root: Path) -> list[ArchViolation]:
+    """[ARCH-09] Ban bare Python `assert` guards in `tooling/automation/` & `holdout_guard.py` (`-O` safety)."""
+    remediation = (
+        "Replace bare Python 'assert' (stripped under 'python -O') with an explicit fail-closed "
+        "'if <violated_condition>: raise ...' guard."
+    )
+    targets: list[Path] = []
+    for rel_dir in ARCH_09_GUARD_DIRS:
+        targets.extend(_iter_python_files(root / rel_dir, root, skip_tests=True))
+    for rel_file in ARCH_09_GUARD_FILES:
+        p = root / rel_file
+        if p.is_file() and not _is_excluded_ast_path(p, root):
+            targets.append(p)
+
+    violations: list[ArchViolation] = []
+    seen: set[Path] = set()
+    for path in targets:
+        rp = path.resolve()
+        if rp in seen:
+            continue
+        seen.add(rp)
+        src, tree = _parse_python(path, required_substrings=("assert",), root=root)
+        if tree is None:
+            continue
+        lines = src.splitlines()
+        rel_file = _rel(path, root)
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Assert):
+                continue
+            start_ln = max(1, node.lineno)
+            end_ln = getattr(node, "end_lineno", start_ln) or start_ln
+            seg = " ".join("\n".join(lines[start_ln - 1 : end_ln]).strip().split())
+            if len(seg) > 96:
+                seg = seg[:93] + "..."
+            violations.append(
+                ArchViolation(
+                    rule="ARCH-09",
+                    file=rel_file,
+                    line=node.lineno,
+                    issue=f"Bare Python assert stripped under 'python -O' ({seg})",
+                    remediation=remediation,
+                )
+            )
+    return violations
+
+
+def check_arch_10_automation_opsec_literals(root: Path) -> list[ArchViolation]:
+    """[ARCH-10] Ban hardcoded `C:\\Users\\<name>` paths and raw IPv4 literals in `tooling/automation/`."""
+    auto_dir = root / ARCH_10_AUTOMATION_DIR
+    if not auto_dir.is_dir():
+        return []
+
+    user_path_remediation = (
+        "Replace hardcoded local user profile paths with Path.home(), env vars, or repo-relative paths "
+        "(use '<USER_HOME>' placeholders in docs/logs)."
+    )
+    ip_remediation = (
+        "Remove raw IPv4 literals from tooling/automation/ and use SSH aliases, env vars, or "
+        "local untracked `.runtime/ops-cloud/` config files."
+    )
+    violations: list[ArchViolation] = []
+    for path in sorted(auto_dir.rglob("*")):
+        if not path.is_file():
+            continue
+        if any(part in {"__pycache__", ".venv", "venv", ".pytest_cache"} for part in path.parts):
+            continue
+        if _is_excluded_ast_path(path, root):
+            continue
+        if path.suffix.lower() not in ARCH_10_TEXT_EXTS:
+            continue
+        rel_file = _rel(path, root)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if "users" in line.lower():
+                m_user = _ARCH_10_WIN_USER_PATH_RE.search(line)
+                if m_user:
+                    violations.append(
+                        ArchViolation(
+                            rule="ARCH-10",
+                            file=rel_file,
+                            line=line_no,
+                            issue="Hardcoded local user profile path literal in tooling/automation/",
+                            remediation=user_path_remediation,
+                        )
+                    )
+            for m_ip in _ARCH_10_RAW_IPV4_RE.finditer(line):
+                ip_val = m_ip.group(0)
+                # Allow RFC 1122 loopback/unspecified (127.0.0.1, 0.0.0.0) & RFC 6598 CIDR `100.64.0.0/10`.
+                if ip_val in _ARCH_10_SAFE_IPV4_LITERALS:
+                    continue
+                if line[m_ip.start() : m_ip.end() + 3] == "100.64.0.0/10":
+                    continue
+                violations.append(
+                    ArchViolation(
+                        rule="ARCH-10",
+                        file=rel_file,
+                        line=line_no,
+                        issue=f"Raw IPv4 literal '{ip_val}' forbidden in tooling/automation/",
+                        remediation=ip_remediation,
+                    )
+                )
+                break
+    return violations
+
+
 def run_architecture_audit(root: Path = ROOT, *, strict: bool = False) -> dict[str, Any]:
-    """Run all 7 Harness Engineering architecture rules [ARCH-01..07]."""
+    """Run all 10 Harness Engineering architecture rules [ARCH-01..10]."""
     resolved = root.resolve()
     all_findings: list[ArchViolation] = []
     all_findings.extend(check_arch_01_hot_path_scipy(resolved))
@@ -812,10 +1096,13 @@ def run_architecture_audit(root: Path = ROOT, *, strict: bool = False) -> dict[s
     all_findings.extend(check_arch_05_byte_bloat(resolved, strict=strict))
     all_findings.extend(check_arch_06_ssot_unit_suffixes(resolved))
     all_findings.extend(check_arch_07_copyleft_imports(resolved))
+    all_findings.extend(check_arch_08_offline_no_ordersend(resolved))
+    all_findings.extend(check_arch_09_no_bare_assert_guards(resolved))
+    all_findings.extend(check_arch_10_automation_opsec_literals(resolved))
 
     errors = [v for v in all_findings if v.severity == "error"]
     warnings = [v for v in all_findings if v.severity == "warning"]
-    by_rule: dict[str, int] = {f"ARCH-0{i}": 0 for i in range(1, 8)}
+    by_rule: dict[str, int] = {f"ARCH-{i:02d}": 0 for i in range(1, 11)}
     for v in all_findings:
         by_rule[v.rule] = by_rule.get(v.rule, 0) + 1
 
@@ -833,7 +1120,7 @@ def run_architecture_audit(root: Path = ROOT, *, strict: bool = False) -> dict[s
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Naqex Harness Engineering Architecture Gate ([ARCH-01..07]).")
+    parser = argparse.ArgumentParser(description="Naqex Harness Engineering Architecture Gate ([ARCH-01..10]).")
     parser.add_argument("--root", type=Path, default=ROOT, help="Workspace root directory")
     parser.add_argument(
         "--strict",
