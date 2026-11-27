@@ -12,12 +12,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import re
 import subprocess
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 _FORBIDDEN_SHELL_META: frozenset[str] = frozenset('&|;><^%$()`"\'!\r\n\t')
 _SAFE_EXTRA_ARG_RE = re.compile(r"^[A-Za-z0-9._:=\\/@,-]+$")
@@ -45,6 +47,7 @@ def resolve_ssh_host(hosts: tuple[str, ...] = DEFAULT_HOSTS, timeout: int = 4) -
             r = subprocess.run(
                 ["ssh", "-o", f"ConnectTimeout={timeout}", "-o", "BatchMode=yes", host, "echo OK"],
                 capture_output=True, text=True, timeout=timeout + 3,
+                creationflags=_NO_WINDOW_FLAGS,
             )
             if r.returncode == 0 and "OK" in r.stdout:
                 return host
@@ -95,6 +98,7 @@ def _run_ssh_with_fallback(
             proc = subprocess.run(
                 ["ssh", "-o", f"ConnectTimeout={connect_timeout}", "-o", "BatchMode=yes", candidate, remote_cmd],
                 capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout,
+                creationflags=_NO_WINDOW_FLAGS,
             )
         except (subprocess.SubprocessError, OSError) as exc:
             last_err = f"{candidate}: {exc}"
@@ -148,6 +152,7 @@ def deploy_scripts(*, host: str | None = None) -> dict:
         subprocess.run(
             ["scp", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", str(local_p), remote_dst],
             check=True, capture_output=True, text=True, timeout=20,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         deployed.append(name)
     return {"ok": True, "order_send_count": 0, "ssh_host": target_host, "deployed": deployed}

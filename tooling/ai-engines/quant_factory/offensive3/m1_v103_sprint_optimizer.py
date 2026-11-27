@@ -503,10 +503,12 @@ def load_frozen_tapes_direct(
         raise ValueError(f"HOLDOUT_LOCK_VIOLATION: max_day={max_day} >= {HOLDOUT_CUTOFF_DAY}")
 
     tapes: dict[str, dict[str, tuple[dict[str, Any], np.ndarray, np.ndarray]]] = {}
+    tape_days: set[str] = set()
     with np.load(npz_path, allow_pickle=False) as z:
         for eng, eng_meta in meta["tapes"].items():
             days_list = [str(d) for d in eng_meta["days"]]
             verify_pre_holdout_days(days_list)
+            tape_days.update(days_list)
             rows_map = eng_meta["rows"]
             stamps_all = np.asarray(z[f"{eng}__stamps"], dtype=np.int64)
             marks_all = np.asarray(z[f"{eng}__marks"], dtype=np.float64)
@@ -521,6 +523,12 @@ def load_frozen_tapes_direct(
                 s1 = int(offsets[idx + 1])
                 day_map[dk] = (rows_map[dk], stamps_all[s0:s1], marks_all[s0:s1])
             tapes[eng] = day_map
+
+    ext_days = sorted(set(ext_days) | tape_days)
+    verify_pre_holdout_days(ext_days)
+    max_day = max(ext_days)
+    if max_day >= HOLDOUT_CUTOFF_DAY:
+        raise ValueError(f"HOLDOUT_LOCK_VIOLATION: max_day={max_day} >= {HOLDOUT_CUTOFF_DAY}")
 
     return {
         "schema": str(meta.get("schema", "")),
@@ -850,13 +858,15 @@ def apply_shield_b2_b3_guards(
             new_marks = marks[: k + 1].copy()
             term_pnl = float(new_marks[-1, 3])
             new_marks[-1, 3] = term_pnl
+            new_net_r = float(term_pnl / max(1e-6, float(row["stop_risk_with_cost_usd"])))
             new_row = {
                 **row,
                 "exit": int(new_stamps[-1]) + 60,
                 "at_open": False,
                 "reason": "NEWS_PRE_FLATTEN",
                 "net_usd_per_lot": term_pnl,
-                "net_R": float(term_pnl / max(1e-6, float(row["stop_risk_with_cost_usd"]))),
+                "net_R": new_net_r,
+                "gross_R": new_net_r,
             }
             eng_out[dk] = (new_row, new_stamps, new_marks)
             stats["flattened_pre_news"] += 1

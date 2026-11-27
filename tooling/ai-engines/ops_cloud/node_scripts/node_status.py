@@ -1,21 +1,25 @@
 """Naqex Home-VPS read-only single-command health probe (`OrderSend = 0`)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
+import os
 import pathlib
 import re
 import shutil
 import subprocess
 import time
+from datetime import UTC, datetime
 
 MT5_ROOT = pathlib.Path(r"C:\Naqex\mt5")
 HEROKU_LOG = pathlib.Path(r"C:\Naqex\logs\heroku_heartbeat_last.log")
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 
 def _run(cmd: list[str], timeout: int = 8) -> tuple[int, str, str]:
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(
+            cmd, capture_output=True, text=True, timeout=timeout, creationflags=_NO_WINDOW_FLAGS
+        )
         return r.returncode, r.stdout.strip(), r.stderr.strip()
     except Exception as exc:
         return -1, "", str(exc)
@@ -27,12 +31,16 @@ def _decode_mt5_log(path: pathlib.Path) -> str:
 
 
 def collect_status() -> dict:
-    out: dict = {"checked_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "order_send_count": 0}
+    out: dict = {"checked_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"), "order_send_count": 0}
 
     _, s, _ = _run(
         [
             "powershell", "-NoProfile", "-Command",
-            "@(Get-Process -Name terminal64 -EA 0 | ForEach-Object { @{pid=$_.Id; session=$_.SessionId; start=$_.StartTime.ToString('s')} }) | ConvertTo-Json -Compress",
+            (
+                "@(Get-Process -Name terminal64 -EA 0 | ForEach-Object { "
+                "@{pid=$_.Id; session=$_.SessionId; start=$_.StartTime.ToString('s')} "
+                "}) | ConvertTo-Json -Compress"
+            ),
         ]
     )
     try:
@@ -97,12 +105,19 @@ def collect_status() -> dict:
 $os=Get-CimInstance Win32_OperatingSystem
 $au=gp 'HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU' -EA 0
 $al=gp 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon' -EA 0
-$tasks=@(Get-ScheduledTask 'Naqex_*' -EA 0|%{$i=Get-ScheduledTaskInfo -TaskName $_.TaskName -TaskPath $_.TaskPath -EA 0;@{name=$_.TaskName;state="$($_.State)";res=$i.LastTaskResult}})
+$tasks=@(
+  Get-ScheduledTask 'Naqex_*' -EA 0 | % {
+    $i=Get-ScheduledTaskInfo -TaskName $_.TaskName -TaskPath $_.TaskPath -EA 0
+    @{name=$_.TaskName;state="$($_.State)";res=$i.LastTaskResult}
+  }
+)
+$wuReb='HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired'
+$cbsReb='HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending'
 @{
   uptime_hr=[math]::Round(((Get-Date)-$os.LastBootUpTime).TotalHours,2)
   free_ram_gb=[math]::Round($os.FreePhysicalMemory/1MB,1)
-  wu_reboot=(Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired')
-  cbs_reboot=(Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending')
+  wu_reboot=(Test-Path $wuReb)
+  cbs_reboot=(Test-Path $cbsReb)
   no_auto_update=$au.NoAutoUpdate
   auto_logon=$al.AutoAdminLogon
   tasks=$tasks

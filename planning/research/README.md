@@ -3,6 +3,14 @@
 > **Quy tắc tra cứu:** Xem kế hoạch tổng thể duy nhất (SSOT) tại [TOP1-SOLO-QUANT-MASTER-PLAN.md](../TOP1-SOLO-QUANT-MASTER-PLAN.md), trạng thái phiên hiện hành tại [CURRENT-CONTEXT.md](../CURRENT-CONTEXT.md), và sổ đăng ký danh mục máy đọc được tại [PORTFOLIO-REGISTRY.json](PORTFOLIO-REGISTRY.json).
 > Kiểm tra chứng nhận metadata bằng `python -X utf8 tooling/ai-engines/research_inventory.py` ([catalogue JSON](STRATEGY-CATALOGUE-20261107.json) · [hướng dẫn](STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn)).
 
+## 0A. Chiến Dịch Total Offensive #4 v4.8.1 FINAL (`28/11/2026` — `3` Tài Liệu Mới)
+
+| Hạng mục | Tóm tắt bằng chứng (`0 VND`, `OrderSend = 0`, `Holdout = 0`, `40/40` SHA-256) | Tài liệu gốc |
+|---|---|---|
+| **Tổng kết Hybrid AI & Pareto `81` Case** | Chấm `4` tầng Inside-Out, Same-Feed `100%` (`3.320/3.320`), `v1.04-ML` ONNX/MQL5 (`+639,18 USD`, `PF 1,21`, `7,28e-8`), Pareto `81` case (`10..500 tr`, `10k` Shared Paths), Frontier `2/3` PASS (tháng đói `20,8–29,2%`), CME `SKIP`, `16/16` M1 (`36,83 tr` nến), PIT-24 `24/24`. | [WAVE4-TOP1-HYBRID-AI-AND-CAPITAL-CURVE-20261128.md](WAVE4-TOP1-HYBRID-AI-AND-CAPITAL-CURVE-20261128.md) |
+| **Sổ tay Sổ Vốn Riêng VN** | Lộ trình `S7` `4` ngưỡng vốn (`<100` -> `>=500 tr`), `60/10/15/15` khóa `CEX <= 25%`, `4/4` Stress PASS, UCITS Ireland `< 60k USD` & `OPS-4`. | [VN-OWNBOOK-EXECUTION-PLAYBOOK.md](VN-OWNBOOK-EXECUTION-PLAYBOOK.md) |
+| **Sổ tay Đội Prop (`S0–S7` & `E1–E6`)** | FSM `S0..S7`, Cổng 2 khóa `S4->S5` chống nhầm `.set` Eval, `6` chốt `E1..E6`, CLI SHA-256 & Web Cockpit `?view=prop-fleet`. | [MULTI-ACCOUNT-FLEET-RUNBOOK.md](MULTI-ACCOUNT-FLEET-RUNBOOK.md) |
+
 ## 0. Chiến Dịch Total Offensive #3 v3.5 (`27/11/2026` — Prop Alpha Factory)
 
 | Hạng mục | Tóm tắt bằng chứng (`0 VND`, `OrderSend = 0`, `Holdout = 0`, `ZERO` hạ chuẩn) | Tài liệu gốc |

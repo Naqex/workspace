@@ -17,20 +17,22 @@ STRICT SAFETY INVARIANTS (NEVER VIOLATE):
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import csv
-from datetime import datetime, timezone
 import hashlib
 import json
 import logging
 import math
-from pathlib import Path
+import os
 import re
 import subprocess
 import time
+from collections import Counter
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 logger = logging.getLogger(__name__)
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 RECORD_TIER = "QUOTE_ONLY"
 ORDER_SEND_COUNT = 0
@@ -127,14 +129,14 @@ def verify_red_news_calendar(csv_path: Path) -> dict[str, Any]:
     csv_path = Path(csv_path)
     if not csv_path.exists():
         return {"ok": False, "reason": f"missing {csv_path}", "csv_path": str(csv_path), "found": {}}
-    lines = [l.strip() for l in csv_path.read_text(encoding="utf-8-sig").splitlines() if l.strip()]
+    lines = [ln.strip() for ln in csv_path.read_text(encoding="utf-8-sig").splitlines() if ln.strip()]
     found: dict[str, bool] = {}
     expected: dict[str, str] = {}
     for ev_id in ("US_NFP_20261204", "US_CPI_20261210"):
         ev = EVENTS[ev_id]
         needle = f"{ev['release_utc_ts']},USD,{ev['csv_code']}"
         expected[ev_id] = needle
-        found[ev_id] = any(l == needle for l in lines)
+        found[ev_id] = any(ln == needle for ln in lines)
     return {
         "ok": all(found.values()),
         "csv_path": str(csv_path),
@@ -169,6 +171,7 @@ def measure_ntp_offset_ms(ntp_host: str = "time.cloudflare.com", samples: int = 
             capture_output=True,
             text=True,
             timeout=12,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         offsets_ms: list[float] = []
         for m in re.finditer(r"([+-]\d+(?:\.\d+)?)s", proc.stdout):
@@ -343,12 +346,13 @@ class SameMsTickCursor:
                             emitted_now.append(t)
                             self.emitted_at_last_msc.append(_tick_dedup_key(*t))
                     else:
-                        # Interleaved / non-contiguous overlap (e.g. snapshot emitted C, range returns [A, B, C] or [A, C]):
-                        # emit every un-emitted tick by multiset count and flag sub-ms order unrecoverable.
+                        # Interleaved / non-contiguous overlap (e.g. snapshot emitted C,
+                        # range returns [A, B, C] or [A, C]): emit every un-emitted tick
+                        # by multiset count and flag sub-ms order unrecoverable.
                         remaining_prev = Counter(prev)
                         late_emitted: list[tuple[int, float, float, int]] = []
                         late_keys_all: list[tuple[int, float, float, int]] = []
-                        for t, k in zip(same_ms, keys):
+                        for t, k in zip(same_ms, keys, strict=True):
                             if remaining_prev[k] > 0:
                                 remaining_prev[k] -= 1
                             else:
@@ -426,7 +430,7 @@ def build_tick_row(
     prev_tick: dict[str, Any] | None,
 ) -> dict[str, Any]:
     utc_ts_ms = int(server_tick_msc - server_minus_utc_ms)
-    utc_dt = datetime.fromtimestamp(utc_ts_ms / 1000.0, tz=timezone.utc)
+    utc_dt = datetime.fromtimestamp(utc_ts_ms / 1000.0, tz=UTC)
     utc_iso_ms = utc_dt.strftime("%Y-%m-%dT%H:%M:%S.") + f"{utc_ts_ms % 1000:03d}Z"
     mid = 0.5 * (bid + ask)
     spread_pts = ((ask - bid) / point) if point > 0 else 0.0
@@ -561,7 +565,9 @@ def evaluate_window_completeness(
     short_span_core4: list[str] = []
 
     raw_win_span = summary.get("window_elapsed_span_sec")
-    window_elapsed_span_sec = float(raw_win_span) if (raw_win_span is not None and not isinstance(raw_win_span, bool)) else 0.0
+    window_elapsed_span_sec = (
+        float(raw_win_span) if (raw_win_span is not None and not isinstance(raw_win_span, bool)) else 0.0
+    )
     if not math.isfinite(window_elapsed_span_sec):
         window_elapsed_span_sec = 0.0
 
@@ -656,11 +662,13 @@ def run_live_capture(
 
     if expected_login is None or isinstance(expected_login, bool) or int(expected_login) <= 0:
         raise RuntimeError(
-            f"PREFLIGHT_ABORT_EXPECTED_LOGIN_REQUIRED: expected_login is required (>0) for live capture, got {expected_login!r}"
+            "PREFLIGHT_ABORT_EXPECTED_LOGIN_REQUIRED: expected_login is required (>0) for live capture, "
+            f"got {expected_login!r}"
         )
     if expected_server is None or not isinstance(expected_server, str) or not expected_server.strip():
         raise RuntimeError(
-            f"PREFLIGHT_ABORT_EXPECTED_SERVER_REQUIRED: expected_server is required (non-empty) for live capture, got {expected_server!r}"
+            "PREFLIGHT_ABORT_EXPECTED_SERVER_REQUIRED: expected_server is required (non-empty) for live capture, "
+            f"got {expected_server!r}"
         )
     expected_login_int = int(expected_login)
     expected_server_str = expected_server.strip()
@@ -699,7 +707,12 @@ def run_live_capture(
         for attempt in range(attempts):
             ti = mt5.terminal_info()
             ai = mt5.account_info()
-            if ti is not None and bool(getattr(ti, "connected", False)) and ai is not None and int(getattr(ai, "login", 0) or 0) > 0:
+            if (
+                ti is not None
+                and bool(getattr(ti, "connected", False))
+                and ai is not None
+                and int(getattr(ai, "login", 0) or 0) > 0
+            ):
                 break
             if attempt + 1 < attempts and connect_wait_sleep_s > 0:
                 time.sleep(connect_wait_sleep_s)
@@ -730,7 +743,8 @@ def run_live_capture(
             )
         if actual_server != expected_server_str:
             raise RuntimeError(
-                f"PREFLIGHT_ABORT_SERVER_MISMATCH: actual_server={actual_server!r} != expected_server={expected_server_str!r}"
+                f"PREFLIGHT_ABORT_SERVER_MISMATCH: actual_server={actual_server!r} "
+                f"!= expected_server={expected_server_str!r}"
             )
 
         pos_cnt = _validate_non_none_zero_count("positions_total", mt5.positions_total())
@@ -783,8 +797,8 @@ def run_live_capture(
                 recv_ms = int(time.time() * 1000)
                 for s in symbols:
                     cur = cursors[s]
-                    from_dt = datetime.fromtimestamp(cur.last_msc / 1000.0, tz=timezone.utc)
-                    to_dt = datetime.fromtimestamp((recv_ms + srv_minus_utc_ms + 5000) / 1000.0, tz=timezone.utc)
+                    from_dt = datetime.fromtimestamp(cur.last_msc / 1000.0, tz=UTC)
+                    to_dt = datetime.fromtimestamp((recv_ms + srv_minus_utc_ms + 5000) / 1000.0, tz=UTC)
                     ticks = mt5.copy_ticks_range(s, from_dt, to_dt, mt5.COPY_TICKS_ALL)
                     if ticks is not None and len(ticks) > 0:
                         new_ticks = cur.consume_batch(ticks)
@@ -829,7 +843,7 @@ def run_live_capture(
                 unrec_events.append({"symbol": s, **ev_u})
         return {
             "schema": "naqex.nfp_cpi_quote_only_capture.v2",
-            "captured_utc": datetime.now(timezone.utc).isoformat(),
+            "captured_utc": datetime.now(UTC).isoformat(),
             "status": completeness["status"],
             "window_complete": completeness["window_complete"],
             "completeness": completeness,
@@ -868,7 +882,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--duration-sec",
         type=float,
         default=None,
-        help="Capture duration in seconds (default: 1200.0 for US_NFP_20261204/US_CPI_20261210, 5.0 for SMOKE_PREFLIGHT)",
+        help=(
+            "Capture duration in seconds "
+            "(default: 1200.0 for US_NFP_20261204/US_CPI_20261210, 5.0 for SMOKE_PREFLIGHT)"
+        ),
     )
     parser.add_argument("--account-alias", default="DEMO_SECONDARY")
     parser.add_argument("--expected-login", type=int, default=None)
@@ -917,8 +934,15 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.terminal_exe is None or args.out_csv is None:
         raise SystemExit("--terminal-exe and --out-csv are required for live QUOTE_ONLY capture")
-    if args.expected_login is None or args.expected_login <= 0 or args.expected_server is None or not args.expected_server.strip():
-        raise SystemExit("--expected-login (>0) and --expected-server (non-empty) are required for live QUOTE_ONLY capture")
+    if (
+        args.expected_login is None
+        or args.expected_login <= 0
+        or args.expected_server is None
+        or not args.expected_server.strip()
+    ):
+        raise SystemExit(
+            "--expected-login (>0) and --expected-server (non-empty) are required for live QUOTE_ONLY capture"
+        )
 
     try:
         rep = run_live_capture(
@@ -934,7 +958,7 @@ def main(argv: list[str] | None = None) -> int:
     except RuntimeError as exc:
         err_payload = {
             "schema": "naqex.nfp_cpi_quote_only_capture.v2",
-            "captured_utc": datetime.now(timezone.utc).isoformat(),
+            "captured_utc": datetime.now(UTC).isoformat(),
             "status": "ABORTED_FAIL_CLOSED",
             "window_complete": False,
             "record_tier": RECORD_TIER,

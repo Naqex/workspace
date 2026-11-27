@@ -16,17 +16,19 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime, timedelta, timezone
 import ipaddress
 import json
-from pathlib import Path
+import os
 import re
 import subprocess
 import sys
+from datetime import UTC, datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 OPS_CLOUD_DIR = Path(__file__).resolve().parent
 AI_ENGINES_DIR = OPS_CLOUD_DIR.parent
@@ -123,9 +125,15 @@ def classify_network_signals(
     elif is_us:
         rec = "CHAN CUNG: Phat hien IP dinh vi Hoa Ky (US) - FTMO cam tuyet doi IP/VPN My!"
     elif cgnat_detected:
-        rec = "CANH BAO CGNAT: Nha mang VN dang cap dai CGNAT; xin IPv4 cong cong rieng truoc giai doan Funded va luu xac nhan email FTMO."
+        rec = (
+            "CANH BAO CGNAT: Nha mang VN dang cap dai CGNAT; "
+            "xin IPv4 cong cong rieng truoc giai doan Funded va luu xac nhan email FTMO."
+        )
     elif double_nat_detected:
-        rec = "LUU Y DOUBLE-NAT: Phat hien lop NAT trung gian (router/modem); kiem tra bridge mode neu can IP rieng."
+        rec = (
+            "LUU Y DOUBLE-NAT: Phat hien lop NAT trung gian (router/modem); "
+            "kiem tra bridge mode neu can IP rieng."
+        )
     else:
         rec = "DAT CHUAN: IP ngoai My va khong phat hien dau hieu CGNAT tren duong truyen."
 
@@ -146,12 +154,14 @@ def probe_node1_network_readonly(*, host: str | None = None, timeout: int = 20) 
     target_host = host or node_ctl.resolve_ssh_host()
     py_remote = "\n".join(
         [
-            "import ipaddress, json, re, subprocess, urllib.request",
+            "import ipaddress, json, os, re, subprocess, urllib.request",
+            "_cf = int(getattr(subprocess, 'CREATE_NO_WINDOW', 0)) if os.name == 'nt' else 0",
             "cc = 'UNKNOWN'",
             "ok = False",
             "cgnat_net = ipaddress.ip_network('100.64.0.0/10')",
             "try:",
-            "    t = urllib.request.urlopen('https://www.cloudflare.com/cdn-cgi/trace', timeout=6).read().decode('utf-8', 'ignore')",
+            "    u = 'https://www.cloudflare.com/cdn-cgi/trace'",
+            "    t = urllib.request.urlopen(u, timeout=6).read().decode('utf-8', 'ignore')",
             "    m = re.search(r'^loc=([A-Z]{2})', t, re.M)",
             "    if m:",
             "        cc = m.group(1)",
@@ -160,8 +170,15 @@ def probe_node1_network_readonly(*, host: str | None = None, timeout: int = 20) 
             "    pass",
             "cgnat = False",
             "dnat = False",
-            "ps = \"@(Get-NetIPAddress -AddressFamily IPv4 -EA 0 | Where-Object { $_.InterfaceAlias -notmatch 'Tailscale|Loopback' } | Select-Object -ExpandProperty IPAddress) -join ','\"",
-            "r1 = subprocess.run(['powershell', '-NoProfile', '-Command', ps], capture_output=True, text=True, timeout=6)",
+            (
+                "ps = \"@(Get-NetIPAddress -AddressFamily IPv4 -EA 0 | "
+                "Where-Object { $_.InterfaceAlias -notmatch 'Tailscale|Loopback' } | "
+                "Select-Object -ExpandProperty IPAddress) -join ','\""
+            ),
+            (
+                "r1 = subprocess.run(['powershell', '-NoProfile', '-Command', ps], "
+                "capture_output=True, text=True, timeout=6, creationflags=_cf)"
+            ),
             "for tok in r1.stdout.strip().split(','):",
             "    try:",
             "        ip = ipaddress.ip_address(tok.strip())",
@@ -169,7 +186,10 @@ def probe_node1_network_readonly(*, host: str | None = None, timeout: int = 20) 
             "            cgnat = True",
             "    except Exception:",
             "        pass",
-            "r2 = subprocess.run(['tracert', '-d', '-h', '3', '-w', '800', '1.1.1.1'], capture_output=True, text=True, timeout=12)",
+            (
+                "r2 = subprocess.run(['tracert', '-d', '-h', '3', '-w', '800', '1.1.1.1'], "
+                "capture_output=True, text=True, timeout=12, creationflags=_cf)"
+            ),
             "hop_idx = 0",
             "for ln in r2.stdout.splitlines():",
             "    hm = re.match(r'^\\s*(\\d+)\\s+.*?((\\d{1,3}\\.){3}\\d{1,3})', ln)",
@@ -184,7 +204,10 @@ def probe_node1_network_readonly(*, host: str | None = None, timeout: int = 20) 
             "            dnat = True",
             "    except Exception:",
             "        pass",
-            "print(json.dumps({'geo_lookup_ok': ok, 'country_code': cc, 'is_cgnat': cgnat, 'double_nat_suspected': dnat, 'hops_seen': hop_idx}))",
+            (
+                "print(json.dumps({'geo_lookup_ok': ok, 'country_code': cc, "
+                "'is_cgnat': cgnat, 'double_nat_suspected': dnat, 'hops_seen': hop_idx}))"
+            ),
         ]
     ) + "\n"
     proc = subprocess.run(
@@ -195,6 +218,7 @@ def probe_node1_network_readonly(*, host: str | None = None, timeout: int = 20) 
         encoding="utf-8",
         errors="replace",
         timeout=timeout,
+        creationflags=_NO_WINDOW_FLAGS,
     )
     if proc.returncode != 0 or not proc.stdout.strip():
         return classify_network_signals(
@@ -219,7 +243,7 @@ def extract_upcoming_red_news(
     horizon_days: int = 14,
 ) -> dict[str, Any]:
     """Extract upcoming restricted red-news events over `[now_utc, now_utc + horizon_days]` + Dec 2026 count."""
-    ref = now_utc or datetime.now(timezone.utc)
+    ref = now_utc or datetime.now(UTC)
     start_ts = int(ref.timestamp())
     end_ts = int((ref + timedelta(days=horizon_days)).timestamp())
 
@@ -246,11 +270,13 @@ def extract_upcoming_red_news(
             ccy = (row.get("ccy") or "").strip().upper()
             ev = (row.get("event") or "").strip()
             total_rows += 1
-            dt_u = datetime.fromtimestamp(ts, tz=timezone.utc)
+            dt_u = datetime.fromtimestamp(ts, tz=UTC)
             if dt_u.year == 2026 and dt_u.month == 12:
                 dec_2026_count += 1
             if start_ts <= ts <= end_ts:
                 dt_ict = dt_u.astimezone(ICT_TZ)
+                pf_lo = (dt_u - timedelta(seconds=300)).strftime("%H:%M:%S")
+                pf_hi = (dt_u - timedelta(seconds=135)).strftime("%H:%M:%S")
                 upcoming.append(
                     {
                         "utc_ts": ts,
@@ -258,7 +284,7 @@ def extract_upcoming_red_news(
                         "ict_iso": dt_ict.strftime("%Y-%m-%d %H:%M ICT"),
                         "ccy": ccy,
                         "event": ev,
-                        "pre_flatten_utc": f"{(dt_u - timedelta(seconds=300)).strftime('%H:%M:%S')}..{(dt_u - timedelta(seconds=135)).strftime('%H:%M:%S')}",
+                        "pre_flatten_utc": f"{pf_lo}..{pf_hi}",
                     }
                 )
     upcoming.sort(key=lambda x: (x["utc_ts"], x["ccy"], x["event"]))
@@ -303,7 +329,7 @@ def evaluate_pre_checkout(
 
     payload = {
         "schema": "naqex-ftmo-pre-checkout-guard-v1",
-        "checked_utc": (now_utc or datetime.now(timezone.utc)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "checked_utc": (now_utc or datetime.now(UTC)).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "order_send_count": ORDER_SEND_COUNT,
         "verdict": verdict,
         "hard_blocks": hard_blocks,
@@ -338,18 +364,33 @@ def render_pre_checkout_vi(result: dict[str, Any]) -> str:
         f"Phan quyet    : {v_vi}",
         "============================================================",
         "1. Dia ly IP & CGNAT (da an 100% dia chi IP that):",
-        f"   - Quoc gia={net['country_code']} | Ngoai My={net['non_us_verified']} | Chan IP My={net['is_us_ip_blocked']}",
-        f"   - CGNAT (100.64/10)={net['is_cgnat']} | Double-NAT={net['double_nat_suspected']} | Nguon={net['probe_source']}",
+        (
+            f"   - Quoc gia={net['country_code']} | Ngoai My={net['non_us_verified']} "
+            f"| Chan IP My={net['is_us_ip_blocked']}"
+        ),
+        (
+            f"   - CGNAT (100.64/10)={net['is_cgnat']} | Double-NAT={net['double_nat_suspected']} "
+            f"| Nguon={net['probe_source']}"
+        ),
         f"   - Khuyen nghi: {net['recommendation']}",
         "2. Cong san sang naqex-node1 (node_cutover_dryrun):",
-        f"   - Ket qua: {cut['verdict']} ({cut['gates_passed']}/{cut['gates_total']} cong DAT) | Preset={cut['target_preset']}",
-        f"3. Lich tin do FTMO Standard {rn['horizon_days']} ngay toi (CSV {rn['total_csv_rows']} dong | Thang 12/2026: {rn['dec_2026_count']} su kien):",
+        (
+            f"   - Ket qua: {cut['verdict']} ({cut['gates_passed']}/{cut['gates_total']} cong DAT) "
+            f"| Preset={cut['target_preset']}"
+        ),
+        (
+            f"3. Lich tin do FTMO Standard {rn['horizon_days']} ngay toi "
+            f"(CSV {rn['total_csv_rows']} dong | Thang 12/2026: {rn['dec_2026_count']} su kien):"
+        ),
     ]
     if not rn["events"]:
         lines.append("   - Khong co su kien tin do nao trong cua so da chon.")
     else:
         for ev in rn["events"][:20]:
-            lines.append(f"   - {ev['ict_iso']} ({ev['utc_iso']}) | {ev['ccy']:3s} | {ev['event']} | Xa truoc: {ev['pre_flatten_utc']} UTC")
+            lines.append(
+                f"   - {ev['ict_iso']} ({ev['utc_iso']}) | {ev['ccy']:3s} | "
+                f"{ev['event']} | Xa truoc: {ev['pre_flatten_utc']} UTC"
+            )
         if len(rn["events"]) > 20:
             lines.append(f"   - ... (+{len(rn['events']) - 20} su kien khac trong JSON)")
     if result["hard_blocks"]:
@@ -361,7 +402,9 @@ def render_pre_checkout_vi(result: dict[str, Any]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Read-only FTMO pre-checkout CGNAT, Geo-IP & 14-day Red-News guard (OrderSend=0).")
+    ap = argparse.ArgumentParser(
+        description="Read-only FTMO pre-checkout CGNAT, Geo-IP & 14-day Red-News guard (OrderSend=0)."
+    )
     mode = ap.add_mutually_exclusive_group(required=True)
     mode.add_argument("--live-readonly", action="store_true", help="Run read-only probes on naqex-node1.")
     mode.add_argument("--offline-fixture", type=Path, help="Offline JSON fixture with network + cutover probe data.")

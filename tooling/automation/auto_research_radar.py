@@ -44,6 +44,7 @@ WATCHLIST_SCHEMA_VERSION = "naqex-research-watchlist-v1"
 ORDER_SEND_COUNT = 0
 HOLDOUT_ROWS_ANALYSED = 0
 SPEND_VND = 0
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 VALID_TRUST_TIERS: frozenset[str] = frozenset(
     {
@@ -625,6 +626,7 @@ def _fetch_github_releases_live(repo: str, *, max_results: int, timeout_sec: flo
             errors="replace",
             timeout=timeout_sec,
             check=False,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if proc.returncode == 0 and proc.stdout.strip():
             parsed = json.loads(proc.stdout)

@@ -29,7 +29,7 @@ import tempfile
 from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import pyarrow as pa
@@ -48,6 +48,36 @@ from quant_core.holdout_guard import (  # noqa: E402
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
+WAF_BYPASS_ATTEMPTED: bool = False
+
+PROVENANCE_DUKASCOPY_TRUE_BID_ASK: str = "DUKASCOPY_TRUE_BID_ASK"
+PROVENANCE_QDM_PROVIDER_DEFAULT_SINGLE_SIDE: str = "QDM_PROVIDER_DEFAULT_SINGLE_SIDE"
+PROVENANCE_FTMO_BID_PLUS_SPREAD: str = "FTMO_BID_PLUS_SPREAD"
+PROVENANCE_HISTDATA_BID_ONLY: str = "HISTDATA_BID_ONLY"
+
+VALID_SOURCE_PROVENANCES: frozenset[str] = frozenset(
+    {
+        PROVENANCE_DUKASCOPY_TRUE_BID_ASK,
+        PROVENANCE_QDM_PROVIDER_DEFAULT_SINGLE_SIDE,
+        PROVENANCE_FTMO_BID_PLUS_SPREAD,
+        PROVENANCE_HISTDATA_BID_ONLY,
+    }
+)
+TRUE_TWO_SIDE_PROVENANCES: frozenset[str] = frozenset({PROVENANCE_DUKASCOPY_TRUE_BID_ASK})
+SYNTHETIC_ASK_PROVENANCES: frozenset[str] = frozenset({PROVENANCE_FTMO_BID_PLUS_SPREAD})
+SINGLE_SIDE_ONLY_PROVENANCES: frozenset[str] = frozenset(
+    {
+        PROVENANCE_QDM_PROVIDER_DEFAULT_SINGLE_SIDE,
+        PROVENANCE_HISTDATA_BID_ONLY,
+    }
+)
+
+_PROVENANCE_PARQUET_TAG: dict[str, str] = {
+    PROVENANCE_DUKASCOPY_TRUE_BID_ASK: "BIDASK",
+    PROVENANCE_QDM_PROVIDER_DEFAULT_SINGLE_SIDE: "QDM_SINGLE",
+    PROVENANCE_FTMO_BID_PLUS_SPREAD: "FTMO_BID_SPREAD",
+    PROVENANCE_HISTDATA_BID_ONLY: "HISTDATA_BID",
+}
 
 DEFAULT_CACHE: Path = ROOT / ".runtime" / "hot-m1-cache"
 DEFAULT_LOCK_PATH: Path = ROOT / "planning" / "research" / "NATIVE_FTMO_HOLDOUT_LOCK.json"
@@ -58,6 +88,13 @@ START_SEC: int = int(datetime(2018, 1, 1, tzinfo=UTC).timestamp())
 STOP_SEC: int = int(datetime(2025, 1, 1, tzinfo=UTC).timestamp())
 START_MS: int = START_SEC * 1000
 STOP_MS: int = STOP_SEC * 1000
+_YEAR_BOUNDS_SEC: dict[int, tuple[int, int]] = {
+    y: (
+        int(datetime(y, 1, 1, tzinfo=UTC).timestamp()),
+        int(datetime(y + 1, 1, 1, tzinfo=UTC).timestamp()),
+    )
+    for y in DEV_YEARS
+}
 
 _APR_2020_START_SEC: int = int(datetime(2020, 4, 1, tzinfo=UTC).timestamp())
 _APR_2020_STOP_SEC: int = int(datetime(2020, 5, 1, tzinfo=UTC).timestamp())
@@ -148,6 +185,63 @@ def _atomic_write_parquet(table: pa.Table, path: Path) -> None:
     finally:
         if tmp is not None:
             tmp.unlink(missing_ok=True)
+
+
+def _atomic_write_npz(arrays: dict[str, np.ndarray], path: Path) -> None:
+    """Atomically persist zero-pickle compressed NPZ with flush + fsync."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".npz.tmp",
+            delete=False,
+        ) as fh:
+            np.savez_compressed(fh, **cast(Any, arrays))
+            fh.flush()
+            os.fsync(fh.fileno())
+            tmp = Path(fh.name)
+        os.replace(tmp, path)
+        tmp = None
+    finally:
+        if tmp is not None:
+            tmp.unlink(missing_ok=True)
+
+
+def _validate_provenance_flags(
+    source_provenance: Any,
+    *,
+    has_ask_input: bool,
+    has_spread_input: bool,
+    asset: str,
+) -> tuple[str, bool, bool, bool]:
+    """Return `(provenance, native_ask, has_true_bid_ask, ask_columns_present)` fail-closed."""
+    if not isinstance(source_provenance, str) or source_provenance not in VALID_SOURCE_PROVENANCES:
+        raise ValueError(
+            f"INVALID_SOURCE_PROVENANCE [{asset}]: expected one of {sorted(VALID_SOURCE_PROVENANCES)}, "
+            f"got {source_provenance!r}"
+        )
+    if source_provenance in SINGLE_SIDE_ONLY_PROVENANCES:
+        if has_ask_input:
+            raise ValueError(
+                f"PROVENANCE_MISMATCH [{asset}]: {source_provenance} is single-side only "
+                "and must NEVER carry ask_ohlc or be labeled true Bid/Ask"
+            )
+        return source_provenance, False, False, False
+    if source_provenance == PROVENANCE_FTMO_BID_PLUS_SPREAD:
+        if not has_ask_input and not has_spread_input:
+            raise ValueError(
+                f"PROVENANCE_MISMATCH [{asset}]: {PROVENANCE_FTMO_BID_PLUS_SPREAD} requires "
+                "ask_ohlc or (spread_points, point_size)"
+            )
+        return source_provenance, False, False, True
+    if not has_ask_input:
+        raise ValueError(
+            f"PROVENANCE_MISMATCH [{asset}]: {PROVENANCE_DUKASCOPY_TRUE_BID_ASK} requires explicit ask_ohlc"
+        )
+    return source_provenance, True, True, True
 
 
 def _utc_iso(ts_sec: int) -> str:
@@ -428,9 +522,14 @@ def seal_asset(
         "schema": "naqex-hot-m1-cache-fragment-v1",
         "utc": datetime.now(UTC).isoformat(),
         "source": "dukascopy-node-m1-bid-ask-paired",
+        "source_provenance": PROVENANCE_DUKASCOPY_TRUE_BID_ASK,
+        "has_true_bid_ask": True,
+        "ask_columns_present": True,
+        "waf_bypass_attempted": WAF_BYPASS_ATTEMPTED,
         "order_send_count": ORDER_SEND_COUNT,
         "holdout_lock_sha256": lock_sha,
         "holdout_rows": 0,
+        "holdout_rows_analysed": 0,
         "asset": asset_u,
         "dir": asset_l,
         "native_Ask": True,
@@ -447,6 +546,355 @@ def seal_asset(
     }
     if apr2020_summary is not None:
         fragment["apr_2020_audit"] = apr2020_summary
+
+    if fragment_out is not None:
+        _atomic_write_json(Path(fragment_out), fragment)
+
+    return fragment
+
+
+def seal_generic_m1_arrays(
+    asset: str,
+    times_sec: np.ndarray | Sequence[int],
+    bid_ohlc: np.ndarray,
+    *,
+    source_provenance: str,
+    ask_ohlc: np.ndarray | None = None,
+    spread_points: np.ndarray | None = None,
+    point_size: float | None = None,
+    scale: int | None = None,
+    fragment_out: Path | None = None,
+    npz_out: Path | None = None,
+    cache_dir: Path = DEFAULT_CACHE,
+    lock_path: Path = DEFAULT_LOCK_PATH,
+    years: Sequence[int] | None = None,
+    filter_nonpositive: bool = False,
+    clamp_crossed_ticks: bool = False,
+    source_detail: str | None = None,
+    waf_bypass_attempted: bool = False,
+) -> dict[str, Any]:
+    """Seal Dev-only (2018-2024) M1 OHLC arrays with honest provenance into Parquet + optional NPZ + fragment JSON.
+
+    Supports all four canonical provenance tiers without disguising single-side or spread-reconstructed
+    bars as true two-side Bid/Ask:
+      - `DUKASCOPY_TRUE_BID_ASK`: native_Ask=True, has_true_bid_ask=True, 8 quote columns.
+      - `FTMO_BID_PLUS_SPREAD`: native_Ask=False, has_true_bid_ask=False, 8 quote columns + spread_pts.
+      - `QDM_PROVIDER_DEFAULT_SINGLE_SIDE`: native_Ask=False, has_true_bid_ask=False, 4 quote columns.
+      - `HISTDATA_BID_ONLY`: native_Ask=False, has_true_bid_ask=False, 4 quote columns.
+    """
+    if waf_bypass_attempted is not False:
+        raise ValueError("WAF_BYPASS_FORBIDDEN: waf_bypass_attempted MUST be False")
+
+    lock_sha = verify_holdout_lock(lock_path)
+    asset_u = _normalize_asset(asset)
+    asset_l = asset_u.lower()
+    eff_scale = _resolve_scale(asset_u, scale)
+
+    prov, native_ask, has_true_bid_ask, ask_cols_present = _validate_provenance_flags(
+        source_provenance,
+        has_ask_input=(ask_ohlc is not None),
+        has_spread_input=(spread_points is not None and point_size is not None),
+        asset=asset_u,
+    )
+
+    ts_raw = np.asarray(times_sec)
+    if ts_raw.ndim != 1 or ts_raw.size == 0:
+        raise ValueError(f"INVALID_TIMESTAMPS [{asset_u}]: expected non-empty 1D array, got shape={ts_raw.shape}")
+    if ts_raw.dtype == np.bool_ or not np.issubdtype(ts_raw.dtype, np.integer):
+        raise HoldoutLockError(
+            f"INVALID_TIMESTAMPS [{asset_u}]: expected integer UTC epoch seconds, got dtype={ts_raw.dtype}"
+        )
+    ts_arr = ts_raw.astype(np.int64, copy=True)
+
+    # Hard Holdout guard BEFORE any filtering (active under python -O)
+    enforce_pre_holdout_ts(ts_arr, START_SEC, STOP_SEC, context=f"seal_generic_m1_arrays:{asset_u}")
+    if bool(np.any(ts_arr % 60 != 0)):
+        raise ValueError(f"NON_MINUTE_ALIGNED_TIMESTAMPS [{asset_u}]: all M1 timestamps must be multiples of 60s")
+    if ts_arr.size > 1 and not bool(np.all(np.diff(ts_arr) > 0)):
+        raise ValueError(f"NON_MONOTONIC_TIMESTAMPS [{asset_u}]: timestamps must strictly increase")
+
+    b_raw = np.asarray(bid_ohlc)
+    if b_raw.ndim != 2 or b_raw.shape != (ts_arr.size, 4):
+        raise ValueError(f"INVALID_OHLC_SHAPE [{asset_u}]: bid_ohlc shape {b_raw.shape} != ({ts_arr.size}, 4)")
+    if b_raw.dtype == np.bool_ or not (
+        np.issubdtype(b_raw.dtype, np.floating) or np.issubdtype(b_raw.dtype, np.integer)
+    ):
+        raise ValueError(f"INVALID_OHLC_DTYPE [{asset_u}]: bid_ohlc dtype={b_raw.dtype} rejected")
+    b_arr = b_raw.astype(np.float64, copy=True)
+    if not bool(np.all(np.isfinite(b_arr))):
+        raise ValueError(f"NONFINITE_PRICE [{asset_u}]: NaN/Inf detected in bid_ohlc")
+
+    sp_arr: np.ndarray | None = None
+    a_arr: np.ndarray | None = None
+    if spread_points is not None:
+        sp_raw = np.asarray(spread_points)
+        if sp_raw.ndim != 1 or sp_raw.shape != (ts_arr.size,):
+            raise ValueError(
+                f"INVALID_SPREAD_SHAPE [{asset_u}]: spread_points shape {sp_raw.shape} != ({ts_arr.size},)"
+            )
+        if sp_raw.dtype == np.bool_ or not (
+            np.issubdtype(sp_raw.dtype, np.floating) or np.issubdtype(sp_raw.dtype, np.integer)
+        ):
+            raise ValueError(f"INVALID_SPREAD_DTYPE [{asset_u}]: spread_points dtype={sp_raw.dtype} rejected")
+        sp_arr = sp_raw.astype(np.float64, copy=True)
+        if not bool(np.all(np.isfinite(sp_arr))):
+            raise ValueError(f"NONFINITE_SPREAD [{asset_u}]: NaN/Inf in spread_points")
+        if bool(np.any(sp_arr < 0.0)):
+            raise ValueError(f"NEGATIVE_SPREAD [{asset_u}]: spread_points < 0 detected")
+
+    if ask_ohlc is not None:
+        a_raw = np.asarray(ask_ohlc)
+        if a_raw.ndim != 2 or a_raw.shape != (ts_arr.size, 4):
+            raise ValueError(f"INVALID_OHLC_SHAPE [{asset_u}]: ask_ohlc shape {a_raw.shape} != ({ts_arr.size}, 4)")
+        if a_raw.dtype == np.bool_ or not (
+            np.issubdtype(a_raw.dtype, np.floating) or np.issubdtype(a_raw.dtype, np.integer)
+        ):
+            raise ValueError(f"INVALID_OHLC_DTYPE [{asset_u}]: ask_ohlc dtype={a_raw.dtype} rejected")
+        a_arr = a_raw.astype(np.float64, copy=True)
+        if not bool(np.all(np.isfinite(a_arr))):
+            raise ValueError(f"NONFINITE_PRICE [{asset_u}]: NaN/Inf detected in ask_ohlc")
+    elif prov == PROVENANCE_FTMO_BID_PLUS_SPREAD:
+        if (
+            sp_arr is None
+            or point_size is None
+            or isinstance(point_size, bool)
+            or not isinstance(point_size, (int, float))
+            or not math.isfinite(float(point_size))
+            or float(point_size) <= 0.0
+        ):
+            raise ValueError(f"INVALID_POINT_SIZE [{asset_u}]: valid positive point_size and spread_points required")
+        a_arr = b_arr + (sp_arr[:, None] * float(point_size))
+
+    # Strict positive-price guard (supports Apr-2020 USOIL quarantine when filter_nonpositive=True)
+    nonpos_mask = np.any(b_arr <= 0.0, axis=1)
+    if a_arr is not None:
+        nonpos_mask = nonpos_mask | np.any(a_arr <= 0.0, axis=1)
+    nonpos_detected_total = int(np.sum(nonpos_mask))
+    nonpos_filtered_total = 0
+    if nonpos_detected_total > 0:
+        bad_indices = np.flatnonzero(nonpos_mask)
+        raw_min = float(np.min(b_arr[nonpos_mask]))
+        if a_arr is not None:
+            raw_min = min(raw_min, float(np.min(a_arr[nonpos_mask])))
+        first_utc = _utc_iso(int(ts_arr[bad_indices[0]]))
+        last_utc = _utc_iso(int(ts_arr[bad_indices[-1]]))
+        if not filter_nonpositive:
+            raise ValueError(
+                f"NONPOSITIVE_PRICE_ANOMALY [{asset_u}]: detected {nonpos_detected_total} bar(s) with price <= 0.0 "
+                f"(min_price={raw_min}, window={first_utc}..{last_utc})"
+            )
+        keep_mask = ~nonpos_mask
+        ts_arr = ts_arr[keep_mask]
+        b_arr = b_arr[keep_mask]
+        if a_arr is not None:
+            a_arr = a_arr[keep_mask]
+        if sp_arr is not None:
+            sp_arr = sp_arr[keep_mask]
+        nonpos_filtered_total = nonpos_detected_total
+        if ts_arr.size == 0:
+            raise ValueError(f"All bars removed by filter_nonpositive in {asset_u}")
+
+    # Strict intra-bar OHLC ordering: high >= max(open, close) >= min(open, close) >= low
+    b_max_oc = np.maximum(b_arr[:, 0], b_arr[:, 3])
+    b_min_oc = np.minimum(b_arr[:, 0], b_arr[:, 3])
+    if bool(np.any(b_arr[:, 1] < b_max_oc)) or bool(np.any(b_arr[:, 2] > b_min_oc)):
+        bad_idx = int(np.flatnonzero((b_arr[:, 1] < b_max_oc) | (b_arr[:, 2] > b_min_oc))[0])
+        raise ValueError(
+            f"OHLC_INTEGRITY_VIOLATION [{asset_u} bid row={bad_idx}]: "
+            f"high >= max(open,close) >= min(open,close) >= low violated ({b_arr[bad_idx].tolist()})"
+        )
+
+    crossed_total = 0
+    if a_arr is not None:
+        a_max_oc = np.maximum(a_arr[:, 0], a_arr[:, 3])
+        a_min_oc = np.minimum(a_arr[:, 0], a_arr[:, 3])
+        if bool(np.any(a_arr[:, 1] < a_max_oc)) or bool(np.any(a_arr[:, 2] > a_min_oc)):
+            bad_idx = int(np.flatnonzero((a_arr[:, 1] < a_max_oc) | (a_arr[:, 2] > a_min_oc))[0])
+            raise ValueError(
+                f"OHLC_INTEGRITY_VIOLATION [{asset_u} ask row={bad_idx}]: {a_arr[bad_idx].tolist()}"
+            )
+        crossed_mask = np.any(a_arr < b_arr, axis=1)
+        crossed_cnt = int(np.sum(crossed_mask))
+        if crossed_cnt > 0:
+            if not clamp_crossed_ticks:
+                raise ValueError(f"CROSSED_QUOTE_VIOLATION [{asset_u}]: {crossed_cnt} bar(s) have ask < bid")
+            crossed_total = crossed_cnt
+            a_arr = np.maximum(a_arr, b_arr)
+
+    # Resolve target Dev years (all strictly in 2018..2024)
+    if years is not None:
+        req_years = tuple(int(y) for y in years)
+        if not req_years:
+            raise ValueError("years must not be empty")
+        for y in req_years:
+            if isinstance(y, bool) or y < 2018 or y > 2024:
+                raise HoldoutLockError(f"HOLDOUT_OR_RANGE_BREACH: year {y} outside sealed Dev 2018-2024")
+        year_list = req_years
+    else:
+        year_list = tuple(
+            y
+            for y in DEV_YEARS
+            if int(np.searchsorted(ts_arr, _YEAR_BOUNDS_SEC[y][1], side="left"))
+            > int(np.searchsorted(ts_arr, _YEAR_BOUNDS_SEC[y][0], side="left"))
+        )
+        if not year_list:
+            raise ValueError(f"No Dev 2018-2024 bars found for {asset_u}")
+
+    dst_dir = Path(cache_dir) / asset_l
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    parquet_tag = _PROVENANCE_PARQUET_TAG[prov]
+
+    years_meta: dict[str, dict[str, Any]] = {}
+    total_minutes = 0
+    total_bytes = 0
+    global_min_price = math.inf
+    global_max_price = -math.inf
+    apr2020_summary: dict[str, Any] | None = None
+
+    for y in year_list:
+        y_start, y_stop = _YEAR_BOUNDS_SEC[y]
+        lo_i = int(np.searchsorted(ts_arr, y_start, side="left"))
+        hi_i = int(np.searchsorted(ts_arr, y_stop, side="left"))
+        if hi_i <= lo_i:
+            raise ValueError(f"No bars available for requested year {y} in {asset_u}")
+
+        y_ts = ts_arr[lo_i:hi_i]
+        y_mins = (y_ts // 60).astype(np.int64)
+        y_b = b_arr[lo_i:hi_i]
+        y_a = a_arr[lo_i:hi_i] if a_arr is not None else None
+        y_sp = sp_arr[lo_i:hi_i] if sp_arr is not None else None
+
+        enforce_pre_holdout_ts(y_ts, START_SEC, STOP_SEC, context=f"seal_generic_m1_arrays:{asset_u}:{y}")
+
+        b_int = np.rint(y_b * eff_scale).astype(np.int64)
+        if int(np.min(b_int)) <= 0:
+            raise ValueError(f"Scaled integer bid price underflow <= 0 in {asset_u} {y} (scale={eff_scale})")
+
+        cols: dict[str, np.ndarray] = {"minute": y_mins}
+        for i, name in enumerate(("bo", "bh", "bl", "bc")):
+            cols[name] = b_int[:, i]
+
+        yr_min_price = float(np.min(y_b))
+        yr_max_price = float(np.max(y_b))
+        med_spread_raw: float | None = None
+        med_spread_pts: float | None = None
+
+        if y_a is not None:
+            a_int = np.rint(y_a * eff_scale).astype(np.int64)
+            if int(np.min(a_int)) <= 0:
+                raise ValueError(f"Scaled integer ask price underflow <= 0 in {asset_u} {y} (scale={eff_scale})")
+            if not bool(np.all(a_int >= b_int)):
+                raise ValueError(f"Crossed scaled quote in {asset_u} {y}")
+            for i, name in enumerate(("ao", "ah", "al", "ac")):
+                cols[name] = a_int[:, i]
+            if y_sp is not None:
+                cols["spread_pts"] = np.rint(y_sp).astype(np.int64)
+            yr_min_price = min(yr_min_price, float(np.min(y_a)))
+            yr_max_price = max(yr_max_price, float(np.max(y_a)))
+            med_spread_raw = float(np.median(y_a[:, 0] - y_b[:, 0]))
+            med_spread_pts = float(np.median(a_int[:, 0] - b_int[:, 0]))
+
+        pfile = dst_dir / f"{asset_u}-M1-{parquet_tag}-{y}.parquet"
+        _atomic_write_parquet(pa.table(cols), pfile)
+        p_sha = _sha256_file(pfile)
+        p_bytes = int(pfile.stat().st_size)
+
+        global_min_price = min(global_min_price, yr_min_price)
+        global_max_price = max(global_max_price, yr_max_price)
+
+        yr_entry: dict[str, Any] = {
+            "parquet": pfile.name,
+            "parquet_sha256": p_sha,
+            "minutes": int(y_mins.size),
+            "bytes": p_bytes,
+            "min_price": round(yr_min_price, 6),
+            "max_price": round(yr_max_price, 6),
+            "source_provenance": prov,
+        }
+        if med_spread_raw is not None and med_spread_pts is not None:
+            yr_entry["median_spread_raw"] = round(med_spread_raw, 6)
+            yr_entry["median_spread_pts"] = round(med_spread_pts, 2)
+
+        if y == 2020:
+            apr_mask = (y_ts >= _APR_2020_START_SEC) & (y_ts < _APR_2020_STOP_SEC)
+            if bool(np.any(apr_mask)):
+                apr_min = float(np.min(y_b[apr_mask]))
+                if y_a is not None:
+                    apr_min = min(apr_min, float(np.min(y_a[apr_mask])))
+                apr_min = round(apr_min, 6)
+                apr_mins = int(np.sum(apr_mask))
+                yr_entry["apr_2020_minutes"] = apr_mins
+                yr_entry["apr_2020_min_price"] = apr_min
+                apr2020_summary = {
+                    "minutes": apr_mins,
+                    "min_price": apr_min,
+                    "nonpositive_detected": nonpos_detected_total,
+                    "nonpositive_filtered": nonpos_filtered_total,
+                }
+
+        years_meta[str(y)] = yr_entry
+        total_minutes += int(y_mins.size)
+        total_bytes += p_bytes
+
+    npz_sha256: str | None = None
+    npz_path_str: str | None = None
+    if npz_out is not None:
+        npz_target = Path(npz_out)
+        npz_payload: dict[str, np.ndarray] = {
+            "times_sec": ts_arr,
+            "bid_ohlc": b_arr,
+            "scale": np.array(eff_scale, dtype=np.int64),
+            "holdout_rows": np.array(0, dtype=np.int64),
+            "waf_bypass_attempted": np.array(False, dtype=np.bool_),
+            "native_ask": np.array(native_ask, dtype=np.bool_),
+            "has_true_bid_ask": np.array(has_true_bid_ask, dtype=np.bool_),
+            "ask_columns_present": np.array(ask_cols_present, dtype=np.bool_),
+            "asset": np.array(asset_u, dtype="<U16"),
+            "source_provenance": np.array(prov, dtype="<U48"),
+        }
+        if a_arr is not None:
+            npz_payload["ask_ohlc"] = a_arr
+        if sp_arr is not None:
+            npz_payload["spread_points"] = sp_arr
+        _atomic_write_npz(npz_payload, npz_target)
+        npz_sha256 = _sha256_file(npz_target)
+        npz_path_str = str(npz_target)
+
+    fragment: dict[str, Any] = {
+        "schema": "naqex-hot-m1-cache-fragment-v1",
+        "utc": datetime.now(UTC).isoformat(),
+        "source": source_detail or prov.lower(),
+        "source_provenance": prov,
+        "has_true_bid_ask": has_true_bid_ask,
+        "ask_columns_present": ask_cols_present,
+        "waf_bypass_attempted": WAF_BYPASS_ATTEMPTED,
+        "order_send_capable": ORDER_SEND_CAPABLE,
+        "order_send_count": ORDER_SEND_COUNT,
+        "holdout_lock_sha256": lock_sha,
+        "holdout_rows": 0,
+        "holdout_rows_analysed": 0,
+        "asset": asset_u,
+        "dir": asset_l,
+        "native_Ask": native_ask,
+        "scale": eff_scale,
+        "total_minutes": total_minutes,
+        "total_bytes": total_bytes,
+        "min_price": round(global_min_price, 6),
+        "max_price": round(global_max_price, 6),
+        "first_ts_utc": _utc_iso(int(ts_arr[0])),
+        "last_ts_utc": _utc_iso(int(ts_arr[-1])),
+        "max_ts_sec": int(ts_arr[-1]),
+        "crossed_clamped_total": crossed_total,
+        "nonpositive_detected_total": nonpos_detected_total,
+        "nonpositive_filtered_total": nonpos_filtered_total,
+        "nonpositive_anomaly_flagged": nonpos_detected_total > 0,
+        "years": years_meta,
+    }
+    if apr2020_summary is not None:
+        fragment["apr_2020_audit"] = apr2020_summary
+    if npz_path_str is not None and npz_sha256 is not None:
+        fragment["npz_path"] = npz_path_str
+        fragment["npz_sha256"] = npz_sha256
 
     if fragment_out is not None:
         _atomic_write_json(Path(fragment_out), fragment)
@@ -506,7 +954,7 @@ def merge_fragments(
     cache_dir: Path = DEFAULT_CACHE,
     lock_path: Path = DEFAULT_LOCK_PATH,
     verify_existing_assets: bool = True,
-    required_years: Sequence[int] = DEV_YEARS,
+    required_years: Sequence[int] | None = DEV_YEARS,
 ) -> dict[str, Any]:
     """Atomically merge `_fragments/*.json` into `manifest.json` with full SHA-256 & Holdout verification."""
     lock_sha = verify_holdout_lock(lock_path)
@@ -542,7 +990,7 @@ def merge_fragments(
         }
         assets_map = {}
 
-    req_year_keys = [str(int(y)) for y in required_years]
+    req_year_keys: list[str] | None = [str(int(y)) for y in required_years] if required_years is not None else None
     merged_assets: list[str] = []
     seen_frag_assets: dict[str, str] = {}
 
@@ -553,8 +1001,41 @@ def merge_fragments(
         enforce_holdout_zero_rows(frag.get("holdout_rows"), context=f"merge_fragments:{frag_path.name}")
         if frag.get("holdout_lock_sha256") != lock_sha:
             raise HoldoutLockError(f"Fragment holdout_lock_sha256 mismatch in {frag_path.name}")
-        if frag.get("native_Ask") is not True:
-            raise ValueError(f"Fragment {frag_path.name} must have native_Ask=true")
+        if frag.get("waf_bypass_attempted", False) is not False:
+            raise ValueError(f"Fragment {frag_path.name} has forbidden waf_bypass_attempted=True")
+
+        raw_prov = frag.get("source_provenance")
+        if raw_prov is None:
+            # Backward-compatible path for pre-Wave4 paired Dukascopy fragments
+            if frag.get("native_Ask") is not True:
+                raise ValueError(f"Fragment {frag_path.name} must have native_Ask=true")
+            frag_prov = PROVENANCE_DUKASCOPY_TRUE_BID_ASK
+            frag_native_ask = True
+            frag_has_true_bid_ask = True
+            frag_ask_cols_present = True
+        else:
+            if not isinstance(raw_prov, str) or raw_prov not in VALID_SOURCE_PROVENANCES:
+                raise ValueError(f"Fragment {frag_path.name} has invalid source_provenance={raw_prov!r}")
+            frag_prov = raw_prov
+            if frag_prov == PROVENANCE_DUKASCOPY_TRUE_BID_ASK:
+                if frag.get("native_Ask") is not True:
+                    raise ValueError(f"Fragment {frag_path.name} ({frag_prov}) must have native_Ask=true")
+                frag_native_ask = True
+                frag_has_true_bid_ask = True
+                frag_ask_cols_present = True
+            else:
+                # Fail closed against spoofing single-side or reconstructed Ask as native true Bid/Ask
+                if frag.get("native_Ask") is not False:
+                    raise ValueError(
+                        f"PROVENANCE_SPOOF_BLOCKED [{frag_path.name}]: {frag_prov} MUST have native_Ask=false"
+                    )
+                if frag.get("has_true_bid_ask") is True:
+                    raise ValueError(
+                        f"PROVENANCE_SPOOF_BLOCKED [{frag_path.name}]: {frag_prov} MUST NOT set has_true_bid_ask=true"
+                    )
+                frag_native_ask = False
+                frag_has_true_bid_ask = False
+                frag_ask_cols_present = frag_prov == PROVENANCE_FTMO_BID_PLUS_SPREAD
 
         asset_u = _normalize_asset(str(frag.get("asset", "")))
         asset_dir_name = str(frag.get("dir", "")).strip()
@@ -579,15 +1060,23 @@ def merge_fragments(
         seen_frag_assets[asset_u] = frag_sha
 
         frag_years = frag.get("years")
-        if not isinstance(frag_years, dict):
+        if not isinstance(frag_years, dict) or not frag_years:
             raise ValueError(f"Fragment {frag_path.name} missing years map")
-        missing_yrs = [yk for yk in req_year_keys if yk not in frag_years]
-        if missing_yrs:
-            raise ValueError(f"Fragment {frag_path.name} ({asset_u}) missing required years: {missing_yrs}")
+        if req_year_keys is not None:
+            missing_yrs = [yk for yk in req_year_keys if yk not in frag_years]
+            if missing_yrs:
+                raise ValueError(f"Fragment {frag_path.name} ({asset_u}) missing required years: {missing_yrs}")
+            target_year_keys = req_year_keys
+        else:
+            target_year_keys = sorted(str(k) for k in frag_years)
+            for yk in target_year_keys:
+                yi = int(yk)
+                if yi < 2018 or yi > 2024:
+                    raise HoldoutLockError(f"HOLDOUT_OR_RANGE_BREACH in {frag_path.name}: year {yk}")
 
         asset_folder = cache_root / asset_dir_name
         clean_years: dict[str, dict[str, Any]] = {}
-        for yk in req_year_keys:
+        for yk in target_year_keys:
             ym = frag_years[yk]
             _validate_year_entry_and_parquet(
                 asset_u,
@@ -602,14 +1091,24 @@ def merge_fragments(
                 "minutes": int(ym["minutes"]),
                 "bytes": int(ym["bytes"]),
             }
-            for opt_k in ("min_price", "median_spread_pts", "crossed_clamped", "nonpositive_filtered"):
+            for opt_k in (
+                "min_price",
+                "median_spread_pts",
+                "crossed_clamped",
+                "nonpositive_filtered",
+                "source_provenance",
+            ):
                 if opt_k in ym:
                     year_out[opt_k] = ym[opt_k]
             clean_years[yk] = year_out
 
         assets_map[asset_u] = {
             "dir": asset_dir_name,
-            "native_Ask": True,
+            "native_Ask": frag_native_ask,
+            "has_true_bid_ask": frag_has_true_bid_ask,
+            "ask_columns_present": frag_ask_cols_present,
+            "source_provenance": frag_prov,
+            "waf_bypass_attempted": False,
             "scale": scale_val,
             "source_manifest_sha256": frag_sha,
             "years": clean_years,

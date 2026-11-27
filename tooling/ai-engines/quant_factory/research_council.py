@@ -16,14 +16,13 @@ Enforces fail-closed scientific discipline for every new Naqex alpha hypothesis:
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
 import hashlib
 import json
 import math
-from pathlib import Path
 import sys
-
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -32,9 +31,10 @@ AI_ENGINES = Path(__file__).resolve().parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
-from quant_core.holdout_guard import enforce_pre_holdout_dates
-from quant_core.metrics import compute_pbo_cscv
-from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio
+from quant_core.holdout_guard import enforce_pre_holdout_dates  # noqa: E402
+from quant_core.metrics import compute_pbo_cscv, deflated_sharpe_ratio_empirical  # noqa: E402
+
+from quant_factory.eval_pipeline import benjamini_hochberg  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -106,6 +106,9 @@ class EvidenceBundle:
     pbo_returns_matrix: np.ndarray | None = None
     pbo_n_slices: int = 16
     pbo_value: float | None = None
+    trial_sharpes: tuple[float, ...] | list[float] | np.ndarray | None = None
+    sr_trials_var: float | None = None
+    trial_sharpes_are_annualized: bool = True
 
 
 def propose_hypothesis(
@@ -271,6 +274,153 @@ def _compute_corr_and_tail_corr(
     return float(res["corr_all"]), float(res["corr_tail"])
 
 
+def _evaluate_g2_empirical_dsr(
+    ret_b: np.ndarray,
+    *,
+    eff_n_trials: int,
+    annualization_days: float,
+    ledger_sharpes: list[float],
+    ledger_supplied: bool,
+    cand_in_ledger: bool,
+    evidence: EvidenceBundle,
+    eff_strict: bool,
+) -> dict[str, Any]:
+    """Evaluate Gate 2 DSR strictly via `quant_core.metrics.deflated_sharpe_ratio_empirical`."""
+    r = np.asarray(ret_b, dtype=np.float64)
+    r = r[np.isfinite(r)]
+    ann_days = max(1, int(round(float(annualization_days))))
+    m = max(1, int(eff_n_trials))
+
+    if r.size < 3 or float(np.std(r, ddof=1)) <= 1e-15:
+        return {
+            "sr_ann": 0.0,
+            "psr_gt0": 0.5,
+            "dsr": 0.0,
+            "sr_trials_var": 0.0,
+            "expected_max_sr_ann": 0.0,
+            "n_trials": m,
+            "dsr_mode": "degenerate_zero_var",
+            "empirical_variance_used": False,
+            "g2_hard_fail": False,
+        }
+
+    psr_res = deflated_sharpe_ratio_empirical(r, n_trials=1, annualization_days=ann_days)
+    cand_sr_ann = float(psr_res.observed_sr_annualized)
+    psr_gt0 = float(psr_res.dsr)
+
+    # Priority 1: Authoritative cross-sectional trial Sharpes from ExperimentLedger (DuckDB)
+    dsr_res = None
+    dsr_mode = ""
+    empirical_used = False
+
+    if ledger_supplied and ledger_sharpes:
+        eff_sh = list(ledger_sharpes)
+        if not cand_in_ledger:
+            eff_sh.append(cand_sr_ann)
+        if len(eff_sh) >= 2:
+            dsr_res = deflated_sharpe_ratio_empirical(
+                r,
+                trial_sharpes=eff_sh,
+                n_trials=max(m, len(eff_sh)),
+                annualization_days=ann_days,
+                sharpes_are_annualized=True,
+            )
+            dsr_mode = "empirical_ledger_sharpes"
+            empirical_used = True
+
+    # Priority 2: Explicit empirical trial_sharpes supplied in EvidenceBundle
+    if dsr_res is None and evidence.trial_sharpes is not None:
+        raw_ts = np.asarray(evidence.trial_sharpes, dtype=np.float64)
+        if raw_ts.ndim == 1:
+            fin_ts = raw_ts[np.isfinite(raw_ts)]
+            if fin_ts.size >= 2 or m <= 1:
+                dsr_res = deflated_sharpe_ratio_empirical(
+                    r,
+                    trial_sharpes=fin_ts,
+                    n_trials=max(m, int(fin_ts.size)),
+                    annualization_days=ann_days,
+                    sharpes_are_annualized=bool(evidence.trial_sharpes_are_annualized),
+                )
+                dsr_mode = "empirical_trial_sharpes"
+                empirical_used = True
+
+    # Priority 3: Explicit empirical sr_trials_var supplied in EvidenceBundle
+    if dsr_res is None and evidence.sr_trials_var is not None:
+        dsr_res = deflated_sharpe_ratio_empirical(
+            r,
+            sr_trials_var=float(evidence.sr_trials_var),
+            n_trials=m,
+            annualization_days=ann_days,
+            sharpes_are_annualized=bool(evidence.trial_sharpes_are_annualized),
+        )
+        dsr_mode = "empirical_sr_trials_var"
+        empirical_used = True
+
+    # Priority 4: Single-trial evaluation (M == 1 -> sr_star == 0, no variance required)
+    if dsr_res is None and m <= 1:
+        dsr_res = psr_res
+        dsr_mode = "empirical_single_trial"
+        empirical_used = True
+
+    # Priority 5: Derive empirical cross-sectional Sharpes from 2D pbo_returns_matrix (for M > 1)
+    if dsr_res is None and evidence.pbo_returns_matrix is not None:
+        pmat = np.asarray(evidence.pbo_returns_matrix, dtype=np.float64)
+        if pmat.ndim == 2 and pmat.shape[0] >= 3 and pmat.shape[1] >= 2 and bool(np.all(np.isfinite(pmat))):
+            col_sd = np.std(pmat, axis=0, ddof=1)
+            safe_sd = np.where(col_sd > 1e-15, col_sd, 1.0)
+            col_sr_ann = np.where(
+                col_sd > 1e-15,
+                (np.mean(pmat, axis=0) / safe_sd) * math.sqrt(float(ann_days)),
+                0.0,
+            )
+            dsr_res = deflated_sharpe_ratio_empirical(
+                r,
+                trial_sharpes=col_sr_ann,
+                n_trials=max(m, int(col_sr_ann.size)),
+                annualization_days=ann_days,
+                sharpes_are_annualized=True,
+            )
+            dsr_mode = "empirical_pbo_matrix"
+            empirical_used = True
+
+    # Priority 6: Missing empirical variance for M > 1 -> fail closed when strict;
+    # explicit variance fallback only in non-strict legacy mode
+    if dsr_res is None:
+        if eff_strict:
+            return {
+                "sr_ann": round(cand_sr_ann, 3),
+                "psr_gt0": round(psr_gt0, 4),
+                "dsr": 0.0,
+                "sr_trials_var": 0.0,
+                "expected_max_sr_ann": 0.0,
+                "n_trials": m,
+                "dsr_mode": "missing_empirical_variance_fail_closed",
+                "empirical_variance_used": False,
+                "g2_hard_fail": True,
+            }
+        dsr_res = deflated_sharpe_ratio_empirical(
+            r,
+            sr_trials_var=1.0 / float(max(1, r.size - 1)),
+            n_trials=m,
+            annualization_days=ann_days,
+            sharpes_are_annualized=False,
+        )
+        dsr_mode = "legacy_non_strict_var_fallback"
+        empirical_used = False
+
+    return {
+        "sr_ann": round(float(dsr_res.observed_sr_annualized), 3),
+        "psr_gt0": round(psr_gt0, 4),
+        "dsr": round(float(dsr_res.dsr), 4),
+        "sr_trials_var": round(float(dsr_res.sr_trials_var), 8),
+        "expected_max_sr_ann": round(float(dsr_res.expected_max_sr) * math.sqrt(float(ann_days)), 3),
+        "n_trials": int(dsr_res.n_trials),
+        "dsr_mode": dsr_mode,
+        "empirical_variance_used": empirical_used,
+        "g2_hard_fail": False,
+    }
+
+
 def critique_proposal(
     card: HypothesisCard,
     evidence: EvidenceBundle,
@@ -319,9 +469,11 @@ def critique_proposal(
     if not math.isfinite(raw_p_candidate) or not (0.0 <= raw_p_candidate <= 1.0):
         raise ValueError(f"Invalid p_value_raw: {evidence.p_value_raw!r}")
 
-    # Authoritative cumulative M & family p-values from ExperimentLedger when supplied
+    # Authoritative cumulative M, family p-values & empirical Sharpes from ExperimentLedger when supplied
     eff_family_id = family_id or card.counterparty_mechanism or card.hypothesis_id
     eff_n_trials = int(card.n_trials_cumulative)
+    ledger_sharpes: list[float] = []
+    cand_in_ledger = False
     if ledger is not None:
         if hasattr(ledger, "verify_integrity"):
             ledger.verify_integrity()
@@ -329,6 +481,13 @@ def critique_proposal(
         if hasattr(ledger, "query_family"):
             fam_rows = list(ledger.query_family(eff_family_id))
             ledger_pvals = [float(r["p_value"]) for r in fam_rows]
+            ledger_sharpes = [
+                float(r["sharpe"])
+                for r in fam_rows
+                if r.get("sharpe") is not None
+                and not isinstance(r.get("sharpe"), bool)
+                and math.isfinite(float(r["sharpe"]))
+            ]
             matching_indices = [
                 i for i, r in enumerate(fam_rows) if str(r.get("strategy_id")) == str(card.hypothesis_id)
             ]
@@ -338,6 +497,7 @@ def critique_proposal(
         if matching_indices:
             # Use authoritative logged p-value for card.hypothesis_id (conservative max if logged >1x);
             # NEVER allow self-reported p_value_raw to steal another strategy's smaller p-value.
+            cand_in_ledger = True
             fam_p = list(ledger_pvals)
             idx = max(matching_indices, key=lambda i: fam_p[i])
             cand_p_raw = float(fam_p[idx])
@@ -357,11 +517,21 @@ def critique_proposal(
     bh_q = float(q_vals[idx])
     g1_pass = bh_q <= kc.max_bh_q
 
-    # Gate 2: Deflated Sharpe Ratio (DSR) + Cluster B Sharpe floor
+    # Gate 2: Empirical Deflated Sharpe Ratio (DSR) + Cluster B Sharpe floor (no silent 1/(T-1) proxy)
     ret_a = np.asarray(evidence.cluster_a_returns, dtype=np.float64)
     ret_b = np.asarray(evidence.cluster_b_returns, dtype=np.float64)
-    dsr_b = deflated_sharpe_ratio(ret_b, n_trials=eff_n_trials, annualization=evidence.annualization_days)
-    g2_pass = (dsr_b["dsr"] >= kc.min_dsr) and (dsr_b["sr_ann"] >= kc.min_cluster_b_sharpe)
+    dsr_b = _evaluate_g2_empirical_dsr(
+        ret_b,
+        eff_n_trials=eff_n_trials,
+        annualization_days=evidence.annualization_days,
+        ledger_sharpes=ledger_sharpes,
+        ledger_supplied=ledger is not None,
+        cand_in_ledger=cand_in_ledger,
+        evidence=evidence,
+        eff_strict=eff_strict,
+    )
+    g2_hard_fail = bool(dsr_b["g2_hard_fail"])
+    g2_pass = (not g2_hard_fail) and (dsr_b["dsr"] >= kc.min_dsr) and (dsr_b["sr_ann"] >= kc.min_cluster_b_sharpe)
 
     # Gate 3: Cost Stress Survival (exact breakeven cost multiple)
     cost_drag_1x = float(evidence.cost_1x_net) - float(evidence.cost_2x_net)
@@ -401,9 +571,33 @@ def critique_proposal(
 
     gates: dict[str, Any] = {
         "G0_seal_and_card": {"passed": g0_pass, "detail": "OK" if g0_pass else "; ".join(g0_reasons)},
-        "G1_bh_fdr": {"passed": g1_pass, "p_raw": round(cand_p_raw, 5), "bh_q": round(bh_q, 5), "threshold": kc.max_bh_q, "m_family": len(fam_p)},
-        "G2_dsr_and_sharpe": {"passed": g2_pass, "sr_ann_b": dsr_b["sr_ann"], "dsr_b": dsr_b["dsr"], "psr_gt0": dsr_b["psr_gt0"], "n_trials": eff_n_trials, "min_dsr": kc.min_dsr, "min_sr": kc.min_cluster_b_sharpe},
-        "G3_cost_stress": {"passed": g3_pass, "cost_1x_net": round(float(evidence.cost_1x_net), 4), "cost_2x_net": round(float(evidence.cost_2x_net), 4), "breakeven_mult": round(breakeven_mult, 2), "min_be": kc.min_cost_breakeven_mult},
+        "G1_bh_fdr": {
+            "passed": g1_pass,
+            "p_raw": round(cand_p_raw, 5),
+            "bh_q": round(bh_q, 5),
+            "threshold": kc.max_bh_q,
+            "m_family": len(fam_p),
+        },
+        "G2_dsr_and_sharpe": {
+            "passed": g2_pass,
+            "sr_ann_b": dsr_b["sr_ann"],
+            "dsr_b": dsr_b["dsr"],
+            "psr_gt0": dsr_b["psr_gt0"],
+            "n_trials": eff_n_trials,
+            "min_dsr": kc.min_dsr,
+            "min_sr": kc.min_cluster_b_sharpe,
+            "dsr_mode": dsr_b["dsr_mode"],
+            "empirical_variance_used": dsr_b["empirical_variance_used"],
+            "sr_trials_var": dsr_b["sr_trials_var"],
+            "expected_max_sr_ann": dsr_b["expected_max_sr_ann"],
+        },
+        "G3_cost_stress": {
+            "passed": g3_pass,
+            "cost_1x_net": round(float(evidence.cost_1x_net), 4),
+            "cost_2x_net": round(float(evidence.cost_2x_net), 4),
+            "breakeven_mult": round(breakeven_mult, 2),
+            "min_be": kc.min_cost_breakeven_mult,
+        },
         "G4_orthogonality": {
             "passed": g4_pass,
             "corr_all": corr_all,
@@ -414,7 +608,13 @@ def critique_proposal(
             "max_corr": kc.max_corr_vs_incumbent,
             "max_tail": kc.max_tail_corr_vs_incumbent,
         },
-        "G5_sample_and_sign": {"passed": g5_pass, "n_trades_b": int(evidence.n_trades_cluster_b), "min_trades_b": kc.min_trades_cluster_b, "mean_a_pos": mean_a > 0.0, "mean_b_pos": mean_b > 0.0},
+        "G5_sample_and_sign": {
+            "passed": g5_pass,
+            "n_trades_b": int(evidence.n_trades_cluster_b),
+            "min_trades_b": kc.min_trades_cluster_b,
+            "mean_a_pos": mean_a > 0.0,
+            "mean_b_pos": mean_b > 0.0,
+        },
     }
 
     # Gate 6: 4-Pillar Robustness Gate (fail-closed when required and skipped!)
@@ -477,13 +677,24 @@ def critique_proposal(
     if not g1_pass:
         objections.append(f"BH-FDR fail: q={bh_q:.4f} > {kc.max_bh_q} (m={len(fam_p)})")
     if not g2_pass:
-        objections.append(f"DSR/Sharpe fail: DSR={dsr_b['dsr']:.3f} (min {kc.min_dsr}), SR_B={dsr_b['sr_ann']:.2f} (min {kc.min_cluster_b_sharpe})")
+        objections.append(
+            f"DSR/Sharpe fail: DSR={dsr_b['dsr']:.3f} (min {kc.min_dsr}), "
+            f"SR_B={dsr_b['sr_ann']:.2f} (min {kc.min_cluster_b_sharpe})"
+        )
     if not g3_pass:
-        objections.append(f"Cost fragility: net@2x={evidence.cost_2x_net:.4f}, breakeven={breakeven_mult:.2f}x < {kc.min_cost_breakeven_mult:.2f}x")
+        objections.append(
+            f"Cost fragility: net@2x={evidence.cost_2x_net:.4f}, "
+            f"breakeven={breakeven_mult:.2f}x < {kc.min_cost_breakeven_mult:.2f}x"
+        )
     if not g4_pass:
-        objections.append(f"Gate 4 orthogonality fail ({g4_detail}): corr_all={corr_all:.3f}, tail_corr={corr_tail:.3f}")
+        objections.append(
+            f"Gate 4 orthogonality fail ({g4_detail}): corr_all={corr_all:.3f}, tail_corr={corr_tail:.3f}"
+        )
     if not g5_pass:
-        objections.append(f"Sample/sign fail: n_trades_B={evidence.n_trades_cluster_b}, mean_A={mean_a:.6f}, mean_B={mean_b:.6f}")
+        objections.append(
+            f"Sample/sign fail: n_trades_B={evidence.n_trades_cluster_b}, "
+            f"mean_A={mean_a:.6f}, mean_B={mean_b:.6f}"
+        )
     if "G6_robustness_gate" in failed:
         g6 = gates["G6_robustness_gate"]
         objections.append(f"Robustness gate fail ({g6['verdict']}): pillars={g6['failed_pillars']}")
@@ -493,6 +704,8 @@ def critique_proposal(
 
     # Hard fail-closed decision rule
     hard_kill_gates = {"G0_seal_and_card", "G1_bh_fdr", "G3_cost_stress", "G5_sample_and_sign"}
+    if g2_hard_fail:
+        hard_kill_gates.add("G2_dsr_and_sharpe")
     if g4_hard_fail:
         hard_kill_gates.add("G4_orthogonality")
     if g6_hard_fail:
@@ -504,12 +717,12 @@ def critique_proposal(
     elif (set(failed) & hard_kill_gates) or len(failed) >= 2:
         verdict = "REJECT_KILLED"
     else:
-        # Only 1 soft gate failed (e.g., marginal DSR, borderline corr, or single asymmetry/year warning while MC + Trim passed)
+        # Only 1 soft gate failed (e.g., marginal DSR, borderline corr, or asymmetry/year warning)
         verdict = "CONDITIONAL_RETEST"
 
     payload = {
         "schema": "naqex-research-council-verdict-v1",
-        "evaluated_utc": datetime.now(timezone.utc).isoformat(),
+        "evaluated_utc": datetime.now(UTC).isoformat(),
         "critic_role": "Skeptical_RedTeam_Critic_v1",
         "ledger_enforced": ledger is not None,
         "family_id": eff_family_id,

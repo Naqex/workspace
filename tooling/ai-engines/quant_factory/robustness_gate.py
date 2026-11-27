@@ -86,6 +86,7 @@ class RobustnessThresholds:
     worst_year_drop_frac: float = 0.10
     allow_weekend_gaps: bool = False
     swap_drag_per_day_r: float = 0.0
+    allow_sign_flip_fallback: bool = True
 
 
 CRISIS_STRESS_WINDOWS: dict[str, tuple[str, str]] = {
@@ -1392,10 +1393,15 @@ def evaluate_robustness_gate(
     else:
         mc = dict(mc_result)
 
+    is_sign_flip_fallback = str(mc.get("mc_mode") or "") == "sign_flip_fallback"
+    fallback_blocked = is_sign_flip_fallback and (not bool(thresholds.allow_sign_flip_fallback))
     mc_pass = bool(
-        float(mc["beat_rate_unbiased"]) >= thresholds.min_mc_beat_rate_unbiased
+        (not fallback_blocked)
+        and float(mc["beat_rate_unbiased"]) >= thresholds.min_mc_beat_rate_unbiased
         and float(mc["beat_rate_same_side"]) >= thresholds.min_mc_beat_rate_same_side
     )
+    if fallback_blocked:
+        mc["fallback_blocked"] = True
     mc["passed"] = mc_pass
 
     sym = buy_sell_symmetry_audit(r, s, thresholds)
