@@ -65,12 +65,6 @@ from quant_core.holdout_guard import (  # noqa: E402
     enforce_pre_holdout_dates,
 )
 from quant_core.tca import canonical_payload_sha256, write_atomic_sha256_json  # noqa: E402
-from quant_lab.funding_carry_v2 import (  # noqa: E402
-    FundingCarryConfig,
-    carry_btc_eth_cons_weights,
-    compute_carry_btc_eth_live_step,
-    run_funding_carry_backtest,
-)
 
 from quant_factory.crypto_causal_universe import CACHE_DIR as SPOT_CACHE_DIR  # noqa: E402
 from quant_factory.data_store import assert_holdout_locked  # noqa: E402
@@ -781,7 +775,20 @@ def load_crypto_carry_dev_series(
     pc_df = pd.DataFrame(pc_arr, index=dt_idx, columns=loaded_syms)
     ph_df = pd.DataFrame(ph_arr, index=dt_idx, columns=loaded_syms)
 
-    # Directly compose `quant_lab.funding_carry_v2` with strict pre-holdout enforcement
+    # Directly compose `quant_lab.funding_carry_v2` lazily (requires updated projects/quant-trading checkout)
+    try:
+        from quant_lab.funding_carry_v2 import (
+            FundingCarryConfig,
+            carry_btc_eth_cons_weights,
+            compute_carry_btc_eth_live_step,
+            run_funding_carry_backtest,
+        )
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "FUNDING_CARRY_V2_UNAVAILABLE: `quant_lab.funding_carry_v2` is required for local-cache "
+            "Dev Own-Book carry replay (update projects/quant-trading checkout)."
+        ) from exc
+
     w_cons = carry_btc_eth_cons_weights(
         f_df,
         sc_df,

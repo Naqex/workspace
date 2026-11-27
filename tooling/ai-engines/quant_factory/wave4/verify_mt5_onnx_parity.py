@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import os
@@ -129,6 +130,8 @@ DEFAULT_DROPBOX_RECEIPT: Final[Path] = REPO_ROOT / ".tmp" / "swarm_dropbox" / "w
 PROPGUARD_EXPECTED_SHA256: Final[str] = "9d7fb3c966688df9cd13ec376b7ea9d4770f5c30bb97b7e5a978d1fe0840e5ed"
 SIGNALS_7E_EXPECTED_SHA256: Final[str] = "2f5b7d7ccd7b8a88b7b9896259cbda846e5553cf6ceb868866f9566a860be738"
 AGENTS_MD_EXPECTED_BYTES: Final[int] = 10901
+AGENTS_MD_EXPECTED_LF_BYTES: Final[int] = 10812
+AGENTS_MD_EXPECTED_LF_SHA256: Final[str] = "b67aa46cb137b79a355ecda832d89de1d29f983463c2196bee9cfcfc70d4257c"
 QUANT_CORE_EXPECTED_PY_COUNT: Final[int] = 41
 
 DEFAULT_ML_THRESHOLD: Final[float] = 0.457952
@@ -198,9 +201,16 @@ def verify_immutables_and_binary_hygiene(
     if signals_sha != SIGNALS_7E_EXPECTED_SHA256:
         raise RuntimeError(f"IMMUTABLE_BREACH: Naqex_Signals_7E.mqh sha={signals_sha}")
 
-    agents_bytes = agents_path.stat().st_size
-    if agents_bytes != AGENTS_MD_EXPECTED_BYTES:
-        raise RuntimeError(f"IMMUTABLE_BREACH: AGENTS.md bytes={agents_bytes} != {AGENTS_MD_EXPECTED_BYTES}")
+    agents_raw = agents_path.read_bytes()
+    agents_bytes = len(agents_raw)
+    agents_lf = agents_raw.replace(b"\r\n", b"\n")
+    agents_lf_bytes = len(agents_lf)
+    agents_lf_sha = hashlib.sha256(agents_lf).hexdigest()
+    if agents_lf_bytes != AGENTS_MD_EXPECTED_LF_BYTES or agents_lf_sha != AGENTS_MD_EXPECTED_LF_SHA256:
+        raise RuntimeError(
+            f"IMMUTABLE_BREACH: AGENTS.md lf_bytes={agents_lf_bytes} != {AGENTS_MD_EXPECTED_LF_BYTES} "
+            f"or lf_sha={agents_lf_sha} != {AGENTS_MD_EXPECTED_LF_SHA256}"
+        )
 
     quant_core_py_count = len(list(quant_core_dir.glob("*.py"))) if quant_core_dir.is_dir() else 0
     if quant_core_py_count != QUANT_CORE_EXPECTED_PY_COUNT:
