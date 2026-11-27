@@ -144,6 +144,33 @@ _ML_FILTER_RE = re.compile(
 )
 _BRIER_PROVEN_RE = re.compile(r"brier\s+skill\s*(?:>|>=)\s*0\.[0-9]*[1-9]", re.IGNORECASE)
 
+VALID_PROFILES: frozenset[str] = frozenset({"default", "offensive3"})
+_NON_BREAKOUT_MARKER_RE = re.compile(
+    r"\b(non[- ]?breakout|false[- ]?break(?:out)?|liquidity[- ]?sweep|sweep[- ]?reclaim|"
+    r"mean[- ]?reversion|pullback|fixing|overnight[- ]?drift|reversal|stat[- ]?arb|pairs|cointegration|"
+    r"carry|seasonality|cross[- ]?sectional|tsmom|xsmom|vol[- ]?regime)\b",
+    re.IGNORECASE,
+)
+_PURE_BREAKOUT_RE = re.compile(
+    r"\b(breakout|opening\s+range\s+break|orb\b|donchian\s+breakout|london\s+box\s+breakout|"
+    r"tokyo\s+box\s+breakout|range\s+breakout|channel\s+breakout)\b",
+    re.IGNORECASE,
+)
+_OFFENSIVE3_CFD_SYMBOLS: frozenset[str] = _CFD_FX_INDEX_SYMBOLS | frozenset(
+    {
+        "JP225",
+        "UK100",
+        "AUDJPY",
+        "CADJPY",
+        "CHFJPY",
+        "NZDJPY",
+        "EURAUD",
+        "GBPAUD",
+        "EURCAD",
+        "BTCUSD",
+    }
+)
+
 
 def validate_no_holdout_leakage(obj: Any, *, context: str = "strategy_intel_bridge", path: str = "root") -> None:
     """Fail-closed recursive scanner rejecting any 2025+ / OOS2 leakage (ZERO `assert`, `-O` safe)."""
@@ -264,6 +291,106 @@ def evaluate_lead_against_s34(lead: dict[str, Any]) -> list[str]:
     return reasons
 
 
+def _normalize_offensive3_lead(lead: dict[str, Any]) -> dict[str, Any]:
+    """Normalize Total Offensive #3 lead fields cleanly into canonical bridge schema without mutating input."""
+    out = dict(lead)
+    if not out.get("name") and out.get("title"):
+        out["name"] = out["title"]
+    if not out.get("family") and out.get("family_tag"):
+        out["family"] = out["family_tag"]
+    if not out.get("symbol"):
+        au = out.get("asset_universe")
+        if isinstance(au, list):
+            out["symbol"] = "/".join(str(x) for x in au if x)
+        elif au:
+            out["symbol"] = str(au)
+    if not out.get("stop_loss_rule") and out.get("sl_rule"):
+        out["stop_loss_rule"] = out["sl_rule"]
+    if not out.get("rule_description"):
+        parts = [
+            str(out.get(k) or "").strip()
+            for k in ("economic_rationale", "entry_rule", "exit_rule", "sl_rule")
+            if out.get(k)
+        ]
+        out["rule_description"] = " | ".join(parts)
+    if not out.get("timeframe"):
+        track = str(out.get("prop_track") or "").upper()
+        if "SWING" in track:
+            out["timeframe"] = "D1"
+        elif "INTRADAY" in track:
+            out["timeframe"] = "M15"
+    return out
+
+
+def evaluate_lead_for_offensive3(lead: dict[str, Any]) -> tuple[list[str], str | None]:
+    """Evaluate a sanitized lead under opt-in `--profile offensive3` with explicit §3.4 exemption logging.
+
+    Still strictly blocks Grid/Martingale/No-SL, Crypto <4H taker, unproven ML filters, and pure
+    breakout leads; admits non-breakout Prop intraday + FTMO Swing white-box leads with an explicit
+    audit `section_3_4_exemption_reason`.
+    """
+    norm = _normalize_offensive3_lead(lead)
+    base_reasons = evaluate_lead_against_s34(norm)
+
+    hard_blocks: list[str] = [
+        r
+        for r in base_reasons
+        if r
+        in (
+            "FORBIDDEN_S34_GRID_MARTINGALE_OR_NO_SL",
+            "FORBIDDEN_S34_CRYPTO_SUB_4H_TAKER",
+            "FORBIDDEN_S34_ML_FILTER_NO_BRIER_SKILL",
+        )
+    ]
+
+    name = str(norm.get("name", ""))
+    family = str(norm.get("family", ""))
+    rule_desc = str(norm.get("rule_description", ""))
+    prop_track = str(norm.get("prop_track", "")).strip().upper()
+    combined = f"{name}\n{family}\n{rule_desc}"
+
+    # Pure breakout strategies remain excluded under Offensive #3 non-breakout mandate
+    is_pure_breakout = (
+        ("breakout" in family.lower() and "non-breakout" not in family.lower() and "non_breakout" not in family.lower())
+        or (bool(_PURE_BREAKOUT_RE.search(combined)) and not bool(_NON_BREAKOUT_MARKER_RE.search(combined)))
+    )
+    if is_pure_breakout:
+        hard_blocks.append("FORBIDDEN_OFFENSIVE3_PURE_BREAKOUT")
+
+    if hard_blocks:
+        return hard_blocks, None
+
+    exemption_parts: list[str] = []
+    if "FORBIDDEN_S34_CFD_INTRADAY_SATURATED" in base_reasons:
+        exemption_parts.append(
+            "OFFENSIVE3_NON_BREAKOUT_PROP_INTRADAY_EXEMPTION: non-breakout white-box intraday mechanism "
+            "admitted for 28-symbol M1 Dev screening under pre-registered m200/m1200 BH-FDR + DSR + PBO + 2x cost gates"
+        )
+    if "FORBIDDEN_S34_CFD_OVERNIGHT_NEG_SWAP" in base_reasons:
+        exemption_parts.append(
+            "OFFENSIVE3_FTMO_SWING_REAL_SWAP_EXEMPTION: non-breakout FTMO Swing white-box mechanism admitted "
+            "subject to ftmo_specs_28.json real swap + Anti-Fake-Swap Guard (-5%/yr cap, zero positive swap stress)"
+        )
+
+    sym_tokens = _split_symbol_tokens(str(norm.get("symbol", "")))
+    if not exemption_parts and (sym_tokens & _OFFENSIVE3_CFD_SYMBOLS):
+        if "SWING" in prop_track:
+            exemption_parts.append(
+                "OFFENSIVE3_FTMO_SWING_REAL_SWAP_EXEMPTION: non-breakout FTMO Swing white-box mechanism admitted "
+                "subject to ftmo_specs_28.json real swap + Anti-Fake-Swap Guard"
+            )
+        else:
+            exemption_parts.append(
+                "OFFENSIVE3_NON_BREAKOUT_PROP_INTRADAY_EXEMPTION: non-breakout white-box mechanism admitted "
+                "under pre-registered Offensive #3 28-symbol Dev gates"
+            )
+
+    reason_str = (
+        " ; ".join(exemption_parts) if exemption_parts else "OFFENSIVE3_NO_S34_EXEMPTION_NEEDED"
+    )
+    return [], reason_str
+
+
 def _load_handoff_json_readonly(path: Path, *, label: str) -> tuple[bool, list[dict[str, Any]]]:
     if not path.is_file():
         return False, []
@@ -329,8 +456,11 @@ def sync_strategy_intel(
     out_path: Path = DEFAULT_OUT_PATH,
     offline: bool = False,
     dry_run: bool = False,
+    profile: str = "default",
 ) -> dict[str, Any]:
     """Run one-way read-only sync from strategy-intel cleanroom to TradingWorkspace runtime artifact."""
+    if profile not in VALID_PROFILES:
+        raise ValueError(f"Unsupported profile={profile!r}; expected one of {sorted(VALID_PROFILES)}")
     enforce_holdout_zero_rows(HOLDOUT_ROWS_ANALYSED, context="strategy_intel_bridge.start")
     now_utc = datetime.now(UTC).isoformat()
 
@@ -339,6 +469,26 @@ def sync_strategy_intel(
             raise FileNotFoundError(
                 f"Cleanroom directory not found: {intel_dir} (pass --offline for CI-safe graceful mode)"
             )
+        sources_read_off: dict[str, bool] = {
+            "sanitized_master_leads": False,
+            "sanitized_auto_leads": False,
+            "inbox_scanned_in_memory": False,
+        }
+        summary_off: dict[str, int] = {
+            "master_leads_loaded": 0,
+            "auto_leads_loaded": 0,
+            "total_leads_inspected": 0,
+            "eligible_dev_candidates": 0,
+            "filtered_out_s34_or_toxic": 0,
+            "inbox_total_files": 0,
+            "inbox_quarantined_binaries": 0,
+            "inbox_set_flagged_anti_prop": 0,
+            "inbox_open_source_clean": 0,
+        }
+        if profile == "offensive3":
+            sources_read_off["sanitized_offensive3_leads"] = False
+            summary_off["offensive3_leads_loaded"] = 0
+            summary_off["section_3_4_exemptions_granted"] = 0
         payload: dict[str, Any] = {
             "schema": "naqex-strategy-intel-handoff-v1",
             "generated_at_utc": now_utc,
@@ -352,26 +502,14 @@ def sync_strategy_intel(
             "holdout_rows_analysed": HOLDOUT_ROWS_ANALYSED,
             "holdout_cutoff_utc": f"{HOLDOUT_CUTOFF_DAY}T00:00:00Z",
             "writes_back_to_cleanroom": WRITES_BACK_TO_CLEANROOM,
-            "sources_read": {
-                "sanitized_master_leads": False,
-                "sanitized_auto_leads": False,
-                "inbox_scanned_in_memory": False,
-            },
-            "summary": {
-                "master_leads_loaded": 0,
-                "auto_leads_loaded": 0,
-                "total_leads_inspected": 0,
-                "eligible_dev_candidates": 0,
-                "filtered_out_s34_or_toxic": 0,
-                "inbox_total_files": 0,
-                "inbox_quarantined_binaries": 0,
-                "inbox_set_flagged_anti_prop": 0,
-                "inbox_open_source_clean": 0,
-            },
+            "sources_read": sources_read_off,
+            "summary": summary_off,
             "eligible_dev_candidates": [],
             "filtered_out": [],
             "inbox_triage": None,
         }
+        if profile == "offensive3":
+            payload["profile"] = "offensive3"
         if not dry_run:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_text(
@@ -382,14 +520,27 @@ def sync_strategy_intel(
         return payload
 
     handoff_dir = intel_dir / "handoff"
-    master_present, master_leads = _load_handoff_json_readonly(
-        handoff_dir / "sanitized_master_leads.json",
-        label="sanitized_master_leads",
-    )
-    auto_present, auto_leads = _load_handoff_json_readonly(
-        handoff_dir / "sanitized_auto_leads.json",
-        label="sanitized_auto_leads",
-    )
+    master_present = False
+    master_leads: list[dict[str, Any]] = []
+    auto_present = False
+    auto_leads: list[dict[str, Any]] = []
+    off3_present = False
+    off3_leads: list[dict[str, Any]] = []
+
+    if profile == "offensive3":
+        off3_present, off3_leads = _load_handoff_json_readonly(
+            handoff_dir / "sanitized_offensive3_leads.json",
+            label="sanitized_offensive3_leads",
+        )
+    else:
+        master_present, master_leads = _load_handoff_json_readonly(
+            handoff_dir / "sanitized_master_leads.json",
+            label="sanitized_master_leads",
+        )
+        auto_present, auto_leads = _load_handoff_json_readonly(
+            handoff_dir / "sanitized_auto_leads.json",
+            label="sanitized_auto_leads",
+        )
 
     # Strictly in-memory read-only inbox triage (NEVER invoke inbox_intake_scanner CLI!)
     inbox_dir = intel_dir / "inbox"
@@ -400,34 +551,52 @@ def sync_strategy_intel(
         inbox_triage = _sanitize_inbox_summary(raw_inbox)
         inbox_scanned = True
 
-    combined_leads: list[tuple[str, dict[str, Any]]] = [("sanitized_master_leads", lead) for lead in master_leads] + [
-        ("sanitized_auto_leads", lead) for lead in auto_leads
-    ]
+    if profile == "offensive3":
+        combined_leads: list[tuple[str, dict[str, Any]]] = [
+            ("sanitized_offensive3_leads", lead) for lead in off3_leads
+        ]
+    else:
+        combined_leads = [("sanitized_master_leads", lead) for lead in master_leads] + [
+            ("sanitized_auto_leads", lead) for lead in auto_leads
+        ]
 
     eligible: list[dict[str, Any]] = []
     filtered_out: list[dict[str, Any]] = []
+    exemptions_granted = 0
 
     for bucket, lead in combined_leads:
-        filter_reasons = evaluate_lead_against_s34(lead)
-        tagged = {
-            "lead_id": lead.get("lead_id"),
-            "original_id": lead.get("original_id"),
+        if profile == "offensive3":
+            norm_lead = _normalize_offensive3_lead(lead)
+            filter_reasons, exemption_reason = evaluate_lead_for_offensive3(norm_lead)
+            src_lead = norm_lead
+        else:
+            filter_reasons = evaluate_lead_against_s34(lead)
+            exemption_reason = None
+            src_lead = lead
+
+        tagged: dict[str, Any] = {
+            "lead_id": src_lead.get("lead_id"),
+            "original_id": src_lead.get("original_id"),
             "handoff_source": bucket,
-            "source": lead.get("source"),
-            "name": lead.get("name"),
-            "family": lead.get("family"),
-            "symbol": lead.get("symbol"),
-            "timeframe": lead.get("timeframe"),
-            "direction": lead.get("direction"),
-            "rule_description": lead.get("rule_description"),
-            "replicability": lead.get("replicability"),
-            "source_evidence_tier": lead.get("evidence_tier", "SOURCE_CLAIM_ONLY"),
-            "data_quality_flags": list(lead.get("data_quality_flags", [])),
+            "source": src_lead.get("source") or src_lead.get("source_url"),
+            "name": src_lead.get("name"),
+            "family": src_lead.get("family"),
+            "symbol": src_lead.get("symbol"),
+            "timeframe": src_lead.get("timeframe"),
+            "direction": src_lead.get("direction"),
+            "rule_description": src_lead.get("rule_description"),
+            "replicability": src_lead.get("replicability"),
+            "source_evidence_tier": src_lead.get("evidence_tier", "SOURCE_CLAIM_ONLY"),
+            "data_quality_flags": list(src_lead.get("data_quality_flags", [])),
             "untrusted_external_data": True,
             "order_send_count": ORDER_SEND_COUNT,
             "holdout_rows_analysed": HOLDOUT_ROWS_ANALYSED,
             "dev_screening_window": f"<= 2024-12-31 (strictly pre-{HOLDOUT_CUTOFF_DAY})",
         }
+        if profile == "offensive3":
+            tagged["prop_track"] = src_lead.get("prop_track")
+            tagged["counterparty_mechanism"] = src_lead.get("counterparty_mechanism")
+            tagged["section_3_4_exemption_reason"] = exemption_reason
         if filter_reasons:
             tagged["filter_status"] = "FILTERED_OUT"
             tagged["filter_reasons"] = filter_reasons
@@ -435,9 +604,36 @@ def sync_strategy_intel(
         else:
             tagged["filter_status"] = "ELIGIBLE_FOR_DEV_SCREENING"
             tagged["filter_reasons"] = []
+            if (
+                profile == "offensive3"
+                and exemption_reason
+                and exemption_reason != "OFFENSIVE3_NO_S34_EXEMPTION_NEEDED"
+            ):
+                exemptions_granted += 1
             eligible.append(tagged)
 
     inbox_sum = inbox_triage["summary"] if inbox_triage else {}
+    sources_read_ok: dict[str, bool] = {
+        "sanitized_master_leads": master_present,
+        "sanitized_auto_leads": auto_present,
+        "inbox_scanned_in_memory": inbox_scanned,
+    }
+    summary_ok: dict[str, int] = {
+        "master_leads_loaded": len(master_leads),
+        "auto_leads_loaded": len(auto_leads),
+        "total_leads_inspected": len(combined_leads),
+        "eligible_dev_candidates": len(eligible),
+        "filtered_out_s34_or_toxic": len(filtered_out),
+        "inbox_total_files": int(inbox_sum.get("total_files", 0)),
+        "inbox_quarantined_binaries": int(inbox_sum.get("quarantined_binaries_no_exec", 0)),
+        "inbox_set_flagged_anti_prop": int(inbox_sum.get("set_flagged_anti_prop", 0)),
+        "inbox_open_source_clean": int(inbox_sum.get("open_source_clean", 0)),
+    }
+    if profile == "offensive3":
+        sources_read_ok["sanitized_offensive3_leads"] = off3_present
+        summary_ok["offensive3_leads_loaded"] = len(off3_leads)
+        summary_ok["section_3_4_exemptions_granted"] = exemptions_granted
+
     payload = {
         "schema": "naqex-strategy-intel-handoff-v1",
         "generated_at_utc": now_utc,
@@ -451,26 +647,14 @@ def sync_strategy_intel(
         "holdout_rows_analysed": HOLDOUT_ROWS_ANALYSED,
         "holdout_cutoff_utc": f"{HOLDOUT_CUTOFF_DAY}T00:00:00Z",
         "writes_back_to_cleanroom": WRITES_BACK_TO_CLEANROOM,
-        "sources_read": {
-            "sanitized_master_leads": master_present,
-            "sanitized_auto_leads": auto_present,
-            "inbox_scanned_in_memory": inbox_scanned,
-        },
-        "summary": {
-            "master_leads_loaded": len(master_leads),
-            "auto_leads_loaded": len(auto_leads),
-            "total_leads_inspected": len(combined_leads),
-            "eligible_dev_candidates": len(eligible),
-            "filtered_out_s34_or_toxic": len(filtered_out),
-            "inbox_total_files": int(inbox_sum.get("total_files", 0)),
-            "inbox_quarantined_binaries": int(inbox_sum.get("quarantined_binaries_no_exec", 0)),
-            "inbox_set_flagged_anti_prop": int(inbox_sum.get("set_flagged_anti_prop", 0)),
-            "inbox_open_source_clean": int(inbox_sum.get("open_source_clean", 0)),
-        },
+        "sources_read": sources_read_ok,
+        "summary": summary_ok,
         "eligible_dev_candidates": eligible,
         "filtered_out": filtered_out,
         "inbox_triage": inbox_triage,
     }
+    if profile == "offensive3":
+        payload["profile"] = "offensive3"
 
     if not dry_run:
         out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -492,6 +676,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=DEFAULT_OUT_PATH,
         help="Output JSON handoff path inside TradingWorkspace .runtime/automation/",
+    )
+    parser.add_argument(
+        "--profile",
+        choices=("default", "offensive3"),
+        default="default",
+        help="Admission profile: 'default' (strict §3.4) or opt-in 'offensive3' (sanitized_offensive3_leads.json).",
     )
     parser.add_argument(
         "--offline",
@@ -519,14 +709,20 @@ def main(argv: list[str] | None = None) -> int:
         out_path=args.out,
         offline=args.offline,
         dry_run=args.dry_run,
+        profile=args.profile,
     )
     if args.as_json:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
         s = payload["summary"]
+        extra_off3 = (
+            f" off3={s.get('offensive3_leads_loaded', 0)} exemptions={s.get('section_3_4_exemptions_granted', 0)}"
+            if args.profile == "offensive3"
+            else ""
+        )
         print(
             f"STRATEGY_INTEL_BRIDGE_{payload['status']}: "
-            f"master={s['master_leads_loaded']} auto={s['auto_leads_loaded']} "
+            f"master={s['master_leads_loaded']} auto={s['auto_leads_loaded']}{extra_off3} "
             f"eligible_dev={s['eligible_dev_candidates']} filtered_s34={s['filtered_out_s34_or_toxic']} "
             f"inbox_quarantined={s['inbox_quarantined_binaries']} writes_back={payload['writes_back_to_cleanroom']} "
             f"dry_run={args.dry_run}"

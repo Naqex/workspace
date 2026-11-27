@@ -45,7 +45,7 @@ ORDER_SEND_COUNT: int = 0
 
 DEFAULT_MARKOUT_HORIZONS_SEC: tuple[int, ...] = (1, 10, 60, 300)
 
-# Benchmark median spreads (in broker points) from verified FTMO Demo & Dukascopy M1 snapshots
+# Benchmark median spreads (in broker points) from verified FTMO Demo & Dukascopy M1 snapshots (all 28 symbols)
 BENCHMARK_SPREAD_PTS: dict[str, float] = {
     "USDJPY": 7.0,
     "GBPUSD": 6.0,
@@ -54,14 +54,35 @@ BENCHMARK_SPREAD_PTS: dict[str, float] = {
     "GBPJPY": 16.0,
     "AUDUSD": 7.0,
     "USDCAD": 9.0,
+    "USDCHF": 8.0,
+    "NZDUSD": 10.0,
+    "AUDJPY": 14.0,
+    "CADJPY": 16.0,
+    "CHFJPY": 18.0,
+    "NZDJPY": 18.0,
+    "EURGBP": 8.0,
+    "EURAUD": 16.0,
+    "GBPAUD": 22.0,
+    "EURCAD": 15.0,
     "XAUUSD": 28.0,
+    "XAGUSD": 25.0,
+    "USOIL": 35.0,
+    "USOIL.cash": 35.0,
+    "UKOIL": 35.0,
+    "UKOIL.cash": 35.0,
     "US100": 20.0,
     "US100.cash": 20.0,
     "US500": 6.0,
     "US500.cash": 6.0,
     "US30": 18.0,
+    "US30.cash": 18.0,
     "GER40": 15.0,
+    "GER40.cash": 15.0,
     "UK100": 12.0,
+    "UK100.cash": 12.0,
+    "JP225": 700.0,
+    "JP225.cash": 700.0,
+    "BTCUSD": 2500.0,
 }
 
 POINT_SIZES: dict[str, float] = {
@@ -78,15 +99,29 @@ POINT_SIZES: dict[str, float] = {
     "USDCAD": 0.00001,
     "USDCHF": 0.00001,
     "NZDUSD": 0.00001,
+    "EURGBP": 0.00001,
+    "EURAUD": 0.00001,
+    "GBPAUD": 0.00001,
+    "EURCAD": 0.00001,
     "XAUUSD": 0.01,
     "XAGUSD": 0.001,
+    "USOIL": 0.001,
+    "USOIL.cash": 0.001,
+    "UKOIL": 0.001,
+    "UKOIL.cash": 0.001,
     "US100": 0.01,
     "US100.cash": 0.01,
     "US500": 0.01,
     "US500.cash": 0.01,
     "US30": 0.01,
+    "US30.cash": 0.01,
     "GER40": 0.01,
+    "GER40.cash": 0.01,
     "UK100": 0.01,
+    "UK100.cash": 0.01,
+    "JP225": 0.01,
+    "JP225.cash": 0.01,
+    "BTCUSD": 0.01,
 }
 
 ENTRY_EVENT_TYPES: frozenset[str] = frozenset(
@@ -126,10 +161,16 @@ VALID_FILL_EVENT_TYPES: frozenset[str] = ENTRY_EVENT_TYPES | EXIT_EVENT_TYPES
 NON_FILL_EVENT_TYPES: frozenset[str] = frozenset(
     {
         "DRYRUN_SIGNAL",
+        "DRYRUN_SIGNAL_V103",
         "ORDER_REJECT",
         "ORDER_BLOCKED_SYMCAP",
         "ORDER_BLOCKED_FACTOR",
         "ORDER_BLOCKED_RISK",
+        "ORDER_BLOCKED_NEWS",
+        "ORDER_BLOCKED_SPREAD",
+        "ORDER_BLOCKED_STOPS",
+        "ORDER_BLOCKED_TOTAL_OR_CLUSTER_CAP",
+        "ORDER_BLOCKED_MARGIN",
         "CLOSE_REJECT",
         "SHADOW_INTENT",
     }
@@ -143,8 +184,12 @@ _INDEX_METAL_ALIAS_RULES: tuple[tuple[re.Pattern[str], str], ...] = (
     (re.compile(r"^(?:US30|DJ30|WS30)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US30"),
     (re.compile(r"^(?:GER40|DE40|DAX40|DAX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "GER40"),
     (re.compile(r"^(?:UK100|FTSE100|FTSE)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "UK100"),
+    (re.compile(r"^(?:JP225|JPN225|NIKKEI225|NI225)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "JP225"),
     (re.compile(r"^(?:XAUUSD|GOLD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAUUSD"),
     (re.compile(r"^(?:XAGUSD|SILVER)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAGUSD"),
+    (re.compile(r"^(?:USOIL|WTI|XTIUSD|LIGHTCMDUSD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "USOIL"),
+    (re.compile(r"^(?:UKOIL|BRENT|XBRUSD|BRENTCMDUSD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "UKOIL"),
+    (re.compile(r"^(?:BTCUSD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "BTCUSD"),
 )
 _FX6_SUFFIX_RE = re.compile(r"^([A-Za-z]{6})(?:[\._\-\+\#].*|[a-z]{1,4})?$")
 _TAG_ID_RE = re.compile(r"\b(deal|ord|tk|pos|intent|magic)=([A-Za-z0-9_-]+)", re.IGNORECASE)

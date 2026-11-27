@@ -3,6 +3,12 @@
 > **Quy tắc tra cứu:** Xem kế hoạch tổng thể duy nhất (SSOT) tại [TOP1-SOLO-QUANT-MASTER-PLAN.md](../TOP1-SOLO-QUANT-MASTER-PLAN.md), trạng thái phiên hiện hành tại [CURRENT-CONTEXT.md](../CURRENT-CONTEXT.md), và sổ đăng ký danh mục máy đọc được tại [PORTFOLIO-REGISTRY.json](PORTFOLIO-REGISTRY.json).
 > Kiểm tra chứng nhận metadata bằng `python -X utf8 tooling/ai-engines/research_inventory.py` ([catalogue JSON](STRATEGY-CATALOGUE-20261107.json) · [hướng dẫn](STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn)).
 
+## 0. Chiến Dịch Total Offensive #3 v3.5 (`27/11/2026` — Prop Alpha Factory)
+
+| Hạng mục | Tóm tắt bằng chứng (`0 VND`, `OrderSend = 0`, `Holdout = 0`, `ZERO` hạ chuẩn) | Tài liệu gốc |
+|---|---|---|
+| **Prop Alpha Factory & `v1.03-Sprint`** | Kiểm định mù `1.137` ứng viên `F01..F12` (`0` Tier 1, `0` Tier 2, `1.137` Tier 3), chốt Prop V3 Champion `v1.03-Sprint` (`.set`-only `+8,74x` FTMO 10K BF / `+13,38x` 100K, Funded `1,0x` cháy `0,17%`), `28` mã Dev, `115` đặc tả Cleanroom & trọn bộ `OPS-1..OPS-6`. | [OFFENSIVE3-PROP-ALPHA-FACTORY-20261127.md](OFFENSIVE3-PROP-ALPHA-FACTORY-20261127.md) · [Funnel JSON](OFFENSIVE3-ALPHA-FUNNEL-20261127.json) |
+
 ## 1. Chiến Dịch Total Offensive #2 v2.5 (`27/11/2026` — `9` Báo Cáo Mới)
 
 | Hạng mục / Làn | Phạm vi & kết quả chuẩn hóa (`0 VND`, `OrderSend = 0`, `Holdout = 0`) | Tài liệu gốc |

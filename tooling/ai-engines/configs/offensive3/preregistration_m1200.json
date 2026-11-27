@@ -1,0 +1,218 @@
+{
+  "schema_version": "naqex-offensive3-preregistration-v1",
+  "campaign_id": "total_offensive_3_v3_5",
+  "order_send_count": 0,
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows_analysed": 0,
+  "dev_partition": {
+    "start_utc": "2018-01-01T00:00:00Z",
+    "stop_utc_exclusive": "2025-01-01T00:00:00Z",
+    "cluster_a": [
+      "2018-01-01",
+      "2020-12-31"
+    ],
+    "cluster_b": [
+      "2021-01-01",
+      "2024-12-31"
+    ],
+    "universe_specs_ssot": "tooling/ai-engines/configs/ssot/ftmo_specs_28.json"
+  },
+  "statistical_protocol": {
+    "sign_flip_draws": 50000,
+    "pbo_returns_matrix_required": true,
+    "pbo_n_slices": 16,
+    "bh_fdr_enforced_via_duckdb": true,
+    "dsr_uses_cumulative_ledger_m": true,
+    "allow_self_reported_m_eq_1": false
+  },
+  "duckdb_families": {
+    "offensive3_primary_m200": {
+      "family_id": "offensive3_primary_m200",
+      "tier": "PRIMARY",
+      "cap": 200,
+      "max_per_family": 20,
+      "recommended_per_family_range": [
+        16,
+        20
+      ],
+      "description": "High-conviction pre-registered primary pool (<= 200 cumulative trials across F01..F12; <= 16-20 per family)."
+    },
+    "offensive3_exploratory_m1200": {
+      "family_id": "offensive3_exploratory_m1200",
+      "tier": "EXPLORATORY",
+      "cap": 1200,
+      "max_per_family": 100,
+      "recommended_per_family_range": [
+        50,
+        100
+      ],
+      "description": "Broad exploratory multi-family sweep (<= 1200 cumulative trials across F01..F12; <= 100 per family)."
+    }
+  },
+  "alpha_families": [
+    {
+      "family_code": "F01",
+      "slug": "F01_FX_SESSION_FIXING_FLOW",
+      "archetype": "non_breakout_microstructure",
+      "prop_tracks": [
+        "INTRADAY_SWAP0"
+      ],
+      "primary_cap": 18,
+      "exploratory_cap": 100,
+      "description": "FX institutional benchmark fixing flows (WM/Reuters 16:00 LDN, Tokyo Gotobi 09:55 JST, ECB fix)."
+    },
+    {
+      "family_code": "F02",
+      "slug": "F02_INDEX_OVERNIGHT_INTRADAY_DRIFT",
+      "archetype": "non_breakout_session_drift",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 18,
+      "exploratory_cap": 100,
+      "description": "Cash equity index open/close handover & overnight-vs-intraday reversal across US100/US500/US30/GER40/UK100/JP225."
+    },
+    {
+      "family_code": "F03",
+      "slug": "F03_LIQUIDITY_SWEEP_RECLAIM",
+      "archetype": "non_breakout_reversal",
+      "prop_tracks": [
+        "INTRADAY_SWAP0"
+      ],
+      "primary_cap": 18,
+      "exploratory_cap": 100,
+      "description": "Session-open false-break / liquidity-sweep reclaim on major indices & FX with mandatory hard SL."
+    },
+    {
+      "family_code": "F04",
+      "slug": "F04_MEAN_REVERSION_WIDE_ATR",
+      "archetype": "non_breakout_mean_reversion",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 18,
+      "exploratory_cap": 100,
+      "description": "Anchored-open / VWAP / Keltner mean-reversion with wide ATR SL/TP clearing 2x CFD friction."
+    },
+    {
+      "family_code": "F05",
+      "slug": "F05_TREND_PULLBACK_H4_D1_SWING",
+      "archetype": "non_breakout_swing_pullback",
+      "prop_tracks": [
+        "FTMO_SWING"
+      ],
+      "primary_cap": 18,
+      "exploratory_cap": 100,
+      "description": "Multi-day H4/D1 trend-pullback entries verified against real FTMO swaps & Anti-Fake-Swap Guard."
+    },
+    {
+      "family_code": "F06",
+      "slug": "F06_CROSS_SECTIONAL_FX_MOMENTUM",
+      "archetype": "non_breakout_cross_sectional",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 16,
+      "exploratory_cap": 100,
+      "description": "Cross-sectional G10 currency strength / XSMOM across all 17 FTMO FX pairs."
+    },
+    {
+      "family_code": "F07",
+      "slug": "F07_VOLATILITY_MANAGED_TSMOM",
+      "archetype": "non_breakout_vol_managed",
+      "prop_tracks": [
+        "FTMO_SWING"
+      ],
+      "primary_cap": 16,
+      "exploratory_cap": 100,
+      "description": "Volatility-targeted time-series momentum scaling risk inversely with realized vol."
+    },
+    {
+      "family_code": "F08",
+      "slug": "F08_PAIRS_STATARB_HARD_SL",
+      "archetype": "non_breakout_relative_value",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 16,
+      "exploratory_cap": 100,
+      "description": "Relative-value & cointegrated pairs with strict hard SL (XAU/XAG, USOIL/UKOIL, EURUSD/USDCHF, AUDUSD/NZDUSD, US500/US30)."
+    },
+    {
+      "family_code": "F09",
+      "slug": "F09_COMMODITY_OIL_GOLD_MICROSTRUCTURE",
+      "archetype": "non_breakout_commodity_flow",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 16,
+      "exploratory_cap": 100,
+      "description": "WTI/Brent EIA inventory reaction, physical-close flows, and Gold/Silver microstructure lead-lag."
+    },
+    {
+      "family_code": "F10",
+      "slug": "F10_CALENDAR_TOM_MACRO_DRIFT",
+      "archetype": "non_breakout_calendar_flow",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 16,
+      "exploratory_cap": 100,
+      "description": "Turn-of-month, quarter-end institutional rebalancing, and post-macro drift under red-news compliance."
+    },
+    {
+      "family_code": "F11",
+      "slug": "F11_INTERMARKET_RISK_LEAD_LAG",
+      "archetype": "non_breakout_intermarket",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 15,
+      "exploratory_cap": 100,
+      "description": "Cross-market lead-lag (JP225-AUDJPY Asian handover, Gold-JPY risk-off, US-to-Asia/EU spillover)."
+    },
+    {
+      "family_code": "F12",
+      "slug": "F12_VOL_REGIME_SWITCH_COMPRESSION",
+      "archetype": "non_breakout_regime_filter",
+      "prop_tracks": [
+        "INTRADAY_SWAP0",
+        "FTMO_SWING"
+      ],
+      "primary_cap": 15,
+      "exploratory_cap": 100,
+      "description": "Volatility-regime switching & non-breakout expansion/contraction filters conditioned on causal ATR percentile."
+    }
+  ],
+  "kill_criteria": {
+    "gate_ref": "G08_AND_RESEARCH_COUNCIL_V1",
+    "max_bh_q": 0.10,
+    "min_dsr": 0.50,
+    "min_cluster_b_sharpe": 0.40,
+    "min_cost_breakeven_mult": 2.0,
+    "max_corr_vs_incumbent": 0.15,
+    "max_tail_corr_vs_incumbent": 0.35,
+    "min_trades_cluster_b": 30,
+    "max_pbo": 0.50,
+    "require_incumbent": true,
+    "require_robustness_gate": true,
+    "min_mc_beat_rate_unbiased": 0.90,
+    "min_mc_beat_rate_same_side": 0.90,
+    "outlier_trim_frac": 0.05,
+    "min_trimmed_pf": 1.0,
+    "min_positive_year_ratio": 0.57,
+    "max_prop_daily_dd_frac": 0.05,
+    "max_prop_static_dd_frac": 0.10,
+    "require_hard_stop_loss": true,
+    "forbid_grid_martingale": true,
+    "require_zero_fake_swap_credit": true,
+    "require_python_o_holdout_guards": true
+  }
+}
