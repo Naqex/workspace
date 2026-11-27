@@ -13,11 +13,14 @@ Subcommands:
   worktree     Manage isolated `.worktrees/<name>` checkouts (`worktree_ctl.py`)
   route        Invoke 3-node compute router (`compute_router.py`)
   opsec        Run Layer-1 OPSEC guard (+ optional local Gitleaks scan)
+  ruff         Run ruff via the workspace bundled Python environment
+  auto         Invoke 24/7 automation platform subcommands (`OrderSend=0`)
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import subprocess
 import sys
@@ -28,11 +31,36 @@ BUNDLED_PY = ROOT / ".runtime/quant-audit-v24/Scripts/python.exe"
 LOCAL_GITLEAKS = ROOT / ".runtime/tools/gitleaks/gitleaks.exe"
 
 CANONICAL_PYTHONPATH: tuple[str, ...] = (
+    ".",
     "tooling/ai-engines",
     "tooling/ai-engines/legacy",
     "projects/trader/foundation_v2",
     "projects/quant-trading/src",
 )
+
+AUTO_SUBCOMMANDS: tuple[str, ...] = (
+    "status",
+    "watchdog",
+    "nightly",
+    "qa",
+    "briefing",
+    "heal-scan",
+    "verify-features",
+    "research-radar",
+    "intel-sync",
+)
+
+AUTO_SUBCOMMAND_SCRIPTS: dict[str, str] = {
+    "status": "tooling/ai-engines/cockpit/modules/automation.py",
+    "watchdog": "tooling/automation/watchdog_15m.py",
+    "nightly": "tooling/automation/nightly_quant_ops.py",
+    "qa": "tooling/automation/product_qa_sweep.py",
+    "briefing": "tooling/automation/morning_briefing.py",
+    "heal-scan": "tooling/automation/self_healing_ci.py",
+    "verify-features": "tooling/automation/product_qa_sweep.py",
+    "research-radar": "tooling/automation/auto_research_radar.py",
+    "intel-sync": "tooling/automation/strategy_intel_bridge.py",
+}
 
 FAST_TEST_TARGETS: tuple[str, ...] = (
     "tooling/tests/test_check_architecture.py",
@@ -62,7 +90,7 @@ def resolve_python(root: Path = ROOT) -> str:
 def build_env(root: Path = ROOT) -> dict[str, str]:
     env = os.environ.copy()
     existing = env.get("PYTHONPATH", "")
-    parts = [str(root / rel) for rel in CANONICAL_PYTHONPATH]
+    parts = [str(root if rel == "." else root / rel) for rel in CANONICAL_PYTHONPATH]
     if existing:
         parts.append(existing)
     env["PYTHONPATH"] = os.pathsep.join(parts)
@@ -159,6 +187,36 @@ def build_command(args: argparse.Namespace, extra: list[str], *, root: Path = RO
     if cmd_name == "ruff":
         return [py, "-X", "utf8", "-m", "ruff", *extra]
 
+    if cmd_name == "auto":
+        auto_cmd = str(args.auto_command)
+        if auto_cmd not in AUTO_SUBCOMMAND_SCRIPTS:
+            raise ValueError(f"Unsupported auto subcommand: {auto_cmd}")
+        rel_script = AUTO_SUBCOMMAND_SCRIPTS[auto_cmd]
+        script_path = root / rel_script
+        if auto_cmd == "status" and not script_path.is_file():
+            fallback_status = ROOT / rel_script
+            if fallback_status.is_file():
+                script_path = fallback_status
+        offline = bool(getattr(args, "offline", False))
+        auto_dry_run = bool(getattr(args, "auto_dry_run", False))
+        top_dry_run = bool(getattr(args, "dry_run", False))
+        as_json = bool(getattr(args, "as_json", False))
+        if not script_path.is_file() and not (offline or auto_dry_run or top_dry_run):
+            raise FileNotFoundError(
+                f"Automation script not found at {script_path} for `auto {auto_cmd}` "
+                "(pass --offline or --dry-run for safe fallback)."
+            )
+        cmd = [py, "-X", "utf8", str(script_path)]
+        if auto_cmd == "status":
+            cmd.extend(["--root", str(root)])
+        if offline:
+            cmd.append("--offline")
+        if auto_dry_run or top_dry_run:
+            cmd.append("--dry-run")
+        if as_json:
+            cmd.append("--json")
+        return cmd + extra
+
     raise ValueError(f"Unsupported command: {cmd_name}")
 
 
@@ -201,7 +259,102 @@ def make_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("ruff", help="Run ruff via the workspace bundled Python environment (e.g. ruff check ...)")
 
+    p_auto = sub.add_parser("auto", help="Run 24/7 automation platform subcommands (OrderSend=0)")
+    auto_sub = p_auto.add_subparsers(dest="auto_command", required=True)
+    _auto_help: dict[str, str] = {
+        "status": "Show stateless automation & ops-cloud status summary",
+        "watchdog": "Run 15-minute zero-token watchdog & alert checks",
+        "nightly": "Run nightly quant ops & workspace hygiene checks",
+        "qa": "Run product QA sweep across registered features",
+        "briefing": "Generate 07:30 Chief-of-Staff morning briefing",
+        "heal-scan": "Run self-healing CI failure scanner",
+        "verify-features": "Verify feature_map.json checks via product QA sweep",
+        "research-radar": "Run external multi-source research radar",
+        "intel-sync": "Run 1-way read-only strategy-intel cleanroom bridge",
+    }
+    for sub_name in AUTO_SUBCOMMANDS:
+        p_as = auto_sub.add_parser(sub_name, help=_auto_help[sub_name])
+        p_as.add_argument("--offline", action="store_true", help="Run strictly offline with zero network calls")
+        p_as.add_argument(
+            "--dry-run", action="store_true", dest="auto_dry_run", help="Dry-run mode without side effects"
+        )
+        p_as.add_argument("--json", action="store_true", dest="as_json", help="Emit machine-readable JSON output")
+
     return parser
+
+
+def _run_auto_command(args: argparse.Namespace, cmd: list[str], *, root: Path) -> int:
+    if args.dry_run:
+        return _exec(cmd, root=root, dry_run=True)
+
+    auto_cmd = str(args.auto_command)
+    script_path = Path(cmd[3])
+    offline = bool(getattr(args, "offline", False))
+    auto_dry_run = bool(getattr(args, "auto_dry_run", False))
+    as_json = bool(getattr(args, "as_json", False))
+
+    if not script_path.is_file():
+        payload = {
+            "ok": True,
+            "order_send_count": 0,
+            "subcommand": auto_cmd,
+            "script": AUTO_SUBCOMMAND_SCRIPTS[auto_cmd],
+            "status": "offline_fallback",
+            "offline": offline,
+            "dry_run": auto_dry_run,
+        }
+        if as_json:
+            print(json.dumps(payload, ensure_ascii=False))
+        else:
+            print(f"AUTO_OFFLINE_FALLBACK: {auto_cmd} ({payload['script']}) OrderSend=0")
+        return 0
+
+    script_text = script_path.read_text(encoding="utf-8", errors="replace")
+    if auto_dry_run and "--dry-run" not in script_text:
+        if as_json:
+            print(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "order_send_count": 0,
+                        "subcommand": auto_cmd,
+                        "status": "dry_run",
+                        "command": cmd,
+                    },
+                    ensure_ascii=False,
+                )
+            )
+            return 0
+        return _exec(cmd, root=root, dry_run=True)
+
+    if as_json and "--json" not in script_text:
+        exec_cmd = [tok for tok in cmd if tok != "--json"]
+        proc = subprocess.run(
+            exec_cmd,
+            cwd=str(root),
+            env=build_env(root),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+        )
+        print(
+            json.dumps(
+                {
+                    "ok": proc.returncode == 0,
+                    "order_send_count": 0,
+                    "subcommand": auto_cmd,
+                    "returncode": int(proc.returncode),
+                    "stdout": proc.stdout.strip(),
+                    "stderr": proc.stderr.strip(),
+                },
+                ensure_ascii=False,
+            )
+        )
+        return int(proc.returncode)
+
+    return _exec(cmd, root=root, dry_run=False)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -214,6 +367,9 @@ def main(argv: list[str] | None = None) -> int:
     except FileNotFoundError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
+
+    if args.command == "auto":
+        return _run_auto_command(args, cmd, root=root)
 
     rc = _exec(cmd, root=root, dry_run=args.dry_run)
     if rc != 0:

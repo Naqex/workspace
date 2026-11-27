@@ -484,11 +484,11 @@ class StandardParityAndBoundaryTests(unittest.TestCase):
         )
         c10_expected = {
             "FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set": {
-                "news": "false", "mult": 4.00, "tgt": 10.00, "pl_pct": 7.00, "pl_mult": 2.50,
+                "news": "true", "mult": 4.00, "tgt": 10.00, "pl_pct": 7.00, "pl_mult": 2.50,
                 "k_day": 3.50, "k_st": 8.00, "caps": (1.75, 2.25, 2.00, 1.75, 3.00),
             },
             "FTMO_Std10K_MasterProp7E_C10_P2_35x.set": {
-                "news": "false", "mult": 3.50, "tgt": 5.00, "pl_pct": 3.50, "pl_mult": 1.75,
+                "news": "true", "mult": 3.50, "tgt": 5.00, "pl_pct": 3.50, "pl_mult": 1.75,
                 "k_day": 3.00, "k_st": 7.50, "caps": (1.75, 2.25, 2.00, 1.75, 3.00),
             },
             "FTMO_Std10K_MasterProp7E_C10_Funded_125x.set": {

@@ -1,6 +1,6 @@
 ; Naqex MT5 Master_Prop7E C10 Candidate Preset | File: FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set | SKU: FTMO_STD_10K_C10_P1_4X_L70
 ; Attach: SINGLE chart USDJPY M5 ONLY (do NOT attach legacy Orchestrator or 8 separate EAs on same account)
-; RiskMult: 4.00x | ProfitLock: 7.00%->2.50x | KillDD: 3.50%/8.00% | RedNewsGuard: OFF (FTMO Standard P1 allowed; execution cost audited separately)
+; RiskMult: 4.00x | ProfitLock: 7.00%->2.50x | KillDD: 3.50%/8.00% | RedNewsGuard: ON (+-5m pad / +-135s hard ban; canonical C10_NEWS_ON all-phases parity)
 ; ARM-LOCKED FAIL-CLOSED: InpDryRunLogOnly=true & InpGuardDryRunLogOnly=true until owner explicitly approves & disarms
 InpDryRunLogOnly=true
 InpShadowCompareMode=false
@@ -42,7 +42,7 @@ InpGuardRolloverStartUTC=21
 InpGuardRolloverEndUTC=0
 InpGuardEarlyCloseMin=10
 InpGuardTesterUtcOffsetH=2
-InpGuardEnableRedNews=false
+InpGuardEnableRedNews=true
 InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
 InpGuardNewsPadSec=300
 InpGuardNewsHardBanSec=135

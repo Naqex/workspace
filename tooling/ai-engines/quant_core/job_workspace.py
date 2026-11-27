@@ -1,10 +1,12 @@
 """Worktree-bound offline jobs: one writer and private temporary files."""
+
 import atexit
 import hashlib
 import json
 import os
-from pathlib import Path
 import uuid
+from pathlib import Path
+
 from quant_core.native_paths import PathGuard, io_path, read_bounded
 
 
@@ -35,15 +37,14 @@ class JobWorkspace:
             guard.admit(path)
         guard.admit(self.root)
         owner = self.root / "workspace-owner.json"
-        expected = dict(schema="OfflineJobWorkspace-v1", workspace=self.workspace,
-                        root=str(self.root.absolute()))
+        expected = dict(schema="OfflineJobWorkspace-v1", workspace=self.workspace, root=str(self.root.absolute()))
         try:
             with io_path(owner).open("x", encoding="utf-8") as out:
                 json.dump(expected, out, indent=2)
         except FileExistsError:
-            current = json.loads(read_bounded(owner,4096))
+            current = json.loads(read_bounded(owner, 4096))
             if current != expected:
-                raise ValueError("FOREIGN_JOB_OWNER")
+                raise ValueError("FOREIGN_JOB_OWNER") from None
         path = self.root / "writer.lock"
         try:
             handle = io_path(path).open("x", encoding="utf-8")
@@ -63,7 +64,7 @@ class JobWorkspace:
         self.lock.close()
         self.lock = None
         path = self.root / "writer.lock"
-        value = json.loads(read_bounded(path,4096))
+        value = json.loads(read_bounded(path, 4096))
         if value.get("token") == self.token:
             io_path(path).unlink()
 
@@ -73,6 +74,10 @@ class JobWorkspace:
         for key in tuple(result):
             if key.startswith(("TW_V2_", "TW_AI_", "TW_CHATGPT_", "MT5_", "FTMO_")):
                 result.pop(key)
-        result.update(TEMP=str(self.root/"tmp"), TMP=str(self.root/"tmp"),
-                      TW_RESEARCH_WORKSPACE=self.workspace, TW_RESEARCH_JOB_ROOT=str(self.root))
+        result.update(
+            TEMP=str(self.root / "tmp"),
+            TMP=str(self.root / "tmp"),
+            TW_RESEARCH_WORKSPACE=self.workspace,
+            TW_RESEARCH_JOB_ROOT=str(self.root),
+        )
         return result

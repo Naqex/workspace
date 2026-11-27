@@ -1,4 +1,5 @@
 """Exact admission comparisons; historical accounting and display floats stay intact."""
+
 from fractions import Fraction
 
 
@@ -20,8 +21,7 @@ def stress_market_friction_units(asset, bid_units, ask_units):
     compare before subtracting float prices, which loses exact grid geometry.
     This is an entry gate, with zero holding time and therefore no funding.
     """
-    if (type(bid_units) is not int or type(ask_units) is not int or
-            not 0 < bid_units <= ask_units):
+    if type(bid_units) is not int or type(ask_units) is not int or not 0 < bid_units <= ask_units:
         raise ValueError("invalid_friction_quote")
     spread = ask_units - bid_units
     if asset == "XAUUSD":

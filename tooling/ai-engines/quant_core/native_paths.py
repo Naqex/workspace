@@ -1,9 +1,10 @@
 """Bounded native-path reads; logical manifest paths never carry Windows prefixes."""
-from contextlib import contextmanager
+
 import ctypes
 import os
-from pathlib import Path
 import stat
+from contextlib import contextmanager
+from pathlib import Path
 
 
 def logical_path(path):
@@ -52,10 +53,18 @@ def read_handle(path):
         return
     import msvcrt
     from ctypes import wintypes
+
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     create = kernel.CreateFileW
-    create.argtypes = (wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, ctypes.c_void_p,
-                       wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE)
+    create.argtypes = (
+        wintypes.LPCWSTR,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        ctypes.c_void_p,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        wintypes.HANDLE,
+    )
     create.restype = wintypes.HANDLE
     # Read-sharing only: neither a writer nor a replacement can race this read.
     handle = create(str(path), 0x80000000, 1, None, 3, 0x00200080, None)

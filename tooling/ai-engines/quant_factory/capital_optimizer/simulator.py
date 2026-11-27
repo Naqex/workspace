@@ -96,8 +96,10 @@ def _simulate_single_ticket_rules_numba(
     daily_dd_anchor_mode: int = 0,
     shifting_horizon: bool = False,
     funded_first_payout_min_profit_pct: float = 0.0,
+    midnight_floating_shock_pct: float = 0.0,
+    rollover_anchor_mode: int = -1,
 ):
-    """Exact single-ticket (or retry-enabled) lifecycle simulator with Law-13/15 metrics & NPV."""
+    """Exact single-ticket (or retry-enabled) lifecycle simulator with Law-13/15 metrics, NPV & rollover stress."""
     n_paths, horizon = idx_matrix.shape
     eff_fee_day0_out = fee_day0_usd * (1.0 + card_fx_fee_pct)
     eff_fee_reg_out = fee_regular_usd * (1.0 + card_fx_fee_pct)
@@ -225,9 +227,23 @@ def _simulate_single_ticket_rules_numba(
                     else:
                         max_floor = static_floor_base
 
-                day_min_eq = bal - dd
-                if daily_dd_anchor_mode == 1:
-                    daily_floor = bal * (1.0 - daily_lim)
+                eff_rollover_mode = (
+                    rollover_anchor_mode
+                    if rollover_anchor_mode >= 0
+                    else (1 if daily_dd_anchor_mode == 1 else 0)
+                )
+                if np.isnan(midnight_floating_shock_pct) or np.isinf(midnight_floating_shock_pct):
+                    raise ValueError("INVALID_MIDNIGHT_SHOCK_NON_FINITE")
+                f_00 = (cap * midnight_floating_shock_pct) if (flg != 0 and midnight_floating_shock_pct != 0.0) else 0.0
+                eq_00 = bal + f_00
+                adverse_shock = -f_00 if f_00 < 0.0 else 0.0
+
+                day_min_eq = bal - adverse_shock - dd
+                if eff_rollover_mode == 1:
+                    anchor_bal_eq = bal if bal >= eq_00 else eq_00
+                    daily_floor = anchor_bal_eq * (1.0 - daily_lim)
+                elif eff_rollover_mode == 2:
+                    daily_floor = eq_00 * (1.0 - daily_lim)
                 else:
                     daily_floor = bal - daily_cap
                 ea_cut = cap * ea_stop_pct if ea_stop_pct > 0.0 else 1e18
@@ -239,11 +255,15 @@ def _simulate_single_ticket_rules_numba(
                     d_hit = day_min_eq <= daily_floor + 1e-9
                     m_hit = day_min_eq <= max_floor + 1e-9
 
-                if (not d_hit) and (not m_hit) and (dd > ea_cut):
+                dd_with_shock = dd + adverse_shock
+                if (not d_hit) and (not m_hit) and (dd_with_shock > ea_cut):
                     b_kill = 1
-                    dd_eff = min(dd, ea_cut + cap * 0.0020)
-                    net = min(net, -dd_eff)
-                    day_min_eq_eff = bal - dd_eff
+                    dd_tot_eff = min(dd_with_shock, ea_cut + cap * 0.0020)
+                    dd_realized = dd_tot_eff - adverse_shock
+                    if dd_realized < 0.0:
+                        dd_realized = 0.0
+                    net = min(net, -dd_realized)
+                    day_min_eq_eff = bal - dd_tot_eff
                     if strict_lt_breach:
                         d_hit = day_min_eq_eff < daily_floor - 1e-9
                         m_hit = day_min_eq_eff < max_floor - 1e-9

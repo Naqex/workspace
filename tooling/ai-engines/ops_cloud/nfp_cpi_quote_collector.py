@@ -475,8 +475,14 @@ def summarize_captured_csv(csv_path: Path) -> dict[str, Any]:
     global_max_utc_ms: int | None = None
     with csv_path.open("r", encoding="utf-8", newline="") as f:
         for row in csv.DictReader(f):
-            assert row["record_tier"] == RECORD_TIER
-            assert int(row["order_send_count"]) == 0
+            if row["record_tier"] != RECORD_TIER:
+                raise RuntimeError(
+                    f"INVALID_RECORD_TIER: expected {RECORD_TIER!r}, got {row['record_tier']!r} in {csv_path}"
+                )
+            if int(row["order_send_count"]) != 0:
+                raise RuntimeError(
+                    f"NONZERO_ORDER_SEND_COUNT: expected 0, got {row['order_send_count']!r} in {csv_path}"
+                )
             total_rows += 1
             utc_ms = int(row["utc_ts_ms"])
             if global_min_utc_ms is None or utc_ms < global_min_utc_ms:

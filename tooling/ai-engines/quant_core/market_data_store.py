@@ -1,18 +1,21 @@
 """Checksummed read-only binary columns and bounded quote partitions."""
-from functools import lru_cache
+
 import hashlib
 import json
+from functools import lru_cache
 from pathlib import Path
+from typing import Any
+
 import numpy as np
 
 HOUR = 3_600_000
 QUOTE = np.dtype([("t", "<i8"), ("b", "<i4"), ("a", "<i4")])
-BAR = np.dtype([(n, "<i8" if n == "t" else "<i4")
-                for n in ("t", "bo", "bh", "bl", "bc", "ao", "ah", "al", "ac")])
+BAR = np.dtype([(n, "<i8" if n == "t" else "<i4") for n in ("t", "bo", "bh", "bl", "bc", "ao", "ah", "al", "ac")])
 
 
 class Checksums:
     """Hash once per file generation, rather than once per hour in one file."""
+
     def __init__(self):
         self.checked = {}
         self.bytes_hashed = 0
@@ -53,9 +56,12 @@ class MarketDataStore:
         rows["t"] = times[lo:hi] * 1000
         for n in ("o", "h", "l", "c"):
             rows["b" + n] = self.columns[n][lo:hi]
-        if len(rows) and (np.any(np.diff(rows["t"]) <= 0) or np.any(rows["bl"] <= 0) or
-                          np.any(rows["bl"] > np.minimum(rows["bo"], rows["bc"])) or
-                          np.any(rows["bh"] < np.maximum(rows["bo"], rows["bc"]))):
+        if len(rows) and (
+            np.any(np.diff(rows["t"]) <= 0)
+            or np.any(rows["bl"] <= 0)
+            or np.any(rows["bl"] > np.minimum(rows["bo"], rows["bc"]))
+            or np.any(rows["bh"] < np.maximum(rows["bo"], rows["bc"]))
+        ):
             raise ValueError("OHLC_schema")
         return rows
 
@@ -65,19 +71,23 @@ class QuoteStore:
         self.first, self.cutoff = first, end
         self.files = {int(k): v for k, v in manifest.items() if first <= int(k) < end}
         self.checksums = checksums or Checksums()
+        self.hour = lru_cache(maxsize=96)(self._load_hour)
 
-    @lru_cache(maxsize=96)
-    def hour(self, at):
+    def _load_hour(self, at):
         if not self.first <= at < self.cutoff or at % HOUR:
             raise ValueError("quote_scope_fence")
         r = self.files[at]
         self.checksums.verify(r["path"], r["sha256"])
         if not r["records"]:
             return np.empty(0, dtype=QUOTE)
-        a = np.memmap(r["path"], mode="r", dtype=QUOTE,
-                      offset=r.get("byte_offset", 0), shape=(r["records"],))
-        if (a["t"][0] < at or a["t"][-1] >= at + HOUR or
-                np.any(np.diff(a["t"]) < 0) or np.any(a["a"] < a["b"]) or np.any(a["b"] <= 0)):
+        a: Any = np.memmap(r["path"], mode="r", dtype=QUOTE, offset=r.get("byte_offset", 0), shape=(r["records"],))
+        if (
+            a["t"][0] < at
+            or a["t"][-1] >= at + HOUR
+            or np.any(np.diff(a["t"]) < 0)
+            or np.any(a["a"] < a["b"])
+            or np.any(a["b"] <= 0)
+        ):
             raise ValueError("quote_schema")
         return a
 
@@ -87,8 +97,7 @@ class QuoteStore:
             return None
         a = self.hour(h)
         j = int(a["t"].searchsorted(at))
-        return ([int(a["t"][j]), int(a["b"][j]), int(a["a"][j]), j]
-                if j < len(a) and a["t"][j] - at <= 60000 else None)
+        return [int(a["t"][j]), int(a["b"][j]), int(a["a"][j]), j] if j < len(a) and a["t"][j] - at <= 60000 else None
 
     def path(self, first, end):
         if not self.first <= first <= end < self.cutoff:

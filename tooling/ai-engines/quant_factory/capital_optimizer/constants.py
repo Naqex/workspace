@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -18,15 +19,33 @@ StageArrays = tuple[
     np.ndarray, np.ndarray, np.ndarray, np.ndarray,
 ]
 
-ROOT: Path = repo_root_from(__file__)
+
+def _resolve_workspace_root(file_path: str | Path | None = None) -> Path:
+    """Resolve workspace root on Dev PC or air-gapped X13 worker (without pyproject.toml/AGENTS.md)."""
+    target = Path(file_path) if file_path is not None else Path(__file__)
+    try:
+        return repo_root_from(target)
+    except FileNotFoundError:
+        env_root = os.environ.get("NAQEX_WORKSPACE_ROOT", "").strip()
+        if env_root:
+            return Path(env_root).resolve()
+        here = target.resolve()
+        if len(here.parents) >= 5 and here.parents[3].name == "tooling":
+            return here.parents[4]
+        return here.parents[min(4, len(here.parents) - 1)]
+
+
+ROOT: Path = _resolve_workspace_root()
 AI_ENGINES: Path = ROOT / "tooling" / "ai-engines"
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
 HOLDOUT_CUTOFF_DAY: str = "2025-01-01"
+HOLDOUT_CUTOFF_UTC_TS: int = 1_735_689_600  # 2025-01-01T00:00:00Z
 HOLDOUT_MAX_YEAR: int = 2024
 
 DEFAULT_SEED: int = 20261126
+DEFAULT_X13_SHARD_SEED: int = 112700
 BLOCK_LEN: int = 5
 TRADING_DAYS_PER_MONTH: int = 21
 TRADING_DAYS_PER_YEAR: int = 252
@@ -40,6 +59,28 @@ CORE7_IDS: tuple[str, ...] = (
     "E5_US100_RS1130",
     "E6_EURJPY_VOLCOMP",
     "E7_USDJPY_NY10ET",
+)
+
+# Canonical Core7 base-risk fractions from PORTFOLIO-REGISTRY.json (enables registry-free X13 shard runs)
+DEFAULT_CORE7_BASE_RISK: dict[str, float] = {
+    "E1_USDJPY_TOKYO": 0.1606 / 100.0,
+    "E2_USDJPY_EXP80": 0.5894 / 100.0,
+    "E3_GBPUSD_VH": 0.7500 / 100.0,
+    "E4_US100_SESS40": 0.5000 / 100.0,
+    "E5_US100_RS1130": 0.5000 / 100.0,
+    "E6_EURJPY_VOLCOMP": 0.5000 / 100.0,
+    "E7_USDJPY_NY10ET": 0.5000 / 100.0,
+}
+
+X13_FORBIDDEN_TOKENS: tuple[str, ...] = (
+    "holdout",
+    "2025",
+    "2026",
+    "accounts.dat",
+    "native_ftmo_holdout_lock",
+    "id_ed25519",
+    "private_vault",
+    ".ssh",
 )
 
 TIER_SIZES_USD: tuple[float, ...] = (
@@ -85,6 +126,11 @@ DEFAULT_OUT_JSON_V2: Path = (
 DEFAULT_OUT_MD: Path = (
     ROOT / "planning/research/MULTI-FIRM-CAPITAL-PROMO-OPTIMIZER-20261126.md"
 )
+DEFAULT_OUT_MD_V3: Path = (
+    ROOT / "planning/research/MULTI-FIRM-CAPITAL-OPTIMIZER-V3-20261127.md"
+)
+DEFAULT_DERIVED_TAPES_DIR: Path = ROOT / ".runtime/hot-m1-cache/_derived"
+DEFAULT_DERIVED_TAPES_STEM: str = "frozen_9e_tapes_v2"
 
 PRIMARY_VARIANT_DEFAULT: str = "C10_NEWS_ON"
 CONTROL_VARIANT_DEFAULT: str = "C00"
@@ -98,6 +144,14 @@ DD_INTRADAY_TRAILING: int = 2
 # Per-contract daily DD anchor enum codes for Numba kernels
 DAILY_DD_ANCHOR_INITIAL_BALANCE: int = 0  # daily_floor = s_bal - cap * daily_lim (e.g. FTMO)
 DAILY_DD_ANCHOR_PREV_DAY_BALANCE: int = 1  # daily_floor = s_bal * (1.0 - daily_lim) (holds ONLY when flat at reset)
+
+# V3 midnight rollover anchor enum codes for floating-equity-at-reset sensitivity
+ROLLOVER_ANCHOR_BALANCE: int = 0  # FTMO: daily_floor = bal - cap * daily_lim
+ROLLOVER_ANCHOR_MAX_BAL_EQ: int = 1  # The5ers: daily_floor = max(bal, eq_00) * (1.0 - daily_lim)
+ROLLOVER_ANCHOR_EQUITY: int = 2  # IC Funded: daily_floor = eq_00 * (1.0 - daily_lim)
+
+ROLLOVER_SHOCK_LEVELS_PCT: tuple[float, ...] = (0.0, -0.005, -0.010, -0.015)
+ROLLOVER_SHOCK_PROBE_LEVELS_PCT: tuple[float, ...] = (0.0, -0.005, -0.010, -0.015, 0.010)
 
 DD_ANCHOR_TAG_BALANCE_VERIFIED: str = "DD_ANCHOR_BALANCE_VERIFIED"
 DD_ANCHOR_TAG_UNVERIFIED_UNLESS_FLAT: str = "DD_ANCHOR_UNVERIFIED_UNLESS_FLAT_AT_RESET"

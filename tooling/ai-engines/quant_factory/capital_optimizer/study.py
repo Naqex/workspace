@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from quant_factory.capital_optimizer.black_friday_option import evaluate_black_friday_2deadline_option
 from quant_factory.capital_optimizer.catalog import (
     _find_program_by_hint,
     detect_pricing_traps,
@@ -15,7 +16,10 @@ from quant_factory.capital_optimizer.catalog import (
 )
 from quant_factory.capital_optimizer.constants import (
     CONTROL_VARIANT_DEFAULT,
+    CORE7_IDS,
     DD_ANCHOR_TAG_UNVERIFIED_UNLESS_FLAT,
+    DEFAULT_DERIVED_TAPES_DIR,
+    DEFAULT_DERIVED_TAPES_STEM,
     DEFAULT_DISCOUNT_RATE,
     DEFAULT_SEED,
     ORDER_SEND_CAPABLE,
@@ -26,6 +30,10 @@ from quant_factory.capital_optimizer.constants import (
 )
 from quant_factory.capital_optimizer.lot_sizing import assert_strict_pre_holdout_days
 from quant_factory.capital_optimizer.replay_cache import ExactTierReplayCache
+from quant_factory.capital_optimizer.rollover_reset import (
+    run_rollover_reset_sensitivity,
+    verify_tapes_flat_at_reset,
+)
 from quant_factory.capital_optimizer.simulator import make_block_bootstrap_indices
 from quant_factory.capital_optimizer.study_scaling import run_capital_scaling_section
 from quant_factory.capital_optimizer.study_sections import (
@@ -151,11 +159,56 @@ def run_full_capital_promo_study(
         seed=seed,
     )
 
+    elapsed_core = round(time.perf_counter() - t0, 2)
+    flat_at_reset_audit = verify_tapes_flat_at_reset(frozen["tapes"], engine_ids=CORE7_IDS)
+    rollover_reset_sensitivity = run_rollover_reset_sensitivity(
+        catalog=catalog,
+        cache=cache,
+        idx_matrix=idx_grid,
+        horizon_days=horizon_days,
+        primary_var=primary_var,
+        use_promo_prices=use_promo_prices,
+        usd_vnd=usd_vnd,
+        card_fx_fee=card_fx_fee,
+        flat_at_reset_audit=flat_at_reset_audit,
+        calibrated_cache=calibrated_cache,
+    )
+    black_friday_2deadline_option = evaluate_black_friday_2deadline_option(
+        catalog=catalog,
+        ftmo_std=ftmo_std,
+        cache=cache,
+        idx_matrix=idx_grid,
+        primary_var=primary_var,
+        usd_vnd=usd_vnd,
+        card_fx_fee=card_fx_fee,
+    )
+
+    from quant_core.io_utils import sha256_file
+
+    npz_path = DEFAULT_DERIVED_TAPES_DIR / f"{DEFAULT_DERIVED_TAPES_STEM}.npz"
+    npz_sha = sha256_file(npz_path) if npz_path.is_file() else ""
     elapsed = round(time.perf_counter() - t0, 2)
     return {
-        "schema": "naqex-multi-firm-capital-promo-optimizer-v2",
+        "schema": "naqex-multi-firm-capital-promo-optimizer-v3",
         "generated_utc": datetime.now(UTC).isoformat(),
         "elapsed_seconds": elapsed,
+        "elapsed_core_v2_seconds": elapsed_core,
+        "tape_provenance": {
+            "stem": DEFAULT_DERIVED_TAPES_STEM,
+            "binding_sha256": str(frozen.get("binding_sha256", "")),
+            "npz_sha256": npz_sha,
+            "min_day": str(ext_days[0]),
+            "max_day": str(ext_days[-1]),
+            "dev_days_count": len(ext_days),
+            "holdout_rows_analysed": holdout_rows,
+        },
+        "v3_upgrades": {
+            "flat_at_reset_verified": flat_at_reset_audit["flat_at_reset_verified"],
+            "rollover_floating_equity_sensitivity_enabled": True,
+            "black_friday_2deadline_option_enabled": True,
+            "black_friday_weak_dominance_verified": black_friday_2deadline_option["weak_dominance_verified"],
+            "x13_pure_numpy_numba_shard_mode_enabled": True,
+        },
         "safety_invariants": {
             "order_send_capable": ORDER_SEND_CAPABLE,
             "order_send_count": ORDER_SEND_COUNT,
@@ -228,4 +281,7 @@ def run_full_capital_promo_study(
         "cross_firm_hazard_study": cross_firm_hazard_study,
         "sunk_cost_abort_study": sunk_cost_abort_study,
         "pareto_grid": pareto_grid,
+        "flat_at_reset_audit": flat_at_reset_audit,
+        "rollover_reset_sensitivity": rollover_reset_sensitivity,
+        "black_friday_2deadline_option": black_friday_2deadline_option,
     }

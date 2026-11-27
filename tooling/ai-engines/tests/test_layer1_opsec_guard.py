@@ -82,8 +82,21 @@ def _git_tracked_files() -> list[str]:
 def _iter_layer1_guarded_files(tracked: list[str]) -> list[tuple[str, Path]]:
     """Return tracked Layer-1 code/docs/skills guarded by permanent OPSEC CI checks."""
     candidates = list(tracked)
-    if "pyproject.toml" not in candidates and (ROOT / "pyproject.toml").is_file():
+    seen_candidates = set(candidates)
+    if "pyproject.toml" not in seen_candidates and (ROOT / "pyproject.toml").is_file():
         candidates.append("pyproject.toml")
+        seen_candidates.add("pyproject.toml")
+    for extra_dir in ("tooling/automation", "tooling/workflows"):
+        base_dir = ROOT / extra_dir
+        if not base_dir.is_dir():
+            continue
+        for p in sorted(base_dir.rglob("*")):
+            if not p.is_file() or "__pycache__" in p.parts:
+                continue
+            rel = p.relative_to(ROOT).as_posix()
+            if rel not in seen_candidates:
+                candidates.append(rel)
+                seen_candidates.add(rel)
     out: list[tuple[str, Path]] = []
     for rel in candidates:
         if rel.startswith(("projects/", "private_vault/", ".runtime/")):
@@ -98,6 +111,8 @@ def _iter_layer1_guarded_files(tracked: list[str]) -> list[tuple[str, Path]]:
                     "tooling/knowledge/",
                     "tooling/search/",
                     "tooling/agent-workflow/",
+                    "tooling/automation/",
+                    "tooling/workflows/",
                     ".agents/",
                     "knowledge/",
                 )
@@ -253,6 +268,10 @@ class Layer1OpsecGuardTests(unittest.TestCase):
         self.assertTrue(any(r.startswith("tooling/knowledge/") for r in guarded_rels))
         self.assertTrue(any(r.startswith("tooling/search/") for r in guarded_rels))
         self.assertTrue(any(r.startswith("tooling/agent-workflow/") for r in guarded_rels))
+        if (ROOT / "tooling/automation").is_dir():
+            self.assertTrue(any(r.startswith("tooling/automation/") for r in guarded_rels))
+        if (ROOT / "tooling/workflows").is_dir():
+            self.assertTrue(any(r.startswith("tooling/workflows/") for r in guarded_rels))
 
 
 if __name__ == "__main__":

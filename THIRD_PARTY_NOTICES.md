@@ -8,6 +8,7 @@ Workspace giữ lịch sử và notices của các thành phần được kế t
 | `projects/integrations/TradingAgents` | Fork của TauricResearch/TradingAgents; giữ attribution và license upstream |
 | `projects/integrations/paperclip` | Fork Naqex của Paperclip AI, MIT; giữ source/notices upstream và pin riêng; dùng UI/API local riêng |
 | `projects/integrations/rd-agent` | Microsoft RD-Agent, MIT; source upstream được pin; chưa chạy engine |
+| `projects/integrations/hermes-agent` | Nous Research (`NousResearch/hermes-agent`), MIT (`Copyright (c) 2025 Nous Research`); source upstream được pin và giữ nguyên `LICENSE`/notices gốc |
 | `tooling/reverse-skill` | Upstream zhaoxuya520/reverse-skill; root MIT, có thành phần con GPLv3 và notices tác giả riêng; submodule tham khảo riêng |
 | Xerj | Apache-2.0; binary tải riêng, checksum cố định, không kèm source workspace |
 | TradingView Advanced Charts | Không nằm trong workspace; quyền truy cập/phân phối riêng theo tài liệu Trader |

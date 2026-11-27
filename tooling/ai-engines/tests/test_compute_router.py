@@ -490,3 +490,168 @@ def test_remote_runner_streams_large_output_without_pipe_deadlock(tmp_path: Path
     assert (res_dir / "stdout.log").stat().st_size >= 220_000
     assert (res_dir / "stderr.log").stat().st_size >= 220_000
     assert not (tmp_path / "locks" / "active_job.lock").exists()
+
+
+def test_probe_cpu_sampled_sequentially_before_subprocess_probes(tmp_path: Path):
+    dev_events: list[str] = []
+
+    def fake_cpu(sample_sec: float = 0.20) -> float:
+        dev_events.append(f"cpu_start:{sample_sec}")
+        dev_events.append("cpu_end")
+        return 4.2
+
+    def fake_gpu() -> int:
+        dev_events.append("gpu_call")
+        return 3
+
+    def fake_ntp() -> float:
+        dev_events.append("ntp_call")
+        return -15.0
+
+    with (
+        patch.object(cr, "_read_cpu_util_pct", side_effect=fake_cpu),
+        patch.object(cr, "_read_gpu_util_pct", side_effect=fake_gpu),
+        patch.object(cr, "_read_ntp_offset_ms", side_effect=fake_ntp),
+        patch.object(cr, "_read_idle_sec", return_value=1200.0),
+        patch.object(cr, "_read_fullscreen_busy", return_value=False),
+        patch.object(cr, "_read_free_ram_gb", return_value=20.0),
+    ):
+        dev_info = cr.probe_dev_pc()
+
+    assert dev_info["cpu_util_pct"] == 4.2
+    assert dev_info["mode"] == "MODE_B_IDLE_OVERNIGHT"
+    assert dev_events.index("cpu_end") < dev_events.index("gpu_call")
+    assert dev_events.index("cpu_end") < dev_events.index("ntp_call")
+
+    x13_events: list[str] = []
+
+    def fake_x13_cpu(sample_sec: float = 0.15) -> float:
+        x13_events.append(f"x13_cpu_start:{sample_sec}")
+        x13_events.append("x13_cpu_end")
+        return 3.1
+
+    def fake_x13_bat() -> int:
+        x13_events.append("x13_bat_call")
+        return 2
+
+    def fake_x13_ntp() -> float:
+        x13_events.append("x13_ntp_call")
+        return -12.0
+
+    (tmp_path / ".venv" / "Scripts").mkdir(parents=True)
+    (tmp_path / ".venv" / "Scripts" / "python.exe").write_text("stub", encoding="utf-8")
+    with (
+        patch.object(x13_probe, "read_cpu_util_pct", side_effect=fake_x13_cpu),
+        patch.object(x13_probe, "read_battery_status_code", side_effect=fake_x13_bat),
+        patch.object(x13_probe, "read_ntp_offset_ms", side_effect=fake_x13_ntp),
+        patch.object(x13_probe, "read_power_status", return_value={"ac_line_status": 1, "battery_pct": 100}),
+        patch.object(x13_probe, "read_free_ram_gb", return_value=10.5),
+    ):
+        x13_info = x13_probe.collect_probe(tmp_path)
+
+    assert x13_info["cpu_util_pct"] == 3.1
+    assert x13_events.index("x13_cpu_end") < x13_events.index("x13_bat_call")
+    assert x13_events.index("x13_cpu_end") < x13_events.index("x13_ntp_call")
+
+
+def test_mode_a_assist_opt_in_parallel_20_80_preserves_default_x13_only():
+    # Default Mode A shardable job MUST stay X13_ONLY (100% X13, 0 PC Dev cores)
+    dec_default = cr.decide_route(_mode_a_gaming_dev(), _healthy_x13(), est_minutes=25.0, shardable=True, shards=10)
+    assert dec_default["target"] == "X13_ONLY"
+    assert dec_default["dev_pc_cores"] == 0
+    assert dec_default["shard_split_pct"] == {"dev_pc": 0, "x13_worker": 100}
+
+    # Opt-in allow_mode_a_assist=True + shardable -> PARALLEL_20_80_MODE_A (<=2 cores BELOW_NORMAL 0% GPU)
+    for dev_state in (
+        _mode_a_gaming_dev(),
+        _mode_a_gaming_dev(gpu_util_pct=8, fullscreen_busy=False),
+    ):
+        dec_assist = cr.decide_route(
+            dev_state,
+            _healthy_x13(),
+            est_minutes=25.0,
+            shardable=True,
+            shards=10,
+            allow_mode_a_assist=True,
+        )
+        assert dec_assist["target"] == "PARALLEL_20_80_MODE_A"
+        assert 1 <= dec_assist["dev_pc_cores"] <= 2
+        assert dec_assist["dev_pc_priority"] == "BELOW_NORMAL"
+        assert dec_assist["dev_pc_gpu_allowed"] is False
+        assert dec_assist["x13_threads"] == 7
+        assert dec_assist["shard_split_pct"] == {"dev_pc": 20, "x13_worker": 80}
+        assert dec_assist["micro_shards"] == {"total": 10, "dev_pc": 2, "x13_worker": 8}
+
+    # Non-shardable with allow_mode_a_assist=True stays X13_ONLY
+    dec_non_shard = cr.decide_route(
+        _mode_a_gaming_dev(),
+        _healthy_x13(),
+        est_minutes=25.0,
+        shardable=False,
+        allow_mode_a_assist=True,
+    )
+    assert dec_non_shard["target"] == "X13_ONLY"
+    assert dec_non_shard["dev_pc_cores"] == 0
+
+
+def test_remote_runner_pythonpath_and_atomic_lock_busy_rc78(tmp_path: Path):
+    import os
+    import subprocess
+
+    # Place a fake Dev-only quant_core module under tmp_path/tooling/ai-engines
+    fake_qc = tmp_path / "tooling" / "ai-engines" / "quant_core"
+    fake_qc.mkdir(parents=True)
+    (fake_qc / "__init__.py").write_text("", encoding="utf-8")
+    (fake_qc / "dev_smoke_mod.py").write_text("DEV_MAGIC = 42\n", encoding="utf-8")
+
+    child = tmp_path / "check_pypath.py"
+    child.write_text(
+        "import json, os, pathlib\n"
+        "from quant_core.dev_smoke_mod import DEV_MAGIC\n"
+        "out = pathlib.Path(os.environ['NAQEX_RESULT_DIR']) / 'out.json'\n"
+        "out.write_text(json.dumps({'magic': DEV_MAGIC, 'pp': os.environ.get('PYTHONPATH', '')}), encoding='utf-8')\n",
+        encoding="utf-8",
+    )
+    job_id = "pypath_lock_v1"
+    job_dir = tmp_path / "jobs" / job_id
+    (tmp_path / "locks").mkdir(parents=True)
+    cr.build_job_bundle(job_id, child, job_dir)
+
+    patched_runner = cr._REMOTE_RUNNER_PY.replace(
+        'base = pathlib.Path(r"C:\\NaqexResearch")',
+        f"base = pathlib.Path({str(tmp_path)!r})",
+    ).replace(
+        "return bool(ctypes.windll.kernel32.GetSystemPowerStatus(ctypes.byref(s))) and int(s.AC) == 1",
+        "return True",
+    )
+    runner_py = job_dir / "run_job.py"
+    runner_py.write_text(patched_runner, encoding="utf-8", newline="\n")
+
+    # 1. Clean run verifies PYTHONPATH includes <base>/tooling/ai-engines
+    proc = subprocess.run(
+        [sys.executable, str(runner_py), job_id, "2"],
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert proc.returncode == 0, proc.stderr
+    out_data = json.loads((tmp_path / "results" / job_id / "out.json").read_text(encoding="utf-8"))
+    assert out_data["magic"] == 42
+    assert str(tmp_path / "tooling" / "ai-engines") in out_data["pp"]
+
+    # 2. Pre-existing live active_job.lock (owned by current PID) MUST return rc=78 without deleting lock!
+    lock_path = tmp_path / "locks" / "active_job.lock"
+    live_meta = x13_probe.read_windows_process(os.getpid())
+    created_at = live_meta["createdAt"] if live_meta else "2026-11-27T00:00:00Z"
+    lock_payload = json.dumps({"job_id": "other_live_job", "pid": os.getpid(), "created_at": created_at})
+    lock_path.write_text(lock_payload, encoding="utf-8")
+
+    proc_busy = subprocess.run(
+        [sys.executable, str(runner_py), job_id, "2"],
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    assert proc_busy.returncode == cr._X13_LOCK_BUSY_RC
+    assert lock_path.is_file(), "Busy runner must NEVER unlink another live job's active_job.lock"
+    assert json.loads(lock_path.read_text(encoding="utf-8"))["job_id"] == "other_live_job"

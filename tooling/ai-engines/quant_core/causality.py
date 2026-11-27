@@ -186,9 +186,7 @@ def assert_prefix_invariance_numpy(
     probes = _validate_probe_indices(int(ts.shape[0]), probe_indices)
     full_out = np.asarray(signal_fn(ts, qs))
     if full_out.ndim == 0 or full_out.shape[0] != ts.shape[0]:
-        raise ValueError(
-            f"signal_fn output first axis ({full_out.shape}) must match len(times) ({ts.shape[0]})"
-        )
+        raise ValueError(f"signal_fn output first axis ({full_out.shape}) must match len(times) ({ts.shape[0]})")
 
     for t in probes:
         # 1. True prefix truncation
@@ -230,9 +228,7 @@ def assert_prefix_invariance_series(
     probes = _validate_probe_indices(int(arr.shape[0]), probe_indices)
     full_out = np.asarray(fn(arr))
     if full_out.ndim == 0 or full_out.shape[0] != arr.shape[0]:
-        raise ValueError(
-            f"fn output first axis ({full_out.shape}) must match len(values) ({arr.shape[0]})"
-        )
+        raise ValueError(f"fn output first axis ({full_out.shape}) must match len(values) ({arr.shape[0]})")
 
     for t in probes:
         # 1. True prefix truncation

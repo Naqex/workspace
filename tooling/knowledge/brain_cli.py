@@ -864,21 +864,22 @@ def query_brain(
                     fts_ranks[int(row["id"])] = rank
 
             # 2. Vector cosine similarity loaded directly from SQLite `vec_blob` (zero .npz rebuild/contention)
+            vec_cur = conn.cursor()
+            vec_cur.row_factory = None
             if domain == "all":
-                vec_rows = conn.execute("SELECT id, vec_blob FROM chunks WHERE vec_blob IS NOT NULL ORDER BY id").fetchall()
+                vec_rows = vec_cur.execute("SELECT id, vec_blob FROM chunks WHERE vec_blob IS NOT NULL ORDER BY id").fetchall()
             else:
-                vec_rows = conn.execute(
+                vec_rows = vec_cur.execute(
                     "SELECT id, vec_blob FROM chunks WHERE domain = ? AND vec_blob IS NOT NULL ORDER BY id",
                     (domain,),
                 ).fetchall()
 
             valid_ids: list[int] = []
             valid_blobs: list[bytes] = []
-            for r in vec_rows:
-                blob = r[1]
+            for cid, blob in vec_rows:
                 if blob is not None and len(blob) == _VEC_BYTES:
-                    valid_ids.append(int(r[0]))
-                    valid_blobs.append(bytes(blob))
+                    valid_ids.append(int(cid))
+                    valid_blobs.append(blob if type(blob) is bytes else bytes(blob))
 
             vec_ranks = {}
             if valid_ids:

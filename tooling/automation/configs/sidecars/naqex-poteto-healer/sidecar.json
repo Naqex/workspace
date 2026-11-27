@@ -1,0 +1,26 @@
+{
+  "builtin": "schedule",
+  "args": [
+    "CRON_TZ=Asia/Ho_Chi_Minh */30 * * * *",
+    "agentapi",
+    "new-conversation",
+    "--",
+    "Run the Naqex Poteto 30-minute self-healing health scan inside D:/ANNAM/TradingWorkspace using D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto heal-scan --offline --json and D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto status --offline --json. Enforce hard invariants: 0 VND spend, OrderSend=0, MT5_PROCS=0 on PC Dev, Holdout 2025+ SEALED, Circuit Breaker max 3 attempts (trip CIRCUIT_OPEN_ESCALATE_OWNER on attempt 4 without retrying), zero git push, and never modify user_config.json or live MT5 binaries. Summarize any degraded checks or open circuit-breaker alerts in plain Vietnamese with zero raw IPs, tokens, or user profile paths."
+  ],
+  "restart_policy": "always",
+  "display_name": "Naqex Poteto Self-Healer",
+  "description": "Every 30 minutes (Asia/Ho_Chi_Minh), runs read-only CI health scans and automation status checks under strict OrderSend=0 and 3-attempt circuit-breaker guardrails.",
+  "agent_permissions": {
+    "workspace_uris": [
+      "file:///D:/ANNAM/TradingWorkspace"
+    ],
+    "access_grants": [
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto heal-scan)",
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto watchdog)",
+      "command(D:/ANNAM/TradingWorkspace/.runtime/quant-audit-v24/Scripts/python.exe D:/ANNAM/TradingWorkspace/tooling/naqex_cli.py auto status)",
+      "read_file(D:/ANNAM/TradingWorkspace/.runtime/automation)",
+      "read_file(D:/ANNAM/TradingWorkspace/tooling/automation/configs/feature_map.json)",
+      "write_file(D:/ANNAM/TradingWorkspace/.runtime/automation)"
+    ]
+  }
+}

@@ -11,6 +11,11 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
+from cockpit.modules.automation import (
+    build_automation_events_payload,
+    build_automation_features_payload,
+    build_automation_status_payload,
+)
 from cockpit.modules.node1 import build_node1_summary_payload
 from cockpit.modules.portfolio import build_allocations_payload, build_overview_payload, build_summary_payload
 from cockpit.modules.prop_metrix import build_prop_metrix_payload
@@ -44,6 +49,16 @@ def _qs_str(qs: dict[str, list[str]], key: str, default: str) -> str:
 
 def _qs_flag(qs: dict[str, list[str]], key: str) -> bool:
     return _qs_str(qs, key, "0") in ("1", "true", "yes")
+
+
+def _qs_int(qs: dict[str, list[str]], key: str, default: int) -> int:
+    vals = qs.get(key)
+    if not vals:
+        return default
+    try:
+        return int(vals[0])
+    except (ValueError, TypeError):
+        return default
 
 
 def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR) -> type[BaseHTTPRequestHandler]:
@@ -137,6 +152,21 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR) -> type[BaseH
                     HTTPStatus.OK,
                     build_node1_summary_payload(root, allow_ssh=not offline, use_cache=not nocache),
                 )
+                return
+            if path == "/api/automation/status":
+                self._send_json(HTTPStatus.OK, build_automation_status_payload(root))
+                return
+            if path == "/api/automation/events":
+                limit = _qs_int(qs, "limit", 50)
+                ev_type = _qs_str(qs, "type", "") or None
+                sev = _qs_str(qs, "severity", "") or None
+                self._send_json(
+                    HTTPStatus.OK,
+                    build_automation_events_payload(root, limit=limit, event_type=ev_type, severity=sev),
+                )
+                return
+            if path == "/api/automation/features":
+                self._send_json(HTTPStatus.OK, build_automation_features_payload(root))
                 return
             if path == "/api/stress":
                 cap_u = _qs_float(qs, "capital_usd", 50_000.0)

@@ -47,9 +47,7 @@ PROD_RED_NEWS_CSV_EXPECTED_EVENTS: int = 492
 
 _MIN_VALID_UTC_TS: int = 946_684_800  # 2000-01-01T00:00:00Z
 _MAX_VALID_UTC_TS: int = 2_524_608_000  # 2050-01-01T00:00:00Z
-_STRICT_UTC_ISO_RE: re.Pattern[str] = re.compile(
-    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|\+00:00)$"
-)
+_STRICT_UTC_ISO_RE: re.Pattern[str] = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|\+00:00)$")
 
 
 @dataclass(frozen=True)
@@ -99,9 +97,7 @@ def validate_currency(ccy: Any) -> str:
         raise ValueError(f"Currency must be a string, got {type(ccy).__name__}")
     norm = ccy.strip().upper()
     if norm not in ALLOWED_CURRENCIES:
-        raise ValueError(
-            f"Unsupported currency {ccy!r}; allowed={sorted(ALLOWED_CURRENCIES)}"
-        )
+        raise ValueError(f"Unsupported currency {ccy!r}; allowed={sorted(ALLOWED_CURRENCIES)}")
     return norm
 
 
@@ -113,9 +109,7 @@ def validate_blackout_sec(value: Any) -> int:
     if not math.isfinite(fval) or fval <= 0.0:
         raise ValueError(f"blackout_sec must be finite and > 0, got {value!r}")
     if fval > float(MAX_BLACKOUT_SEC):
-        raise ValueError(
-            f"blackout_sec exceeds upper bound {MAX_BLACKOUT_SEC}s: got {value!r}"
-        )
+        raise ValueError(f"blackout_sec exceeds upper bound {MAX_BLACKOUT_SEC}s: got {value!r}")
     ival = int(fval)
     if fval != float(ival):
         raise ValueError(f"blackout_sec must be an integer number of seconds, got {value!r}")
@@ -142,9 +136,7 @@ def validate_utc_iso(
         raise ValueError(f"utc_iso must be a non-empty string, got {utc_iso!r}")
     raw = utc_iso.strip()
     if not _STRICT_UTC_ISO_RE.match(raw):
-        raise ValueError(
-            f"utc_iso must match strict YYYY-MM-DDTHH:MM:SS(Z|+00:00) format: {raw!r}"
-        )
+        raise ValueError(f"utc_iso must match strict YYYY-MM-DDTHH:MM:SS(Z|+00:00) format: {raw!r}")
     parse_str = f"{raw[:-1]}+00:00" if raw.endswith("Z") else raw
     try:
         dt = datetime.fromisoformat(parse_str)
@@ -159,9 +151,7 @@ def validate_utc_iso(
         if isinstance(expected_ts, bool) or not isinstance(expected_ts, int):
             raise ValueError(f"expected_ts must be int, got {expected_ts!r}")
         if calc_ts != expected_ts:
-            raise ValueError(
-                f"utc_iso {raw!r} (ts={calc_ts}) does not match utc_ts={expected_ts}"
-            )
+            raise ValueError(f"utc_iso {raw!r} (ts={calc_ts}) does not match utc_ts={expected_ts}")
     canonical_iso = dt.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     return calc_ts, canonical_iso, canonical_iso[:10]
 
@@ -181,9 +171,7 @@ def _validate_http_url(url: str | None) -> str:
         or "." not in host
         or any(not lbl for lbl in host_labels)
     ):
-        raise ValueError(
-            f"VERIFIED_T1 event requires http(s) source_url with valid host, got {url!r}"
-        )
+        raise ValueError(f"VERIFIED_T1 event requires http(s) source_url with valid host, got {url!r}")
     return norm
 
 
@@ -198,10 +186,7 @@ def validate_verification_status(
         raise ValueError(f"verification_status must be a string, got {status!r}")
     norm = status.strip()
     if norm not in ALLOWED_VERIFICATION_STATUSES:
-        raise ValueError(
-            f"Unsupported verification_status {status!r}; "
-            f"allowed={sorted(ALLOWED_VERIFICATION_STATUSES)}"
-        )
+        raise ValueError(f"Unsupported verification_status {status!r}; allowed={sorted(ALLOWED_VERIFICATION_STATUSES)}")
     if norm == "VERIFIED_T1":
         if not source_agency or not source_agency.strip():
             raise ValueError("VERIFIED_T1 event requires non-empty source_agency")
@@ -254,15 +239,12 @@ def _ensure_non_empty_and_unique(events: Sequence[RedNewsEvent], *, source_label
         triple = (ev.utc_ts, ev.ccy, ev.event)
         if triple in seen_triples:
             raise ValueError(
-                f"Duplicate calendar event in {source_label}: "
-                f"utc_iso={ev.utc_iso}, ccy={ev.ccy}, event={ev.event!r}"
+                f"Duplicate calendar event in {source_label}: utc_iso={ev.utc_iso}, ccy={ev.ccy}, event={ev.event!r}"
             )
         seen_triples.add(triple)
         if ev.event_id is not None:
             if ev.event_id in seen_ids:
-                raise ValueError(
-                    f"Duplicate event_id in {source_label}: {ev.event_id!r}"
-                )
+                raise ValueError(f"Duplicate event_id in {source_label}: {ev.event_id!r}")
             seen_ids.add(ev.event_id)
 
 
@@ -288,9 +270,7 @@ def _parse_event_dict(
         raise ValueError("Calendar event must provide 'utc_iso' and/or 'utc_ts'")
 
     if day_key is not None and day_key != utc_day:
-        raise ValueError(
-            f"events_by_day key {day_key!r} does not match UTC date {utc_day!r} of ts={utc_ts}"
-        )
+        raise ValueError(f"events_by_day key {day_key!r} does not match UTC date {utc_day!r} of ts={utc_ts}")
 
     raw_event = ev.get("event")
     if raw_event is None:
@@ -402,9 +382,7 @@ def load_calendar_events(path: str | Path) -> list[RedNewsEvent]:
     has_events = "events" in raw
     has_by_day = "events_by_day" in raw
     if has_events and has_by_day:
-        raise ValueError(
-            f"Ambiguous dual-schema calendar in {cal_path}: contains both 'events' and 'events_by_day'"
-        )
+        raise ValueError(f"Ambiguous dual-schema calendar in {cal_path}: contains both 'events' and 'events_by_day'")
 
     events: list[RedNewsEvent] = []
     if has_events:
@@ -422,9 +400,7 @@ def load_calendar_events(path: str | Path) -> list[RedNewsEvent]:
             raise ValueError(f"'events_by_day' must be a dict in {cal_path}")
         for day_key, day_items in by_day.items():
             if not isinstance(day_key, str) or not isinstance(day_items, list):
-                raise ValueError(
-                    f"{cal_path}: invalid events_by_day entry for key {day_key!r}"
-                )
+                raise ValueError(f"{cal_path}: invalid events_by_day entry for key {day_key!r}")
             for idx, item in enumerate(day_items):
                 try:
                     events.append(
@@ -435,13 +411,9 @@ def load_calendar_events(path: str | Path) -> list[RedNewsEvent]:
                         )
                     )
                 except ValueError as exc:
-                    raise ValueError(
-                        f"{cal_path}: events_by_day[{day_key!r}][{idx}]: {exc}"
-                    ) from exc
+                    raise ValueError(f"{cal_path}: events_by_day[{day_key!r}][{idx}]: {exc}") from exc
     else:
-        raise ValueError(
-            f"Unsupported calendar schema in {cal_path}: expected 'events' or 'events_by_day'"
-        )
+        raise ValueError(f"Unsupported calendar schema in {cal_path}: expected 'events' or 'events_by_day'")
 
     _ensure_non_empty_and_unique(events, source_label=str(cal_path))
     events.sort(key=lambda e: (e.utc_ts, e.ccy, e.event))
@@ -469,9 +441,7 @@ def summarize_calendar_events(events: Sequence[RedNewsEvent]) -> dict[str, Any]:
         by_ccy[ev.ccy] = by_ccy.get(ev.ccy, 0) + 1
         yc = by_year_ccy.setdefault(yr, {})
         yc[ev.ccy] = yc.get(ev.ccy, 0) + 1
-        verification_counts[ev.verification_status] = (
-            verification_counts.get(ev.verification_status, 0) + 1
-        )
+        verification_counts[ev.verification_status] = verification_counts.get(ev.verification_status, 0) + 1
 
     year_counts = list(by_year.values())
     avg_per_year = round(sum(year_counts) / len(year_counts), 2) if year_counts else 0.0
@@ -517,11 +487,7 @@ def get_calendar_coverage_report(
     live_summary = summarize_calendar_events(live_events)
 
     # Identify live multi-currency years (e.g. 2026=97, 2027=140 across 6 ccys)
-    multi_ccy_year_keys = [
-        yr
-        for yr, ccy_map in live_summary["by_year_ccy"].items()
-        if len(ccy_map) >= 2
-    ]
+    multi_ccy_year_keys = [yr for yr, ccy_map in live_summary["by_year_ccy"].items() if len(ccy_map) >= 2]
     ref_years = multi_ccy_year_keys if multi_ccy_year_keys else live_summary["years"]
     live_ref_counts = [live_summary["by_year"][yr] for yr in ref_years]
     live_ref_ccys: set[str] = set()
@@ -530,9 +496,7 @@ def get_calendar_coverage_report(
 
     live_ref_min = min(live_ref_counts) if live_ref_counts else 0
     live_ref_max = max(live_ref_counts) if live_ref_counts else 0
-    live_ref_avg = (
-        round(sum(live_ref_counts) / len(live_ref_counts), 2) if live_ref_counts else 0.0
-    )
+    live_ref_avg = round(sum(live_ref_counts) / len(live_ref_counts), 2) if live_ref_counts else 0.0
 
     dev_ccys = set(dev_summary["currencies"])
     dev_is_usd_only = len(dev_ccys) > 0 and dev_ccys <= {"USD"}
@@ -568,9 +532,7 @@ def get_calendar_coverage_report(
         "dev_is_usd_only": dev_is_usd_only,
         "missing_currencies_in_dev": sorted(live_ref_ccys - dev_ccys),
         "coverage_ratio_vs_live_peak": (
-            round(dev_summary["avg_events_per_year"] / float(live_ref_max), 4)
-            if live_ref_max > 0
-            else 0.0
+            round(dev_summary["avg_events_per_year"] / float(live_ref_max), 4) if live_ref_max > 0 else 0.0
         ),
         "warnings": warnings,
         "has_usd32_vs_live140_gap": GAP_WARNING_FLAG in warnings,
@@ -589,11 +551,7 @@ def verify_production_csv_immutability(
     actual_sha = hashlib.sha256(raw_bytes).hexdigest()
     lf_only = b"\r" not in raw_bytes
     events = load_csv_events(path)
-    ok = (
-        lf_only
-        and actual_sha.lower() == expected_sha256.lower()
-        and len(events) == expected_events
-    )
+    ok = lf_only and actual_sha.lower() == expected_sha256.lower() and len(events) == expected_events
     return {
         "ok": ok,
         "csv_path": str(path),

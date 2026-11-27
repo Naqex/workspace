@@ -1,0 +1,304 @@
+{
+  "schema": "naqex-research-watchlist-v1",
+  "version": "1.0.0",
+  "updated_utc": "2026-11-27T06:40:00Z",
+  "order_send_count": 0,
+  "holdout_rows_analysed": 0,
+  "spend_vnd": 0,
+  "supply_chain_guard": {
+    "enforce_untrusted_external_data": true,
+    "forbid_code_execution": true,
+    "forbid_package_install": true,
+    "forbid_captcha_bypass": true,
+    "api_keys_required": 0
+  },
+  "trust_tier_policy": {
+    "allowed_tiers": [
+      "T1_PRIMARY_OFFICIAL",
+      "T2_TECHNICAL_COMMUNITY"
+    ],
+    "default_min_tier": "T2_TECHNICAL_COMMUNITY",
+    "tier_rank": {
+      "T1_PRIMARY_OFFICIAL": 1,
+      "T2_TECHNICAL_COMMUNITY": 2,
+      "T3_FORUM_EXPERIENCE": 3,
+      "T3_GENERAL_WEB": 4
+    },
+    "extra_t1_domains": [
+      "export.arxiv.org",
+      "api.github.com",
+      "api.openalex.org",
+      "doi.org",
+      "ec.europa.eu",
+      "ecb.europa.eu",
+      "icfunded.com",
+      "docs.astral.sh",
+      "nautilustrader.io"
+    ],
+    "extra_t2_domains": [
+      "quant.stackexchange.com",
+      "stackexchange.com",
+      "en.wikipedia.org",
+      "zh.wikipedia.org",
+      "ru.wikipedia.org",
+      "vi.wikipedia.org"
+    ],
+    "blocked_url_schemes": [
+      "javascript",
+      "data",
+      "file",
+      "vbscript",
+      "ftp"
+    ]
+  },
+  "limits": {
+    "default_max_items_per_topic": 6,
+    "hard_max_items_per_topic": 20,
+    "hard_max_total_items": 120,
+    "request_timeout_sec": 18.0
+  },
+  "topics": [
+    {
+      "topic_id": "arxiv_qfin_tr_pm_st",
+      "label": "arXiv Quantitative Finance (q-fin.TR / q-fin.PM / q-fin.ST)",
+      "category": "quant_alpha",
+      "enabled": true,
+      "max_items": 6,
+      "allowed_tiers": [
+        "T1_PRIMARY_OFFICIAL"
+      ],
+      "sources": [
+        "arxiv",
+        "openalex"
+      ],
+      "arxiv_categories": [
+        "q-fin.TR",
+        "q-fin.PM",
+        "q-fin.ST"
+      ],
+      "queries": [
+        {
+          "source": "arxiv",
+          "query": "cat:q-fin.TR OR cat:q-fin.PM OR cat:q-fin.ST",
+          "raw_arxiv_query": true,
+          "sort_by": "submittedDate",
+          "max_results": 6
+        },
+        {
+          "source": "openalex",
+          "query": "volatility targeting portfolio quantitative trading microstructure",
+          "max_results": 3
+        }
+      ],
+      "tags": [
+        "arxiv",
+        "q-fin.TR",
+        "q-fin.PM",
+        "q-fin.ST",
+        "alpha"
+      ]
+    },
+    {
+      "topic_id": "arxiv_cs_ai_agent_harness",
+      "label": "arXiv cs.AI Agent Harnesses & Evaluation",
+      "category": "agent_harness",
+      "enabled": true,
+      "max_items": 6,
+      "allowed_tiers": [
+        "T1_PRIMARY_OFFICIAL",
+        "T2_TECHNICAL_COMMUNITY"
+      ],
+      "sources": [
+        "arxiv",
+        "github"
+      ],
+      "arxiv_categories": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "queries": [
+        {
+          "source": "arxiv",
+          "query": "cat:cs.AI AND (\"agent harness\" OR \"coding agent\" OR \"agent evaluation\")",
+          "raw_arxiv_query": true,
+          "sort_by": "submittedDate",
+          "max_results": 5
+        },
+        {
+          "source": "github",
+          "query": "agent harness evaluation coding agent",
+          "max_results": 3
+        }
+      ],
+      "tags": [
+        "arxiv",
+        "cs.AI",
+        "agent-harness",
+        "evals"
+      ]
+    },
+    {
+      "topic_id": "gh_releases_quant_and_tools",
+      "label": "GitHub Releases: NautilusTrader, Ruff, ty, Audio-Separator",
+      "category": "tooling_releases",
+      "enabled": true,
+      "max_items": 8,
+      "allowed_tiers": [
+        "T1_PRIMARY_OFFICIAL"
+      ],
+      "sources": [
+        "github_releases"
+      ],
+      "repos": [
+        "nautechsystems/nautilus_trader",
+        "astral-sh/ruff",
+        "astral-sh/ty",
+        "nomadkaraoke/python-audio-separator"
+      ],
+      "queries": [
+        {
+          "source": "github_releases",
+          "repo": "nautechsystems/nautilus_trader",
+          "max_results": 2
+        },
+        {
+          "source": "github_releases",
+          "repo": "astral-sh/ruff",
+          "max_results": 2
+        },
+        {
+          "source": "github_releases",
+          "repo": "astral-sh/ty",
+          "max_results": 2
+        },
+        {
+          "source": "github_releases",
+          "repo": "nomadkaraoke/python-audio-separator",
+          "max_results": 2
+        }
+      ],
+      "tags": [
+        "github-releases",
+        "nautilus_trader",
+        "ruff",
+        "ty",
+        "python-audio-separator"
+      ]
+    },
+    {
+      "topic_id": "official_macro_and_prop_sources",
+      "label": "Official Macro Central Banks & Prop Firm Rules",
+      "category": "macro_prop_official",
+      "enabled": true,
+      "max_items": 6,
+      "allowed_tiers": [
+        "T1_PRIMARY_OFFICIAL"
+      ],
+      "sources": [
+        "official_feed"
+      ],
+      "official_urls": [
+        {
+          "label": "Federal Reserve Press Releases (Monetary Policy)",
+          "url": "https://www.federalreserve.gov/feeds/press_monetary.xml",
+          "kind": "rss"
+        },
+        {
+          "label": "ECB Press Releases",
+          "url": "https://www.ecb.europa.eu/rss/press.html",
+          "kind": "rss"
+        },
+        {
+          "label": "BLS Economic News Releases",
+          "url": "https://www.bls.gov/feed/bls_latest.rss",
+          "kind": "rss"
+        },
+        {
+          "label": "FTMO Official Trading Objectives",
+          "url": "https://ftmo.com/en/trading-objectives/",
+          "kind": "reference"
+        },
+        {
+          "label": "The5ers High Stakes Official Rules",
+          "url": "https://the5ers.com/high-stakes/",
+          "kind": "reference"
+        },
+        {
+          "label": "IC Funded Official Rules",
+          "url": "https://icfunded.com/",
+          "kind": "reference"
+        }
+      ],
+      "queries": [
+        {
+          "source": "official_feed",
+          "url": "https://www.federalreserve.gov/feeds/press_monetary.xml",
+          "label": "Federal Reserve Monetary Policy RSS",
+          "max_results": 3
+        },
+        {
+          "source": "official_feed",
+          "url": "https://www.bls.gov/feed/bls_latest.rss",
+          "label": "BLS Latest Releases RSS",
+          "max_results": 3
+        }
+      ],
+      "tags": [
+        "macro",
+        "fed",
+        "ecb",
+        "bls",
+        "ftmo",
+        "the5ers",
+        "icfunded",
+        "prop"
+      ]
+    },
+    {
+      "topic_id": "multilingual_quant_community",
+      "label": "Multilingual Technical Quant & Engineering (EN/CN/RU/VI)",
+      "category": "multilingual_tech",
+      "enabled": true,
+      "max_items": 6,
+      "allowed_tiers": [
+        "T1_PRIMARY_OFFICIAL",
+        "T2_TECHNICAL_COMMUNITY"
+      ],
+      "sources": [
+        "quant",
+        "cn",
+        "ru",
+        "vi"
+      ],
+      "queries": [
+        {
+          "source": "quant",
+          "query": "volatility targeting drawdown control",
+          "max_results": 2
+        },
+        {
+          "source": "cn",
+          "query": "量化交易 波动率目标",
+          "max_results": 2
+        },
+        {
+          "source": "ru",
+          "query": "алготрейдинг бэктест",
+          "max_results": 2
+        },
+        {
+          "source": "vi",
+          "query": "giao dich dinh luong",
+          "max_results": 2
+        }
+      ],
+      "tags": [
+        "en",
+        "cn",
+        "ru",
+        "vi",
+        "quant-community"
+      ]
+    }
+  ]
+}

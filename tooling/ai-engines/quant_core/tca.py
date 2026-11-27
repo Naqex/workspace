@@ -89,43 +89,51 @@ POINT_SIZES: dict[str, float] = {
     "UK100": 0.01,
 }
 
-ENTRY_EVENT_TYPES: frozenset[str] = frozenset({
-    "ENTRY",
-    "ORDER_FILL",
-    "ORDER_FILL_RECONCILED",
-    "ENTRY_FILLED",
-    "PARTIAL_ENTRY",
-})
+ENTRY_EVENT_TYPES: frozenset[str] = frozenset(
+    {
+        "ENTRY",
+        "ORDER_FILL",
+        "ORDER_FILL_RECONCILED",
+        "ENTRY_FILLED",
+        "PARTIAL_ENTRY",
+    }
+)
 
-EXIT_EVENT_TYPES: frozenset[str] = frozenset({
-    "EXIT",
-    "ORDER_CLOSE",
-    "CLOSE",
-    "POSITION_CLOSE",
-    "EXIT_FILLED",
-    "PARTIAL_EXIT",
-    "SL_HIT",
-    "TP_HIT",
-    "TIME_EXIT",
-    "PRE_FLATTEN_EXIT",
-})
+EXIT_EVENT_TYPES: frozenset[str] = frozenset(
+    {
+        "EXIT",
+        "ORDER_CLOSE",
+        "CLOSE",
+        "POSITION_CLOSE",
+        "EXIT_FILLED",
+        "PARTIAL_EXIT",
+        "SL_HIT",
+        "TP_HIT",
+        "TIME_EXIT",
+        "PRE_FLATTEN_EXIT",
+    }
+)
 
-SINGLE_ROW_FILL_EVENT_TYPES: frozenset[str] = frozenset({
-    "ORDER_FILL",
-    "ORDER_FILL_RECONCILED",
-})
+SINGLE_ROW_FILL_EVENT_TYPES: frozenset[str] = frozenset(
+    {
+        "ORDER_FILL",
+        "ORDER_FILL_RECONCILED",
+    }
+)
 
 VALID_FILL_EVENT_TYPES: frozenset[str] = ENTRY_EVENT_TYPES | EXIT_EVENT_TYPES
 
-NON_FILL_EVENT_TYPES: frozenset[str] = frozenset({
-    "DRYRUN_SIGNAL",
-    "ORDER_REJECT",
-    "ORDER_BLOCKED_SYMCAP",
-    "ORDER_BLOCKED_FACTOR",
-    "ORDER_BLOCKED_RISK",
-    "CLOSE_REJECT",
-    "SHADOW_INTENT",
-})
+NON_FILL_EVENT_TYPES: frozenset[str] = frozenset(
+    {
+        "DRYRUN_SIGNAL",
+        "ORDER_REJECT",
+        "ORDER_BLOCKED_SYMCAP",
+        "ORDER_BLOCKED_FACTOR",
+        "ORDER_BLOCKED_RISK",
+        "CLOSE_REJECT",
+        "SHADOW_INTENT",
+    }
+)
 
 UNRESOLVED_EVENT_TYPES: frozenset[str] = frozenset({"FILL_UNRESOLVED"})
 
@@ -663,9 +671,7 @@ def _normalize_quote_series(
                 if not sym_key:
                     raise ValueError(f"Flat quote row missing symbol: {row!r}")
                 ts_raw = (
-                    row.get("utc_ts")
-                    if "utc_ts" in row
-                    else (row.get("ts") if "ts" in row else row.get("timestamp"))
+                    row.get("utc_ts") if "utc_ts" in row else (row.get("ts") if "ts" in row else row.get("timestamp"))
                 )
                 ts = parse_required_finite_float(ts_raw, field_name="quote.utc_ts")
                 if ts <= 0.0:
@@ -848,9 +854,7 @@ def compute_markout_curve(
             raise ValueError(f"Fill at index {fill_idx} has unsupported side {side!r}; expected BUY or SELL")
 
         ts_raw = (
-            fill.get("utc_ts")
-            if "utc_ts" in fill
-            else (fill.get("fill_ts") if "fill_ts" in fill else fill.get("ts"))
+            fill.get("utc_ts") if "utc_ts" in fill else (fill.get("fill_ts") if "fill_ts" in fill else fill.get("ts"))
         )
         fill_ts = parse_required_finite_float(ts_raw, field_name=f"fill[{fill_idx}].utc_ts")
         if fill_ts <= 0.0:
@@ -946,17 +950,19 @@ def compute_markout_curve(
                 "markout_bps": round(mo_bps, 6),
             }
 
-        per_fill_results.append({
-            "fill_index": fill_idx,
-            "utc_ts": fill_ts,
-            "symbol": raw_sym,
-            "canonical_symbol": sym_key,
-            "side": side,
-            "fill_price": fill_px,
-            "arrival_mid": round(arrival_mid, 8) if arrival_mid is not None else None,
-            "arrival_quote_ts": arrival_quote_ts,
-            "markouts": fill_markouts,
-        })
+        per_fill_results.append(
+            {
+                "fill_index": fill_idx,
+                "utc_ts": fill_ts,
+                "symbol": raw_sym,
+                "canonical_symbol": sym_key,
+                "side": side,
+                "fill_price": fill_px,
+                "arrival_mid": round(arrival_mid, 8) if arrival_mid is not None else None,
+                "arrival_quote_ts": arrival_quote_ts,
+                "markouts": fill_markouts,
+            }
+        )
 
     n_fills_total = len(per_fill_results)
     by_horizon: dict[str, dict[str, Any]] = {}
