@@ -10,6 +10,7 @@
 
     Safety & Compatibility Invariants:
       - 100% Windows PowerShell 5.1 safe (uses bounded 3650-day repetition, zero PS 7-only syntax)
+      - Zero-popup background execution via windowless pythonw.exe and -Hidden ScheduledTaskSettingsSet
       - Supports -DryRun (validates task trigger/settings objects in memory without registering)
       - Supports -UserScopeOnly (non-admin Interactive Limited principal)
       - Zero secrets, zero raw IPs, zero hardcoded user profile paths, OrderSend=0
@@ -49,9 +50,9 @@ if (-not ($MorningBriefingTime -match '^(?:[01]\d|2[0-3]):[0-5]\d$')) {
 $RuntimeDir = Join-Path $ResolvedRoot ".runtime"
 $VenvDir = Join-Path $RuntimeDir "quant-audit-v24"
 $VenvScripts = Join-Path $VenvDir "Scripts"
-$BundledPython = Join-Path $VenvScripts "python.exe"
-$PythonExe = if (Test-Path -LiteralPath $BundledPython) { $BundledPython } else { "python.exe" }
-$PythonBundledExists = [bool](Test-Path -LiteralPath $BundledPython)
+$BundledPythonW = Join-Path $VenvScripts "pythonw.exe"
+$PythonWExe = if (Test-Path -LiteralPath $BundledPythonW) { $BundledPythonW } else { "pythonw.exe" }
+$PythonBundledExists = [bool](Test-Path -LiteralPath $BundledPythonW)
 
 $AutomationDir = Join-Path (Join-Path $ResolvedRoot "tooling") "automation"
 $WatchdogScript = Join-Path $AutomationDir "watchdog_15m.py"
@@ -71,22 +72,24 @@ $WatchdogTrigger = New-ScheduledTaskTrigger -Once -At (Get-Date).Date `
     -RepetitionInterval $RepetitionInterval `
     -RepetitionDuration $RepetitionDuration
 $WatchdogArgs = "-X utf8 `"$WatchdogScript`" --below-normal"
-$WatchdogAction = New-ScheduledTaskAction -Execute $PythonExe -Argument $WatchdogArgs -WorkingDirectory $ResolvedRoot
+$WatchdogAction = New-ScheduledTaskAction -Execute $PythonWExe -Argument $WatchdogArgs -WorkingDirectory $ResolvedRoot
 $WatchdogSettings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `
     -DontStopIfGoingOnBatteries `
     -StartWhenAvailable `
+    -Hidden `
     -MultipleInstances IgnoreNew `
     -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
 $WatchdogSettings.Priority = $TaskSchedulerBelowNormalPriority
 
 $BriefingTrigger = New-ScheduledTaskTrigger -Daily -At $MorningBriefingTime
 $BriefingArgs = "-X utf8 `"$BriefingScript`" --notify"
-$BriefingAction = New-ScheduledTaskAction -Execute $PythonExe -Argument $BriefingArgs -WorkingDirectory $ResolvedRoot
+$BriefingAction = New-ScheduledTaskAction -Execute $PythonWExe -Argument $BriefingArgs -WorkingDirectory $ResolvedRoot
 $BriefingSettings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `
     -DontStopIfGoingOnBatteries `
     -StartWhenAvailable `
+    -Hidden `
     -MultipleInstances IgnoreNew `
     -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
 $BriefingSettings.Priority = $TaskSchedulerBelowNormalPriority
@@ -153,6 +156,8 @@ foreach ($spec in $TaskSpecs) {
         schedule           = $spec.schedule
         script             = $spec.script
         script_exists      = $spec.script_exists
+        executable         = (Split-Path -Leaf $spec.action_obj.Execute)
+        hidden             = [bool]$spec.settings_obj.Hidden
         process_priority   = $spec.process_priority
         scheduler_priority = $spec.scheduler_priority
         trigger_interval   = $spec.trigger_interval
