@@ -30,28 +30,38 @@ Hard Invariants:
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
-from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
 import json
 import math
-from pathlib import Path
 import sys
 import time
+from collections import defaultdict
+from collections.abc import Mapping, Sequence
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from pathlib import Path
 
-from numba import njit
 import numpy as np
+from numba import njit
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
-import hot_m1_cache as hcache
-from native_ftmo_monfri_seal import ROOT, STOP
-from quant_core.holdout_guard import HoldoutLockError, enforce_pre_holdout_dates, enforce_pre_holdout_ts
-from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry
-from quant_factory.red_team_auditor import estimate_trade_base_cost_usd_per_lot
-from quant_factory.report_gen import format_markdown_table, write_verified_receipt
+import hot_m1_cache as hcache  # noqa: E402
+from native_ftmo_monfri_seal import ROOT, STOP  # noqa: E402
+from quant_core.holdout_guard import (  # noqa: E402
+    HoldoutLockError,
+    enforce_pre_holdout_dates,
+    enforce_pre_holdout_ts,
+)
+
+from quant_factory.data_store import (  # noqa: E402
+    assert_holdout_locked,
+    build_or_load_frozen_tapes,
+    load_registry,
+)
+from quant_factory.red_team_auditor import estimate_trade_base_cost_usd_per_lot  # noqa: E402
+from quant_factory.report_gen import format_markdown_table, write_verified_receipt  # noqa: E402
 
 ORDER_SEND_CAPABLE: bool = False
 HOLDOUT_CUTOFF_DAY: str = "2025-01-01"
@@ -74,6 +84,15 @@ class RobustnessThresholds:
     max_worst_year_loss_r: float = -10.0
     worst_year_subsamples: int = 500
     worst_year_drop_frac: float = 0.10
+    allow_weekend_gaps: bool = False
+    swap_drag_per_day_r: float = 0.0
+
+
+CRISIS_STRESS_WINDOWS: dict[str, tuple[str, str]] = {
+    "2020_COVID": ("2020-02-20", "2020-04-30"),
+    "2022_INFLATION_BEAR": ("2022-01-01", "2022-10-31"),
+    "2024_YEN_UNWIND": ("2024-07-10", "2024-08-20"),
+}
 
 
 def _assert_pre_holdout_days(days: list[str] | tuple[str, ...]) -> None:
@@ -111,18 +130,20 @@ def _max_dd_r(vals: np.ndarray) -> float:
     return max_dd
 
 
-def resample_m1_quotes_to_m5_mid(ts_m1: np.ndarray, quotes_m1: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def resample_m1_quotes_to_m5_mid(
+    ts_m1: np.ndarray, quotes_m1: np.ndarray
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Deterministically resample sealed M1 Bid(/Ask) bars to M5 Mid OHLC arrays (strictly pre-2025)."""
     _assert_pre_holdout_timestamps(ts_m1)
     if quotes_m1.shape[1] >= 8:
         o = 0.5 * (quotes_m1[:, 0] + quotes_m1[:, 4])
         h = 0.5 * (quotes_m1[:, 1] + quotes_m1[:, 5])
-        l = 0.5 * (quotes_m1[:, 2] + quotes_m1[:, 6])
+        lo = 0.5 * (quotes_m1[:, 2] + quotes_m1[:, 6])
         c = 0.5 * (quotes_m1[:, 3] + quotes_m1[:, 7])
     else:
         o = quotes_m1[:, 0]
         h = quotes_m1[:, 1]
-        l = quotes_m1[:, 2]
+        lo = quotes_m1[:, 2]
         c = quotes_m1[:, 3]
 
     buckets = (ts_m1 // 300).astype(np.int64)
@@ -142,7 +163,7 @@ def resample_m1_quotes_to_m5_mid(ts_m1: np.ndarray, quotes_m1: np.ndarray) -> tu
     o5 = np.ascontiguousarray(o[starts], dtype=np.float64)
     c5 = np.ascontiguousarray(c[ends], dtype=np.float64)
     h5 = np.ascontiguousarray(np.maximum.reduceat(h, starts), dtype=np.float64)
-    l5 = np.ascontiguousarray(np.minimum.reduceat(l, starts), dtype=np.float64)
+    l5 = np.ascontiguousarray(np.minimum.reduceat(lo, starts), dtype=np.float64)
     return ts5, o5, h5, l5, c5
 
 
@@ -315,6 +336,284 @@ def _random_entry_mc_closes_kernel(
     return beat / float(draws), totals
 
 
+@njit(cache=True)
+def _random_entry_mc_ohlc_swing_kernel(
+    ts: np.ndarray,
+    bar_o: np.ndarray,
+    bar_h: np.ndarray,
+    bar_l: np.ndarray,
+    bar_c: np.ndarray,
+    bar_sec: int,
+    trade_sides: np.ndarray,
+    trade_durs: np.ndarray,
+    trade_sl_fracs: np.ndarray,
+    trade_frics: np.ndarray,
+    obs_sum_r: float,
+    mode: int,  # 0 = unbiased 50/50 side, 1 = exact matched side_mix
+    draws: int,
+    seed: int,
+    allow_weekend_gaps: bool,
+    swap_drag_per_day_r: float,
+) -> tuple[float, np.ndarray]:
+    """Swing-safe Numba-JIT Random-Entry MC supporting multi-day holds across weekends & swap drag."""
+    n_bars = len(ts)
+    n_trades = len(trade_durs)
+    totals = np.zeros(draws, dtype=np.float64)
+    min_bars = 20 if allow_weekend_gaps else 50
+    if n_bars < min_bars or n_trades == 0 or draws <= 0:
+        return 0.0, totals
+
+    np.random.seed(seed)
+    beat = 0
+    for d in range(draws):
+        acc = 0.0
+        for i in range(n_trades):
+            dur = int(trade_durs[i])
+            if dur < 1:
+                dur = 1
+            max_start = n_bars - dur - 1
+            if max_start <= 1:
+                continue
+
+            start_idx = np.random.randint(0, max_start)
+            if not allow_weekend_gaps:
+                max_span = dur * bar_sec + 7200
+                for _attempt in range(8):
+                    if (ts[start_idx + dur] - ts[start_idx]) <= max_span:
+                        break
+                    start_idx = np.random.randint(0, max_start)
+
+            side = int(trade_sides[i])
+            if mode == 0:
+                side = 1 if np.random.random() < 0.5 else -1
+
+            entry = bar_o[start_idx]
+            if entry <= 1e-12:
+                continue
+            sl_frac = trade_sl_fracs[i]
+            if sl_frac <= 1e-6:
+                sl_frac = 0.005
+            sl_dist = entry * sl_frac
+            fric = trade_frics[i]
+            if fric < 0.0:
+                fric = 0.0
+            elif fric > 0.5:
+                fric = 0.5
+
+            stopped = False
+            exit_k = start_idx + dur
+            if side > 0:
+                sl_px = entry - sl_dist
+                for k in range(start_idx, start_idx + dur + 1):
+                    if bar_l[k] <= sl_px:
+                        stopped = True
+                        exit_k = k
+                        break
+                if stopped:
+                    r_val = -1.0
+                else:
+                    exit_px = bar_c[start_idx + dur]
+                    raw_r = (exit_px - entry) / sl_dist
+                    r_val = raw_r * (1.0 - fric) - fric
+            else:
+                sl_px = entry + sl_dist
+                for k in range(start_idx, start_idx + dur + 1):
+                    if bar_h[k] >= sl_px:
+                        stopped = True
+                        exit_k = k
+                        break
+                if stopped:
+                    r_val = -1.0
+                else:
+                    exit_px = bar_c[start_idx + dur]
+                    raw_r = (entry - exit_px) / sl_dist
+                    r_val = raw_r * (1.0 - fric) - fric
+
+            if swap_drag_per_day_r != 0.0:
+                held_sec = ts[exit_k] - ts[start_idx]
+                held_days = (float(held_sec) / 86400.0) if held_sec > 0 else 0.0
+                r_val -= swap_drag_per_day_r * held_days
+
+            acc += r_val
+
+        totals[d] = acc
+        if obs_sum_r > acc + 1e-12:
+            beat += 1
+
+    return beat / float(draws), totals
+
+
+@njit(cache=True)
+def _random_entry_mc_closes_swing_kernel(
+    closes: np.ndarray,
+    trade_sides: np.ndarray,
+    trade_durs: np.ndarray,
+    trade_sl_fracs: np.ndarray,
+    trade_frics: np.ndarray,
+    obs_sum_r: float,
+    mode: int,  # 0 = unbiased 50/50, 1 = matched side
+    draws: int,
+    seed: int,
+    swap_drag_per_day_r: float,
+    bar_days: float,
+) -> tuple[float, np.ndarray]:
+    """Close-only random-entry MC kernel with optional daily swap drag deduction."""
+    n_bars = len(closes)
+    n_trades = len(trade_durs)
+    totals = np.zeros(draws, dtype=np.float64)
+    if n_bars < 20 or n_trades == 0 or draws <= 0:
+        return 0.0, totals
+
+    np.random.seed(seed)
+    beat = 0
+    for d in range(draws):
+        acc = 0.0
+        for i in range(n_trades):
+            dur = int(trade_durs[i])
+            if dur < 1:
+                dur = 1
+            max_start = n_bars - dur - 1
+            if max_start <= 1:
+                continue
+            start_idx = np.random.randint(0, max_start)
+            side = int(trade_sides[i])
+            if mode == 0:
+                side = 1 if np.random.random() < 0.5 else -1
+
+            entry = closes[start_idx]
+            if entry <= 1e-12:
+                continue
+            sl_frac = trade_sl_fracs[i]
+            if sl_frac <= 1e-6:
+                sl_frac = 0.01
+            sl_dist = entry * sl_frac
+            fric = trade_frics[i]
+            if fric < 0.0:
+                fric = 0.0
+            elif fric > 0.5:
+                fric = 0.5
+
+            stopped = False
+            exit_k = start_idx + dur
+            for k in range(start_idx + 1, start_idx + dur + 1):
+                move = (closes[k] - entry) * side
+                if move <= -sl_dist:
+                    stopped = True
+                    exit_k = k
+                    break
+            if stopped:
+                r_val = -1.0
+            else:
+                raw_r = ((closes[start_idx + dur] - entry) * side) / sl_dist
+                r_val = raw_r * (1.0 - fric) - fric
+
+            if swap_drag_per_day_r != 0.0:
+                held_days = float(exit_k - start_idx) * bar_days
+                r_val -= swap_drag_per_day_r * held_days
+
+            acc += r_val
+
+        totals[d] = acc
+        if obs_sum_r > acc + 1e-12:
+            beat += 1
+
+    return beat / float(draws), totals
+
+
+@njit(cache=True)
+def _matched_hold_timing_perm_kernel(
+    csum: np.ndarray,
+    hold_arr: np.ndarray,
+    sides_arr: np.ndarray,
+    obs_t: float,
+    mode: int,  # 0 = unbiased +/-1, 1 = directional/matched sides_arr
+    draws: int,
+    seed: int,
+) -> float:
+    """Numba-JIT matched-hold timing permutation p-value over daily return prefix sums."""
+    n_days = len(csum) - 1
+    n_trades = len(hold_arr)
+    if n_days < 5 or n_trades < 2 or draws <= 0:
+        return 1.0
+
+    np.random.seed(seed)
+    ge = 0
+    sqrt_n = math.sqrt(float(n_trades))
+    inv_n = 1.0 / float(n_trades)
+    inv_nm1 = 1.0 / float(n_trades - 1)
+
+    for _ in range(draws):
+        s1 = 0.0
+        s2 = 0.0
+        for i in range(n_trades):
+            h = int(hold_arr[i])
+            if h < 1:
+                h = 1
+            if h >= n_days:
+                h = n_days - 1
+            max_start = n_days - h
+            start_idx = np.random.randint(0, max_start + 1)
+            raw_ret = csum[start_idx + h] - csum[start_idx]
+            if mode == 0:
+                sgn = 1.0 if np.random.random() < 0.5 else -1.0
+            else:
+                sgn = 1.0 if sides_arr[i] >= 0 else -1.0
+            val = raw_ret * sgn
+            s1 += val
+            s2 += val * val
+
+        mean_v = s1 * inv_n
+        var_v = (s2 - s1 * s1 * inv_n) * inv_nm1
+        if var_v <= 1e-24:
+            if mean_v > 1e-15:
+                t_null = 1e6
+            elif mean_v < -1e-15:
+                t_null = -1e6
+            else:
+                t_null = 0.0
+        else:
+            t_null = (mean_v / math.sqrt(var_v)) * sqrt_n
+
+        if t_null >= obs_t - 1e-12:
+            ge += 1
+
+    return (ge + 1.0) / float(draws + 1)
+
+
+@njit(cache=True)
+def _sparse_trade_sign_t_perm_kernel(
+    trade_r: np.ndarray,
+    obs_t: float,
+    draws: int,
+    seed: int,
+) -> float:
+    """Numba-JIT sign-flip t-stat permutation fallback when daily series is sparse strategy PnL."""
+    n_trades = len(trade_r)
+    if n_trades < 2 or draws <= 0:
+        return 1.0
+    np.random.seed(seed)
+    ge = 0
+    sqrt_n = math.sqrt(float(n_trades))
+    inv_n = 1.0 / float(n_trades)
+    inv_nm1 = 1.0 / float(n_trades - 1)
+    for _ in range(draws):
+        s1 = 0.0
+        s2 = 0.0
+        for i in range(n_trades):
+            val = trade_r[i] if np.random.random() < 0.5 else -trade_r[i]
+            s1 += val
+            s2 += val * val
+        mean_v = s1 * inv_n
+        var_v = (s2 - s1 * s1 * inv_n) * inv_nm1
+        if var_v <= 1e-24:
+            t_null = 0.0 if abs(mean_v) <= 1e-15 else (1e6 if mean_v > 0.0 else -1e6)
+        else:
+            t_null = (mean_v / math.sqrt(var_v)) * sqrt_n
+        if t_null >= obs_t - 1e-12:
+            ge += 1
+    return (ge + 1.0) / float(draws + 1)
+
+
 def random_entry_mc_on_bars(
     *,
     ts: np.ndarray,
@@ -330,9 +629,21 @@ def random_entry_mc_on_bars(
     trade_frics: np.ndarray,
     draws: int = 1000,
     seed: int = 20261124,
+    allow_weekend_gaps: bool = False,
+    swap_drag_per_day_r: float = 0.0,
 ) -> dict:
-    """Run real-market Random-Entry Monte Carlo (50/50 unbiased, matched-side, BUY-only, SELL-only)."""
+    """Run real-market Random-Entry Monte Carlo (50/50 unbiased, matched-side, BUY-only, SELL-only).
+
+    When `allow_weekend_gaps=True` (Swing multi-day `2-10d` strategies), bypasses the intraday
+    `dur * bar_sec + 7200` weekend filter and optionally deducts `swap_drag_per_day_r` per held day
+    directly into the random-entry null.
+    """
     _assert_pre_holdout_timestamps(ts)
+    if isinstance(swap_drag_per_day_r, bool) or not math.isfinite(float(swap_drag_per_day_r)):
+        raise ValueError(f"swap_drag_per_day_r must be a finite float, got {swap_drag_per_day_r!r}")
+    swap_drag = float(swap_drag_per_day_r)
+    use_swing_kernel = bool(allow_weekend_gaps) or abs(swap_drag) > 1e-15
+
     ts_c = np.ascontiguousarray(ts, dtype=np.int64)
     o_c = np.ascontiguousarray(bar_o, dtype=np.float64)
     h_c = np.ascontiguousarray(bar_h, dtype=np.float64)
@@ -344,16 +655,59 @@ def random_entry_mc_on_bars(
     sl_c = np.ascontiguousarray(trade_sl_fracs, dtype=np.float64)
     f_c = np.ascontiguousarray(trade_frics, dtype=np.float64)
 
+    def _run_kernel(
+        s_sub: np.ndarray,
+        d_sub: np.ndarray,
+        sl_sub: np.ndarray,
+        f_sub: np.ndarray,
+        obs_val: float,
+        mode_val: int,
+        seed_val: int,
+    ) -> tuple[float, np.ndarray]:
+        if use_swing_kernel:
+            return _random_entry_mc_ohlc_swing_kernel(
+                ts_c,
+                o_c,
+                h_c,
+                l_c,
+                c_c,
+                int(bar_sec),
+                s_sub,
+                d_sub,
+                sl_sub,
+                f_sub,
+                obs_val,
+                mode_val,
+                int(draws),
+                int(seed_val),
+                bool(allow_weekend_gaps),
+                swap_drag,
+            )
+        return _random_entry_mc_ohlc_kernel(
+            ts_c,
+            o_c,
+            h_c,
+            l_c,
+            c_c,
+            int(bar_sec),
+            s_sub,
+            d_sub,
+            sl_sub,
+            f_sub,
+            obs_val,
+            mode_val,
+            int(draws),
+            int(seed_val),
+        )
+
     obs_sum = float(np.sum(r_c))
-    beat_unb, tot_unb = _random_entry_mc_ohlc_kernel(
-        ts_c, o_c, h_c, l_c, c_c, int(bar_sec), s_c, d_c, sl_c, f_c, obs_sum, 0, int(draws), int(seed)
-    )
-    beat_same, tot_same = _random_entry_mc_ohlc_kernel(
-        ts_c, o_c, h_c, l_c, c_c, int(bar_sec), s_c, d_c, sl_c, f_c, obs_sum, 1, int(draws), int(seed + 17)
-    )
+    beat_unb, tot_unb = _run_kernel(s_c, d_c, sl_c, f_c, obs_sum, 0, int(seed))
+    beat_same, tot_same = _run_kernel(s_c, d_c, sl_c, f_c, obs_sum, 1, int(seed + 17))
 
     out = {
-        "mc_mode": "real_market_bars",
+        "mc_mode": "real_market_bars_swing" if bool(allow_weekend_gaps) else "real_market_bars",
+        "allow_weekend_gaps": bool(allow_weekend_gaps),
+        "swap_drag_per_day_r": round(swap_drag, 6),
         "draws": int(draws),
         "obs_sum_r": round(obs_sum, 2),
         "beat_rate_unbiased": round(float(beat_unb), 4),
@@ -369,10 +723,14 @@ def random_entry_mc_on_bars(
     sell_mask = s_c < 0
     if int(np.sum(buy_mask)) >= 10:
         b_obs = float(np.sum(r_c[buy_mask]))
-        b_beat, b_tot = _random_entry_mc_ohlc_kernel(
-            ts_c, o_c, h_c, l_c, c_c, int(bar_sec),
-            s_c[buy_mask], d_c[buy_mask], sl_c[buy_mask], f_c[buy_mask],
-            b_obs, 1, int(draws), int(seed + 31),
+        b_beat, b_tot = _run_kernel(
+            s_c[buy_mask],
+            d_c[buy_mask],
+            sl_c[buy_mask],
+            f_c[buy_mask],
+            b_obs,
+            1,
+            int(seed + 31),
         )
         out["buy_beat_rate_vs_random_buy"] = round(float(b_beat), 4)
         out["buy_null_median_r"] = round(float(np.median(b_tot)), 2)
@@ -382,10 +740,14 @@ def random_entry_mc_on_bars(
 
     if int(np.sum(sell_mask)) >= 10:
         s_obs = float(np.sum(r_c[sell_mask]))
-        s_beat, s_tot = _random_entry_mc_ohlc_kernel(
-            ts_c, o_c, h_c, l_c, c_c, int(bar_sec),
-            s_c[sell_mask], d_c[sell_mask], sl_c[sell_mask], f_c[sell_mask],
-            s_obs, 1, int(draws), int(seed + 47),
+        s_beat, s_tot = _run_kernel(
+            s_c[sell_mask],
+            d_c[sell_mask],
+            sl_c[sell_mask],
+            f_c[sell_mask],
+            s_obs,
+            1,
+            int(seed + 47),
         )
         out["sell_beat_rate_vs_random_sell"] = round(float(s_beat), 4)
         out["sell_null_median_r"] = round(float(np.median(s_tot)), 2)
@@ -406,8 +768,17 @@ def random_entry_mc_on_closes(
     trade_frics: np.ndarray,
     draws: int = 1000,
     seed: int = 20261124,
+    allow_weekend_gaps: bool = True,
+    swap_drag_per_day_r: float = 0.0,
+    bar_days: float = 1.0,
 ) -> dict:
-    """Generic Random-Entry MC on close-price arrays (ETF, Crypto, Futures research candidates)."""
+    """Generic Random-Entry MC on close-price arrays (ETF, Crypto, Futures, or D1 Swing candidates)."""
+    if isinstance(swap_drag_per_day_r, bool) or not math.isfinite(float(swap_drag_per_day_r)):
+        raise ValueError(f"swap_drag_per_day_r must be a finite float, got {swap_drag_per_day_r!r}")
+    if isinstance(bar_days, bool) or not math.isfinite(float(bar_days)) or float(bar_days) <= 0.0:
+        raise ValueError(f"bar_days must be finite > 0, got {bar_days!r}")
+    swap_drag = float(swap_drag_per_day_r)
+
     c_c = np.ascontiguousarray(closes, dtype=np.float64)
     r_c = np.ascontiguousarray(trade_r, dtype=np.float64)
     s_c = np.ascontiguousarray(trade_sides, dtype=np.int64)
@@ -416,10 +787,22 @@ def random_entry_mc_on_closes(
     f_c = np.ascontiguousarray(trade_frics, dtype=np.float64)
 
     obs_sum = float(np.sum(r_c))
-    beat_unb, tot_unb = _random_entry_mc_closes_kernel(c_c, s_c, d_c, sl_c, f_c, obs_sum, 0, int(draws), int(seed))
-    beat_same, tot_same = _random_entry_mc_closes_kernel(c_c, s_c, d_c, sl_c, f_c, obs_sum, 1, int(draws), int(seed + 17))
+    if abs(swap_drag) <= 1e-15:
+        beat_unb, tot_unb = _random_entry_mc_closes_kernel(c_c, s_c, d_c, sl_c, f_c, obs_sum, 0, int(draws), int(seed))
+        beat_same, tot_same = _random_entry_mc_closes_kernel(
+            c_c, s_c, d_c, sl_c, f_c, obs_sum, 1, int(draws), int(seed + 17)
+        )
+    else:
+        beat_unb, tot_unb = _random_entry_mc_closes_swing_kernel(
+            c_c, s_c, d_c, sl_c, f_c, obs_sum, 0, int(draws), int(seed), swap_drag, float(bar_days)
+        )
+        beat_same, tot_same = _random_entry_mc_closes_swing_kernel(
+            c_c, s_c, d_c, sl_c, f_c, obs_sum, 1, int(draws), int(seed + 17), swap_drag, float(bar_days)
+        )
     return {
-        "mc_mode": "close_series",
+        "mc_mode": "close_series_swing" if abs(swap_drag) > 1e-15 else "close_series",
+        "allow_weekend_gaps": bool(allow_weekend_gaps),
+        "swap_drag_per_day_r": round(swap_drag, 6),
         "draws": int(draws),
         "obs_sum_r": round(obs_sum, 2),
         "beat_rate_unbiased": round(float(beat_unb), 4),
@@ -430,6 +813,281 @@ def random_entry_mc_on_closes(
         "null_same_side_p90_r": round(float(np.quantile(tot_same, 0.90)), 2) if len(tot_same) else 0.0,
         "buy_beat_rate_vs_random_buy": None,
         "sell_beat_rate_vs_random_sell": None,
+    }
+
+
+def _normalize_date_series_pre_holdout(
+    series: Mapping[str, float] | Mapping[str, object],
+    *,
+    context: str,
+) -> tuple[list[str], np.ndarray]:
+    """Normalize `{date: val}` or `{'dates': [...], 'pnl': [...]}` while enforcing `< 2025-01-01`."""
+    if "dates" in series and "pnl" in series and isinstance(series["dates"], (list, tuple)):
+        dates_raw = [str(d) for d in series["dates"]]
+        vals_raw = np.asarray(series["pnl"], dtype=np.float64)
+        if len(dates_raw) != len(vals_raw):
+            raise ValueError(f"{context}: dates length ({len(dates_raw)}) != pnl length ({len(vals_raw)})")
+        _assert_pre_holdout_days(dates_raw)
+        order = sorted(range(len(dates_raw)), key=lambda i: dates_raw[i])
+        dates_ord = [dates_raw[i] for i in order]
+        vals_ord = vals_raw[order]
+    else:
+        dates_ord = sorted(str(k) for k in series)
+        _assert_pre_holdout_days(dates_ord)
+        vals_ord = np.array([float(series[k]) for k in dates_ord], dtype=np.float64)
+
+    if vals_ord.size > 0 and not bool(np.all(np.isfinite(vals_ord))):
+        raise ValueError(f"{context}: daily series contains non-finite values")
+    return dates_ord, vals_ord
+
+
+def matched_hold_timing_permutation_p(
+    daily_returns: np.ndarray | Sequence[float] | Mapping[str, float],
+    trade_days: Sequence[str],
+    trade_r_values: np.ndarray | Sequence[float],
+    draws: int = 5000,
+    seed: int = 20261127,
+    *,
+    hold_bars: int | Sequence[int] | None = None,
+    trade_sides: Sequence[int] | np.ndarray | None = None,
+    alpha: float = 0.05,
+) -> dict:
+    """Matched-hold timing permutation test (`p < 0.05` check, strictly Dev < 2025-01-01).
+
+    Tests whether the observed risk-adjusted trade timing statistic (`t_obs` on `trade_r_values`)
+    beats `draws` matched-hold random timing entries across `daily_returns` under BOTH unbiased
+    `+/-1` direction and drift-aligned/matched-side direction.
+    """
+    if isinstance(draws, bool) or int(draws) < 1:
+        raise ValueError(f"draws must be an integer >= 1, got {draws!r}")
+    if isinstance(seed, bool) or not isinstance(seed, (int, np.integer)):
+        raise ValueError(f"seed must be an integer, got {seed!r}")
+    if isinstance(alpha, bool) or not (0.0 < float(alpha) < 1.0):
+        raise ValueError(f"alpha must be in (0, 1), got {alpha!r}")
+
+    tdays = [str(d) for d in trade_days]
+    _assert_pre_holdout_days(tdays)
+
+    r_arr = np.asarray(trade_r_values, dtype=np.float64)
+    if r_arr.ndim != 1 or (r_arr.size > 0 and not bool(np.all(np.isfinite(r_arr)))):
+        raise ValueError("trade_r_values must be a 1D finite numeric array")
+    if len(tdays) != len(r_arr):
+        raise ValueError(f"trade_days length ({len(tdays)}) != trade_r_values length ({len(r_arr)})")
+
+    n_trades = int(r_arr.size)
+    if n_trades < 2:
+        return {
+            "passed": False,
+            "p_value": 1.0,
+            "alpha": float(alpha),
+            "p_unbiased": 1.0,
+            "p_directional": 1.0,
+            "obs_t_stat": 0.0,
+            "obs_mean_r": float(np.mean(r_arr)) if n_trades else 0.0,
+            "n_trades": n_trades,
+            "draws": int(draws),
+            "median_hold_bars": 1,
+            "null_mode": "insufficient_trades",
+            "holdout_rows_analysed": 0,
+            "order_send_capable": ORDER_SEND_CAPABLE,
+        }
+
+    mkt_dates: list[str] | None = None
+    if isinstance(daily_returns, Mapping):
+        mkt_dates, mkt_arr = _normalize_date_series_pre_holdout(
+            daily_returns, context="robustness_gate.matched_hold_timing"
+        )
+    else:
+        mkt_arr = np.asarray(daily_returns, dtype=np.float64)
+        if mkt_arr.ndim != 1 or (mkt_arr.size > 0 and not bool(np.all(np.isfinite(mkt_arr)))):
+            raise ValueError("daily_returns must be a 1D finite numeric sequence or date mapping")
+
+    obs_mean = float(np.mean(r_arr))
+    obs_std = float(np.std(r_arr, ddof=1))
+    if obs_std <= 1e-12:
+        obs_t = 1e6 if obs_mean > 1e-15 else (-1e6 if obs_mean < -1e-15 else 0.0)
+    else:
+        obs_t = (obs_mean / obs_std) * math.sqrt(float(n_trades))
+
+    if hold_bars is None:
+        h_arr = np.ones(n_trades, dtype=np.int64)
+    elif isinstance(hold_bars, (int, np.integer)) and not isinstance(hold_bars, bool):
+        h_arr = np.full(n_trades, max(1, int(hold_bars)), dtype=np.int64)
+    else:
+        h_arr = np.maximum(1, np.asarray(hold_bars, dtype=np.int64))
+        if h_arr.ndim != 1 or h_arr.size != n_trades:
+            raise ValueError(f"hold_bars length ({h_arr.size}) must match trade_r_values ({n_trades})")
+
+    max_h = int(np.max(h_arr))
+    non_zero_frac = float(np.mean(np.abs(mkt_arr) > 1e-12)) if mkt_arr.size > 0 else 0.0
+
+    if mkt_arr.size >= max(20, max_h + 2) and non_zero_frac >= 0.40:
+        null_mode = "matched_hold_market_timing"
+        csum = np.empty(mkt_arr.size + 1, dtype=np.float64)
+        csum[0] = 0.0
+        np.cumsum(mkt_arr, out=csum[1:])
+
+        if trade_sides is not None:
+            s_raw = np.asarray(trade_sides, dtype=np.int64)
+            if s_raw.ndim != 1 or s_raw.size != n_trades:
+                raise ValueError(f"trade_sides length ({s_raw.size}) must match trade_r_values ({n_trades})")
+            s_dir = np.where(s_raw >= 0, 1, -1).astype(np.int64)
+        else:
+            # Infer dominant secular-drift alignment so passive trend riding cannot masquerade as timing skill
+            inferred_sign = 1 if float(np.mean(mkt_arr)) >= 0.0 else -1
+            if mkt_dates is not None:
+                m_map = {d: float(v) for d, v in zip(mkt_dates, mkt_arr, strict=True)}
+                paired_r = []
+                paired_m = []
+                for dk, rv in zip(tdays, r_arr, strict=True):
+                    if dk in m_map:
+                        paired_r.append(float(rv))
+                        paired_m.append(m_map[dk])
+                if len(paired_r) >= 5 and float(np.std(paired_r)) > 1e-12 and float(np.std(paired_m)) > 1e-12:
+                    c_align = float(np.corrcoef(paired_r, paired_m)[0, 1])
+                    if math.isfinite(c_align) and abs(c_align) > 0.15:
+                        inferred_sign = 1 if c_align > 0.0 else -1
+            s_dir = np.full(n_trades, inferred_sign, dtype=np.int64)
+
+        p_unb = float(_matched_hold_timing_perm_kernel(csum, h_arr, s_dir, obs_t, 0, int(draws), int(seed)))
+        p_dir = float(_matched_hold_timing_perm_kernel(csum, h_arr, s_dir, obs_t, 1, int(draws), int(seed + 17)))
+        p_val = max(p_unb, p_dir)
+    else:
+        null_mode = "active_trade_sign_permutation"
+        p_unb = float(
+            _sparse_trade_sign_t_perm_kernel(
+                np.ascontiguousarray(r_arr, dtype=np.float64), obs_t, int(draws), int(seed)
+            )
+        )
+        p_dir = p_unb
+        p_val = p_unb
+
+    if obs_mean <= 0.0:
+        p_val = max(p_val, 0.5)
+
+    return {
+        "passed": bool(p_val < float(alpha)),
+        "p_value": round(float(p_val), 6),
+        "alpha": float(alpha),
+        "p_unbiased": round(float(p_unb), 6),
+        "p_directional": round(float(p_dir), 6),
+        "obs_t_stat": round(float(obs_t), 4),
+        "obs_mean_r": round(float(obs_mean), 4),
+        "n_trades": n_trades,
+        "draws": int(draws),
+        "median_hold_bars": int(np.median(h_arr)),
+        "null_mode": null_mode,
+        "holdout_rows_analysed": 0,
+        "order_send_capable": ORDER_SEND_CAPABLE,
+    }
+
+
+def evaluate_crisis_stress_windows(
+    daily_pnl_all_dev: Mapping[str, float] | Mapping[str, object],
+    *,
+    risk_frac: float = 0.005,
+    max_window_dd_r: float = 12.0,
+    max_single_day_loss_r: float = 6.0,
+    min_window_sum_r: float = -12.0,
+) -> dict:
+    """Evaluate 3 historical Dev crisis stress windows strictly on `2018-2024` AFTER blind Cl.B selection.
+
+    Windows:
+      - `2020_COVID`: `2020-02-20..2020-04-30`
+      - `2022_INFLATION_BEAR`: `2022-01-01..2022-10-31`
+      - `2024_YEN_UNWIND`: `2024-07-10..2024-08-20`
+    """
+    if isinstance(risk_frac, bool) or not math.isfinite(float(risk_frac)) or float(risk_frac) <= 0.0:
+        raise ValueError(f"risk_frac must be finite > 0, got {risk_frac!r}")
+
+    dates_ord, vals_ord = _normalize_date_series_pre_holdout(
+        daily_pnl_all_dev, context="robustness_gate.crisis_stress_windows"
+    )
+    rf = float(risk_frac)
+    windows_out: dict[str, dict] = {}
+    failed_windows: list[str] = []
+    worst_w_name: str | None = None
+    worst_dd_r = -1.0
+    worst_sum_r = float("inf")
+
+    for w_name, (start_d, end_d) in CRISIS_STRESS_WINDOWS.items():
+        w_vals = [float(v) for d, v in zip(dates_ord, vals_ord, strict=True) if start_d <= d <= end_d]
+        arr = np.asarray(w_vals, dtype=np.float64)
+        n_days = int(arr.size)
+        if n_days == 0:
+            windows_out[w_name] = {
+                "start_date": start_d,
+                "end_date": end_d,
+                "n_days": 0,
+                "active_days": 0,
+                "sum_r": 0.0,
+                "max_dd_r": 0.0,
+                "worst_1d_r": 0.0,
+                "max_dd_pct_at_risk": 0.0,
+                "worst_1d_pct_at_risk": 0.0,
+                "survived": False,
+                "reason": "MISSING_WINDOW_DATA",
+            }
+            failed_windows.append(w_name)
+            continue
+
+        active_days = int(np.sum(np.abs(arr) > 1e-12))
+        sum_r = float(np.sum(arr))
+        max_dd_r = float(_max_dd_r(arr))
+        worst_1d_r = float(np.min(arr))
+        max_dd_pct = max_dd_r * rf * 100.0
+        worst_1d_pct = abs(min(0.0, worst_1d_r)) * rf * 100.0
+
+        reasons: list[str] = []
+        if max_dd_r > float(max_window_dd_r) + 1e-12:
+            reasons.append(f"DD_BREACH({max_dd_r:.2f}R>{max_window_dd_r:.2f}R)")
+        if worst_1d_r < -float(max_single_day_loss_r) - 1e-12:
+            reasons.append(f"DAILY_LOSS_BREACH({worst_1d_r:.2f}R<-{max_single_day_loss_r:.2f}R)")
+        if sum_r < float(min_window_sum_r) - 1e-12:
+            reasons.append(f"NET_LOSS_BREACH({sum_r:.2f}R<{min_window_sum_r:.2f}R)")
+
+        survived = len(reasons) == 0
+        if not survived:
+            failed_windows.append(w_name)
+        if max_dd_r > worst_dd_r:
+            worst_dd_r = max_dd_r
+            worst_w_name = w_name
+        if sum_r < worst_sum_r:
+            worst_sum_r = sum_r
+
+        windows_out[w_name] = {
+            "start_date": start_d,
+            "end_date": end_d,
+            "n_days": n_days,
+            "active_days": active_days,
+            "sum_r": round(sum_r, 4),
+            "max_dd_r": round(max_dd_r, 4),
+            "worst_1d_r": round(worst_1d_r, 4),
+            "max_dd_pct_at_risk": round(max_dd_pct, 3),
+            "worst_1d_pct_at_risk": round(worst_1d_pct, 3),
+            "survived": survived,
+            "reason": "SURVIVED" if survived else "; ".join(reasons),
+        }
+
+    survived_count = sum(1 for w in windows_out.values() if w["survived"])
+    return {
+        "schema": "naqex-crisis-stress-windows-v1",
+        "order_send_capable": ORDER_SEND_CAPABLE,
+        "holdout_rows_analysed": 0,
+        "passed": len(failed_windows) == 0,
+        "survived_count": survived_count,
+        "total_windows": len(CRISIS_STRESS_WINDOWS),
+        "failed_windows": failed_windows,
+        "worst_crisis_window": worst_w_name,
+        "worst_crisis_dd_r": round(max(0.0, worst_dd_r), 4),
+        "worst_crisis_sum_r": round(worst_sum_r if math.isfinite(worst_sum_r) else 0.0, 4),
+        "risk_frac": rf,
+        "thresholds": {
+            "max_window_dd_r": float(max_window_dd_r),
+            "max_single_day_loss_r": float(max_single_day_loss_r),
+            "min_window_sum_r": float(min_window_sum_r),
+        },
+        "windows": windows_out,
     }
 
 
@@ -576,7 +1234,7 @@ def worst_year_stability_audit(
     r_ord = r[order]
 
     by_year: dict[str, list[float]] = defaultdict(list)
-    for dk, rv in zip(days_ord, r_ord):
+    for dk, rv in zip(days_ord, r_ord, strict=True):
         by_year[dk[:4]].append(float(rv))
 
     years_sorted = sorted(by_year.keys())
@@ -690,9 +1348,15 @@ def evaluate_robustness_gate(
 
     if mc_result is None:
         if closes is not None:
-            d_arr = np.asarray(trade_durs if trade_durs is not None else np.ones(len(r), dtype=np.int64), dtype=np.int64)
-            sl_arr = np.asarray(trade_sl_fracs if trade_sl_fracs is not None else np.full(len(r), 0.01), dtype=np.float64)
-            f_arr = np.asarray(trade_frics if trade_frics is not None else np.full(len(r), 0.03), dtype=np.float64)
+            d_arr = np.asarray(
+                trade_durs if trade_durs is not None else np.ones(len(r), dtype=np.int64), dtype=np.int64
+            )
+            sl_arr = np.asarray(
+                trade_sl_fracs if trade_sl_fracs is not None else np.full(len(r), 0.01), dtype=np.float64
+            )
+            f_arr = np.asarray(
+                trade_frics if trade_frics is not None else np.full(len(r), 0.03), dtype=np.float64
+            )
             mc = random_entry_mc_on_closes(
                 closes=closes,
                 trade_r=r,
@@ -702,6 +1366,8 @@ def evaluate_robustness_gate(
                 trade_frics=f_arr,
                 draws=thresholds.mc_draws,
                 seed=seed,
+                allow_weekend_gaps=thresholds.allow_weekend_gaps,
+                swap_drag_per_day_r=thresholds.swap_drag_per_day_r,
             )
         else:
             # Explicit sign-flip fallback when caller only supplies trade R outcomes without price series
@@ -751,7 +1417,7 @@ def evaluate_robustness_gate(
     elif "R1_random_entry_mc" in failed_pillars or "R3_top5_outlier_trim" in failed_pillars or len(failed_pillars) >= 2:
         verdict = "FAIL_FRAGILE"
     else:
-        # Passed Random-Entry MC >= 90% and Top-5% outlier trim, but flagged 1 structural asymmetry or worst-year warning
+        # Passed Random-Entry MC >= 90% and Top-5% trim, but flagged 1 structural asymmetry or worst-year warning
         verdict = "WARN_ASYMMETRY_OR_YEAR"
 
     return {
@@ -942,7 +1608,7 @@ def audit_frozen_9e_dev(
 
     summary = {
         "schema": "naqex-robustness-gate-dev-audit-v1",
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "holdout_lock_sha256": lock_sha,
         "holdout_rows_analysed": 0,
         "order_send_count": 0,
@@ -954,8 +1620,12 @@ def audit_frozen_9e_dev(
             "pass_robust": sum(1 for x in engine_results if x["verdict"] == "PASS_ROBUST"),
             "warn_asymmetry_or_year": sum(1 for x in engine_results if x["verdict"] == "WARN_ASYMMETRY_OR_YEAR"),
             "fail_fragile": sum(1 for x in engine_results if x["verdict"] == "FAIL_FRAGILE"),
-            "mc_unbiased_ge90": sum(1 for x in engine_results if x["pillars"]["R1_random_entry_mc"]["beat_rate_unbiased"] >= 0.90),
-            "mc_same_side_ge90": sum(1 for x in engine_results if x["pillars"]["R1_random_entry_mc"]["beat_rate_same_side"] >= 0.90),
+            "mc_unbiased_ge90": sum(
+                1 for x in engine_results if x["pillars"]["R1_random_entry_mc"]["beat_rate_unbiased"] >= 0.90
+            ),
+            "mc_same_side_ge90": sum(
+                1 for x in engine_results if x["pillars"]["R1_random_entry_mc"]["beat_rate_same_side"] >= 0.90
+            ),
             "top5_trim_positive": sum(1 for x in engine_results if x["pillars"]["R3_top5_outlier_trim"]["passed"]),
             "both_sides_positive": sum(1 for x in engine_results if x["pillars"]["R2_buy_sell_symmetry"]["passed"]),
         },
@@ -989,8 +1659,10 @@ def audit_frozen_9e_dev(
             sym = x["pillars"]["R2_buy_sell_symmetry"]
             tr = x["pillars"]["R3_top5_outlier_trim"]
             wy = x["pillars"]["R4_worst_year_stability"]
-            b_mc = f"{mc['buy_beat_rate_vs_random_buy']*100:.0f}%" if mc.get("buy_beat_rate_vs_random_buy") is not None else "n/a"
-            s_mc = f"{mc['sell_beat_rate_vs_random_sell']*100:.0f}%" if mc.get("sell_beat_rate_vs_random_sell") is not None else "n/a"
+            b_rate = mc.get("buy_beat_rate_vs_random_buy")
+            s_rate = mc.get("sell_beat_rate_vs_random_sell")
+            b_mc = f"{b_rate * 100:.0f}%" if b_rate is not None else "n/a"
+            s_mc = f"{s_rate * 100:.0f}%" if s_rate is not None else "n/a"
             rows.append([
                 x["strategy_id"],
                 "7E" if x["in_port_7e"] else "Sat",
@@ -1011,10 +1683,25 @@ def audit_frozen_9e_dev(
         md = [
             "# Kiểm Toán Cổng Robustness 4 Trụ Cột Trên 9 Động Cơ Dev (`2018–2024`, `holdout_rows = 0`)",
             "",
-            f"- **Phạm vi dữ liệu:** `{summary['dev_window']}` (niêm phong tuyệt đối `Holdout 2025+`, `holdout_rows_analysed = 0`, `order_send_count = 0`).",
-            f"- **Mô phỏng Random-Entry MC trên nến M5 thật (`hot_m1_cache`):** `{draws}` lần/động cơ, thời gian chạy `{elapsed_sec}s`.",
-            f"- **Tổng hợp nhanh:** `MC 50/50 >= 90%`: **{c['mc_unbiased_ge90']}/9** · `MC Same-Side >= 90%`: **{c['mc_same_side_ge90']}/9** · `Cả BUY & SELL dương`: **{c['both_sides_positive']}/9** · `Cắt Top-5% vẫn dương`: **{c['top5_trim_positive']}/9**.",
-            f"- **Phân loại:** `PASS_ROBUST = {c['pass_robust']}/9` · `WARN_ASYMMETRY_OR_YEAR = {c['warn_asymmetry_or_year']}/9` · `FAIL_FRAGILE = {c['fail_fragile']}/9`.",
+            (
+                f"- **Phạm vi dữ liệu:** `{summary['dev_window']}` "
+                "(niêm phong tuyệt đối `Holdout 2025+`, `holdout_rows_analysed = 0`, `order_send_count = 0`)."
+            ),
+            (
+                f"- **Mô phỏng Random-Entry MC trên nến M5 thật (`hot_m1_cache`):** "
+                f"`{draws}` lần/động cơ, thời gian chạy `{elapsed_sec}s`."
+            ),
+            (
+                f"- **Tổng hợp nhanh:** `MC 50/50 >= 90%`: **{c['mc_unbiased_ge90']}/9** · "
+                f"`MC Same-Side >= 90%`: **{c['mc_same_side_ge90']}/9** · "
+                f"`Cả BUY & SELL dương`: **{c['both_sides_positive']}/9** · "
+                f"`Cắt Top-5% vẫn dương`: **{c['top5_trim_positive']}/9**."
+            ),
+            (
+                f"- **Phân loại:** `PASS_ROBUST = {c['pass_robust']}/9` · "
+                f"`WARN_ASYMMETRY_OR_YEAR = {c['warn_asymmetry_or_year']}/9` · "
+                f"`FAIL_FRAGILE = {c['fail_fragile']}/9`."
+            ),
             "",
             "## Bảng Kết Quả Chi Tiết 9 Động Cơ (Dev `2018–2024`)",
             "",
@@ -1043,13 +1730,31 @@ def audit_frozen_9e_dev(
 
 def _cli_main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Naqex Pre-Promotion 4-Pillar Robustness Gate (Dev < 2025-01-01 ONLY)")
-    parser.add_argument("--audit-frozen-9e", action="store_true", help="Audit all 9 frozen Dev engines on sealed pre-2025 bars")
-    parser.add_argument("--draws", type=int, default=1000, help="Number of Random-Entry Monte Carlo draws (default: 1000)")
-    parser.add_argument("--no-write", action="store_true", help="Print JSON summary without writing planning/research report")
+    parser.add_argument(
+        "--audit-frozen-9e",
+        action="store_true",
+        help="Audit all 9 frozen Dev engines on sealed pre-2025 bars",
+    )
+    parser.add_argument(
+        "--draws",
+        type=int,
+        default=1000,
+        help="Number of Random-Entry Monte Carlo draws (default: 1000)",
+    )
+    parser.add_argument(
+        "--no-write",
+        action="store_true",
+        help="Print JSON summary without writing planning/research report",
+    )
     args = parser.parse_args(argv)
     if args.audit_frozen_9e:
         res = audit_frozen_9e_dev(draws=args.draws, write_report=not args.no_write)
-        print(json.dumps({"counts": res["counts"], "elapsed_sec": res["elapsed_sec"], "ranking": res["worst_year_ranking"]}, indent=2, ensure_ascii=False))
+        payload = {
+            "counts": res["counts"],
+            "elapsed_sec": res["elapsed_sec"],
+            "ranking": res["worst_year_ranking"],
+        }
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
         return 0
     parser.print_help()
     return 0

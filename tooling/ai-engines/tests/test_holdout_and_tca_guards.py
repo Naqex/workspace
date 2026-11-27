@@ -1,12 +1,12 @@
-"""Regression tests for programmatic Holdout 2025+ guards, production red-news CSV protection & TCA symbol normalization."""
+"""Regression tests for Holdout 2025+ guards, production red-news CSV protection & TCA symbol normalization."""
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 
@@ -18,15 +18,21 @@ for p in (AI_ENGINES, EXPORTS_DIR):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
+import mt5_realtick_runner as rt_runner  # noqa: E402
 from native_ftmo_monfri_seal import STOP  # noqa: E402
 from quant_factory import (  # noqa: E402
     auto_research_loop as arl,
+)
+from quant_factory import (  # noqa: E402
     data_store,
-    holdout_eval_2025_2026 as heval,
     prop_engine,
+)
+from quant_factory import (  # noqa: E402
+    holdout_eval_2025_2026 as heval,
+)
+from quant_factory import (  # noqa: E402
     tca_reconcile as tca,
 )
-import mt5_realtick_runner as rt_runner  # noqa: E402
 
 
 class HoldoutAndTcaGuardTests(unittest.TestCase):
@@ -50,7 +56,7 @@ class HoldoutAndTcaGuardTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 2)
         self.assertIn("HOLDOUT_LOCKED", proc.stderr)
 
-        # 3. Attempting to export holdout CSV over production exports/Files/naqex_red_news_utc.csv or configs/calendars MUST raise
+        # 3. Attempting to export holdout CSV over production red-news CSV or configs/calendars MUST raise
         with self.assertRaises(ValueError) as cm:
             heval.build_2025_2026_red_news_calendar_and_export_csv(out_csv_path=prod_csv)
         self.assertIn("SAFETY ABORT", str(cm.exception))
@@ -58,7 +64,7 @@ class HoldoutAndTcaGuardTests(unittest.TestCase):
             heval.build_2025_2026_red_news_calendar_and_export_csv(out_csv_path=tracked_json)
         self.assertIn("SAFETY ABORT", str(cm2.exception))
 
-        # 4. Exporting to an isolated temp path succeeds while production CSV & tracked 2025-2026 JSON remain byte-for-byte untouched
+        # 4. Exporting to an isolated temp path succeeds while production CSV & tracked JSON stay untouched
         with tempfile.TemporaryDirectory() as td:
             iso_csv = Path(td) / "holdout_red_news_usd_2018_2026.csv"
             cal = heval.build_2025_2026_red_news_calendar_and_export_csv(out_csv_path=iso_csv)
@@ -96,7 +102,11 @@ class HoldoutAndTcaGuardTests(unittest.TestCase):
         # prop_engine.apply_vol_targeting_causal rejects 2025-01-01 by default
         arr = np.zeros(5, dtype=np.float64)
         with self.assertRaises(ValueError):
-            prop_engine.apply_vol_targeting_causal(["2024-12-30", "2024-12-31", "2025-01-02", "2025-01-03", "2025-01-04"], arr, arr)
+            prop_engine.apply_vol_targeting_causal(
+                ["2024-12-30", "2024-12-31", "2025-01-02", "2025-01-03", "2025-01-04"],
+                arr,
+                arr,
+            )
 
     def test_auto_research_loop_rejects_holdout_end_day_and_nonzero_holdout_rows(self):
         # 1. end_day >= 2025-01-01 rejected
@@ -194,7 +204,8 @@ class HoldoutAndTcaGuardTests(unittest.TestCase):
             ("USDJPY.pro", "USDJPY", 0.001, 7.0),
             ("USDJPYm", "USDJPY", 0.001, 7.0),
             ("EURJPY+", "EURJPY", 0.001, 14.0),
-            ("CADJPY.raw", "CADJPY", 0.001, None),
+            ("CADJPY.raw", "CADJPY", 0.001, 16.0),
+            ("SGDJPY.raw", "SGDJPY", 0.001, None),
             ("GBPUSD.ecn", "GBPUSD", 0.00001, 6.0),
             ("NAS100", "US100", 0.01, 20.0),
             ("USTECm", "US100", 0.01, 20.0),

@@ -649,6 +649,8 @@ def decide_route(
     allow_ntp_drift: bool = False,
     force_x13: bool = False,
     allow_mode_a_assist: bool = False,
+    force_mode_b: bool = False,
+    owner_approved_long_run: bool = False,
 ) -> dict[str, Any]:
     """Apply locked `/grill-me Q1` routing table deterministically with silent fallback on X13 failure."""
     est_m = _finite_float(est_minutes)
@@ -660,7 +662,12 @@ def decide_route(
     est_minutes = est_m
     ram_gb = ram_req
 
-    mode = dev_pc.get("mode") or classify_dev_pc_mode(dev_pc)
+    reasons: list[str] = []
+    if force_mode_b:
+        mode = "MODE_B_IDLE_OVERNIGHT"
+        reasons.append("Owner authorized --force-mode-b: overriding local Mode A sensor to MODE_B_IDLE_OVERNIGHT")
+    else:
+        mode = dev_pc.get("mode") or classify_dev_pc_mode(dev_pc)
     gpu_val = _finite_float(dev_pc.get("gpu_util_pct"))
     gaming_or_gpu = (gpu_val is None or gpu_val > 25.0) or bool(dev_pc.get("fullscreen_busy", False))
     mode_a_cores = 2 if gaming_or_gpu else 3
@@ -668,7 +675,6 @@ def decide_route(
         x13_worker, min_ram_gb=ram_gb, strict_ntp=strict_ntp, allow_ntp_drift=allow_ntp_drift
     )
 
-    reasons: list[str] = []
     # Tier 3 fail-closed approval gates
     if touches_vps:
         return _build_decision(
@@ -694,7 +700,7 @@ def decide_route(
             split={"dev_pc": 0, "x13_worker": 0},
             reasons=["Windows Admin (UAC) action requires explicit owner Tier-3 approval"],
         )
-    if est_minutes > 60.0:
+    if est_minutes > 60.0 and not owner_approved_long_run:
         return _build_decision(
             target="BLOCKED_NEEDS_APPROVAL",
             tier="TIER_3_ASK_OWNER",
@@ -706,6 +712,8 @@ def decide_route(
             split={"dev_pc": 0, "x13_worker": 0},
             reasons=[f"Estimated duration {est_minutes:.1f}m > 60m requires explicit owner Tier-3 approval"],
         )
+    if est_minutes > 60.0 and owner_approved_long_run:
+        reasons.append(f"Owner authorized --owner-approved-long-run: overriding 60m cap ({est_minutes:.1f}m)")
     if needs_gpu and mode == "MODE_A_OWNER_ACTIVE":
         return _build_decision(
             target="BLOCKED_NEEDS_APPROVAL",
@@ -1461,8 +1469,10 @@ def pull_results(
     }
 
 
-def _fallback_dev_policy(dev_pc: dict[str, Any]) -> tuple[int, str]:
+def _fallback_dev_policy(dev_pc: dict[str, Any], *, force_mode_b: bool = False) -> tuple[int, str]:
     """Compute fail-closed local `<DEV_PC>` core cap & OS priority matching Mode A / Mode B."""
+    if force_mode_b:
+        return 5, "NORMAL"
     mode = dev_pc.get("mode") or classify_dev_pc_mode(dev_pc)
     gpu_val = _finite_float(dev_pc.get("gpu_util_pct"))
     gaming = (gpu_val is None or gpu_val > 25.0) or bool(dev_pc.get("fullscreen_busy", False))
@@ -1613,6 +1623,8 @@ def dispatch_job(
     allow_ntp_drift: bool = False,
     force_x13: bool = False,
     allow_mode_a_assist: bool = False,
+    force_mode_b: bool = False,
+    owner_approved_long_run: bool = False,
     lan_only: bool = False,
     dry_run: bool = False,
     dest_dir: Path | None = None,
@@ -1668,6 +1680,8 @@ def dispatch_job(
         allow_ntp_drift=allow_ntp_drift,
         force_x13=force_x13,
         allow_mode_a_assist=allow_mode_a_assist,
+        force_mode_b=force_mode_b,
+        owner_approved_long_run=owner_approved_long_run,
     )
     out_dir = dest_dir or (ROOT / ".tmp" / "compute_results" / jid)
     receipt: dict[str, Any] = {
@@ -1726,7 +1740,7 @@ def dispatch_job(
             fb_reason = f"x13_runtime_fallback: {exc}"
             decision["fallback_used"] = True
             decision["fallback_reason"] = fb_reason
-            cores, prio = _fallback_dev_policy(dev_pc)
+            cores, prio = _fallback_dev_policy(dev_pc, force_mode_b=force_mode_b)
             local_res = _run_local_dev_job(jid, entry, out_dir, cores=cores, priority=prio, extra_args=safe_args)
             receipt["ok"] = bool(local_res["verify"]["ok"])
             receipt["execution"] = local_res
@@ -1806,6 +1820,8 @@ def dispatch_parallel_shards(
     strict_ntp: bool = False,
     allow_ntp_drift: bool = False,
     allow_mode_a_assist: bool = False,
+    force_mode_b: bool = False,
+    owner_approved_long_run: bool = False,
     lan_only: bool = False,
     dry_run: bool = False,
     dest_dir: Path | None = None,
@@ -1848,7 +1864,7 @@ def dispatch_parallel_shards(
         and not requires_admin
         and not needs_gpu
         and est_minutes >= 10.0
-        and est_minutes <= 60.0
+        and (owner_approved_long_run or est_minutes <= 60.0)
     )
     lease_info: dict[str, Any] | None = None
     if not dry_run and may_use_x13 and lease_max_wait_sec > 0.0:
@@ -1880,14 +1896,17 @@ def dispatch_parallel_shards(
         strict_ntp=strict_ntp,
         allow_ntp_drift=allow_ntp_drift,
         allow_mode_a_assist=allow_mode_a_assist,
+        force_mode_b=force_mode_b,
+        owner_approved_long_run=owner_approved_long_run,
     )
 
     target = str(decision["target"])
+    eff_mode = "MODE_B_IDLE_OVERNIGHT" if force_mode_b else dev_pc.get("mode")
     dev_indices: list[int] = []
     x13_indices: list[int] = []
     if target in ("PARALLEL_60_40", "PARALLEL_20_80_MODE_A"):
         if n_total == 1:
-            if dev_pc.get("mode") == "MODE_A_OWNER_ACTIVE" and not allow_mode_a_assist:
+            if eff_mode == "MODE_A_OWNER_ACTIVE" and not allow_mode_a_assist:
                 x13_indices = [0]
             else:
                 dev_indices = [0]
@@ -2052,7 +2071,7 @@ def dispatch_parallel_shards(
         fb_reason = f"x13_runtime_fallback: {x13_error}"
         decision["fallback_used"] = True
         decision["fallback_reason"] = fb_reason
-        fb_cores, fb_prio = _fallback_dev_policy(dev_pc)
+        fb_cores, fb_prio = _fallback_dev_policy(dev_pc, force_mode_b=force_mode_b)
         completed_workers.append(_run_dev_slice("x13_fallback_dev_pc", x13_indices, fb_cores, fb_prio))
 
     # Fail-closed SHA-256 verification of EVERY worker manifest before merging
@@ -2302,7 +2321,9 @@ def collect_dev_cache_files(
         "quant_core": 0,
         "quant_factory_root": 0,
         "capital_optimizer": 0,
+        "offensive3_code": 0,
         "ssot_configs": 0,
+        "offensive3_configs": 0,
         "calendars": 0,
         "frozen_tapes": 0,
     }
@@ -2324,7 +2345,7 @@ def collect_dev_cache_files(
                 continue
             _add(p, "quant_core")
 
-    # 2. quant_factory/*.py (excluding holdout/2025/2026) + quant_factory/capital_optimizer/
+    # 2. quant_factory/*.py (excluding holdout/2025/2026) + capital_optimizer/ + offensive3/
     qf_dir = ai_dir / "quant_factory"
     if qf_dir.is_dir():
         for p in sorted(qf_dir.glob("*.py")):
@@ -2341,8 +2362,16 @@ def collect_dev_cache_files(
                 if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
                     continue
                 _add(p, "capital_optimizer")
+        off3_code_dir = qf_dir / "offensive3"
+        if off3_code_dir.is_dir():
+            for p in sorted(off3_code_dir.rglob("*.py")):
+                if not p.is_file() or "__pycache__" in p.parts:
+                    continue
+                if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                    continue
+                _add(p, "offensive3_code")
 
-    # 3. configs/ssot/
+    # 3. configs/ssot/ + configs/offensive3/
     ssot_dir = ai_dir / "configs/ssot"
     if ssot_dir.is_dir():
         for p in sorted(ssot_dir.rglob("*")):
@@ -2351,6 +2380,15 @@ def collect_dev_cache_files(
             if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
                 continue
             _add(p, "ssot_configs")
+
+    off3_cfg_dir = ai_dir / "configs/offensive3"
+    if off3_cfg_dir.is_dir():
+        for p in sorted(off3_cfg_dir.rglob("*.json")):
+            if not p.is_file():
+                continue
+            if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                continue
+            _add(p, "offensive3_configs")
 
     # 4. configs/calendars/ — explicit pre-2025 allowlist (includes red_news_official_2018_2024_6ccy.json)
     cal_dir = ai_dir / "configs/calendars"
@@ -2547,8 +2585,408 @@ def sync_dev_cache(
     return summary
 
 
+_REMOTE_M1_SHA_INVENTORY_PY = r'''"""Read-only SHA-256 inventory of Dev M1 Parquets + manifest.json on <X13_WORKER>."""
+from __future__ import annotations
+import hashlib, json, pathlib, sys
+
+def _sha(p: pathlib.Path) -> str:
+    with p.open("rb") as fh:
+        return hashlib.file_digest(fh, "sha256").hexdigest()
+
+def main() -> int:
+    base = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(r"C:\NaqexResearch")
+    cache_root = base / ".runtime" / "hot-m1-cache"
+    hashes: dict[str, str] = {}
+    if cache_root.is_dir():
+        mpath = cache_root / "manifest.json"
+        if mpath.is_file():
+            hashes[".runtime/hot-m1-cache/manifest.json"] = _sha(mpath)
+        for p in sorted(cache_root.rglob("*.parquet")):
+            if p.is_file():
+                rel = p.relative_to(base).as_posix()
+                hashes[rel] = _sha(p)
+    print(json.dumps({"ok": True, "hashes": hashes}))
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+'''
+
+
+def collect_m1_parquet_sync_plan(
+    *,
+    root: Path = ROOT,
+    cache_dir: Path | None = None,
+    assets: Sequence[str] | None = None,
+) -> dict[str, Any]:
+    """Collect fail-closed Dev-only M1 Parquet + manifest.json sync entries with verified local SHA-256."""
+    m1_cache = Path(cache_dir) if cache_dir is not None else (root / ".runtime/hot-m1-cache")
+    manifest_path = m1_cache / "manifest.json"
+    if not manifest_path.is_file():
+        raise FileNotFoundError(f"Hot M1 cache manifest missing: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("assets"), dict):
+        raise ValueError(f"Invalid hot M1 cache manifest: {manifest_path}")
+    if isinstance(manifest.get("holdout_rows"), bool) or manifest.get("holdout_rows") != 0:
+        raise ValueError(
+            f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: manifest holdout_rows={manifest.get('holdout_rows')!r} != 0"
+        )
+
+    all_assets_map: dict[str, Any] = manifest["assets"]
+    target_assets = (
+        [str(a).strip().upper() for a in assets] if assets is not None else sorted(all_assets_map.keys())
+    )
+    entries: list[dict[str, Any]] = []
+    seen_rels: set[str] = set()
+
+    for asset_u in target_assets:
+        assert_dev_only_path(asset_u)
+        if asset_u not in all_assets_map:
+            raise KeyError(f"Asset {asset_u!r} not found in hot M1 cache manifest")
+        am = all_assets_map[asset_u]
+        rel_dir = str(am.get("dir", "")).strip()
+        assert_dev_only_path(rel_dir)
+        asset_folder = (m1_cache / rel_dir).resolve()
+        try:
+            asset_folder.relative_to(m1_cache.resolve())
+        except ValueError as exc:
+            raise ValueError(f"Unsafe asset dir escapes cache root: {rel_dir!r}") from exc
+
+        # Scan asset folder for any stray 2025/2026/holdout files fail-closed
+        if asset_folder.is_dir():
+            for stray in sorted(asset_folder.rglob("*")):
+                if stray.is_file():
+                    assert_dev_only_path(stray.relative_to(m1_cache).as_posix())
+
+        years_map = am.get("years")
+        if not isinstance(years_map, dict) or not years_map:
+            raise ValueError(f"Missing years map for asset {asset_u}")
+
+        for yk, ym in sorted(years_map.items()):
+            assert_dev_only_path(yk)
+            if int(yk) >= 2025 or int(yk) < 2018:
+                raise ValueError(
+                    f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: forbidden year {yk!r} for asset {asset_u}"
+                )
+            fname = str(ym.get("parquet", "")).strip()
+            assert_dev_only_path(fname)
+            pfile = (asset_folder / fname).resolve()
+            try:
+                pfile.relative_to(asset_folder)
+            except ValueError as exc:
+                raise ValueError(f"Parquet escapes asset folder: {fname!r}") from exc
+            if not pfile.is_file():
+                raise FileNotFoundError(f"Missing sealed parquet for {asset_u} {yk}: {pfile}")
+            rel_posix = f".runtime/hot-m1-cache/{rel_dir}/{fname}"
+            assert_dev_only_path(rel_posix)
+            actual_sha = _sha256_file(pfile)
+            exp_sha = ym.get("parquet_sha256")
+            if isinstance(exp_sha, str) and exp_sha and actual_sha != exp_sha:
+                raise ValueError(
+                    f"Local M1 parquet SHA-256 mismatch for {asset_u} {yk}: expected={exp_sha} got={actual_sha}"
+                )
+            if rel_posix not in seen_rels:
+                seen_rels.add(rel_posix)
+                entries.append(
+                    {
+                        "rel_path": rel_posix,
+                        "local_path": pfile,
+                        "sha256": actual_sha,
+                        "bytes": int(pfile.stat().st_size),
+                        "asset": asset_u,
+                    }
+                )
+
+    # Always append manifest.json LAST so remote manifest never references missing parquets
+    man_rel = ".runtime/hot-m1-cache/manifest.json"
+    assert_dev_only_path(man_rel)
+    entries.append(
+        {
+            "rel_path": man_rel,
+            "local_path": manifest_path,
+            "sha256": _sha256_file(manifest_path),
+            "bytes": int(manifest_path.stat().st_size),
+            "asset": "__MANIFEST__",
+        }
+    )
+
+    return {
+        "cache_dir": m1_cache,
+        "assets": target_assets,
+        "entries": entries,
+        "total_files": len(entries),
+        "total_bytes": sum(int(e["bytes"]) for e in entries),
+    }
+
+
+def _query_x13_m1_hashes(alias: str) -> dict[str, str]:
+    safe_alias = _validate_host(alias)
+    with tempfile.TemporaryDirectory(prefix="x13_m1_inv_") as td:
+        inv_local = Path(td) / "m1_sha_inventory.py"
+        inv_local.write_text(_REMOTE_M1_SHA_INVENTORY_PY, encoding="utf-8", newline="\n")
+        subprocess.run(
+            [
+                "ssh",
+                "-o",
+                "ConnectTimeout=4",
+                "-o",
+                "BatchMode=yes",
+                safe_alias,
+                f'if not exist "{X13_BASE_DIR}\\cache_staging" mkdir "{X13_BASE_DIR}\\cache_staging"',
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
+        subprocess.run(
+            [
+                "scp",
+                "-o",
+                "ConnectTimeout=6",
+                "-o",
+                "BatchMode=yes",
+                str(inv_local),
+                f"{safe_alias}:C:/NaqexResearch/cache_staging/m1_sha_inventory.py",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        cmd = f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\cache_staging\\m1_sha_inventory.py" "{X13_BASE_DIR}"'
+        proc = subprocess.run(
+            ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", safe_alias, cmd],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        payload = json.loads((proc.stdout or "{}").strip())
+        hashes = payload.get("hashes")
+        if not isinstance(hashes, dict):
+            raise RuntimeError(f"Malformed remote M1 inventory JSON: {payload!r}")
+        return {str(k): str(v) for k, v in hashes.items()}
+
+
+def _scp_upload_m1_file(alias: str, local_path: Path, rel_posix: str) -> None:
+    safe_alias = _validate_host(alias)
+    assert_dev_only_path(rel_posix)
+    remote_rel_win = rel_posix.replace("/", "\\")
+    remote_parent_win = str(Path(remote_rel_win).parent)
+    subprocess.run(
+        [
+            "ssh",
+            "-o",
+            "ConnectTimeout=4",
+            "-o",
+            "BatchMode=yes",
+            safe_alias,
+            f'if not exist "{X13_BASE_DIR}\\{remote_parent_win}" mkdir "{X13_BASE_DIR}\\{remote_parent_win}"',
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+    subprocess.run(
+        [
+            "scp",
+            "-o",
+            "ConnectTimeout=6",
+            "-o",
+            "BatchMode=yes",
+            str(local_path),
+            f"{safe_alias}:C:/NaqexResearch/{rel_posix}",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+
+
+def sync_m1_parquets_incremental(
+    *,
+    lan_only: bool = False,
+    dry_run: bool = False,
+    host: str | None = None,
+    root: Path = ROOT,
+    cache_dir: Path | None = None,
+    assets: Sequence[str] | None = None,
+    query_remote_hashes_fn: Callable[[str], dict[str, str]] | None = None,
+    upload_fn: Callable[[str, Path, str], None] | None = None,
+) -> dict[str, Any]:
+    """Incrementally sync Dev-only M1 Parquets + manifest.json to `<X13_WORKER>` by per-file SHA-256.
+
+    - Fails closed immediately on any local `2025`/`2026`/`holdout` token or SHA mismatch.
+    - Skips files whose remote SHA-256 already matches local SHA-256 (0 redundant transfer).
+    - Supports Silent Automatic Fallback (`fallback_used=True`) if `<X13_WORKER>` is unreachable
+      or drops mid-transfer so callers can continue cleanly on `<DEV_PC>`.
+    """
+    # Step 1: Fail-closed local air-gap & SHA audit BEFORE probing X13
+    plan = collect_m1_parquet_sync_plan(root=root, cache_dir=cache_dir, assets=assets)
+    entries: list[dict[str, Any]] = plan["entries"]
+
+    x13 = probe_x13_worker(hosts=(host,) if host else X13_HOSTS, lan_only=lan_only)
+    if not x13["reachable"]:
+        fb_reason = "; ".join(x13.get("ineligible_reasons") or ["x13_unreachable"])
+        return {
+            "schema": "naqex-sync-m1-parquets-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": fb_reason,
+            "dry_run": dry_run,
+            "assets_requested": plan["assets"],
+            "total_files": plan["total_files"],
+            "uploaded_files": [],
+            "skipped_files": [],
+            "bytes_uploaded": 0,
+            "bytes_skipped": 0,
+            "holdout_airgap_enforced": True,
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    if _strict_int(x13.get("forbidden_files")) not in (None, 0):
+        return {
+            "schema": "naqex-sync-m1-parquets-v1",
+            "ok": False,
+            "status": "X13_FORBIDDEN_FILES_ABORT",
+            "fallback_used": False,
+            "fallback_reason": None,
+            "dry_run": dry_run,
+            "holdout_airgap_enforced": True,
+            "forbidden_files": x13.get("forbidden_files"),
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    alias = _validate_host(str(x13["ssh_alias"]))
+    querier = query_remote_hashes_fn or _query_x13_m1_hashes
+    uploader = upload_fn or _scp_upload_m1_file
+
+    try:
+        remote_hashes = querier(alias)
+    except Exception as exc:
+        return {
+            "schema": "naqex-sync-m1-parquets-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": f"x13_inventory_fallback: {exc}",
+            "dry_run": dry_run,
+            "ssh_alias": alias,
+            "assets_requested": plan["assets"],
+            "total_files": plan["total_files"],
+            "uploaded_files": [],
+            "skipped_files": [],
+            "bytes_uploaded": 0,
+            "bytes_skipped": 0,
+            "holdout_airgap_enforced": True,
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    to_upload: list[dict[str, Any]] = []
+    skipped: list[dict[str, Any]] = []
+    for entry in entries:
+        rel = entry["rel_path"]
+        assert_dev_only_path(rel)
+        if remote_hashes.get(rel) == entry["sha256"]:
+            skipped.append(entry)
+        else:
+            to_upload.append(entry)
+
+    if dry_run:
+        return {
+            "schema": "naqex-sync-m1-parquets-v1",
+            "ok": True,
+            "status": "DRY_RUN_READY",
+            "fallback_used": False,
+            "fallback_reason": None,
+            "dry_run": True,
+            "ssh_alias": alias,
+            "assets_requested": plan["assets"],
+            "total_files": plan["total_files"],
+            "planned_upload_files": [e["rel_path"] for e in to_upload],
+            "uploaded_files": [],
+            "skipped_files": [e["rel_path"] for e in skipped],
+            "bytes_to_upload": sum(int(e["bytes"]) for e in to_upload),
+            "bytes_uploaded": 0,
+            "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+            "holdout_airgap_enforced": True,
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+        }
+
+    uploaded_rels: list[str] = []
+    bytes_uploaded = 0
+    try:
+        for entry in to_upload:
+            rel = entry["rel_path"]
+            assert_dev_only_path(rel)
+            uploader(alias, entry["local_path"], rel)
+            uploaded_rels.append(rel)
+            bytes_uploaded += int(entry["bytes"])
+
+        # Post-upload remote SHA-256 verification when any file was transferred
+        verified_remote = True
+        if to_upload:
+            post_hashes = querier(alias)
+            for entry in to_upload:
+                rel = entry["rel_path"]
+                if post_hashes.get(rel) != entry["sha256"]:
+                    raise RuntimeError(
+                        f"Remote SHA-256 verification failed after upload for {rel}: "
+                        f"expected={entry['sha256']} got={post_hashes.get(rel)!r}"
+                    )
+    except Exception as exc:
+        return {
+            "schema": "naqex-sync-m1-parquets-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": f"x13_upload_fallback: {exc}",
+            "dry_run": False,
+            "ssh_alias": alias,
+            "assets_requested": plan["assets"],
+            "total_files": plan["total_files"],
+            "uploaded_files": uploaded_rels,
+            "skipped_files": [e["rel_path"] for e in skipped],
+            "bytes_uploaded": bytes_uploaded,
+            "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+            "holdout_airgap_enforced": True,
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+        }
+
+    return {
+        "schema": "naqex-sync-m1-parquets-v1",
+        "ok": True,
+        "status": "SYNCED_VERIFIED" if to_upload else "ALREADY_UP_TO_DATE",
+        "fallback_used": False,
+        "fallback_reason": None,
+        "dry_run": False,
+        "ssh_alias": alias,
+        "assets_requested": plan["assets"],
+        "total_files": plan["total_files"],
+        "uploaded_files": uploaded_rels,
+        "skipped_files": [e["rel_path"] for e in skipped],
+        "bytes_uploaded": bytes_uploaded,
+        "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+        "remote_sha_verified": verified_remote,
+        "holdout_airgap_enforced": True,
+        "forbidden_files": 0,
+        "order_send_count": ORDER_SEND_COUNT,
+    }
+
+
 # ==============================================================================
-# 5. CLI ENTRYPOINT (probe | route | dispatch | sync-dev-cache | pull-results)
+# 5. CLI ENTRYPOINT (probe | route | dispatch | sync-dev-cache | sync-m1-parquets | pull-results)
 # ==============================================================================
 
 def main(argv: list[str] | None = None) -> int:
@@ -2571,6 +3009,8 @@ def main(argv: list[str] | None = None) -> int:
     p_route.add_argument("--strict-ntp", action="store_true")
     p_route.add_argument("--lan-only", action="store_true")
     p_route.add_argument("--allow-mode-a-assist", action="store_true")
+    p_route.add_argument("--force-mode-b", action="store_true")
+    p_route.add_argument("--owner-approved-long-run", action="store_true")
 
     p_disp = sub.add_parser("dispatch")
     p_disp.add_argument("--job-id", required=True)
@@ -2587,6 +3027,8 @@ def main(argv: list[str] | None = None) -> int:
     p_disp.add_argument("--allow-ntp-drift", action="store_true")
     p_disp.add_argument("--force-x13", action="store_true")
     p_disp.add_argument("--allow-mode-a-assist", action="store_true")
+    p_disp.add_argument("--force-mode-b", action="store_true")
+    p_disp.add_argument("--owner-approved-long-run", action="store_true")
     p_disp.add_argument("--lease-wait-sec", type=float, default=0.0)
     p_disp.add_argument("--lan-only", action="store_true")
     p_disp.add_argument("--dry-run", action="store_true")
@@ -2597,6 +3039,12 @@ def main(argv: list[str] | None = None) -> int:
     p_sync.add_argument("--dry-run", action="store_true")
     p_sync.add_argument("--verify-only", action="store_true")
     p_sync.add_argument("--host", default=None)
+
+    p_sync_m1 = sub.add_parser("sync-m1-parquets")
+    p_sync_m1.add_argument("--lan-only", action="store_true")
+    p_sync_m1.add_argument("--dry-run", action="store_true")
+    p_sync_m1.add_argument("--host", default=None)
+    p_sync_m1.add_argument("--assets", nargs="*", default=None)
 
     p_pull = sub.add_parser("pull-results")
     p_pull.add_argument("--job-id", required=True)
@@ -2641,6 +3089,8 @@ def main(argv: list[str] | None = None) -> int:
             needs_gpu=args.needs_gpu,
             strict_ntp=args.strict_ntp,
             allow_mode_a_assist=args.allow_mode_a_assist,
+            force_mode_b=args.force_mode_b,
+            owner_approved_long_run=args.owner_approved_long_run,
         )
         out = {
             "schema": "naqex-compute-router-v1",
@@ -2676,6 +3126,8 @@ def main(argv: list[str] | None = None) -> int:
             allow_ntp_drift=args.allow_ntp_drift,
             force_x13=args.force_x13,
             allow_mode_a_assist=args.allow_mode_a_assist,
+            force_mode_b=args.force_mode_b,
+            owner_approved_long_run=args.owner_approved_long_run,
             lan_only=args.lan_only,
             dry_run=args.dry_run,
             dest_dir=args.dest,
@@ -2689,6 +3141,16 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "sync-dev-cache":
         res = sync_dev_cache(lan_only=args.lan_only, dry_run=args.dry_run, verify_only=args.verify_only, host=args.host)
+        print(json.dumps(res, indent=2, ensure_ascii=False))
+        return 0 if res.get("ok") else 1
+
+    if args.cmd == "sync-m1-parquets":
+        res = sync_m1_parquets_incremental(
+            lan_only=args.lan_only,
+            dry_run=args.dry_run,
+            host=args.host,
+            assets=args.assets,
+        )
         print(json.dumps(res, indent=2, ensure_ascii=False))
         return 0 if res.get("ok") else 1
 
