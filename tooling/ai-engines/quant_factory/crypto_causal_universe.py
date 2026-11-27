@@ -42,15 +42,98 @@ QUANT_LAB_SRC = ROOT / "projects" / "quant-trading" / "src"
 if str(QUANT_LAB_SRC) not in sys.path:
     sys.path.insert(0, str(QUANT_LAB_SRC))
 
-from quant_lab.causal_universe import (  # noqa: E402
-    _apply_rebalance_deadband as _quant_lab_apply_rebalance_deadband,
-)
-from quant_lab.causal_universe import (  # noqa: E402
-    _causal_ema_matrix as _quant_lab_causal_ema_matrix,
-)
-from quant_lab.causal_universe import (  # noqa: E402
-    causal_rolling_top_n_mask as _quant_lab_causal_rolling_top_n_mask,
-)
+try:
+    from quant_lab.causal_universe import (  # noqa: E402
+        _apply_rebalance_deadband as _quant_lab_apply_rebalance_deadband,
+    )
+    from quant_lab.causal_universe import (  # noqa: E402
+        _causal_ema_matrix as _quant_lab_causal_ema_matrix,
+    )
+    from quant_lab.causal_universe import (  # noqa: E402
+        causal_rolling_top_n_mask as _quant_lab_causal_rolling_top_n_mask,
+    )
+except ModuleNotFoundError:  # Fallback when projects/quant-trading submodule pin predates causal_universe.py
+    def _quant_lab_causal_ema_matrix(closes: np.ndarray, span: int) -> np.ndarray:
+        n_t, n_k = closes.shape
+        out = np.full((n_t, n_k), np.nan, dtype=np.float64)
+        alpha = 2.0 / (span + 1.0)
+        for j in range(n_k):
+            prev = np.nan
+            valid_streak = 0
+            for t in range(n_t):
+                c = closes[t, j]
+                if not np.isfinite(c) or c <= 0.0:
+                    prev = np.nan
+                    valid_streak = 0
+                    continue
+                prev = c if not np.isfinite(prev) else (alpha * c + (1.0 - alpha) * prev)
+                valid_streak += 1
+                if valid_streak >= span:
+                    out[t, j] = prev
+        return out
+
+    def _quant_lab_apply_rebalance_deadband(raw_w: np.ndarray, deadband: float) -> np.ndarray:
+        if isinstance(deadband, bool) or not math.isfinite(float(deadband)) or float(deadband) < 0.0:
+            raise ValueError("deadband must be a finite float >= 0.0.")
+        db = float(deadband)
+        if db == 0.0:
+            return raw_w.copy()
+        out = np.zeros_like(raw_w)
+        prev = np.zeros(raw_w.shape[1], dtype=np.float64)
+        for t in range(len(raw_w)):
+            cur = raw_w[t]
+            flip = (cur == 0.0) != (prev == 0.0)
+            upd = np.where(flip | (np.abs(cur - prev) >= db), cur, prev)
+            total = float(upd.sum())
+            if total > 1.0:
+                upd = upd / total
+            out[t] = upd
+            prev = upd
+        return out
+
+    def _quant_lab_causal_rolling_top_n_mask(
+        quote_volume: pd.DataFrame,
+        close: pd.DataFrame,
+        *,
+        lookback_bars: int = 30,
+        top_n: int = 15,
+        min_valid_frac: float = 0.90,
+    ) -> pd.DataFrame:
+        if quote_volume.empty or close.empty:
+            raise ValueError("quote_volume and close panels cannot be empty.")
+        if not quote_volume.index.equals(close.index) or list(quote_volume.columns) != list(close.columns):
+            raise ValueError("quote_volume and close must share identical index and columns.")
+        if type(lookback_bars) is not int or lookback_bars < 1 or type(top_n) is not int or top_n < 1:
+            raise ValueError("lookback_bars and top_n must be positive integers.")
+        if isinstance(min_valid_frac, bool) or not 0.0 < float(min_valid_frac) <= 1.0:
+            raise ValueError("min_valid_frac must be in (0, 1].")
+        qv = quote_volume.to_numpy(dtype=np.float64, copy=False)
+        cl = close.to_numpy(dtype=np.float64, copy=False)
+        n_t, n_k = qv.shape
+        cols = [str(col) for col in close.columns]
+        mask = np.zeros((n_t, n_k), dtype=bool)
+        min_req = max(1, int(math.ceil(lookback_bars * float(min_valid_frac))))
+        for t in range(lookback_bars - 1, n_t):
+            win = qv[t - lookback_bars + 1 : t + 1]
+            valid_cnt = np.sum(np.isfinite(win) & (win > 0.0), axis=0)
+            cur_ok = (
+                np.isfinite(cl[t])
+                & (cl[t] > 0.0)
+                & np.isfinite(qv[t])
+                & (qv[t] > 0.0)
+                & (valid_cnt >= min_req)
+            )
+            if not np.any(cur_ok):
+                continue
+            safe = np.where(np.isfinite(win) & (win > 0.0), win, 0.0)
+            mean_qv = np.where(cur_ok, np.sum(safe, axis=0) / float(lookback_bars), -1.0)
+            elig_idx = np.flatnonzero(cur_ok)
+            if len(elig_idx) <= top_n:
+                mask[t, elig_idx] = True
+            else:
+                order = sorted(elig_idx.tolist(), key=lambda j: (-float(mean_qv[j]), cols[j]))
+                mask[t, order[:top_n]] = True
+        return pd.DataFrame(mask, index=close.index, columns=close.columns)
 
 from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio  # noqa: E402
 
