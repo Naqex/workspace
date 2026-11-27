@@ -147,6 +147,7 @@ def test_common_contract_static_invariants_and_x13_purity() -> None:
 # ==============================================================================
 
 
+@pytest.mark.local_cache
 def test_load_universe_28_real_data_hygiene_and_usoil_quarantine() -> None:
     specs = cc.load_ftmo_specs_28()
     _check(specs["symbol_count"] == 28 and len(specs["symbols"]) == 28, "Expected 28 specs")
@@ -545,7 +546,10 @@ def test_ftmo_swing_leverage_margin_check_and_swing_d1_replay() -> None:
     _check(res_cross["trades"][0]["exit_date"] < "2021-01-01", f"Leaked into 2021: {res_cross['trades'][0]}")
     _check(res_cross["trades"][0]["exit_reason"] == "END_OF_WINDOW", f"Bad exit reason: {res_cross['trades'][0]}")
 
-    # Multi-asset `replay_swing_d1_series` across BOTH M1-resampled D1 (EURUSD) & Yahoo D1 (USOIL + CADJPY)
+
+@pytest.mark.local_cache
+def test_replay_swing_d1_series_real_3tier_cache() -> None:
+    """Multi-asset `replay_swing_d1_series` across M1-resampled D1 (EURUSD) & Yahoo D1 (USOIL + CADJPY)."""
     uni_sub = cc.load_universe_28(
         load_m1=False,
         load_d1=True,

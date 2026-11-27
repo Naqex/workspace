@@ -265,6 +265,7 @@ def test_tester_ini_strictly_pre_2025_fail_closed(tmp_path: Path) -> None:
         s4.validate_tester_ini_file(live_ini)
 
 
+@pytest.mark.local_cache
 def test_all_four_presets_pass_ops2_and_reject_eval_on_funded(tmp_path: Path) -> None:
     """Verify all 4 Layer-2 `.set` presets (69 keys, B8 flags, OPS-2 PASS, Eval-on-Funded HARD REJECT)."""
     v103_inputs = set(s4.parse_v103_mq5_inputs())
