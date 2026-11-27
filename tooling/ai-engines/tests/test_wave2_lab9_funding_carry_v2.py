@@ -300,6 +300,7 @@ def test_lab9_summary_artifacts_evt_parity_and_md_hygiene():
         assert expected_cs in md_text, f"Crisis Stress MD-vs-JSON mismatch for {sid}:\nExpected: {expected_cs}"
 
 
+@pytest.mark.local_cache
 def test_lab9_real_cached_panel_zero_lookahead_and_20_symbols():
     """Verify real 20-perp offline cache loads cleanly with zero pre-listing allocation on real data."""
     panel = load_lab9_funding_panel()

@@ -94,8 +94,13 @@ def test_cockpit_facade_syncs_helpers_and_routes(monkeypatch: pytest.MonkeyPatch
 
 
 def test_cockpit_direct_script_import_syncs_cache_and_restores_on_teardown(
+    tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    cfg = tmp_path / ".runtime" / "ops-cloud" / "heroku_connection_local.json"
+    cfg.parent.mkdir(parents=True, exist_ok=True)
+    cfg.write_text('{"web_url":"https://example.invalid","view_token":"test"}\n', encoding="utf-8")
+
     cockpit_dir = str(_AI_ENGINES / "cockpit")
     monkeypatch.syspath_prepend(cockpit_dir)
     sys.modules.pop("server", None)
@@ -105,8 +110,8 @@ def test_cockpit_direct_script_import_syncs_cache_and_restores_on_teardown(
 
         monkeypatch.setattr(srv, "_HEROKU_STATUS_CACHE", (9e12, {"source": "DIRECT_PATCH"}))
         assert cs._HEROKU_STATUS_CACHE == (9e12, {"source": "DIRECT_PATCH"})
-        assert srv._fetch_heroku_node1_cached(srv.ROOT) == {"source": "DIRECT_PATCH"}
-        assert cs._fetch_heroku_node1_cached(cs.ROOT) == {"source": "DIRECT_PATCH"}
+        assert srv._fetch_heroku_node1_cached(tmp_path) == {"source": "DIRECT_PATCH"}
+        assert cs._fetch_heroku_node1_cached(tmp_path) == {"source": "DIRECT_PATCH"}
         monkeypatch.undo()
         assert srv._HEROKU_STATUS_CACHE[1] != {"source": "DIRECT_PATCH"}
         assert cs._HEROKU_STATUS_CACHE[1] != {"source": "DIRECT_PATCH"}
