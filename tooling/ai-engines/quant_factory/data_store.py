@@ -253,6 +253,14 @@ def compute_registry_engines_sha() -> str:
     return hashlib.sha256(json.dumps(reg.get("engines", []), sort_keys=True).encode("utf-8")).hexdigest()
 
 
+def _merge_ext_days_with_tapes(ext_days: list[str] | tuple[str, ...], tapes: dict[str, dict]) -> list[str]:
+    """Ensure `ext_days` is the sorted union of reference days and every engine tape day (RC-6)."""
+    merged = {str(d) for d in ext_days}
+    for day_map in tapes.values():
+        merged.update(str(dk) for dk in day_map)
+    return sorted(merged)
+
+
 def build_or_load_frozen_tapes(
     *,
     jobs_root: Path = DEFAULT_JOBS,
@@ -276,14 +284,15 @@ def build_or_load_frozen_tapes(
         hit = _load_tapes_safe_npz(derived_dir, stem, binding)
         if hit is not None:
             meta, tapes = hit
-            assert_dev_series_strictly_pre_holdout(meta["ext_days"], tapes)
+            ext_days = _merge_ext_days_with_tapes(meta["ext_days"], tapes)
+            assert_dev_series_strictly_pre_holdout(ext_days, tapes)
             assert_dev_series_strictly_pre_holdout(meta["strict_cluster_a_days"])
             return {
                 "cache_hit": True,
                 "load_seconds": round(time.perf_counter() - t0, 4),
                 "binding_sha256": binding,
                 "holdout_lock_sha256": lock_sha,
-                "ext_days": meta["ext_days"],
+                "ext_days": ext_days,
                 "strict_cluster_a_days": meta["strict_cluster_a_days"],
                 "tapes": tapes,
             }
@@ -343,6 +352,7 @@ def build_or_load_frozen_tapes(
         "S6_FX_USD_BSK": p27.build_fx_usd_basket_s6_tape(bundles, day_maps, all_days),
         "S7_XAU_EXP120": p27.build_xau_exp120_s7_tape(bundles["XAUUSD"]),
     }
+    ext_days = _merge_ext_days_with_tapes(ext_days, tapes)
     assert_dev_series_strictly_pre_holdout(ext_days, tapes)
     assert_dev_series_strictly_pre_holdout(strict_a_days)
     meta = {

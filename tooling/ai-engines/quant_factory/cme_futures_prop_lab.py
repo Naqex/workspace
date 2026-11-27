@@ -12,23 +12,22 @@ Strict safety & anti-bias invariants:
     and integer micro-contract quantization!
   - Runs 5,000-path Circular Block-Bootstrap Monte Carlo (`block_len = 5`, `seed = 20261124`, `504` days = 24m)
     under exact **Topstep 50K Combine + XFA** and **Tradeify 50K Growth** rules (EOD trailing DD `2,000 USD`,
-    target `3,000 USD`, `50%` / `40%` consistency rule, monthly subscription + activation fee, `5` winning days >= `200 USD`)
-    comparing **EV per 1 USD Fee** head-to-head against verified M2.2 FTMO Swing (`+3.25x`),
-    FTMO BF-25% (`+4.08x`), and The5ers High Stakes (`+7.17x`).
+    target `3,000 USD`, `50%` / `40%` consistency rule, monthly subscription + activation fee,
+    `5` winning days >= `200 USD`) comparing **EV per 1 USD Fee** head-to-head against verified
+    M2.2 FTMO Swing (`+3.25x`), FTMO BF-25% (`+4.08x`), and The5ers High Stakes (`+7.17x`).
 """
 
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
-import hashlib
 import json
 import math
-from pathlib import Path
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -41,11 +40,19 @@ ROOT = AI_ENGINES.parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
-from quant_factory.crypto_causal_universe import RETURNS_DIR, compute_daily_metrics
-from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry
-from quant_factory.macro_etf_trend import ETF_SCHEMA
+from quant_core.holdout_guard import (  # noqa: E402
+    HOLDOUT_CUTOFF_DAY,
+    HoldoutLockError,
+    enforce_holdout_zero_rows,
+    enforce_pre_holdout_dates,
+)
+
+from quant_factory.crypto_causal_universe import RETURNS_DIR, compute_daily_metrics  # noqa: E402
+from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry  # noqa: E402
+from quant_factory.macro_etf_trend import ETF_SCHEMA  # noqa: E402
 
 ORDER_SEND_COUNT = 0
+DEV_CUTOFF_DATE = "2024-12-31"
 CME_CACHE_DIR = ROOT / ".runtime" / "cme-futures-cache"
 SLEEVE5_RETURNS_PATH = RETURNS_DIR / "sleeve5_cme_futures_prop.json"
 
@@ -74,16 +81,49 @@ CME_MICRO_SPECS: dict[str, CMEMicroSpec] = {
     "MNQ": CMEMicroSpec("MNQ", "NQ=F", "US100", "Micro E-mini Nasdaq-100", 2.0, 0.25, 0.50, 1.24, 2.0, 2.0),
     "MGC": CMEMicroSpec("MGC", "GC=F", "XAUUSD", "Micro Gold (10 oz)", 10.0, 0.10, 1.00, 1.24, 2.0, 0.10),
     "MCL": CMEMicroSpec("MCL", "CL=F", "WTI", "Micro WTI Crude Oil (100 bbl)", 100.0, 0.01, 1.00, 1.24, 2.0, 0.10),
-    "M6E": CMEMicroSpec("M6E", "6E=F", "EURUSD", "Micro EUR/USD (12,500 EUR)", 12_500.0, 0.0001, 1.25, 1.24, 2.0, 0.125),
-    "M6J": CMEMicroSpec("M6J", "6J=F", "USDJPY", "Micro JPY/USD (1,250,000 JPY)", 1_250_000.0, 0.000001, 1.25, 1.24, 2.0, 0.10),
-    "M6B": CMEMicroSpec("M6B", "6B=F", "GBPUSD", "Micro GBP/USD (6,250 GBP)", 6_250.0, 0.0001, 0.625, 1.24, 2.0, 0.0625),
+    "M6E": CMEMicroSpec(
+        "M6E", "6E=F", "EURUSD", "Micro EUR/USD (12,500 EUR)", 12_500.0, 0.0001, 1.25, 1.24, 2.0, 0.125
+    ),
+    "M6J": CMEMicroSpec(
+        "M6J", "6J=F", "USDJPY", "Micro JPY/USD (1,250,000 JPY)", 1_250_000.0, 0.000001, 1.25, 1.24, 2.0, 0.10
+    ),
+    "M6B": CMEMicroSpec(
+        "M6B", "6B=F", "GBPUSD", "Micro GBP/USD (6,250 GBP)", 6_250.0, 0.0001, 0.625, 1.24, 2.0, 0.0625
+    ),
 }
 
 # Verified Wave-1 M2.2 baselines (`PROP-EV-FRONTIER-BALANCED-VS-SPRINT-20261124.md`)
 VERIFIED_CFD_PROP_BASELINES: list[dict[str, Any]] = [
-    {"firm": "FTMO_SWING_10K", "profile": "P1_Balanced_3to6m", "fail_1try_pct": 23.8, "med_full_m": 5.9, "avg_fees_usd": 219.3, "cf_24m_usd": 712.0, "ev_per_usd_fee": 3.25, "oop95_usd": 504.0},
-    {"firm": "FTMO_STANDARD_10K_BF25", "profile": "P1_Balanced_3to6m", "fail_1try_pct": 23.7, "med_full_m": 6.1, "avg_fees_usd": 163.7, "cf_24m_usd": 668.4, "ev_per_usd_fee": 4.08, "oop95_usd": 378.0},
-    {"firm": "THE5ERS_HS_5K_8P5", "profile": "P1_Balanced_3to6m", "fail_1try_pct": 22.6, "med_full_m": 5.6, "avg_fees_usd": 48.6, "cf_24m_usd": 348.4, "ev_per_usd_fee": 7.17, "oop95_usd": 74.1},
+    {
+        "firm": "FTMO_SWING_10K",
+        "profile": "P1_Balanced_3to6m",
+        "fail_1try_pct": 23.8,
+        "med_full_m": 5.9,
+        "avg_fees_usd": 219.3,
+        "cf_24m_usd": 712.0,
+        "ev_per_usd_fee": 3.25,
+        "oop95_usd": 504.0,
+    },
+    {
+        "firm": "FTMO_STANDARD_10K_BF25",
+        "profile": "P1_Balanced_3to6m",
+        "fail_1try_pct": 23.7,
+        "med_full_m": 6.1,
+        "avg_fees_usd": 163.7,
+        "cf_24m_usd": 668.4,
+        "ev_per_usd_fee": 4.08,
+        "oop95_usd": 378.0,
+    },
+    {
+        "firm": "THE5ERS_HS_5K_8P5",
+        "profile": "P1_Balanced_3to6m",
+        "fail_1try_pct": 22.6,
+        "med_full_m": 5.6,
+        "avg_fees_usd": 48.6,
+        "cf_24m_usd": 348.4,
+        "ev_per_usd_fee": 7.17,
+        "oop95_usd": 74.1,
+    },
 ]
 
 
@@ -150,11 +190,89 @@ TRADEIFY_50K_GROWTH = FuturesPropRuleCard(
 )
 
 
-def _fetch_yahoo_futures(symbol: str, interval: str = "1d", period_days: int = 3200) -> tuple[str, list[dict[str, Any]], str | None]:
-    now_ts = int(datetime.now(timezone.utc).timestamp())
-    start_ts = now_ts - period_days * 86_400
+def _validate_dev_cutoff_date(cutoff_date: str | None, *, strict_dev_cutoff: bool) -> str | None:
+    """Fail-closed `-O`-safe validator ensuring `cutoff_date < 2025-01-01` when `strict_dev_cutoff=True`."""
+    if strict_dev_cutoff:
+        if cutoff_date is None or isinstance(cutoff_date, bool) or not isinstance(cutoff_date, str):
+            raise HoldoutLockError(
+                f"HOLDOUT_LOCK_VIOLATION [cme_futures_prop_lab]: strict_dev_cutoff=True requires ISO date < "
+                f"{HOLDOUT_CUTOFF_DAY}, got {cutoff_date!r}"
+            )
+        norm = cutoff_date.strip()
+        enforce_pre_holdout_dates(
+            norm,
+            context="cme_futures_prop_lab.cutoff_date",
+            cutoff_day=HOLDOUT_CUTOFF_DAY,
+            allow_empty=False,
+        )
+        if len(norm) != 10 or norm > DEV_CUTOFF_DATE or norm >= HOLDOUT_CUTOFF_DAY:
+            raise HoldoutLockError(
+                f"HOLDOUT_LOCK_VIOLATION [cme_futures_prop_lab]: cutoff_date={norm!r} exceeds {DEV_CUTOFF_DATE}"
+            )
+        return norm
+    if cutoff_date is None:
+        return None
+    if isinstance(cutoff_date, bool) or not isinstance(cutoff_date, str):
+        raise ValueError(f"cutoff_date must be an ISO YYYY-MM-DD string or None, got {cutoff_date!r}")
+    norm = cutoff_date.strip()
+    if len(norm) != 10:
+        raise ValueError(f"cutoff_date must be YYYY-MM-DD, got {cutoff_date!r}")
+    datetime.strptime(norm, "%Y-%m-%d")
+    return norm
+
+
+def validate_cme_dev_dates_strict(
+    dates: list[str] | tuple[str, ...],
+    *,
+    cutoff_date: str = DEV_CUTOFF_DATE,
+    context: str = "cme_futures_prop_lab",
+) -> None:
+    """Fail-closed `-O`-safe guard rejecting any CME date `> cutoff_date` or `>= 2025-01-01`."""
+    norm_cutoff = _validate_dev_cutoff_date(cutoff_date, strict_dev_cutoff=True)
+    if norm_cutoff is None:
+        raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: missing strict cutoff_date")
+    date_prefixes: list[str] = []
+    for raw in dates:
+        if isinstance(raw, bool) or not isinstance(raw, str) or len(raw.strip()) < 10:
+            raise HoldoutLockError(f"HOLDOUT_LOCK_VIOLATION [{context}]: malformed CME date entry {raw!r}")
+        date_prefixes.append(raw.strip()[:10])
+    enforce_pre_holdout_dates(
+        date_prefixes,
+        context=context,
+        cutoff_day=HOLDOUT_CUTOFF_DAY,
+        allow_empty=True,
+    )
+    over_cutoff = [d for d in date_prefixes if d > norm_cutoff]
+    if over_cutoff:
+        raise HoldoutLockError(
+            f"HOLDOUT_LOCK_VIOLATION [{context}]: detected {len(over_cutoff)} date(s) > "
+            f"{norm_cutoff}: {over_cutoff[:5]}"
+        )
+
+
+def _fetch_yahoo_futures(
+    symbol: str,
+    interval: str = "1d",
+    period_days: int = 3200,
+    *,
+    cutoff_date: str | None = None,
+    strict_dev_cutoff: bool = False,
+) -> tuple[str, list[dict[str, Any]], str | None]:
+    norm_cutoff = _validate_dev_cutoff_date(cutoff_date, strict_dev_cutoff=strict_dev_cutoff)
+    if strict_dev_cutoff and interval != "1d":
+        raise HoldoutLockError(
+            f"HOLDOUT_LOCK_VIOLATION [cme_futures_prop_lab._fetch_yahoo_futures]: "
+            f"intraday Yahoo fetch (interval={interval!r}) forbidden when strict_dev_cutoff=True"
+        )
+    now_ts = int(datetime.now(UTC).timestamp())
+    if norm_cutoff is not None:
+        cutoff_end_ts = int(datetime.fromisoformat(f"{norm_cutoff}T23:59:59+00:00").timestamp())
+        end_ts = min(now_ts, cutoff_end_ts)
+    else:
+        end_ts = now_ts
+    start_ts = end_ts - period_days * 86_400
     url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
-    params = {"period1": start_ts, "period2": now_ts, "interval": interval}
+    params = {"period1": start_ts, "period2": end_ts, "interval": interval}
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     try:
         with httpx.Client(timeout=15.0, headers=headers) as client:
@@ -180,8 +298,13 @@ def _fetch_yahoo_futures(symbol: str, interval: str = "1d", period_days: int = 3
             if c is None or not math.isfinite(float(c)) or float(c) <= 0:
                 continue
             dt_fmt = "%Y-%m-%d" if interval == "1d" else "%Y-%m-%dT%H:%M"
+            dt_str = datetime.fromtimestamp(int(t), UTC).strftime(dt_fmt)
+            if norm_cutoff is not None and dt_str[:10] > norm_cutoff:
+                continue
+            if strict_dev_cutoff and dt_str[:10] >= HOLDOUT_CUTOFF_DAY:
+                continue
             rows.append({
-                "date": datetime.fromtimestamp(int(t), timezone.utc).strftime(dt_fmt),
+                "date": dt_str,
                 "open": float(q["open"][i]) if (q.get("open") and q["open"][i] is not None) else float(c),
                 "high": float(q["high"][i]) if (q.get("high") and q["high"][i] is not None) else float(c),
                 "low": float(q["low"][i]) if (q.get("low") and q["low"][i] is not None) else float(c),
@@ -189,13 +312,34 @@ def _fetch_yahoo_futures(symbol: str, interval: str = "1d", period_days: int = 3
                 "adjclose": float(c),
                 "volume": float(q["volume"][i]) if (q.get("volume") and q["volume"][i] is not None) else 0.0,
             })
+        if strict_dev_cutoff and norm_cutoff is not None and rows:
+            validate_cme_dev_dates_strict(
+                [r["date"] for r in rows],
+                cutoff_date=norm_cutoff,
+                context=f"_fetch_yahoo_futures.{symbol}",
+            )
         return symbol, rows, None
+    except HoldoutLockError:
+        raise
     except Exception as exc:
         return symbol, [], f"EXC:{type(exc).__name__}:{exc}"
 
 
-def fetch_cme_futures_telemetry(cache_dir: Path = CME_CACHE_DIR, force_refresh: bool = False) -> dict[str, Any]:
-    """Fetch public continuous CME futures D1 (and 1H 180d) bars for contract friction & ATR-to-tick telemetry."""
+def fetch_cme_futures_telemetry(
+    cache_dir: Path = CME_CACHE_DIR,
+    force_refresh: bool = False,
+    *,
+    cutoff_date: str | None = DEV_CUTOFF_DATE,
+    strict_dev_cutoff: bool = True,
+) -> dict[str, Any]:
+    """Fetch or load CME continuous futures D1 (and optional 1H) telemetry with `-O`-safe `< 2025-01-01` Holdout guard.
+
+    When `strict_dev_cutoff=True` (default for Wave 4 callers):
+      - Requires `cutoff_date <= "2024-12-31"` (`HoldoutLockError` otherwise, immune to `python -O`).
+      - Filters cached parquet bars strictly `< "2025-01-01"` in memory WITHOUT overwriting Wave 2 caches on disk.
+      - Forbids post-2024 Yahoo fetches (clamps D1 `period2 <= cutoff_date` and never fetches post-2024 1H bars).
+    """
+    norm_cutoff = _validate_dev_cutoff_date(cutoff_date, strict_dev_cutoff=strict_dev_cutoff)
     cache_dir.mkdir(parents=True, exist_ok=True)
     telemetry: dict[str, Any] = {}
     targets = ("MES", "MNQ", "MGC", "MCL", "M6E", "M6J")
@@ -203,14 +347,39 @@ def fetch_cme_futures_telemetry(cache_dir: Path = CME_CACHE_DIR, force_refresh: 
     def _job(code: str) -> tuple[str, dict[str, Any]]:
         spec = CME_MICRO_SPECS[code]
         p_d1 = cache_dir / f"{code}_D1.parquet"
+        excluded_d1_rows = 0
         if p_d1.exists() and not force_refresh:
             tbl = pq.read_table(p_d1)
-            dates = tbl["date"].to_pylist()
-            h = tbl["high"].to_numpy(zero_copy_only=False)
-            l = tbl["low"].to_numpy(zero_copy_only=False)
-            c = tbl["close"].to_numpy(zero_copy_only=False)
+            raw_dates = tbl["date"].to_pylist()
+            raw_h = tbl["high"].to_numpy(zero_copy_only=False)
+            raw_l = tbl["low"].to_numpy(zero_copy_only=False)
+            raw_c = tbl["close"].to_numpy(zero_copy_only=False)
+            if norm_cutoff is not None:
+                keep_idx = [
+                    idx
+                    for idx, d_str in enumerate(raw_dates)
+                    if isinstance(d_str, str)
+                    and d_str[:10] <= norm_cutoff
+                    and (not strict_dev_cutoff or d_str[:10] < HOLDOUT_CUTOFF_DAY)
+                ]
+                excluded_d1_rows = len(raw_dates) - len(keep_idx)
+                dates = [raw_dates[i] for i in keep_idx]
+                h = raw_h[keep_idx]
+                lo = raw_l[keep_idx]
+                c = raw_c[keep_idx]
+            else:
+                dates = raw_dates
+                h = raw_h
+                lo = raw_l
+                c = raw_c
         else:
-            _, rows, err = _fetch_yahoo_futures(spec.yahoo_sym, interval="1d", period_days=3200)
+            _, rows, err = _fetch_yahoo_futures(
+                spec.yahoo_sym,
+                interval="1d",
+                period_days=3200,
+                cutoff_date=norm_cutoff,
+                strict_dev_cutoff=strict_dev_cutoff,
+            )
             if err or not rows:
                 return code, {"status": f"FETCH_FAILED:{err}"}
             tbl = pa.table(
@@ -220,32 +389,58 @@ def fetch_cme_futures_telemetry(cache_dir: Path = CME_CACHE_DIR, force_refresh: 
             pq.write_table(tbl, p_d1, compression="zstd")
             dates = [r["date"] for r in rows]
             h = np.array([r["high"] for r in rows], dtype=np.float64)
-            l = np.array([r["low"] for r in rows], dtype=np.float64)
+            lo = np.array([r["low"] for r in rows], dtype=np.float64)
             c = np.array([r["close"] for r in rows], dtype=np.float64)
 
-        # Also attempt 1H intraday telemetry (last 180 days)
+        if strict_dev_cutoff and norm_cutoff is not None:
+            validate_cme_dev_dates_strict(
+                dates,
+                cutoff_date=norm_cutoff,
+                context=f"fetch_cme_futures_telemetry.{code}.d1",
+            )
+
+        # 1H intraday telemetry: under strict_dev_cutoff=True, NEVER fetch post-2024 Yahoo 1H bars
         p_1h = cache_dir / f"{code}_1H.parquet"
         h1_rows = 0
         if p_1h.exists() and not force_refresh:
-            h1_rows = pq.read_table(p_1h, columns=["date"]).num_rows
-        else:
-            _, rows_1h, err_1h = _fetch_yahoo_futures(spec.yahoo_sym, interval="1h", period_days=180)
+            h1_dates = pq.read_table(p_1h, columns=["date"])["date"].to_pylist()
+            if norm_cutoff is not None:
+                h1_filtered = [
+                    d_str
+                    for d_str in h1_dates
+                    if isinstance(d_str, str)
+                    and d_str[:10] <= norm_cutoff
+                    and (not strict_dev_cutoff or d_str[:10] < HOLDOUT_CUTOFF_DAY)
+                ]
+                h1_rows = len(h1_filtered)
+            else:
+                h1_rows = len(h1_dates)
+        elif not strict_dev_cutoff:
+            _, rows_1h, err_1h = _fetch_yahoo_futures(
+                spec.yahoo_sym,
+                interval="1h",
+                period_days=180,
+                cutoff_date=norm_cutoff,
+                strict_dev_cutoff=False,
+            )
             if not err_1h and rows_1h:
+                ohlcv_cols = ("date", "open", "high", "low", "close", "adjclose", "volume")
                 tbl_1h = pa.table(
-                    {col: [r[col] for r in rows_1h] for col in ("date", "open", "high", "low", "close", "adjclose", "volume")},
+                    {col: [r[col] for r in rows_1h] for col in ohlcv_cols},
                     schema=ETF_SCHEMA,
                 )
                 pq.write_table(tbl_1h, p_1h, compression="zstd")
                 h1_rows = len(rows_1h)
 
         # Compute recent 90-day median daily range in price & USD per micro contract
-        rng_pts = np.maximum(0.0, h - l)
+        rng_pts = np.maximum(0.0, h - lo)
         med_range_90 = float(np.median(rng_pts[-90:])) if len(rng_pts) >= 10 else 0.0
         last_close = float(c[-1]) if len(c) else 0.0
         if code == "M6J":
             # Yahoo 6J=F is quoted in USD/JPY futures price (~0.0065) or cents; normalize via tick
-            med_range_usd = med_range_90 * spec.point_value_usd if last_close < 0.1 else (med_range_90 / 100.0) * spec.point_value_usd
-            notional_usd = last_close * spec.point_value_usd if last_close < 0.1 else (last_close / 100.0) * spec.point_value_usd
+            scale_j = 1.0 if last_close < 0.1 else 0.01
+            med_range_usd = med_range_90 * scale_j * spec.point_value_usd
+            notional_usd = last_close * scale_j * spec.point_value_usd
         else:
             med_range_usd = med_range_90 * spec.point_value_usd
             notional_usd = last_close * spec.point_value_usd
@@ -254,6 +449,10 @@ def fetch_cme_futures_telemetry(cache_dir: Path = CME_CACHE_DIR, force_refresh: 
         return code, {
             "status": "OK",
             "yahoo_sym": spec.yahoo_sym,
+            "cutoff_date": norm_cutoff,
+            "strict_dev_cutoff": strict_dev_cutoff,
+            "holdout_rows_analysed": 0 if strict_dev_cutoff else None,
+            "excluded_post_cutoff_d1_rows": excluded_d1_rows,
             "d1_rows": len(dates),
             "h1_rows": h1_rows,
             "first_date": dates[0] if dates else None,
@@ -272,6 +471,113 @@ def fetch_cme_futures_telemetry(cache_dir: Path = CME_CACHE_DIR, force_refresh: 
             telemetry[code] = info
 
     return dict(sorted(telemetry.items()))
+
+
+def load_cme_dev_d1_strict(
+    cache_dir: Path = CME_CACHE_DIR,
+    cutoff_date: str = DEV_CUTOFF_DATE,
+    *,
+    symbols: tuple[str, ...] = ("MES", "MNQ", "MGC", "MCL", "M6E", "M6J"),
+    reject_post_cutoff_in_cache: bool = False,
+) -> dict[str, Any]:
+    """Load cached CME D1 bars strictly `< 2025-01-01` (`-O`-safe, ZERO bare Python `assert`).
+
+    Guarantees:
+      - Rejects `cutoff_date is None`, non-string, malformed dates, or any `cutoff_date >= 2025-01-01`
+        with `HoldoutLockError` (active under `python -O`).
+      - Never mutates Wave 2 parquet files or `cme_prop_study_summary.json` on disk.
+      - Verifies `max_date <= cutoff_date`, `max_date < "2025-01-01"`, and `holdout_rows_analysed == 0`.
+      - When `reject_post_cutoff_in_cache=True`, fails closed with `HoldoutLockError` immediately if any
+        raw parquet row contains a date `> cutoff_date` or `>= "2025-01-01"`.
+    """
+    norm_cutoff = _validate_dev_cutoff_date(cutoff_date, strict_dev_cutoff=True)
+    if norm_cutoff is None:
+        raise HoldoutLockError("HOLDOUT_LOCK_VIOLATION [load_cme_dev_d1_strict]: cutoff_date is None")
+    cache_path = Path(cache_dir)
+    if not cache_path.is_dir():
+        raise FileNotFoundError(f"CME cache directory does not exist: {cache_path}")
+
+    series: dict[str, dict[str, Any]] = {}
+    all_max_dates: list[str] = []
+    all_min_dates: list[str] = []
+    holdout_rows_analysed = 0
+
+    for code in symbols:
+        pq_file = cache_path / f"{code}_D1.parquet"
+        if not pq_file.is_file():
+            raise FileNotFoundError(f"Missing CME D1 parquet cache for {code}: {pq_file}")
+        tbl = pq.read_table(pq_file)
+        raw_dates = tbl["date"].to_pylist()
+        if reject_post_cutoff_in_cache:
+            validate_cme_dev_dates_strict(
+                raw_dates,
+                cutoff_date=norm_cutoff,
+                context=f"load_cme_dev_d1_strict.{code}.raw",
+            )
+
+        keep_idx = [
+            i
+            for i, d_val in enumerate(raw_dates)
+            if isinstance(d_val, str) and d_val.strip()[:10] <= norm_cutoff and d_val.strip()[:10] < HOLDOUT_CUTOFF_DAY
+        ]
+        if not keep_idx:
+            raise HoldoutLockError(
+                f"HOLDOUT_LOCK_VIOLATION [load_cme_dev_d1_strict.{code}]: 0 Dev rows <= {norm_cutoff} in {pq_file}"
+            )
+        dev_dates = [str(raw_dates[i]).strip()[:10] for i in keep_idx]
+        validate_cme_dev_dates_strict(
+            dev_dates,
+            cutoff_date=norm_cutoff,
+            context=f"load_cme_dev_d1_strict.{code}.filtered",
+        )
+        sym_max = max(dev_dates)
+        sym_min = min(dev_dates)
+        if sym_max > norm_cutoff or sym_max >= HOLDOUT_CUTOFF_DAY:
+            raise HoldoutLockError(
+                f"HOLDOUT_CONTAMINATION [load_cme_dev_d1_strict.{code}]: max_date={sym_max} > {norm_cutoff}"
+            )
+
+        o_arr = tbl["open"].to_numpy(zero_copy_only=False)[keep_idx].astype(np.float64, copy=True)
+        h_arr = tbl["high"].to_numpy(zero_copy_only=False)[keep_idx].astype(np.float64, copy=True)
+        l_arr = tbl["low"].to_numpy(zero_copy_only=False)[keep_idx].astype(np.float64, copy=True)
+        c_arr = tbl["close"].to_numpy(zero_copy_only=False)[keep_idx].astype(np.float64, copy=True)
+        v_arr = tbl["volume"].to_numpy(zero_copy_only=False)[keep_idx].astype(np.float64, copy=True)
+
+        series[code] = {
+            "dates": dev_dates,
+            "open": o_arr,
+            "high": h_arr,
+            "low": l_arr,
+            "close": c_arr,
+            "volume": v_arr,
+            "n_rows": len(dev_dates),
+            "excluded_post_cutoff_rows": len(raw_dates) - len(dev_dates),
+            "first_date": sym_min,
+            "last_date": sym_max,
+        }
+        all_max_dates.append(sym_max)
+        all_min_dates.append(sym_min)
+
+    overall_max = max(all_max_dates)
+    overall_min = min(all_min_dates)
+    if overall_max > norm_cutoff or overall_max >= HOLDOUT_CUTOFF_DAY:
+        raise HoldoutLockError(
+            f"HOLDOUT_CONTAMINATION [load_cme_dev_d1_strict]: overall_max={overall_max} > {norm_cutoff}"
+        )
+    enforce_holdout_zero_rows(holdout_rows_analysed, context="load_cme_dev_d1_strict")
+
+    return {
+        "schema": "naqex-cme-dev-d1-strict-v1",
+        "cache_dir": str(cache_path),
+        "cutoff_date": norm_cutoff,
+        "holdout_cutoff_day": HOLDOUT_CUTOFF_DAY,
+        "holdout_rows_analysed": holdout_rows_analysed,
+        "order_send_count": ORDER_SEND_COUNT,
+        "symbols_loaded": list(symbols),
+        "min_date": overall_min,
+        "max_date": overall_max,
+        "series": series,
+    }
 
 
 # Engine -> CME Micro mapping for sealed Dev tapes (`< 2025-01-01`)
@@ -303,7 +609,7 @@ def build_cme_mapped_dev_daily_pnl(
     d = build_or_load_frozen_tapes(force_rebuild=False)
     ext_days: list[str] = d["ext_days"]
     if max(ext_days) >= "2025-01-01":
-        raise AssertionError(f"HOLDOUT_CONTAMINATION: {max(ext_days)}")
+        raise HoldoutLockError(f"HOLDOUT_CONTAMINATION: {max(ext_days)}")
     tapes = d["tapes"]
     reg = load_registry()
     base_risks = {e["id"]: float(e["base_risk_pct"]) for e in reg["engines"]}
@@ -334,7 +640,7 @@ def build_cme_mapped_dev_daily_pnl(
 
         for dk, (row, _st, _mk) in sorted(tapes.get(eng, {}).items()):
             if dk >= "2025-01-01":
-                raise AssertionError(f"HOLDOUT_ROW_DETECTED:{dk}")
+                raise HoldoutLockError(f"HOLDOUT_ROW_DETECTED:{dk}")
             if dk not in ext_days_set:
                 continue
             n_total += 1
@@ -629,13 +935,19 @@ def run_cme_futures_prop_lab(
     telemetry = fetch_cme_futures_telemetry(cache_dir=cache_dir)
 
     # Build 3 transparent CME scenarios strictly on sealed Dev < 2025-01-01:
-    #   (A) Naive 7-engine CME Micros @ 200 USD/unit (discrete integer contracts -> exposes M6J fee drag & MNQ min-lot skips!)
-    #   (B) Pure MNQ + MGC (3 engines: E4, E5, S7) @ 400 USD/unit (realistic 1-2 micro sizing where CME beats CFD spreads!)
-    #   (C) Institutional Full-Size / Fractional Parity Benchmark (7 engines @ 200 USD/unit with full-size 6J/6B/MNQ/MGC fee parity -> isolates pure Topstep/Tradeify rule drag!)
-    mapped_all = build_cme_mapped_dev_daily_pnl(risk_unit_usd=200.0, include_fx_micros=True, discrete_integer_contracts=True)
-    mapped_mnq_mgc_400 = build_cme_mapped_dev_daily_pnl(risk_unit_usd=400.0, include_fx_micros=False, discrete_integer_contracts=True)
-    # Institutional CME parity: MNQ/MGC at exact CME micro fees + FX at standard CME 6J/6B fee (~10.75 USD/std-lot, saving ~2.25 USD/lot vs FTMO)
-    mapped_inst_parity = build_cme_mapped_dev_daily_pnl(risk_unit_usd=200.0, include_fx_micros=True, discrete_integer_contracts=False)
+    #   (A) Naive 7-engine CME Micros @ 200 USD/unit (exposes M6J fee drag & MNQ min-lot skips)
+    #   (B) Pure MNQ + MGC (3 engines: E4, E5, S7) @ 400 USD/unit (1-2 micro sizing vs CFD)
+    #   (C) Institutional Full-Size / Fractional Parity Benchmark (7E @ 200 USD/unit)
+    mapped_all = build_cme_mapped_dev_daily_pnl(
+        risk_unit_usd=200.0, include_fx_micros=True, discrete_integer_contracts=True
+    )
+    mapped_mnq_mgc_400 = build_cme_mapped_dev_daily_pnl(
+        risk_unit_usd=400.0, include_fx_micros=False, discrete_integer_contracts=True
+    )
+    # Institutional CME parity: MNQ/MGC micro fees + standard CME 6J/6B parity
+    mapped_inst_parity = build_cme_mapped_dev_daily_pnl(
+        risk_unit_usd=200.0, include_fx_micros=True, discrete_integer_contracts=False
+    )
     # Use CFD daily USD + conservative CME index/gold fee savings for pure rule-structure isolation
     cme_rule_iso_pnl = mapped_all["daily_cfd_usd"] * 1.05
 
@@ -660,7 +972,7 @@ def run_cme_futures_prop_lab(
             res["sleeve_subset"] = "B_CME_MNQ_MGC_400R"
             sweeps.append(res)
 
-    # Scenario C: Pure Rule-Structure Isolation (full 7E signal quality + 5% CME cost bonus -> isolates Topstep/Tradeify EOD Trailing + monthly sub drag!)
+    # Scenario C: Pure Rule-Structure Isolation (full 7E signal quality + 5% CME cost bonus)
     for rules in (TOPSTEP_50K, TRADEIFY_50K_GROWTH):
         for eval_sc, fund_sc in ((1.0, 0.75), (1.5, 1.0), (2.0, 1.0), (2.5, 1.0)):
             res = simulate_futures_prop_mc(
@@ -690,13 +1002,15 @@ def run_cme_futures_prop_lab(
         "schema": "naqex-sleeve-daily-returns-v1",
         "sleeve_id": "S5_CME_FUTURES_PROP",
         "strategy_name": "CME_MNQ_MGC_3E_DEV_50K",
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "order_send_count": ORDER_SEND_COUNT,
         "holdout_lock_sha256": lock_sha,
         "holdout_rows_analysed": 0,
         "annualization_days": 252.0,
         "calendar_type": "MON_FRI_DEV_SEALED",
-        "cost_assumption": "CME Micro MNQ/MGC 1.24 USD/RT + 2 ticks spread/slip, discrete integer contracts, 0 CFD markup",
+        "cost_assumption": (
+            "CME Micro MNQ/MGC 1.24 USD/RT + 2 ticks spread/slip, discrete integer contracts, 0 CFD markup"
+        ),
         "universe_desc": "MNQ (E4, E5) + MGC (S7) on Dev 2018-2024 ONLY (Holdout 2025+ SEALED)",
         "cluster_a_window": "2018-01-02..2021-12-31",
         "cluster_b_window": "2022-01-01..2024-12-31",
@@ -707,26 +1021,31 @@ def run_cme_futures_prop_lab(
     }
     returns_path.write_text(json.dumps(sleeve_payload, indent=2) + "\n", encoding="utf-8", newline="\n")
 
+    omit_keys = ("daily_cme_usd", "daily_cfd_usd", "daily_cme_map_pct_50k", "ext_days")
     summary = {
         "schema": "naqex-lab5-cme-prop-summary-v1",
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "elapsed_sec": round(time.perf_counter() - t0, 2),
         "order_send_count": ORDER_SEND_COUNT,
         "holdout_lock_sha256": lock_sha,
         "holdout_rows_analysed": 0,
         "seed": seed,
         "n_paths": n_paths,
-        "cme_specs": {k: {**asdict(v), "all_in_cost_per_contract_usd": round(v.all_in_cost_per_contract_usd, 2)} for k, v in CME_MICRO_SPECS.items()},
+        "cme_specs": {
+            k: {**asdict(v), "all_in_cost_per_contract_usd": round(v.all_in_cost_per_contract_usd, 2)}
+            for k, v in CME_MICRO_SPECS.items()
+        },
         "yahoo_futures_telemetry": telemetry,
-        "dev_cost_mapping_all_micros": {k: v for k, v in mapped_all.items() if k not in ("daily_cme_usd", "daily_cfd_usd", "daily_cme_map_pct_50k", "ext_days")},
-        "dev_cost_mapping_mnq_mgc_400r": {k: v for k, v in mapped_mnq_mgc_400.items() if k not in ("daily_cme_usd", "daily_cfd_usd", "daily_cme_map_pct_50k", "ext_days")},
-        "dev_cost_mapping_fractional_micros": {k: v for k, v in mapped_inst_parity.items() if k not in ("daily_cme_usd", "daily_cfd_usd", "daily_cme_map_pct_50k", "ext_days")},
+        "dev_cost_mapping_all_micros": {k: v for k, v in mapped_all.items() if k not in omit_keys},
+        "dev_cost_mapping_mnq_mgc_400r": {k: v for k, v in mapped_mnq_mgc_400.items() if k not in omit_keys},
+        "dev_cost_mapping_fractional_micros": {k: v for k, v in mapped_inst_parity.items() if k not in omit_keys},
         "mc_sweeps": sweeps,
         "best_topstep": best_topstep,
         "best_tradeify": best_tradeify,
         "cfd_baselines_m22": VERIFIED_CFD_PROP_BASELINES,
     }
-    (cache_dir / "cme_prop_study_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    out_summary = cache_dir / "cme_prop_study_summary.json"
+    out_summary.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
     return summary
 
 
@@ -736,18 +1055,34 @@ def main() -> int:
     ap.add_argument("--seed", type=int, default=20261124)
     args = ap.parse_args()
     res = run_cme_futures_prop_lab(n_paths=args.n_paths, seed=args.seed)
+    compact_keys = (
+        "firm_id",
+        "sleeve_subset",
+        "eval_scale",
+        "fail_1try_pct",
+        "med_pass_m",
+        "cf_24m_usd",
+        "ev_per_usd_fee",
+        "oop95_usd",
+    )
     print(json.dumps({
         "elapsed_sec": res["elapsed_sec"],
         "holdout_rows_analysed": res["holdout_rows_analysed"],
-        "telemetry_ok": {k: (v.get("status"), v.get("cost_pct_of_d1_range")) for k, v in res["yahoo_futures_telemetry"].items()},
-        "all_micros_net": (res["dev_cost_mapping_all_micros"]["total_cme_net_usd"], res["dev_cost_mapping_all_micros"]["total_cfd_net_usd"]),
-        "mnq_mgc_400r_net": (res["dev_cost_mapping_mnq_mgc_400r"]["total_cme_net_usd"], res["dev_cost_mapping_mnq_mgc_400r"]["total_cfd_net_usd"]),
+        "telemetry_ok": {
+            k: (v.get("status"), v.get("cost_pct_of_d1_range"))
+            for k, v in res["yahoo_futures_telemetry"].items()
+        },
+        "all_micros_net": (
+            res["dev_cost_mapping_all_micros"]["total_cme_net_usd"],
+            res["dev_cost_mapping_all_micros"]["total_cfd_net_usd"],
+        ),
+        "mnq_mgc_400r_net": (
+            res["dev_cost_mapping_mnq_mgc_400r"]["total_cme_net_usd"],
+            res["dev_cost_mapping_mnq_mgc_400r"]["total_cfd_net_usd"],
+        ),
         "best_topstep": res["best_topstep"],
         "best_tradeify": res["best_tradeify"],
-        "mc_sweeps_compact": [
-            {k: s[k] for k in ("firm_id", "sleeve_subset", "eval_scale", "fail_1try_pct", "med_pass_m", "cf_24m_usd", "ev_per_usd_fee", "oop95_usd")}
-            for s in res["mc_sweeps"]
-        ],
+        "mc_sweeps_compact": [{k: s[k] for k in compact_keys} for s in res["mc_sweeps"]],
     }, indent=2))
     return 0
 

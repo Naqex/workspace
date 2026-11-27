@@ -149,13 +149,15 @@ def _apply_red_news_guard_to_tape(
         new_marks = marks[: k + 1].copy()
         term_pnl = float(new_marks[-1, 3])
         new_marks[-1, 3] = term_pnl
+        new_net_r = float(term_pnl / max(1e-6, float(row["stop_risk_with_cost_usd"])))
         new_row = {
             **row,
             "exit": int(new_stamps[-1]) + 60,
             "at_open": False,
             "reason": "NEWS_PRE_FLATTEN",
             "net_usd_per_lot": term_pnl,
-            "net_R": float(term_pnl / row["stop_risk_with_cost_usd"]),
+            "net_R": new_net_r,
+            "gross_R": new_net_r,
         }
         out[dk] = (new_row, new_stamps, new_marks)
         stats["flattened_pre_news"] += 1

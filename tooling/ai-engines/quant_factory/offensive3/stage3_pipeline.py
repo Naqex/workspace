@@ -102,6 +102,7 @@ from quant_factory.robustness_gate import (  # noqa: E402
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
 HOLDOUT_CUTOFF_DAY: str = "2025-01-01"
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 CAMPAIGN_PRIMARY_FAMILY_ID: str = "offensive3_primary_m200"
 CAMPAIGN_EXPLORATORY_FAMILY_ID: str = "offensive3_exploratory_m1200"
@@ -471,6 +472,7 @@ def _resolve_git_sha(root: Path) -> str:
             text=True,
             timeout=5,
             check=False,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if proc.returncode == 0 and proc.stdout.strip():
             return proc.stdout.strip()
@@ -959,41 +961,102 @@ def _resolve_resolution_and_blindness(
     return data_res, b_tier
 
 
+def _split_pair_symbol(raw_sym: str) -> tuple[str, str] | None:
+    """Split a slash-joined pair identifier `'SYM_A/SYM_B'` into normalized `(sym_a, sym_b)`."""
+    s = str(raw_sym or "").strip()
+    if "/" not in s:
+        return None
+    parts = [p.strip() for p in s.split("/") if p.strip()]
+    if len(parts) != 2:
+        return None
+    return normalize_symbol(parts[0]), normalize_symbol(parts[1])
+
+
+def _extract_trade_symbol_key(tr: Mapping[str, Any]) -> str:
+    """Extract canonical single symbol `'SYM'` or pair key `'SYM_A/SYM_B'` from a trade record."""
+    leg_a = str(tr.get("leg_a") or "").strip()
+    leg_b = str(tr.get("leg_b") or "").strip()
+    if leg_a and leg_b:
+        return f"{normalize_symbol(leg_a)}/{normalize_symbol(leg_b)}"
+    raw = str(tr.get("symbol") or tr.get("asset") or "").strip()
+    if not raw:
+        return ""
+    pair = _split_pair_symbol(raw)
+    if pair is not None:
+        return f"{pair[0]}/{pair[1]}"
+    return normalize_symbol(raw)
+
+
+def _extract_trade_side(tr: Mapping[str, Any]) -> int:
+    """Extract trade direction (`+1` or `-1`), supporting pair trades emitting `spread_dir`."""
+    raw = tr.get("side")
+    if raw is None:
+        raw = tr.get("spread_dir", 1)
+    return 1 if int(raw) >= 0 else -1
+
+
 def _build_underlying_market_daily_returns(
     symbols: Sequence[str],
     universe: Mapping[str, Any] | None,
     calendar_dates: Sequence[str],
 ) -> dict[str, float]:
-    """Build equal-weighted underlying asset daily close-to-close return map on `calendar_dates`."""
+    """Build equal-weighted underlying asset (or pair spread `'SYM_A/SYM_B'`) daily return map."""
     out: dict[str, float] = {str(d): 0.0 for d in calendar_dates}
     if universe is None or not isinstance(universe.get("assets"), Mapping):
         return out
     assets = universe["assets"]
     counts: dict[str, int] = {str(d): 0 for d in calendar_dates}
+    d1_ret_cache: dict[str, dict[str, float]] = {}
 
-    for sym in symbols:
+    def _get_d1_ret_map(sym: str) -> dict[str, float]:
+        if sym in d1_ret_cache:
+            return d1_ret_cache[sym]
+        ret_map: dict[str, float] = {}
         aobj = assets.get(sym)
-        if not isinstance(aobj, Mapping):
-            continue
-        d1 = aobj.get("d1")
-        if not isinstance(d1, Mapping):
-            continue
-        raw_dates = d1.get("dates")
-        raw_closes = d1.get("close")
-        if raw_dates is None or raw_closes is None:
-            continue
-        dates_s = [str(d) for d in raw_dates]
-        closes_s = np.asarray(raw_closes, dtype=np.float64)
-        if len(dates_s) < 2 or len(dates_s) != len(closes_s):
-            continue
-        enforce_pre_holdout_dates(dates_s, context=f"stage3.mkt_ret:{sym}")
-        for i in range(1, len(dates_s)):
-            dk = dates_s[i]
-            if dk in out and closes_s[i - 1] > 0.0 and closes_s[i] > 0.0:
-                ret = (float(closes_s[i]) / float(closes_s[i - 1])) - 1.0
-                if math.isfinite(ret):
-                    out[dk] += ret
+        if isinstance(aobj, Mapping) and isinstance(aobj.get("d1"), Mapping):
+            d1 = aobj["d1"]
+            raw_dates = d1.get("dates")
+            raw_closes = d1.get("close")
+            if raw_dates is not None and raw_closes is not None:
+                dates_s = [str(d) for d in raw_dates]
+                closes_s = np.asarray(raw_closes, dtype=np.float64)
+                if len(dates_s) >= 2 and len(dates_s) == len(closes_s):
+                    enforce_pre_holdout_dates(dates_s, context=f"stage3.mkt_ret:{sym}")
+                    for i in range(1, len(dates_s)):
+                        dk = dates_s[i]
+                        if dk in out and closes_s[i - 1] > 0.0 and closes_s[i] > 0.0:
+                            rv = (float(closes_s[i]) / float(closes_s[i - 1])) - 1.0
+                            if math.isfinite(rv):
+                                ret_map[dk] = rv
+        d1_ret_cache[sym] = ret_map
+        return ret_map
+
+    for raw_sym in symbols:
+        pair = _split_pair_symbol(str(raw_sym))
+        if pair is not None:
+            sym_a, sym_b = pair
+            ra = _get_d1_ret_map(sym_a)
+            rb = _get_d1_ret_map(sym_b)
+            if ra and rb:
+                for dk in out:
+                    if dk in ra and dk in rb:
+                        out[dk] += ra[dk] - rb[dk]
+                        counts[dk] += 1
+            elif ra:
+                for dk, rv in ra.items():
+                    out[dk] += rv
                     counts[dk] += 1
+            elif rb:
+                for dk, rv in rb.items():
+                    out[dk] += rv
+                    counts[dk] += 1
+            continue
+
+        sym = normalize_symbol(str(raw_sym))
+        rs = _get_d1_ret_map(sym)
+        for dk, rv in rs.items():
+            out[dk] += rv
+            counts[dk] += 1
 
     for dk in out:
         if counts[dk] > 0:
@@ -1011,7 +1074,7 @@ def _run_candidate_random_entry_mc(
     draws: int,
     seed: int,
 ) -> tuple[dict[str, Any] | None, float]:
-    """Run Swing-safe or Intraday real-market Random-Entry MC across 1 or N symbols."""
+    """Run Swing-safe or Intraday real-market Random-Entry MC across 1, N, or pair (`'SYM_A/SYM_B'`) symbols."""
     if not trades:
         return None, 0.0
 
@@ -1026,12 +1089,24 @@ def _run_candidate_random_entry_mc(
     for tr in trades:
         rv = tr.get("net_R_1x", tr.get("net_R", 0.0))
         r_list.append(float(rv))
-        s_list.append(1 if int(tr.get("side", 1)) >= 0 else -1)
+        s_list.append(_extract_trade_side(tr))
         ep = float(tr.get("entry_price", 0.0))
         sl_dist = float(tr.get("sl_dist", 0.0))
         if sl_dist <= 0.0 and ep > 0.0 and tr.get("sl_price") is not None:
             sl_dist = abs(ep - float(tr["sl_price"]))
-        sl_frac = max(0.0005, sl_dist / ep) if (ep > 1e-9 and sl_dist > 0.0) else 0.01
+        if ep > 1e-9 and sl_dist > 0.0:
+            sl_frac = max(0.0005, sl_dist / ep)
+        else:
+            leg_sl_fracs: list[float] = []
+            for ek, sk in (("entry_price_a", "sl_price_a"), ("entry_price_b", "sl_price_b")):
+                ev_leg = tr.get(ek)
+                sv_leg = tr.get(sk)
+                if ev_leg is not None and sv_leg is not None:
+                    e_f = float(ev_leg)
+                    s_f = float(sv_leg)
+                    if e_f > 1e-9 and abs(e_f - s_f) > 0.0:
+                        leg_sl_fracs.append(abs(e_f - s_f) / e_f)
+            sl_frac = max(0.0005, float(np.mean(leg_sl_fracs))) if leg_sl_fracs else 0.01
         sl_list.append(sl_frac)
 
         f1x = float(tr.get("friction_over_sl_1x", tr.get("friction_over_sl", 0.02)))
@@ -1053,8 +1128,7 @@ def _run_candidate_random_entry_mc(
                 hm = max(5, int((int(tr["exit_ts"]) - int(tr["entry_ts"])) // 60))
             dur_val = max(1, int(round(float(hm if hm is not None else 30) / 5.0)))
         dur_list.append(dur_val)
-        sym_raw = tr.get("symbol") or tr.get("asset") or ""
-        sym_list.append(normalize_symbol(str(sym_raw)) if str(sym_raw).strip() else "")
+        sym_list.append(_extract_trade_symbol_key(tr))
 
     swap_drag_per_day_r = float(np.mean(swap_per_day_list)) if (is_swing and swap_per_day_list) else 0.0
 
@@ -1065,15 +1139,26 @@ def _run_candidate_random_entry_mc(
     f_arr = np.asarray(fric_list, dtype=np.float64)
 
     assets = universe.get("assets") if (universe is not None and isinstance(universe.get("assets"), Mapping)) else {}
-    uniq_syms = sorted({s for s in sym_list if s and s in assets})
+
+    def _has_bars_for_key(sym_key: str) -> bool:
+        if not sym_key:
+            return False
+        if sym_key in assets:
+            return True
+        pair = _split_pair_symbol(sym_key)
+        return pair is not None and (pair[0] in assets or pair[1] in assets)
+
+    uniq_syms = sorted({s for s in sym_list if _has_bars_for_key(s)})
     if not uniq_syms:
         return None, swap_drag_per_day_r
 
-    def _get_symbol_bars(sym: str) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, int] | None:
+    def _get_single_symbol_bars(
+        sym: str, *, force_d1: bool = False
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, int] | None:
         aobj = assets.get(sym)
         if not isinstance(aobj, Mapping):
             return None
-        if not is_swing and isinstance(aobj.get("m1"), Mapping):
+        if not force_d1 and not is_swing and isinstance(aobj.get("m1"), Mapping):
             if sym not in m5_cache:
                 m1 = aobj["m1"]
                 ts_m1 = np.asarray(m1["times_sec"], dtype=np.int64)
@@ -1081,7 +1166,6 @@ def _run_candidate_random_entry_mc(
                 enforce_pre_holdout_ts(ts_m1, context=f"stage3.mc_m1:{sym}")
                 m5_cache[sym] = resample_m1_quotes_to_m5_mid(ts_m1, q_m1)
             ts5, o5, h5, l5, c5 = m5_cache[sym]
-            # Filter M5 to Cluster B timestamps
             yr_start = int(datetime(min(clb_year_set), 1, 1, tzinfo=UTC).timestamp())
             yr_end = int(datetime(max(clb_year_set) + 1, 1, 1, tzinfo=UTC).timestamp())
             mask = (ts5 >= yr_start) & (ts5 < yr_end)
@@ -1102,6 +1186,64 @@ def _run_candidate_random_entry_mc(
             if ts_d.size >= 20:
                 return ts_d, o_d, h_d, l_d, c_d, 86400
         return None
+
+    def _get_symbol_bars(
+        sym_key: str,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, int] | None:
+        pair = _split_pair_symbol(sym_key)
+        if pair is None:
+            return _get_single_symbol_bars(sym_key)
+        sym_a, sym_b = pair
+        bars_a = _get_single_symbol_bars(sym_a)
+        bars_b = _get_single_symbol_bars(sym_b)
+        if bars_a is None:
+            return bars_b
+        if bars_b is None:
+            return bars_a
+        if bars_a[5] != bars_b[5]:
+            bars_a = _get_single_symbol_bars(sym_a, force_d1=True) or bars_a
+            bars_b = _get_single_symbol_bars(sym_b, force_d1=True) or bars_b
+            if bars_a[5] != bars_b[5]:
+                return bars_a
+        ts_a, oa, ha, la, ca, bsec = bars_a
+        ts_b, ob, hb, lb, cb, _ = bars_b
+        common_ts, ia, ib = np.intersect1d(ts_a, ts_b, assume_unique=False, return_indices=True)
+        min_req = 50 if bsec == 300 else 20
+        if common_ts.size < min_req:
+            return bars_a
+        oa_c, ha_c, la_c, ca_c = oa[ia], ha[ia], la[ia], ca[ia]
+        ob_c, hb_c, lb_c, cb_c = ob[ib], hb[ib], lb[ib], cb[ib]
+        valid = (
+            (oa_c > 1e-12)
+            & (ob_c > 1e-12)
+            & (ha_c > 1e-12)
+            & (hb_c > 1e-12)
+            & (la_c > 1e-12)
+            & (lb_c > 1e-12)
+            & (ca_c > 1e-12)
+            & (cb_c > 1e-12)
+        )
+        if int(np.sum(valid)) < min_req:
+            return bars_a
+        ts_c = np.ascontiguousarray(common_ts[valid], dtype=np.int64)
+        oa_v, ha_v, la_v, ca_v = oa_c[valid], ha_c[valid], la_c[valid], ca_c[valid]
+        ob_v, hb_v, lb_v, cb_v = ob_c[valid], hb_c[valid], lb_c[valid], cb_c[valid]
+        a0 = float(oa_v[0])
+        b0 = float(ob_v[0])
+        s_o = 100.0 * (oa_v / a0) / (ob_v / b0)
+        s_c = 100.0 * (ca_v / a0) / (cb_v / b0)
+        s_hh = 100.0 * (ha_v / a0) / (hb_v / b0)
+        s_ll = 100.0 * (la_v / a0) / (lb_v / b0)
+        s_h = np.maximum.reduce([s_o, s_c, s_hh, s_ll])
+        s_l = np.minimum.reduce([s_o, s_c, s_hh, s_ll])
+        return (
+            ts_c,
+            np.ascontiguousarray(s_o, dtype=np.float64),
+            np.ascontiguousarray(s_h, dtype=np.float64),
+            np.ascontiguousarray(s_l, dtype=np.float64),
+            np.ascontiguousarray(s_c, dtype=np.float64),
+            bsec,
+        )
 
     if len(uniq_syms) == 1:
         bars = _get_symbol_bars(uniq_syms[0])
@@ -1323,6 +1465,11 @@ def classify_candidate_tier(audit: Mapping[str, Any]) -> dict[str, Any]:
 
     if not bool(g2.get("passed", False)):
         failed_prop.append("PROP_DSR_OR_SHARPE_FLOOR")
+    dsr_emp_val = audit.get("dsr_empirical")
+    if dsr_emp_val is not None and float(dsr_emp_val) < 0.50:
+        failed_prop.append("PROP_DSR_EMPIRICAL_LT_050")
+    if str(mc.get("mc_mode") or "") == "sign_flip_fallback":
+        failed_prop.append("PROP_MC_SIGN_FLIP_FALLBACK_BLOCKED")
     if str(rb.get("verdict")) != "PASS_ROBUST":
         failed_prop.append(f"PROP_ROBUSTNESS_{rb.get('verdict')}")
 
@@ -1916,7 +2063,7 @@ def run_stage3_blind_clb(
             )
 
             t_r = np.array([float(tr.get("net_R_1x", tr.get("net_R", 0.0))) for tr in trades_b], dtype=np.float64)
-            t_sides = np.array([1 if int(tr.get("side", 1)) >= 0 else -1 for tr in trades_b], dtype=np.int64)
+            t_sides = np.array([_extract_trade_side(tr) for tr in trades_b], dtype=np.int64)
             t_days = [str(tr.get("exit_date") or tr.get("entry_date")) for tr in trades_b]
             t_holds = [
                 max(
@@ -1941,6 +2088,7 @@ def run_stage3_blind_clb(
                 min_trimmed_pf=1.0,
                 allow_weekend_gaps=is_swing,
                 swap_drag_per_day_r=swap_drag_r if is_swing else 0.0,
+                allow_sign_flip_fallback=False,
             )
 
             # Fallback close series if symbol wasn't in universe assets
@@ -1994,8 +2142,16 @@ def run_stage3_blind_clb(
                     },
                 }
 
-            # Matched-Hold Timing Permutation (`p < 0.05`)
-            mkt_daily_clb = _build_underlying_market_daily_returns(s["traded_symbols"], eff_universe, cal_clb)
+            # Matched-Hold Timing Permutation (`p < 0.05`; preserve pair `'SYM_A/SYM_B'` keys for spread returns)
+            pair_keys_for_timing: list[str] = []
+            seen_pair_keys: set[str] = set()
+            for tr in trades_b:
+                tkey = _extract_trade_symbol_key(tr)
+                if "/" in tkey and tkey not in seen_pair_keys:
+                    seen_pair_keys.add(tkey)
+                    pair_keys_for_timing.append(tkey)
+            timing_syms = pair_keys_for_timing if pair_keys_for_timing else s["traded_symbols"]
+            mkt_daily_clb = _build_underlying_market_daily_returns(timing_syms, eff_universe, cal_clb)
             timing_res = matched_hold_timing_permutation_p(
                 mkt_daily_clb,
                 t_days,
@@ -2034,6 +2190,7 @@ def run_stage3_blind_clb(
             )
 
             pbo_matrix_for_cand = fam_pbo_matrices[fid]
+            pool_sh_for_cand = prim_sharpes if (s["is_primary"] and len(prim_sharpes) >= 2) else expl_sharpes
             evidence = EvidenceBundle(
                 cluster_a_returns=vec_1x_a,
                 cluster_b_returns=s["vec_1x_b"],
@@ -2051,6 +2208,8 @@ def run_stage3_blind_clb(
                 incumbent_dates=tuple(cal_clb),
                 pbo_returns_matrix=pbo_matrix_for_cand,
                 pbo_n_slices=eff_pbo_slices,
+                trial_sharpes=tuple(pool_sh_for_cand),
+                trial_sharpes_are_annualized=True,
             )
 
             council_verdict = critique_proposal(

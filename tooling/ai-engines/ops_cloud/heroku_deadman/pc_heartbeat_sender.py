@@ -10,17 +10,18 @@ Runs silently on your Windows 10 (`i3-7100`) PC alongside MetaTrader 5:
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
 import time
-from typing import Any
 import urllib.request
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
 
 ORDER_SEND_COUNT: int = 0
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 
 def is_mt5_process_running(process_name: str = "terminal64.exe") -> bool:
@@ -30,6 +31,7 @@ def is_mt5_process_running(process_name: str = "terminal64.exe") -> bool:
         proc = subprocess.run(
             ["tasklist", "/FI", f"IMAGENAME eq {process_name}"],
             capture_output=True, text=True, timeout=5, check=False,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         return process_name.lower() in (proc.stdout or "").lower()
     except Exception:
@@ -52,7 +54,7 @@ def build_heartbeat_envelope(
     return {
         "schema": "naqex-pc-heartbeat-envelope-v1",
         "order_send_count": ORDER_SEND_COUNT,
-        "sent_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "sent_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "account_label": account_label,
         "mt5_running": True if skip_process_check else is_mt5_process_running(),
         "heartbeat_present": hb_present,
@@ -60,7 +62,13 @@ def build_heartbeat_envelope(
     }
 
 
-def send_heartbeat(endpoint_url: str, token: str, envelope: dict[str, Any], *, timeout_sec: float = 10.0) -> dict[str, Any]:
+def send_heartbeat(
+    endpoint_url: str,
+    token: str,
+    envelope: dict[str, Any],
+    *,
+    timeout_sec: float = 10.0,
+) -> dict[str, Any]:
     raw = json.dumps(envelope, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         endpoint_url,
@@ -89,7 +97,10 @@ def main(argv: list[str] | None = None) -> int:
 
     token = os.environ.get("NAQEX_INGEST_TOKEN", "").strip()
     if not args.dry_run and (not args.endpoint or not token):
-        print("ERROR: Set --endpoint (or NAQEX_DEADMAN_URL) and env NAQEX_INGEST_TOKEN before live sending.", file=sys.stderr)
+        print(
+            "ERROR: Set --endpoint (or NAQEX_DEADMAN_URL) and env NAQEX_INGEST_TOKEN before live sending.",
+            file=sys.stderr,
+        )
         return 2
 
     while True:
@@ -99,7 +110,8 @@ def main(argv: list[str] | None = None) -> int:
             skip_process_check=args.skip_process_check,
         )
         if args.dry_run:
-            print(json.dumps({"dry_run": True, "endpoint": args.endpoint, "envelope": env}, ensure_ascii=False), flush=True)
+            dry_msg = json.dumps({"dry_run": True, "endpoint": args.endpoint, "envelope": env}, ensure_ascii=False)
+            print(dry_msg, flush=True)
         else:
             try:
                 res = send_heartbeat(args.endpoint, token, env)
