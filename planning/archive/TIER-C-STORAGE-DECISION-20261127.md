@@ -3,15 +3,14 @@ doc_type: storage-decision
 domain: workspace
 topic: tier-c-storage-decision-20261127
 updated_utc: 2026-11-27
-status: PENDING_OWNER_DECISION
-deletions_performed: 0
+status: PARTIALLY_EXECUTED_BATCH1_AND_3A_DONE
+deletions_performed: 5
 tier: C
 ---
 
 # Quyết Định Dọn Dẹp Lưu Trữ Tầng C (`2026-11-27`) — ~51,94 GiB (`53.186 MiB` / `55,77 GB`)
 
-> **Trạng thái:** **CHƯA XÓA BẤT KỲ MỤC NÀO TRONG TẦNG C (`0` byte bị đụng).**
-> Toàn bộ 6 hạng mục dưới đây đều có liên kết hệ thống (Windows Junction sang `E:`, WSL2 VHDX, hoặc chứa file Git-tracked) nên **bắt buộc có quyết định trực tiếp của chủ sở hữu** và **chỉ chạy đúng lệnh an toàn bên dưới** (tuyệt đối không xóa bằng `Remove-Item -Recurse` thuần trên PowerShell 5.1).
+> **Trạng thái cập nhật (`2026-11-27 11:21 ICT`):** Đã hoàn tất an toàn **Đợt 1 + Đợt 3A** theo phê duyệt của chủ sở hữu (sao lưu lạnh sang `E:\BACKUP-TRADINGWORKSPACE\tier-c-20261127\`, thu hồi thực tế **`+11,670 GiB`** trên ổ `D:` từ `161,461 -> 173,131 GiB`, xác minh `10/10` đích junction trên `E:` còn nguyên). **Đợt 2** (`.runtime/linux/` WSL2 `NaqexResearch`, `6,72 GiB`) và **Đợt 3B** (phần còn lại của `projects/mt5-tradingview-backtester/` gồm `quantdatamanager/`, `~32,89 GiB`) **được giữ nguyên 100% chưa chạm**.
 
 ---
 
