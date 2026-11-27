@@ -224,6 +224,7 @@ def test_pass29_pass30_holdout_lock_and_matched_hold_null():
     assert p_bad >= 0.98
 
 
+@pytest.mark.local_cache
 def test_generated_return_jsons_and_research_docs_anti_bloat():
     ret_dir = ROOT / ".runtime" / "quant-pod-returns"
     for fname in ("sleeve2_crypto_spot.json", "sleeve3a_funding_carry.json", "sleeve3b_macro_etf.json"):

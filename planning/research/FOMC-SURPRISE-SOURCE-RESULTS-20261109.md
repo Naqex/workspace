@@ -62,6 +62,6 @@ accountpolicy/PnL/candidate mới; catalogue85/58giữ nguyên. Không đổi ra
 cohort hoặc authority để tựpass; không mua feed hoặc mởholdout.
 
 Lát tiếp dùng đầu vào **giá đã quan sát được trước sự kiện** từ nguồn hiện
-có: [R086 protocol](US500-FOMC-PRICE-MOMENTUM-PROTOCOL-20261109.md). Đây là own
+có: [R086 protocol](archive/US500-FOMC-PRICE-MOMENTUM-PROTOCOL-20261109.md). Đây là own
 price-only adaptation; không dùng future surprise để phân loại một lệnh trước
 FOMC, không biến researchdataset2024 thành featurelive2019. C1/C2 vẫn chưa đạt.

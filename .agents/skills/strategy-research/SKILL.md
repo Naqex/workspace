@@ -81,8 +81,10 @@ chỉ hỏi tiến độ.
   Với workspace, đọc `tooling/ai-engines/OBSERVABILITY.md`: ghi event theo phase/
   counter và failure locations, không log mỗi tick/secret hoặc gọi stale là dead.
 - Chuyển exact run/protocol/candidate/evidence locator cho
-  `strategy-qualification` qua native dossier; lưu nguồn/giới hạn/trial history/
-  next action ngoài chat trước kết thúc. Không tự đổi protocol sau outcome.
+  [strategy-qualification](../strategy-qualification/SKILL.md) qua native dossier
+  sau khi tự phản biện fail-closed bằng [adversarial-self-audit](../adversarial-self-audit/SKILL.md);
+  lưu nguồn/giới hạn/trial history/next action ngoài chat qua
+  [evidence-continuity](../evidence-continuity/SKILL.md) trước kết thúc. Không tự đổi protocol sau outcome.
 - Đóng batch screening/kiểm nghiệm có kết quả mới: dùng
   [engineering-retrospective](../engineering-retrospective/SKILL.md) để hậu kiểm
   gọn và sửa phần có evidence; không rerun batch không đổi hoặc tuning rules

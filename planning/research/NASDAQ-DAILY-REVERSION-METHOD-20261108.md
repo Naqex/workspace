@@ -15,7 +15,7 @@ hiệu quả sau sample. Không importcode/data hoặc claim fullreplication.
 
 Parent ý tưởng có thể làR050(US500RSI3+IBS05), không làmethod chưa từngthử.
 US500 source-only long đã không đạt; đọc
-[correctedresults](INDEX-LONG-EXPLICIT-RESULTS-20261108.md) trước code. Nasdaq
+[correctedresults](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) trước code. Nasdaq
 asset adaptation là trialrelated, không independentedge. KhácSMA/R061 ở
 meanreversiondaily, kháceventfixedclockR062; chưa khóa candidate/thresholds/
 cost/riskwrapper ởlát source này, không accountpolicy mới.

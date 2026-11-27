@@ -708,6 +708,7 @@ def test_explicit_execute_flag_and_summarize_realized_friction_multiplier(tmp_pa
     assert us100_sp["live_to_dev_spread_ratio_bps"] < 1.0
 
 
+@pytest.mark.local_cache
 def test_real_hot_m1_cache_baselines_enforce_zero_holdout() -> None:
     """Verify real `.runtime/hot-m1-cache` baseline loader reads strictly < 2025-01-01 (`holdout_rows_analysed == 0`)."""
     if not (probe.DEFAULT_HOT_M1_CACHE / "manifest.json").is_file():

@@ -19,6 +19,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+import pytest
+
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
 if str(AI_ENGINES) not in sys.path:
@@ -50,6 +52,7 @@ EXPECTED_BASKET_HEADER = [
 ]
 
 
+@pytest.mark.local_cache
 def test_all_four_new_modes_dryrun_and_s3b_parity():
     assert len(assert_holdout_locked()) == 64
     assert ORDER_SEND_COUNT == 0
@@ -75,6 +78,7 @@ def test_all_four_new_modes_dryrun_and_s3b_parity():
         assert all(isinstance(t["Quantity"], int) and t["Quantity"] >= 1 for t in plan["tickets"])
 
 
+@pytest.mark.local_cache
 def test_ibkr_tiered_commission_and_5k_warn_vs_50k_clean():
     assert abs(compute_ibkr_tiered_commission(1.0, 500.0) - 0.35) < 1e-12
     assert abs(compute_ibkr_tiered_commission(1.0, 10.0) - 0.10) < 1e-12
@@ -98,6 +102,7 @@ def test_ibkr_tiered_commission_and_5k_warn_vs_50k_clean():
     assert p5k["idle_cash_pct"] < p5k_int["idle_cash_pct"]
 
 
+@pytest.mark.local_cache
 def test_ibkr_basket_trader_csv_schema_and_cli_execution(tmp_path: Path):
     out_basket = tmp_path / "ibkr_basket_super6.csv"
     out_json = tmp_path / "ibkr_plan_super6.json"

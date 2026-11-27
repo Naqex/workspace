@@ -114,6 +114,7 @@ private:
    NaqexSymbolFeedState m_feeds[NAQEX_SYM_COUNT];
    datetime             m_tradedDay[8]; // 0..6 = E1..E7, 7 = S6
    bool                 m_tradedDayHydrated;
+   bool                 m_drillForceHistoryFail;
    int                  m_intentSeq;
    int                  m_maxBreakoutLagMs;
    bool                 m_enableS6Shadow;
@@ -169,28 +170,33 @@ private:
       PersistOppState(m_oppStateFileOverride);
    }
 
+   static void ResetOppEpisodeStruct(NaqexOppEpisode &ep)
+   {
+      ep.active            = false;
+      ep.opp_id            = "";
+      ep.engine_id         = "";
+      ep.magic             = 0;
+      ep.symbol            = "";
+      ep.session_day       = 0;
+      ep.side              = 0;
+      ep.opened_utc        = 0;
+      ep.open_signal_price = 0.0;
+      ep.eval_count        = 0;
+      ep.block_count       = 0;
+      ep.blk_lmin          = 0;
+      ep.blk_cap           = 0;
+      ep.blk_spread        = 0;
+      ep.blk_news          = 0;
+      ep.blk_other         = 0;
+      ep.last_block_key    = "";
+      ep.ep_seq            = 0;
+      ep.ep_seq_day        = 0;
+   }
+
    void ResetOppEpisode(const int idx)
    {
       if(idx < 0 || idx >= 8) return;
-      m_opp[idx].active            = false;
-      m_opp[idx].opp_id            = "";
-      m_opp[idx].engine_id         = "";
-      m_opp[idx].magic             = 0;
-      m_opp[idx].symbol            = "";
-      m_opp[idx].session_day       = 0;
-      m_opp[idx].side              = 0;
-      m_opp[idx].opened_utc        = 0;
-      m_opp[idx].open_signal_price = 0.0;
-      m_opp[idx].eval_count        = 0;
-      m_opp[idx].block_count       = 0;
-      m_opp[idx].blk_lmin          = 0;
-      m_opp[idx].blk_cap           = 0;
-      m_opp[idx].blk_spread        = 0;
-      m_opp[idx].blk_news          = 0;
-      m_opp[idx].blk_other         = 0;
-      m_opp[idx].last_block_key    = "";
-      m_opp[idx].ep_seq            = 0;
-      m_opp[idx].ep_seq_day        = 0;
+      ResetOppEpisodeStruct(m_opp[idx]);
    }
 
    static string FormatOppBlockBreakdown(const int bLmin, const int bCap, const int bSpr, const int bNews, const int bOth)
@@ -395,8 +401,9 @@ private:
 public:
    CNaqexSignals7E()
    {
-      m_tradedDayHydrated = false;
-      m_intentSeq        = 0;
+      m_tradedDayHydrated     = false;
+      m_drillForceHistoryFail = false;
+      m_intentSeq             = 0;
       m_maxBreakoutLagMs = 5000;
       m_enableS6Shadow   = true;
       m_atrPeriod        = 14;
@@ -438,11 +445,12 @@ public:
              const int maxBreakoutLagMs = 5000, const bool enableS6Shadow = true,
              const int oppLifecycleMode = 0)
    {
-      m_maxBreakoutLagMs = maxBreakoutLagMs;
-      m_enableS6Shadow   = enableS6Shadow;
-      m_oppLifecycleMode = oppLifecycleMode;
-      m_oppStateRestored = false;
-      m_oppEventCount    = 0;
+      m_maxBreakoutLagMs      = maxBreakoutLagMs;
+      m_enableS6Shadow        = enableS6Shadow;
+      m_oppLifecycleMode      = oppLifecycleMode;
+      m_oppStateRestored      = false;
+      m_drillForceHistoryFail = false;
+      m_oppEventCount         = 0;
       m_nyAnchorJustLocked = false;
       m_nyAnchorLockedUtc  = 0;
       for(int i = 0; i < 8; i++) ResetOppEpisode(i);
@@ -552,7 +560,8 @@ public:
       if(m_oppLifecycleMode != 1) return false;
       if(MQLInfoInteger(MQL_TESTER) && fileOverride == "") return false;
       string fname = (fileOverride != "") ? fileOverride : OppStateFileName();
-      int fh = FileOpen(fname, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+      string tmp = fname + ".tmp";
+      int fh = FileOpen(tmp, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
       if(fh == INVALID_HANDLE) return false;
       FileWriteString(fh, "SCHEMA=NAQEX_OPP_STATE_V1\n");
       for(int i = 0; i < 8; i++)
@@ -573,7 +582,14 @@ public:
          );
          FileWriteString(fh, row);
       }
+      FileWriteString(fh, "END_SCHEMA\n");
+      FileFlush(fh);
       FileClose(fh);
+      if(!FileMove(tmp, 0, fname, FILE_REWRITE))
+      {
+         FileDelete(tmp);
+         return false;
+      }
       return true;
    }
 
@@ -598,41 +614,52 @@ public:
          m_oppStateRestored = true;
          return false;
       }
-      for(int i = 0; i < 8; i++) ResetOppEpisode(i);
+      NaqexOppEpisode tmpOpp[8];
+      for(int i = 0; i < 8; i++) ResetOppEpisodeStruct(tmpOpp[i]);
+      bool sawEndSentinel = false;
       bool loadedAny = false;
       while(!FileIsEnding(fh))
       {
          string line = FileReadString(fh);
          StringTrimRight(line);
+         if(line == "END_SCHEMA")
+         {
+            sawEndSentinel = true;
+            break;
+         }
          if(StringFind(line, "SLOT|") != 0) continue;
          string cols[];
          int n = StringSplit(line, '|', cols);
          if(n < 20) continue;
          int idx = (int)StringToInteger(cols[1]);
          if(idx < 0 || idx >= 8) continue;
-         m_opp[idx].active            = (StringToInteger(cols[2]) != 0);
-         m_opp[idx].opp_id            = cols[3];
-         m_opp[idx].engine_id         = cols[4];
-         m_opp[idx].magic             = (long)StringToInteger(cols[5]);
-         m_opp[idx].symbol            = cols[6];
-         m_opp[idx].session_day       = (datetime)StringToInteger(cols[7]);
-         m_opp[idx].side              = (int)StringToInteger(cols[8]);
-         m_opp[idx].opened_utc        = (datetime)StringToInteger(cols[9]);
-         m_opp[idx].open_signal_price = StringToDouble(cols[10]);
-         m_opp[idx].eval_count        = (int)StringToInteger(cols[11]);
-         m_opp[idx].block_count       = (int)StringToInteger(cols[12]);
-         m_opp[idx].blk_lmin          = (int)StringToInteger(cols[13]);
-         m_opp[idx].blk_cap           = (int)StringToInteger(cols[14]);
-         m_opp[idx].blk_spread        = (int)StringToInteger(cols[15]);
-         m_opp[idx].blk_news          = (int)StringToInteger(cols[16]);
-         m_opp[idx].blk_other         = (int)StringToInteger(cols[17]);
-         m_opp[idx].ep_seq            = (int)StringToInteger(cols[18]);
-         m_opp[idx].ep_seq_day        = (datetime)StringToInteger(cols[19]);
-         m_opp[idx].last_block_key    = (n >= 21) ? cols[20] : "";
+         tmpOpp[idx].active            = (StringToInteger(cols[2]) != 0);
+         tmpOpp[idx].opp_id            = cols[3];
+         tmpOpp[idx].engine_id         = cols[4];
+         tmpOpp[idx].magic             = (long)StringToInteger(cols[5]);
+         tmpOpp[idx].symbol            = cols[6];
+         tmpOpp[idx].session_day       = (datetime)StringToInteger(cols[7]);
+         tmpOpp[idx].side              = (int)StringToInteger(cols[8]);
+         tmpOpp[idx].opened_utc        = (datetime)StringToInteger(cols[9]);
+         tmpOpp[idx].open_signal_price = StringToDouble(cols[10]);
+         tmpOpp[idx].eval_count        = (int)StringToInteger(cols[11]);
+         tmpOpp[idx].block_count       = (int)StringToInteger(cols[12]);
+         tmpOpp[idx].blk_lmin          = (int)StringToInteger(cols[13]);
+         tmpOpp[idx].blk_cap           = (int)StringToInteger(cols[14]);
+         tmpOpp[idx].blk_spread        = (int)StringToInteger(cols[15]);
+         tmpOpp[idx].blk_news          = (int)StringToInteger(cols[16]);
+         tmpOpp[idx].blk_other         = (int)StringToInteger(cols[17]);
+         tmpOpp[idx].ep_seq            = (int)StringToInteger(cols[18]);
+         tmpOpp[idx].ep_seq_day        = (datetime)StringToInteger(cols[19]);
+         tmpOpp[idx].last_block_key    = (n >= 21) ? cols[20] : "";
          loadedAny = true;
       }
       FileClose(fh);
       m_oppStateRestored = true;
+      if(!sawEndSentinel)
+         return false;
+      for(int i = 0; i < 8; i++)
+         m_opp[i] = tmpOpp[i];
       return loadedAny;
    }
 
@@ -721,22 +748,27 @@ public:
       return m_tradedDayHydrated;
    }
 
+   void SetHistorySelectFailForDrill(const bool forceFail)
+   {
+      m_drillForceHistoryFail = forceFail;
+   }
+
    // V101-02 (OPS-01): Hydrate m_tradedDay[8] from 48h deal history + open positions after mid-day restart!
    // Fail-closed: returns false (blocking new entries until retry succeeds) if HistorySelect fails while live.
-   bool HydrateTradedDaysFromHistory(const datetime nowUtc)
+   bool HydrateTradedDaysFromHistory(const datetime nowUtc, const datetime srvNowOverride = 0)
    {
       if(MQLInfoInteger(MQL_TESTER))
       {
          m_tradedDayHydrated = true;
          return true;
       }
-      datetime srvNow = CNaqexPropGuard::ServerNow();
+      datetime srvNow = (srvNowOverride > 0) ? srvNowOverride : CNaqexPropGuard::ServerNow();
       if(srvNow <= 0 || nowUtc <= 0)
       {
          m_tradedDayHydrated = false;
          return false;
       }
-      if(!HistorySelect(srvNow - 48 * 3600, srvNow + 60))
+      if(m_drillForceHistoryFail || !HistorySelect(srvNow - 48 * 3600, srvNow + 60))
       {
          m_tradedDayHydrated = false;
          return false;

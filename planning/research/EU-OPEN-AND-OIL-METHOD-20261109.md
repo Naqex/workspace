@@ -1,6 +1,6 @@
 # Chọn bước sau close-momentum negatives: đổi cơ chế, kiểm mapping trước
 
-[Consensus](INDEX-CONSENSUS-RESULTS-20261109.md) đã không đạt. Không thêm clock/
+[Consensus](archive/INDEX-CONSENSUS-RESULTS-20261109.md) đã không đạt. Không thêm clock/
 filter vào exact recipes cũ. Research ngày 09/11 đưa ra hai hướng có mức độ
 admission khác nhau; chưa có economic outcomes mới ngoài R078/R079.
 

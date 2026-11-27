@@ -73,3 +73,14 @@ Paperclip own task/report/decision; artifacts giữ numbers/provenance; promotio
 reducer/grant hiện có giữ quyền thực thi. Reuse quyền đã có nhưng kiểm còn hiệu
 lực đúng account/scope; không tự cấp mới hoặc sửa ledger để tự pass. Báo cáo
 không là lệnh gửi broker.
+
+## Bàn giao liên chặng (Closed 9-Stage Workflow)
+
+- **Pre-gate phản biện bắt buộc:** Mọi thay đổi quant/parity/optimizer/collector
+  trước khi ký `eligible_for_next_stage_review` phải có biên nhận
+  `AdversarialAuditReceipt` đạt từ [adversarial-self-audit](../adversarial-self-audit/SKILL.md).
+- **Lưu delta & bằng chứng:** Cập nhật verdict, phạm vi và bước tiếp vào đúng
+  owner ledger qua [evidence-continuity](../evidence-continuity/SKILL.md).
+- **Bàn giao triển khai (sau duyệt owner):** Khi ứng viên đã đủ bằng chứng và
+  chủ sở hữu phê duyệt đồng bộ flat-only lên Home-VPS, chuyển giao có biên nhận
+  sang [naqex-node-ops](../naqex-node-ops/SKILL.md).

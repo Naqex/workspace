@@ -41,7 +41,7 @@
 - **Quyền truy cập.** Ưu tiên MT5 và mở rộng MT4, gộp theo Signal ID,
   giãn request ít nhất hai giây. Dừng khi gặp 403, 429 hoặc challenge.
   Dùng tính năng Export to CSV chính thức nếu có quyền. Ghi rõ số
-  hồ sơ chưa review. [Kết quả Pass 8](PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
+  hồ sơ chưa review. [Kết quả Pass 8](archive/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
 
 ## Mẻ đầu trong 5 phút
 

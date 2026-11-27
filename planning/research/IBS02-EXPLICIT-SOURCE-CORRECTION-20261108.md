@@ -3,14 +3,14 @@
 ## Lý do, baseline và phạm vi
 
 Sau long RSI/preclose và Gold review, R049 còn kết quả expanded-view/filtered
-cũ trong [daily outcomes](US500-DAILY-REVERSION-RESULTS-20261108.md). C2 cần sửa
+cũ trong [daily outcomes](archive/US500-DAILY-REVERSION-RESULTS-20261108.md). C2 cần sửa
 đúng phần affected, trước khi dùng số đó chọn/loại strategy. Đây là sửa nguồn,
 không strategy mới hoặc tối ưu performance. Oldoutcomes đã exposed; không OOS.
 
 Giữ exact `us500-d1-ibs02-hold-atr14x1p5-r025-v1`: IBS≤0,20 BUY, exit khi
 IBS>0,20,SL1,5ATR14, causal cashdailybar/14consecutivesessions, missingbar
 safetyEXIT, nextminutequeue/expiry, một position, khôngTP/forceclose. Nguyên
-rule/clock/annualreset ở [frozenoriginal](US500-DAILY-REVERSION-20261108.md).
+rule/clock/annualreset ở [frozenoriginal](archive/US500-DAILY-REVERSION-20261108.md).
 
 2022–2024, mỗi năm10k/planned25USD, legacycommission0,50USD/lot/side,
 slippage0,25/0,75 và funding1/2USD/lot/calendarday. Không dùng commission0
@@ -20,7 +20,7 @@ rerun R050/R052 đã corrected hoặc mở longhistory cho IBS trong lượt nà
 ## Input và correctness trước numerical
 
 Reuse `execution-v1/us500-explicit-source-v1/<year>` đã sealed/proved trong
-[source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), calendar từ
+[source correction](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), calendar từ
 parentmanifest, currentreader/proof guard hiện có. Chỉ source-listed paired
 M1; giữ raw/unpaired/availability/gap journals. Không padding, filtervolume0,
 reconstruct missing side, download mới, đổi hashes hoặc sửa oldartifacts.

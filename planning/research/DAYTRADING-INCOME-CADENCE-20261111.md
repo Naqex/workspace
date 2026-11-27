@@ -27,7 +27,7 @@ trần5lệnh; dùng3–5/tuần làm dải ưu tiên tìm kiếm cho loại ver
 chỉ là preference rộng của campaign, không yêu cầu R123 làm điều luật của nó
 không cho phép. Không đổi cap hoặc coi ít lệnh tự động là không có edge.
 
-[Rà riêng tần suất và độ dễ code](US500-FREQUENCY-LANDSCAPE-20261111.md) đã
+[Rà riêng tần suất và độ dễ code](archive/US500-FREQUENCY-LANDSCAPE-20261111.md) đã
 đọc180savedbooks/30versions, khôngfinancialrerun: ORB4,50 entry/5phiên lịch,
 failedbreak1,79, reclaim1,10;27strictpullbacks chỉ0,086–0,212mỗi bản.
 Chưađủedge/propfit;cadenceđẹp khôngphục hồiverdict cũ. Giữ3–5/tuần5phiên là
@@ -98,7 +98,7 @@ Nhiều vốn chỉ scale một lợi thế đã có; với expectancy âm thì 
 
 ## Đối chiếu với nghiên cứu hiện tại
 
-[R123](US500-MA-RECLAIM-RESULTS-20261111.md) có165lệnh/3năm,58/50/57 từng năm,
+[R123](archive/US500-MA-RECLAIM-RESULTS-20261111.md) có165lệnh/3năm,58/50/57 từng năm,
 khoảng1,1lệnh mỗi5phiên lịch. Nó thấp hơn cả dải3–5 cho cap1/ngày và không bền qua costs:
 tổng independentcentnet+4,83USD chuẩn,−307,03USD stress trên3sổ năm riêng.
 Không dùng R123 làm mô hình thu nhập, không tăng lot hoặc chỉ giữ subgroup lời.

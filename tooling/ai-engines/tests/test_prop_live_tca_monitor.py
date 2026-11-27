@@ -15,6 +15,7 @@ AI_ENGINES_DIR = TESTS_DIR.parent
 if str(AI_ENGINES_DIR) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES_DIR))
 
+from quant_core.holdout_guard import HoldoutLockError  # noqa: E402
 from quant_factory import prop_live_tca_monitor as tca_mon  # noqa: E402
 
 
@@ -488,10 +489,10 @@ def test_partial_lines_missing_files_and_exec_audit_ingestion(tmp_path: Path) ->
 
 
 def test_holdout_contamination_guard_and_swap_violation_fail_closed(tmp_path: Path) -> None:
-    """Holdout rows > 0 raises RuntimeError; non-zero swap triggers RED_FRICTION_BREACH."""
+    """Holdout rows > 0 raises HoldoutLockError(ValueError); non-zero swap triggers RED_FRICTION_BREACH."""
     bad_base = json.loads(json.dumps(tca_mon.STATIC_DEV_M1_BASELINES_PRE2025))
     bad_base["holdout_rows_analysed"] = 1
-    with pytest.raises(RuntimeError, match="HOLDOUT_CONTAMINATION_DETECTED"):
+    with pytest.raises((HoldoutLockError, ValueError), match="HOLDOUT_CONTAMINATION_DETECTED"):
         tca_mon.evaluate_live_tca(dev_baselines=bad_base)
 
     csv_p = tmp_path / "fills_swap.csv"

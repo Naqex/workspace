@@ -1,41 +1,63 @@
 """Layer 2: Numba-JIT statistical engine (Sign-Flip, DSR/PSR, Tail Correlation) & 6-core parallel discovery sweep."""
 
-from concurrent.futures import ProcessPoolExecutor
 import math
 import os
-from typing import Callable
+from collections.abc import Callable
+from concurrent.futures import ProcessPoolExecutor
+from statistics import NormalDist
 
-from numba import njit
 import numpy as np
-from scipy.stats import norm
 
 EULER_GAMMA = 0.5772156649015329
+_STD_NORM = NormalDist(0.0, 1.0)
+_SIGN_FLIP_MC_KERNEL = None
 
 
-@njit(cache=True)
-def _sign_flip_mc_kernel(vals: np.ndarray, fade_vals: np.ndarray, draws: int, seed: int) -> float:
-    """Exact Numba-JIT sign-flip permutation p-value (100x faster than Python loop)."""
-    n = len(vals)
-    if n == 0:
-        return 1.0
-    obs = 0.0
-    for i in range(n):
-        obs += vals[i]
-    np.random.seed(seed)
-    ge = 0
-    for _ in range(draws):
-        acc = 0.0
+def _get_sign_flip_mc_kernel():
+    """Lazily compile Numba-JIT sign-flip permutation kernel without slowing module import."""
+    global _SIGN_FLIP_MC_KERNEL
+    if _SIGN_FLIP_MC_KERNEL is not None:
+        return _SIGN_FLIP_MC_KERNEL
+    from numba import njit
+
+    @njit(cache=True)
+    def _kernel(vals: np.ndarray, fade_vals: np.ndarray, draws: int, seed: int) -> float:
+        """Exact Numba-JIT sign-flip permutation p-value (100x faster than Python loop)."""
+        n = len(vals)
+        if n == 0:
+            return 1.0
+        obs = 0.0
         for i in range(n):
-            if np.random.random() < 0.5:
-                acc += vals[i]
-            else:
-                acc += fade_vals[i]
-        if acc >= obs - 1e-12:
-            ge += 1
-    return (ge + 1.0) / (draws + 1.0)
+            obs += vals[i]
+        np.random.seed(seed)
+        ge = 0
+        for _ in range(draws):
+            acc = 0.0
+            for i in range(n):
+                if np.random.random() < 0.5:
+                    acc += vals[i]
+                else:
+                    acc += fade_vals[i]
+            if acc >= obs - 1e-12:
+                ge += 1
+        return (ge + 1.0) / (draws + 1.0)
+
+    _SIGN_FLIP_MC_KERNEL = _kernel
+    return _SIGN_FLIP_MC_KERNEL
 
 
-def sign_flip_p_numba(vals: np.ndarray | list[float], fade_vals: np.ndarray | list[float], *, draws: int = 1000, seed: int = 20261123) -> float:
+def _sign_flip_mc_kernel(vals: np.ndarray, fade_vals: np.ndarray, draws: int, seed: int) -> float:
+    """Exact Numba-JIT sign-flip permutation p-value (lazily compiled on first invocation)."""
+    return float(_get_sign_flip_mc_kernel()(vals, fade_vals, draws, seed))
+
+
+def sign_flip_p_numba(
+    vals: np.ndarray | list[float],
+    fade_vals: np.ndarray | list[float],
+    *,
+    draws: int = 1000,
+    seed: int = 20261123,
+) -> float:
     v = np.ascontiguousarray(vals, dtype=np.float64)
     f = np.ascontiguousarray(fade_vals, dtype=np.float64)
     return float(_sign_flip_mc_kernel(v, f, int(draws), int(seed)))
@@ -77,7 +99,7 @@ def deflated_sharpe_ratio(daily_returns: np.ndarray, *, n_trials: int = 1, annua
 
     denom_var = max(1e-12, (1.0 - skew * sr_daily + ((kurt - 1.0) / 4.0) * (sr_daily ** 2)) / max(1, t - 1))
     sr_se = math.sqrt(denom_var)
-    psr_gt0 = float(norm.cdf(sr_daily / sr_se))
+    psr_gt0 = float(_STD_NORM.cdf(sr_daily / sr_se))
 
     # Expected max daily Sharpe under null across `n_trials` independent strategies
     m = max(1, int(n_trials))
@@ -86,11 +108,11 @@ def deflated_sharpe_ratio(daily_returns: np.ndarray, *, n_trials: int = 1, annua
     else:
         # Cross-sectional variance proxy of null Sharpe ratios ~ 1 / (t - 1)
         sr_null_std = math.sqrt(1.0 / max(1, t - 1))
-        z1 = float(norm.ppf(1.0 - 1.0 / m))
-        z2 = float(norm.ppf(1.0 - 1.0 / (m * math.e)))
+        z1 = float(_STD_NORM.inv_cdf(1.0 - 1.0 / m))
+        z2 = float(_STD_NORM.inv_cdf(1.0 - 1.0 / (m * math.e)))
         sr0_daily = sr_null_std * ((1.0 - EULER_GAMMA) * z1 + EULER_GAMMA * z2)
 
-    dsr = float(norm.cdf((sr_daily - sr0_daily) / sr_se))
+    dsr = float(_STD_NORM.cdf((sr_daily - sr0_daily) / sr_se))
     return {
         "sr_ann": round(sr_ann, 3),
         "skew": round(skew, 3),
@@ -103,7 +125,12 @@ def deflated_sharpe_ratio(daily_returns: np.ndarray, *, n_trials: int = 1, annua
     }
 
 
-def tail_correlation_report(engine_daily_matrix: np.ndarray, engine_names: list[str], *, tail_pct: float = 0.05) -> dict:
+def tail_correlation_report(
+    engine_daily_matrix: np.ndarray,
+    engine_names: list[str],
+    *,
+    tail_pct: float = 0.05,
+) -> dict:
     """Measure average pairwise correlation on ALL days vs WORST `tail_pct` portfolio drawdown days."""
     mat = np.asarray(engine_daily_matrix, dtype=np.float64)
     k = mat.shape[1]

@@ -50,6 +50,29 @@ struct NaqexRedNewsEvent
    string   label;
 };
 
+#define NAQEX_MAX_PENDING_CLOSES 16
+
+struct NaqexPendingCloseEntry
+{
+   bool     active;
+   ulong    pos_id;
+   long     magic;
+   string   symbol;
+   double   req_vol;
+   double   remain_vol;
+   string   reason;
+   datetime ts_utc;
+};
+
+struct NaqexReplayDeal
+{
+   datetime deal_srv_ts;
+   long     deal_type;
+   double   profit;
+   double   swap;
+   double   commission;
+};
+
 class CNaqexPropGuard
 {
 private:
@@ -205,65 +228,285 @@ public:
       return StringFormat("naqex_pending_close_%I64d_%u.txt", CurrentAccountLogin(), CurrentAccountServerHash());
    }
 
-   static bool SavePendingCloseState(const ulong posId, const long magic, const string sym,
-                                     const string reason, const datetime sentUtc,
-                                     const string fileOverride = "")
+   static void ResetPendingCloseEntry(NaqexPendingCloseEntry &e)
    {
-      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
-      int fh = FileOpen(fname, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
-      if(fh == INVALID_HANDLE) return false;
-      string cleanWhy = reason;
-      StringReplace(cleanWhy, "|", "/");
-      StringReplace(cleanWhy, "\n", " ");
-      StringReplace(cleanWhy, "\r", " ");
-      FileWriteString(fh, StringFormat("SCHEMA=NAQEX_PENDING_CLOSE_V1\nPENDING|%I64u|%I64d|%s|%I64d|%s\n",
-                                       posId, magic, sym, (long)sentUtc, cleanWhy));
-      FileClose(fh);
+      e.active     = false;
+      e.pos_id     = 0;
+      e.magic      = 0;
+      e.symbol     = "";
+      e.req_vol    = 0.0;
+      e.remain_vol = 0.0;
+      e.reason     = "";
+      e.ts_utc     = 0;
+   }
+
+   static void ResetPendingCloseTable(NaqexPendingCloseEntry &table[])
+   {
+      int lim = MathMin(ArraySize(table), NAQEX_MAX_PENDING_CLOSES);
+      for(int i = 0; i < lim; i++)
+         ResetPendingCloseEntry(table[i]);
+   }
+
+   static int CountPendingCloseTable(const NaqexPendingCloseEntry &table[])
+   {
+      int cnt = 0;
+      int lim = MathMin(ArraySize(table), NAQEX_MAX_PENDING_CLOSES);
+      for(int i = 0; i < lim; i++)
+         if(table[i].active && table[i].pos_id > 0)
+            cnt++;
+      return cnt;
+   }
+
+   static int FindPendingCloseIndex(const NaqexPendingCloseEntry &table[], const ulong posId)
+   {
+      if(posId == 0) return -1;
+      int lim = MathMin(ArraySize(table), NAQEX_MAX_PENDING_CLOSES);
+      for(int i = 0; i < lim; i++)
+         if(table[i].active && table[i].pos_id == posId)
+            return i;
+      return -1;
+   }
+
+   static bool UpsertPendingCloseEntry(NaqexPendingCloseEntry &table[], const ulong posId, const long magic,
+                                       const string sym, const double reqVol, const double remainVol,
+                                       const string reason, const datetime tsUtc)
+   {
+      if(posId == 0) return false;
+      int lim = MathMin(ArraySize(table), NAQEX_MAX_PENDING_CLOSES);
+      int slot = FindPendingCloseIndex(table, posId);
+      if(slot < 0)
+      {
+         for(int i = 0; i < lim; i++)
+         {
+            if(!table[i].active)
+            {
+               slot = i;
+               break;
+            }
+         }
+      }
+      if(slot < 0) return false;
+      table[slot].active     = true;
+      table[slot].pos_id     = posId;
+      table[slot].magic      = magic;
+      table[slot].symbol     = sym;
+      table[slot].req_vol    = MathMax(0.0, reqVol);
+      table[slot].remain_vol = MathMax(0.0, remainVol);
+      table[slot].reason     = reason;
+      table[slot].ts_utc     = tsUtc;
       return true;
    }
 
-   static bool LoadPendingCloseState(ulong &outPosId, long &outMagic, string &outSym,
-                                     string &outReason, datetime &outSentUtc,
+   static bool RemovePendingCloseEntry(NaqexPendingCloseEntry &table[], const ulong posId)
+   {
+      int slot = FindPendingCloseIndex(table, posId);
+      if(slot < 0) return false;
+      ResetPendingCloseEntry(table[slot]);
+      return true;
+   }
+
+   static bool ClearPendingCloseState(const string fileOverride = "")
+   {
+      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
+      string tmp = fname + ".tmp";
+      if(FileIsExist(tmp)) FileDelete(tmp);
+      if(!FileIsExist(fname)) return true;
+      return FileDelete(fname);
+   }
+
+   static bool SavePendingCloseState(const NaqexPendingCloseEntry &table[], const string fileOverride = "")
+   {
+      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
+      int activeCount = CountPendingCloseTable(table);
+      if(activeCount <= 0)
+         return ClearPendingCloseState(fname);
+
+      string tmp = fname + ".tmp";
+      int fh = FileOpen(tmp, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+      if(fh == INVALID_HANDLE) return false;
+      FileWriteString(fh, "SCHEMA=NAQEX_PENDING_CLOSE_V2\n");
+      int lim = MathMin(ArraySize(table), NAQEX_MAX_PENDING_CLOSES);
+      for(int i = 0; i < lim; i++)
+      {
+         if(!table[i].active || table[i].pos_id == 0) continue;
+         string cleanWhy = table[i].reason;
+         StringReplace(cleanWhy, "|", "/");
+         StringReplace(cleanWhy, "\n", " ");
+         StringReplace(cleanWhy, "\r", " ");
+         FileWriteString(fh, StringFormat("PENDING|%I64u|%I64d|%s|%.6f|%.6f|%I64d|%s\n",
+                                          table[i].pos_id, table[i].magic, table[i].symbol,
+                                          table[i].req_vol, table[i].remain_vol,
+                                          (long)table[i].ts_utc, cleanWhy));
+      }
+      FileWriteString(fh, "END_SCHEMA\n");
+      FileFlush(fh);
+      FileClose(fh);
+      if(!FileMove(tmp, 0, fname, FILE_REWRITE))
+      {
+         FileDelete(tmp);
+         return false;
+      }
+      return true;
+   }
+
+   static bool LoadPendingCloseState(NaqexPendingCloseEntry &outTable[], int &outLoadedCount,
                                      const string fileOverride = "")
    {
-      outPosId = 0; outMagic = 0; outSym = ""; outReason = ""; outSentUtc = 0;
+      outLoadedCount = 0;
+      ResetPendingCloseTable(outTable);
       string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
       if(!FileIsExist(fname)) return false;
       int fh = FileOpen(fname, FILE_READ | FILE_TXT | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE);
       if(fh == INVALID_HANDLE) return false;
       string hdr = FileIsEnding(fh) ? "" : FileReadString(fh);
       StringTrimRight(hdr);
-      if(hdr != "SCHEMA=NAQEX_PENDING_CLOSE_V1") { FileClose(fh); return false; }
-      bool found = false;
+      if(hdr != "SCHEMA=NAQEX_PENDING_CLOSE_V2")
+      {
+         FileClose(fh);
+         return false;
+      }
+      NaqexPendingCloseEntry tmpTable[NAQEX_MAX_PENDING_CLOSES];
+      ResetPendingCloseTable(tmpTable);
+      bool sawEndSentinel = false;
+      int cnt = 0;
       while(!FileIsEnding(fh))
       {
          string line = FileReadString(fh);
          StringTrimRight(line);
-         if(StringFind(line, "PENDING|") == 0)
+         if(line == "END_SCHEMA")
          {
-            string cols[];
-            int n = StringSplit(line, '|', cols);
-            if(n >= 6)
-            {
-               outPosId   = (ulong)StringToInteger(cols[1]);
-               outMagic   = (long)StringToInteger(cols[2]);
-               outSym     = cols[3];
-               outSentUtc = (datetime)StringToInteger(cols[4]);
-               outReason  = cols[5];
-               found = (outPosId > 0);
-               break;
-            }
+            sawEndSentinel = true;
+            break;
          }
+         if(StringFind(line, "PENDING|") != 0) continue;
+         string cols[];
+         int n = StringSplit(line, '|', cols);
+         if(n < 8) continue;
+         ulong    pid  = (ulong)StringToInteger(cols[1]);
+         long     mag  = (long)StringToInteger(cols[2]);
+         string   sym  = cols[3];
+         double   reqV = StringToDouble(cols[4]);
+         double   remV = StringToDouble(cols[5]);
+         datetime ts   = (datetime)StringToInteger(cols[6]);
+         string   why  = cols[7];
+         if(pid > 0 && UpsertPendingCloseEntry(tmpTable, pid, mag, sym, reqV, remV, why, ts))
+            cnt++;
       }
       FileClose(fh);
-      return found;
+      if(!sawEndSentinel)
+         return false;
+      int lim = MathMin(ArraySize(outTable), NAQEX_MAX_PENDING_CLOSES);
+      for(int i = 0; i < lim; i++)
+         outTable[i] = tmpTable[i];
+      outLoadedCount = cnt;
+      return (cnt > 0);
    }
 
-   static bool ClearPendingCloseState(const string fileOverride = "")
+   // Shared close-outcome state machine for DONE / DONE_PARTIAL / TIMEOUT / PLACED (MetaQuotes spec + Astra R8 4.2)
+   static void ApplyCloseOutcomeToPendingTable(NaqexPendingCloseEntry &table[],
+                                               const bool isDry, const bool okClose, const uint cRet,
+                                               const ulong posId, const long magic, const string sym,
+                                               const double reqVol, const double filledVol, const double volMin,
+                                               const bool posStillOpen, const double brokerRemVol,
+                                               const string reason, const datetime nowUtc,
+                                               int &ioClosedConfirmedCount, bool &outTableDirty)
    {
-      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
-      if(!FileIsExist(fname)) return true;
-      return FileDelete(fname);
+      outTableDirty = false;
+      if(isDry) return;
+      double remTol = (volMin > 0.0) ? (volMin * 0.5) : 1e-6;
+      if(cRet == TRADE_RETCODE_DONE)
+      {
+         bool hasRemaining = (posStillOpen && brokerRemVol > remTol);
+         if(okClose || !hasRemaining || filledVol > 0.0)
+            ioClosedConfirmedCount++;
+         if(hasRemaining)
+         {
+            if(UpsertPendingCloseEntry(table, posId, magic, sym, reqVol, brokerRemVol, reason, nowUtc))
+               outTableDirty = true;
+         }
+         else
+         {
+            if(RemovePendingCloseEntry(table, posId))
+               outTableDirty = true;
+         }
+         return;
+      }
+      if(cRet == TRADE_RETCODE_DONE_PARTIAL)
+      {
+         double effRemVol = (posStillOpen && brokerRemVol > 0.0) ? brokerRemVol : MathMax(0.0, reqVol - filledVol);
+         bool hasRealizedSlice = (filledVol > 0.0 || !posStillOpen || (reqVol - effRemVol) > remTol);
+         if(hasRealizedSlice)
+            ioClosedConfirmedCount++;
+         bool hasRemaining = posStillOpen || ((reqVol - filledVol) > remTol);
+         if(hasRemaining)
+         {
+            if(UpsertPendingCloseEntry(table, posId, magic, sym, reqVol, effRemVol, reason, nowUtc))
+               outTableDirty = true;
+         }
+         else
+         {
+            if(RemovePendingCloseEntry(table, posId))
+               outTableDirty = true;
+         }
+         return;
+      }
+      if(cRet == TRADE_RETCODE_TIMEOUT || cRet == TRADE_RETCODE_PLACED)
+      {
+         // Pending/unconfirmed broker close: track entry, NEVER increment closedConfirmedCount or flip ProfitLock!
+         double remV = (posStillOpen && brokerRemVol > 0.0) ? brokerRemVol : reqVol;
+         if(UpsertPendingCloseEntry(table, posId, magic, sym, reqVol, remV, reason, nowUtc))
+            outTableDirty = true;
+      }
+   }
+
+   // Shared day-anchor deal-history reconstruction (used by Master_Prop7E + verified on offline fixture)
+   static bool ReconstructDayAnchorFromFixture(const double curBal, const double curEq,
+                                               const int dailyResetMode, const datetime resetStartSrv,
+                                               const datetime srvNow, const bool historyOk,
+                                               const NaqexReplayDeal &deals[], const int nDeals,
+                                               double &outAnchorBal, double &outAnchorEq,
+                                               bool &outAnchorUnrecovered)
+   {
+      double reconstructedBal = curBal;
+      outAnchorUnrecovered = false;
+      if(historyOk && srvNow >= resetStartSrv)
+      {
+         double todayRealized = 0.0;
+         int lim = MathMin(ArraySize(deals), nDeals);
+         for(int i = 0; i < lim; i++)
+         {
+            if(deals[i].deal_srv_ts < resetStartSrv || deals[i].deal_srv_ts > srvNow + 60)
+               continue;
+            if(deals[i].deal_type == DEAL_TYPE_BUY || deals[i].deal_type == DEAL_TYPE_SELL)
+               todayRealized += deals[i].profit + deals[i].swap + deals[i].commission;
+         }
+         reconstructedBal = curBal - todayRealized;
+         if(reconstructedBal <= 0.0) reconstructedBal = curBal;
+      }
+      else if(srvNow - resetStartSrv > 600)
+      {
+         outAnchorUnrecovered = true;
+      }
+      outAnchorBal = reconstructedBal;
+      outAnchorEq  = (dailyResetMode == 1) ? reconstructedBal : MathMax(reconstructedBal, curEq);
+      return !outAnchorUnrecovered;
+   }
+
+   static bool RestoreAutoKillForDay(const int prevDayKey, const int todayKey,
+                                     const bool gvHasDayKey, const int gvDayKey,
+                                     const bool gvHasAutoKill, const double gvAutoKillVal,
+                                     const bool currentAutoKill, bool &outShouldPersistClear)
+   {
+      outShouldPersistClear = false;
+      bool isNewDay = (todayKey != prevDayKey);
+      if(prevDayKey == -1 && gvHasDayKey && gvDayKey == todayKey && gvHasAutoKill)
+         return (gvAutoKillVal >= 1.0);
+      if(isNewDay)
+      {
+         outShouldPersistClear = true;
+         return false;
+      }
+      return currentAutoKill;
    }
 
    // Tick-grid price normalizer (prevents invalid-stops on indices with tick_size > point)

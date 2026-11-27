@@ -107,7 +107,7 @@ datetime g_lastHydrateRetry  = 0;
 datetime g_lastHbWrite       = 0;
 long     g_lastTickLagMs     = 0;
 long     g_maxTickLagMs      = 0;
-ulong    g_pendingClosePosId = 0;
+NaqexPendingCloseEntry g_pendingCloses[NAQEX_MAX_PENDING_CLOSES];
 
 //--- Opt-in Tester pre-decision observability state (read-only mirror, zero trading side effects)
 int      g_testerLogHandle   = INVALID_HANDLE;
@@ -287,50 +287,59 @@ void RestoreOrInitDayAnchorM()
    g_lastAnchorRetry = nowUtc;
 
    double reconstructedBal = bal;
+   double reconstructedEq  = (InpDailyResetMode == 1) ? bal : MathMax(bal, eq);
    g_anchorUnrecovered = false;
    if(!MQLInfoInteger(MQL_TESTER))
    {
       datetime resetStart = CurrentResetStartServerTimeM();
       datetime srvNow = CNaqexPropGuard::ServerNow();
-      if(srvNow >= resetStart && HistorySelect(resetStart, srvNow + 60))
+      bool histOk = (srvNow >= resetStart && HistorySelect(resetStart, srvNow + 60));
+      NaqexReplayDeal deals[];
+      int nDeals = 0;
+      if(histOk)
       {
-         double todayRealized = 0.0;
-         int nDeals = HistoryDealsTotal();
-         for(int i = 0; i < nDeals; i++)
+         int totDeals = HistoryDealsTotal();
+         if(totDeals > 0)
          {
-            ulong dtk = HistoryDealGetTicket(i);
-            if(dtk == 0) continue;
-            long dtype = HistoryDealGetInteger(dtk, DEAL_TYPE);
-            if(dtype == DEAL_TYPE_BUY || dtype == DEAL_TYPE_SELL)
-               todayRealized += HistoryDealGetDouble(dtk, DEAL_PROFIT)
-                              + HistoryDealGetDouble(dtk, DEAL_SWAP)
-                              + HistoryDealGetDouble(dtk, DEAL_COMMISSION);
+            ArrayResize(deals, totDeals);
+            for(int i = 0; i < totDeals; i++)
+            {
+               ulong dtk = HistoryDealGetTicket(i);
+               if(dtk == 0) continue;
+               deals[nDeals].deal_srv_ts = (datetime)HistoryDealGetInteger(dtk, DEAL_TIME);
+               deals[nDeals].deal_type   = HistoryDealGetInteger(dtk, DEAL_TYPE);
+               deals[nDeals].profit      = HistoryDealGetDouble(dtk, DEAL_PROFIT);
+               deals[nDeals].swap        = HistoryDealGetDouble(dtk, DEAL_SWAP);
+               deals[nDeals].commission  = HistoryDealGetDouble(dtk, DEAL_COMMISSION);
+               nDeals++;
+            }
          }
-         reconstructedBal = bal - todayRealized;
-         if(reconstructedBal <= 0.0) reconstructedBal = bal;
       }
-      else if(srvNow - resetStart > 600)
-      {
-         g_anchorUnrecovered = true;
-      }
+      CNaqexPropGuard::ReconstructDayAnchorFromFixture(
+         bal, eq, InpDailyResetMode, resetStart, srvNow, histOk, deals, nDeals,
+         reconstructedBal, reconstructedEq, g_anchorUnrecovered
+      );
    }
    int prevDayKey   = g_dayKey;
    g_dayKey         = today;
    g_dayAnchorBal   = reconstructedBal;
-   g_dayAnchorEq    = (InpDailyResetMode == 1) ? reconstructedBal : MathMax(reconstructedBal, eq);
+   g_dayAnchorEq    = reconstructedEq;
 
    // V101-02: Restore persisted g_autoKillActive across mid-day restarts; reset cleanly on new day!
    if(!MQLInfoInteger(MQL_TESTER))
    {
       string dkKey = CNaqexPropGuard::AcctDayKeyName();
       string akKey = CNaqexPropGuard::AcctAutoKillKey();
-      if(prevDayKey == -1 && GlobalVariableCheck(dkKey) && (int)GlobalVariableGet(dkKey) == today && GlobalVariableCheck(akKey))
-         g_autoKillActive = (GlobalVariableGet(akKey) >= 1.0);
-      else if(isNewDay)
-      {
-         g_autoKillActive = false;
+      bool hasDk = GlobalVariableCheck(dkKey);
+      bool hasAk = GlobalVariableCheck(akKey);
+      int  gvDk  = hasDk ? (int)GlobalVariableGet(dkKey) : -1;
+      double gvAk = hasAk ? GlobalVariableGet(akKey) : 0.0;
+      bool shouldClear = false;
+      g_autoKillActive = CNaqexPropGuard::RestoreAutoKillForDay(
+         prevDayKey, today, hasDk, gvDk, hasAk, gvAk, g_autoKillActive, shouldClear
+      );
+      if(shouldClear)
          PersistAutoKillStateM(today, false);
-      }
    }
    else if(isNewDay)
    {
@@ -656,7 +665,9 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
          if(!flattenAll && g_guard.IsInsideRedNewsHardBanFor(psym))
             continue;
          bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
-         double preBal = 0.0, preEq = 0.0, preFm = 0.0, pvol = 0.0, psl = 0.0, pOpen = 0.0, pBid = 0.0, pAsk = 0.0;
+         double preBal = 0.0, preEq = 0.0, preFm = 0.0, psl = 0.0, pOpen = 0.0, pBid = 0.0, pAsk = 0.0;
+         double pvol   = PositionGetDouble(POSITION_VOLUME);
+         double volMin = SymbolInfoDouble(psym, SYMBOL_VOLUME_MIN);
          ulong pId = pIdPre;
          string pSide = "";
          if(emitLog)
@@ -664,7 +675,6 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
             preBal = AccountInfoDouble(ACCOUNT_BALANCE);
             preEq  = AccountInfoDouble(ACCOUNT_EQUITY);
             preFm  = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
-            pvol   = PositionGetDouble(POSITION_VOLUME);
             psl    = PositionGetDouble(POSITION_SL);
             pOpen  = PositionGetDouble(POSITION_PRICE_OPEN);
             pSide  = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? "SELL" : "BUY";
@@ -677,7 +687,7 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_SIZE),
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE_LOSS),
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE),
-                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MIN),
+                                  volMin,
                                   SymbolInfoDouble(psym, SYMBOL_VOLUME_STEP),
                                   SymbolInfoDouble(psym, SYMBOL_VOLUME_MAX),
                                   preBal, preEq, preFm,
@@ -688,27 +698,22 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
          g_trade.SetExpertMagicNumber(pm);
          bool okClose = g_guard.ClosePositionChecked(g_trade, tk, reason, isDry);
          uint cRet = g_trade.ResultRetcode();
-         bool isConfirmedClose = (!isDry && okClose && (cRet == TRADE_RETCODE_DONE || cRet == TRADE_RETCODE_DONE_PARTIAL));
-         if(isConfirmedClose)
-         {
-            closedConfirmedCount++;
-            if(g_pendingClosePosId == pId)
-            {
-               g_pendingClosePosId = 0;
-               if(!MQLInfoInteger(MQL_TESTER))
-                  CNaqexPropGuard::ClearPendingCloseState();
-            }
-         }
-         else if(!isDry && (cRet == TRADE_RETCODE_TIMEOUT || cRet == TRADE_RETCODE_PLACED))
-         {
-            // Pending/unconfirmed broker close: track marker, NEVER increment closedConfirmedCount or flip ProfitLock!
-            g_pendingClosePosId = pId;
-            if(!MQLInfoInteger(MQL_TESTER))
-               CNaqexPropGuard::SavePendingCloseState(pId, pm, psym, reason, nowUtc);
-         }
+         ulong cDeal = (ulong)g_trade.ResultDeal();
+         double filledVol = g_trade.ResultVolume();
+         if(filledVol <= 0.0 && cDeal > 0 && HistoryDealSelect(cDeal))
+            filledVol = HistoryDealGetDouble(cDeal, DEAL_VOLUME);
+         bool stillOpenAfter = PositionSelectByTicket(tk);
+         double remVolAfter  = stillOpenAfter ? PositionGetDouble(POSITION_VOLUME) : 0.0;
+         bool pcDirty = false;
+         CNaqexPropGuard::ApplyCloseOutcomeToPendingTable(
+            g_pendingCloses, isDry, okClose, cRet, pId, pm, psym,
+            pvol, filledVol, volMin, stillOpenAfter, remVolAfter, reason, nowUtc,
+            closedConfirmedCount, pcDirty
+         );
+         if(pcDirty && !MQLInfoInteger(MQL_TESTER))
+            CNaqexPropGuard::SavePendingCloseState(g_pendingCloses);
          if(emitLog)
          {
-            ulong cDeal = (ulong)g_trade.ResultDeal();
             ulong cOrd  = (ulong)g_trade.ResultOrder();
             double cPx  = g_trade.ResultPrice();
             double cNet = 0.0;
@@ -719,7 +724,8 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
                     + HistoryDealGetDouble(cDeal, DEAL_COMMISSION)
                     + HistoryDealGetDouble(cDeal, DEAL_SWAP);
             }
-            EmitTesterDecisionRow(nowUtc, okClose ? "CLOSE_FILL" : "CLOSE_FAIL", "", pm, "", psym, pSide,
+            string closeEv = okClose ? "CLOSE_FILL" : ((cRet == TRADE_RETCODE_DONE_PARTIAL && filledVol > 0.0) ? "CLOSE_PARTIAL_FILL" : "CLOSE_FAIL");
+            EmitTesterDecisionRow(nowUtc, closeEv, "", pm, "", psym, pSide,
                                   (pSide == "SELL") ? pBid : pAsk,
                                   SymbolInfoDouble(psym, SYMBOL_BID), SymbolInfoDouble(psym, SYMBOL_ASK),
                                   psl, psl, MathAbs(pOpen - psl),
@@ -727,13 +733,13 @@ int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const s
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_SIZE),
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE_LOSS),
                                   SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE),
-                                  SymbolInfoDouble(psym, SYMBOL_VOLUME_MIN),
+                                  volMin,
                                   SymbolInfoDouble(psym, SYMBOL_VOLUME_STEP),
                                   SymbolInfoDouble(psym, SYMBOL_VOLUME_MAX),
                                   AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY),
                                   AccountInfoDouble(ACCOUNT_MARGIN_FREE),
                                   0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                                  0.0, pvol, pvol, pvol, 0.0, 0.0,
+                                  0.0, pvol, pvol, (filledVol > 0.0 ? filledVol : pvol), 0.0, 0.0,
                                   cDeal, cOrd, pId, cPx, cNet, cRet, reason);
          }
       }
@@ -1378,6 +1384,42 @@ void EmitOppTransitionsToLogs(const datetime nowUtc, const double bal, const dou
    }
 }
 
+int ReconcilePendingCloses()
+{
+   if(MQLInfoInteger(MQL_TESTER)) return 0;
+   bool dirty = false;
+   int disappearedCnt = 0;
+   for(int i = 0; i < NAQEX_MAX_PENDING_CLOSES; i++)
+   {
+      if(!g_pendingCloses[i].active || g_pendingCloses[i].pos_id == 0) continue;
+      bool stillOpen = false;
+      double curVol = 0.0;
+      for(int p = PositionsTotal() - 1; p >= 0; p--)
+      {
+         if(PositionGetTicket(p) > 0 && (ulong)PositionGetInteger(POSITION_IDENTIFIER) == g_pendingCloses[i].pos_id)
+         {
+            stillOpen = true;
+            curVol = PositionGetDouble(POSITION_VOLUME);
+            break;
+         }
+      }
+      if(!stillOpen)
+      {
+         CNaqexPropGuard::ResetPendingCloseEntry(g_pendingCloses[i]);
+         dirty = true;
+         disappearedCnt++;
+      }
+      else if(curVol > 0.0 && MathAbs(curVol - g_pendingCloses[i].remain_vol) > 1e-6)
+      {
+         g_pendingCloses[i].remain_vol = curVol;
+         dirty = true;
+      }
+   }
+   if(dirty)
+      CNaqexPropGuard::SavePendingCloseState(g_pendingCloses);
+   return disappearedCnt;
+}
+
 void RunMasterCycle()
 {
    datetime nowUtc = g_guard.NowUTC();
@@ -1492,24 +1534,8 @@ void RunMasterCycle()
       closedConfirmedCount = ClosePositionsByReason(nowUtc, false, "");
    }
 
-   // Reconcile any persisted pending-close marker once broker confirms position is gone
-   if(!MQLInfoInteger(MQL_TESTER) && g_pendingClosePosId > 0)
-   {
-      bool stillOpen = false;
-      for(int p = PositionsTotal() - 1; p >= 0; p--)
-      {
-         if(PositionGetTicket(p) > 0 && (ulong)PositionGetInteger(POSITION_IDENTIFIER) == g_pendingClosePosId)
-         {
-            stillOpen = true;
-            break;
-         }
-      }
-      if(!stillOpen)
-      {
-         g_pendingClosePosId = 0;
-         CNaqexPropGuard::ClearPendingCloseState();
-      }
-   }
+   // Reconcile any persisted pending-close entries once broker confirms position is gone (or volume updated)
+   closedConfirmedCount += ReconcilePendingCloses();
 
    // Q2 (opt-in InpPostCloseRefreshMode == 1): Refresh ONE consistent post-close risk snapshot ONLY after
    // >= 1 confirmed close has already been booked into ACCOUNT_BALANCE, BEFORE CollectIntents()!
@@ -1619,6 +1645,7 @@ void RunMasterCycle()
 int OnInit()
 {
    for(int i = 0; i < NAQEX_MAX_INFLIGHT; i++) g_inFlight[i].active = false;
+   CNaqexPropGuard::ResetPendingCloseTable(g_pendingCloses);
    if(!g_signals.Init(InpSymUSDJPY, InpSymGBPUSD, InpSymEURJPY, InpSymUS100, InpSymUS500,
                       InpSymEURUSD, InpSymAUDUSD, InpSymUSDCAD, InpMaxBreakoutTickLagMs, InpEnableS6Shadow,
                       InpOpportunityLifecycleMode))
@@ -1631,9 +1658,8 @@ int OnInit()
    {
       if(InpOpportunityLifecycleMode == 1)
          g_signals.RestoreOppStateOnce();
-      ulong pcPos = 0; long pcMagic = 0; string pcSym = "", pcWhy = ""; datetime pcTs = 0;
-      if(CNaqexPropGuard::LoadPendingCloseState(pcPos, pcMagic, pcSym, pcWhy, pcTs))
-         g_pendingClosePosId = pcPos;
+      int loadedPending = 0;
+      CNaqexPropGuard::LoadPendingCloseState(g_pendingCloses, loadedPending);
    }
    PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d pl_mode=%d opp_mode=%d refresh_mode=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
                InpContractSku, InpSizingMode, InpProfitLockBasisMode, InpOpportunityLifecycleMode, InpPostCloseRefreshMode,

@@ -19,9 +19,9 @@ Dùng nguyên entry, hạn +24h có clamp lịch đã lưu, phí và stop gốc.
 Hạn clamp ngắn hơn 24h ở 161/699 và 156/677 cặp giá. Cửa sổ lấy quote
 tối đa 60 giây. Cả hai cụm thuộc Development đã từng xem. Chỉ dùng
 2018–2020 để xét điều kiện mở ứng viên, dùng 2021–2023 để đối chiếu.
-[V10](ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md) ·
-[V12](SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) ·
-[Phép chọn trước đó](PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
+[V10](archive/ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md) ·
+[V12](archive/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) ·
+[Phép chọn trước đó](archive/PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
 
 Đo từ QDM M1 Bid có UTC, Ask giả định cách Bid 1 pip. Ma sát vòng lệnh
 gồm 1 pip spread, 0,7 pip commission, 0,2 pip slippage. Financing theo

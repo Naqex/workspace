@@ -18,6 +18,7 @@ import urllib.error
 import urllib.request
 
 import numpy as np
+import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
 AI_ENGINES = ROOT / "tooling/ai-engines"
@@ -182,6 +183,7 @@ def test_ibkr_macro_rebalancer_dryrun_and_exact_parity():
 # 3. Local Web Control Room HTTP Server Smoke & Security Tests
 # ---------------------------------------------------------------------------
 
+@pytest.mark.local_cache
 def test_cockpit_http_server_live_endpoints_and_clean_shutdown():
     assert cockpit_server.ORDER_SEND_COUNT == 0
     # Refuse non-localhost bind (fail-closed security boundary)

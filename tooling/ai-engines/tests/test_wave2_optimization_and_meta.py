@@ -88,6 +88,7 @@ def test_wave2_reports_exist_holdout_sealed_and_clean_prose():
         assert _count_bare_dollar_pairs(txt) == 0, f"Bare $ pair detected in {rp.name}"
 
 
+@pytest.mark.local_cache
 def test_ledoit_wolf_and_nco_multi_sleeve_invariants_4_6_8():
     assert {"ERC_LW_Capped35", "NCO", "NCO_Capped35"}.issubset(set(ALLOCATORS.keys()))
 
@@ -227,6 +228,7 @@ def test_meta_labeler_classifiers_learn_separable_signal():
     assert cm_st["brier_skill"] > 0.20
 
 
+@pytest.mark.local_cache
 def test_auto_research_loop_cap_holdout_kill_and_clean_template_emit(tmp_path: Path):
     # 1. Enforce M_TOTAL_HARD_CAP = 20
     too_many = {
@@ -314,6 +316,7 @@ def test_auto_research_loop_cap_holdout_kill_and_clean_template_emit(tmp_path: P
         assert method in mq5_text
 
 
+@pytest.mark.local_cache
 def test_speed_audit_numba_speedup_and_conftest_lpt_ordering():
     kb = benchmark_numba_kernels(seed=42)
     assert kb["garch_numba_speedup_x"] > 2.0

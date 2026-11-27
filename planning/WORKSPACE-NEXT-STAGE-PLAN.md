@@ -15,7 +15,7 @@ Kết luận chọn: **C — nền tối thiểu reuse → Make exploration nh�
 
 ## 2. Boot, scope và nguồn sự thật
 
-Đọc theo thứ tự: AGENTS áp dụng → [CURRENT-CONTEXT](CURRENT-CONTEXT.md) → file này → [review R1–R7](WORKER-REVIEW-2026-09-26.md) → nguồn đúng project/task. Kiểm repo status, HEAD, current owner/tasks/WIP trước write; metadata dưới đây có thời điểm, không thế chỗ ledger.
+Đọc theo thứ tự: AGENTS áp dụng → [CURRENT-CONTEXT](CURRENT-CONTEXT.md) → file này → [review R1–R7](archive/2026-09/WORKER-REVIEW-2026-09-26.md) → nguồn đúng project/task. Kiểm repo status, HEAD, current owner/tasks/WIP trước write; metadata dưới đây có thời điểm, không thế chỗ ledger.
 
 | Phạm vi | Authority / đọc khi cần |
 |---|---|
@@ -23,7 +23,7 @@ Kết luận chọn: **C — nền tối thiểu reuse → Make exploration nh�
 | VI baseline | [PLAN hiện tại](../projects/vi-dubber/PLAN.md), [README](../projects/vi-dubber/README.md), checkpoints; [UI-FIX-PLAN](../projects/vi-dubber/frontend/UI-FIX-PLAN.md) chỉ reuse requirements còn thiếu sau reconciliation |
 | UI foundation | [UI skill](../.agents/skills/ui-platform-workflow/SKILL.md), [master UI plan](ui-platform/MASTER-UI-PLATFORM-PLAN.md), [UI-Systems](../UI-Systems/README.md) docs/contracts; [trading semantics](../UI/docs/TRADING-UI-CONTRACT.md) |
 | MT5 UI/Make acceptance | [UI autonomy/Figma/Prop](trader/UI-AUTONOMY-FIGMA-PROP-PLAN.md); reuse FM/PS/INT gates, không nghiệm thu lại phần đủ same-scope evidence |
-| Integrations | [brief](WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md), research archive E1–E7 chỉ khi tới connector |
+| Integrations | [brief](archive/2026-09/WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md), research archive E1–E7 chỉ khi tới connector |
 | Tinh gọn/handoff | [CONTEXT-LIFECYCLE](CONTEXT-LIFECYCLE.md); complete khác compacted |
 
 Baseline audit: VI `3f262a7`, P23/listening/P14 còn mở và 2 untracked files; MT5 `567c607`, STATE r379, PS-03 verifying. Review có 40 VI + 22 MT5 offline tests, không full product acceptance. Không dùng snapshot đó làm lệnh quay lại commit cũ.

@@ -1,0 +1,70 @@
+[project]
+name = "naqex-trading-workspace"
+version = "0.1.0"
+description = "Naqex Trading Workspace — superproject tooling, quant factory, and verification suite"
+requires-python = ">=3.12"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+quant-dev = [
+  "pydantic>=2.11,<2.14",
+  "ruff>=0.12,<1",
+  "ty",
+  "hypothesis>=6.120,<7",
+  "duckdb>=2.0,<3",
+  "pre-commit>=4.0,<5",
+  "pytest>=9.0,<10",
+  "pytest-xdist>=3.6,<4",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+extend-exclude = [
+  ".git",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".runtime",
+  ".tmp",
+  ".worktrees",
+  "private_vault",
+  "projects",
+  "tooling/reverse-skill",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "tooling/ai-engines",
+  "tooling/ai-engines/legacy",
+  "projects/trader/foundation_v2",
+  "projects/quant-trading/src",
+]
+testpaths = [
+  "tooling/ai-engines/tests",
+  "tooling/tests",
+  "tooling/github-workflow/tests",
+  "tooling/agent-workflow/tests",
+  "tooling/run_registry/tests",
+]
+norecursedirs = [
+  ".git",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".runtime",
+  ".tmp",
+  ".worktrees",
+  "node_modules",
+  "private_vault",
+  "projects",
+]
+markers = [
+  "local_cache: tests requiring local M1/derived cache or portable MT5 runtime not present in CI",
+  "slow: long-running statistical or Monte Carlo tests",
+  "mt5_live: tests requiring a live local MetaTrader 5 terminal (never run in CI)",
+]
+addopts = "--strict-markers"

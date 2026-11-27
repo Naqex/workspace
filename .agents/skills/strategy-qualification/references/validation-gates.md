@@ -121,6 +121,24 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
 14. **Phản biện mã nguồn trước thực thi & Mô hình `1 Executor + 1 Independent Raw Verifier` (26/11/2026):**
    - Trước các sprint kiểm định dài giờ, tự đối chiếu mọi phản biện độc lập trực tiếp vào dòng mã nguồn thực tế, sửa kế hoạch đến khi khóa sạch tiêu chí nghiệm thu rồi mới chạy; ưu tiên **`1` Executor + `1` Independent Verifier tái tính toàn bộ bảng trực tiếp từ log gốc** (HTML/XML/CSV/deal logs/`.tkc`/danh sách tệp truy cập) thay vì để nhiều agent cùng đọc chung một file JSON tóm tắt.
    - Khóa mốc dừng cứng: nếu còn sai lệch ảnh hưởng quyết định/lot/equity **hoặc thiếu log xác minh hai bên có khớp không**, dừng phần chấm kinh tế — báo cáo tái hiện sai lệch đầu tiên kèm trạng thái trước/sau là đầu ra hợp lệ; `system_doctor` xanh là kiểm tra sức khỏe phần mềm, không phải chứng nhận có edge; kết quả đạt trên Dev đã xem chỉ cho phép tiếp tục nghiên cứu.
+15. **Chuẩn báo cáo thân thiện cho chủ sở hữu kèm thang `Xấu → Đủ dùng → Tốt → Top 1%` (chốt 26/11/2026):**
+   - Khi trình bày kết quả chiến lược, danh mục, bài kiểm tra mù hoặc mô phỏng thi quỹ cho owner (không ép áp dụng cho hỏi trạng thái ngắn hay sửa lỗi kỹ thuật thuần), viết bằng **tiếng Việt đơn giản, đời thường** (giải thích 1 cụm ngắn cho từng chỉ số), **luôn hiện đầy đủ bộ thông số cân bằng** thay vì chọn 1 con số đẹp:
+     1. `Winrate` (tỷ lệ lệnh thắng) đi cùng `RR` (ăn trung bình / thua trung bình) và `EV` mỗi lệnh theo `R` (hoặc trên `1` đồng phí thi quỹ).
+     2. `Profit Factor (PF)` (tổng tiền thắng / tổng tiền thua sau phí).
+     3. `Max Drawdown (DD)` (tụt sâu nhất từ đỉnh), chuỗi thua dài nhất, và độ êm lợi nhuận (`Calmar`, `Sharpe`).
+     4. Với thi quỹ Prop: bảng tỷ lệ `Đậu / Rớt / Đang chờ` theo tháng (`3m / 6m / 12m / 24m`, tổng luôn `= 100%`), trung vị thời gian tới lần rút tiền đầu tiên, xác suất lỗ ròng và cháy sạch hạn mức vé.
+     5. **4 điểm neo thực tế bắt buộc đi kèm:** (a) **Quy đổi ra tiền thật (`VND` / `USD`)** và số tháng chờ thực tế; (b) **Cấp độ bằng chứng** (*Backtest học trên quá khứ* vs *Holdout mù* vs *Demo/Trial* vs *Tiền thật đã rút*); (c) **Ngưỡng gãy / điểm chết** (ví dụ mức trượt giá làm chiến lược chuyển âm); (d) **Định vị thẳng hiện tại đang ở bậc nào và còn thiếu gì để chạm Top 1%**.
+   - **Thang tham chiếu trực quan mặc định để giải thích nhanh cho owner** *(chỉ dùng để đọc hiểu và định vị mức hiện tại — **không** thay thế cổng kiểm định G0–G6 hay điều kiện đăng ký riêng của từng chiến lược)*:
+     - `EV / lệnh` (đánh trong ngày sau phí): **Xấu** `<= 0R` | **Đủ dùng** `+0,03R..+0,06R` *(cần nhiều lệnh)* | **Tốt** `+0,07R..+0,15R` | **Top 1%** `> +0,15R` bền trên tiền thật *(hoặc `+0,06R+` với tần suất cao & độ êm lớn)*.
+     - `Profit Factor (PF)` (nhiều năm sau phí): **Xấu** `< 1,05` | **Đủ dùng** `1,10..1,20` | **Tốt** `1,25..1,50` | **Top 1%** `1,50..2,00+` trên tiền thật `>= 12` tháng *(cảnh báo bẫy: backtest `PF > 3,0` hoặc `Winrate > 80%` kèm `RR < 0,3` thường là học vẹt hoặc gồng lỗ)*.
+     - `Max DD` ở mức an toàn `1×` (quỹ giới hạn `10%`): **Xấu** `> 10%` | **Đủ dùng** `7,5%..9%` | **Tốt** `5%..7%` | **Top 1%** `4%..7%` đi cùng đường tiền rất đều.
+     - `Calmar` (`Lãi năm / Max DD`): **Xấu** `< 0,5` | **Đủ dùng** `0,6..1,0` | **Tốt** `1,2..2,0` | **Top 1%** `> 2,0..3,0` trên tiền thật.
+     - `Sharpe` (độ êm lợi nhuận): **Xấu** `< 0,6` | **Đủ dùng** `0,8..1,1` | **Tốt** `1,2..1,8` | **Top 1%** `2,0..3,0` trên tiền thật `>= 12` tháng từ nhiều nguồn độc lập.
+     - Thi quỹ Prop (`EV / 1 đồng phí` & độ bền): **Xấu** `<= 0×` hoặc cháy Funded `> 5%` | **Đủ dùng** `+1×..+2×` | **Tốt** `+3×..+5×`, cháy Funded `< 1%`, chờ payout `5..10` tháng | **Top 1%** `>= +5×`, cháy Funded `< 1%`, rút payout về `2..4` tháng nhờ nhiều nhánh độc lập chạy lệch pha (không tăng đòn bẩy liều).
+   - **Quy cách trình bày trực quan & giảm tải nhận thức (chốt 26/11/2026):**
+     - **Trong khung chat (đọc 10 giây hiểu ngay):** Dòng đầu nêu thẳng kết quả/quyết định; phần chữ gọn (`<= 5` ý/nhóm, bỏ mở/kết bài sáo rỗng, chốt `1` hành động `< 2` phút). Khối Bộ chỉ số `Xấu → Đủ dùng → Tốt → Top 1%` + thanh `Đậu / Rớt / Chờ` + ngưỡng gãy vẽ bằng **Widget HTML 4 màu nhúng trực tiếp** (`generative_ui`, cao gọn `<= 450px`, thanh 4 khúc màu `Đỏ | Vàng | Xanh | Top 1%` có chấm chỉ vị trí + `4` mốc số dưới khúc + tooltip khi di chuột).
+     - **Phân tầng bảng rộng:** Không nhồi ma trận nhiều cột dày đặc (như lưới `15` ô vốn, `4` hãng × `20` gói) vào chat — trong chat chỉ trích `3–4` mốc chính (hoặc tab gọn trên Widget), còn bảng nhiều cột đầy đủ đặt trong file `.md` lưu repo (hoặc artifact side-pane) để kéo ngang thoải mái khi tra cứu.
+     - **Trong file `.md` lưu repo:** Riêng khối Bộ chỉ số `Xấu → Top 1%` dùng **danh sách dọc chấm màu (`🔴 Xấu` · `🟡 Đủ dùng` · `🟢 Tốt` · `🏆 Top 1%`)** thay cho bảng `7` cột; bảng ma trận nhiều chiều vẫn giữ bảng ngang bình thường trong `.md`.
 
 ## Cách báo cáo
 

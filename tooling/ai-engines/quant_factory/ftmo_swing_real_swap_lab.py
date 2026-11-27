@@ -40,6 +40,7 @@ if str(AI_ENGINES) not in sys.path:
 
 import hot_m1_cache as hcache
 from native_ftmo_monfri_seal import STOP
+from quant_core.holdout_guard import enforce_pre_holdout_ts
 from quant_factory.crypto_causal_universe import RETURNS_DIR, _causal_ema_matrix, compute_daily_metrics
 from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry
 from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio
@@ -173,7 +174,7 @@ def _resample_m1_to_bars(
     asset: str,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, float]:
     """Causally resample M1 Bid/Ask ticks to UTC OHLC (`bar_sec = 86400` D1 or `14400` H4) + median spread bps."""
-    assert int(times_sec[-1]) < STOP, f"HOLDOUT_CONTAMINATION:{asset}"
+    enforce_pre_holdout_ts(int(times_sec[-1]), stop_ts=STOP, context=f"ftmo_swing_swap:{asset}")
     if native_ask and quotes.shape[1] >= 8:
         mid_o = 0.5 * (quotes[:, 0] + quotes[:, 4])
         mid_h = 0.5 * (quotes[:, 1] + quotes[:, 5])
@@ -222,7 +223,7 @@ def load_dev_panel(
         all_ts.update(bt.tolist())
 
     ts_arr = np.array(sorted(all_ts), dtype=np.int64)
-    assert int(ts_arr[-1]) < STOP, "HOLDOUT_CONTAMINATION_IN_PANEL"
+    enforce_pre_holdout_ts(int(ts_arr[-1]), stop_ts=STOP, context="ftmo_swing_swap.panel")
     ts_map = {int(t): i for i, t in enumerate(ts_arr)}
     n_t, n_a = len(ts_arr), len(assets)
     highs = np.full((n_t, n_a), np.nan, dtype=np.float64)

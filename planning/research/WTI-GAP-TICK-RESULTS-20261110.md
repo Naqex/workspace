@@ -66,5 +66,5 @@ Chưa kết luận WTIexpansion lỗ; sourcegap không là economicnegative.
 
 Hậu kiểm: nhỏ/nhanh, giữ nguồnđối chiếu và nguyênnhânunknown; không phát hiện
 bug/nút thắt cần sửa sharedengine/GPU/Rust hoặc thêm skillmanager. Quay lại
-[index-pair admission](INDEX-PAIR-METHOD-ADMISSION-20261110.md), không cứu
+[index-pair admission](archive/INDEX-PAIR-METHOD-ADMISSION-20261110.md), không cứu
 oldrecipes bằng cost/clock/holdinggrid. C1/C2 chưa đạt, Goalactive.

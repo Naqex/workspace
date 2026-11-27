@@ -231,6 +231,7 @@ def test_lab9_hysteresis_retention_and_friction_monotonicity():
     assert float(np.sum(s_t10["net_returns"])) > float(np.sum(s_t10_2x["net_returns"]))
 
 
+@pytest.mark.local_cache
 def test_lab9_summary_artifacts_evt_parity_and_md_hygiene():
     """Verify summary JSON integrity, untouched S3A v1, Cycle-3 EVT xi=0.0718, and 8-of-8 MD parity."""
     assert LAB9_SUMMARY_PATH.exists(), f"Missing Lab #9 summary JSON: {LAB9_SUMMARY_PATH}"
@@ -299,6 +300,7 @@ def test_lab9_summary_artifacts_evt_parity_and_md_hygiene():
         assert expected_cs in md_text, f"Crisis Stress MD-vs-JSON mismatch for {sid}:\nExpected: {expected_cs}"
 
 
+@pytest.mark.local_cache
 def test_lab9_real_cached_panel_zero_lookahead_and_20_symbols():
     """Verify real 20-perp offline cache loads cleanly with zero pre-listing allocation on real data."""
     panel = load_lab9_funding_panel()

@@ -22,6 +22,7 @@ import sys
 
 import numpy as np
 import pyarrow.parquet as pq
+import pytest
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -149,6 +150,7 @@ def test_lab3a_zero_lookahead_and_t_plus_1_swap_simulator() -> None:
 # Lab #3B: 10 Brand-New Assets Causality & Strict < 2025-01-01 Holdout Seal
 # ==============================================================================
 
+@pytest.mark.local_cache
 def test_lab3b_zero_lookahead_and_commodity_swap_cap() -> None:
     specs = load_ftmo_symbol_specs()
     p = _make_dev_panel(300, NEW10_IDS, 86400, seed=21)
@@ -228,6 +230,7 @@ def test_lab2b_maker_cost_formula_and_hysteresis_causality() -> None:
 # Artifact, Holdout Seal & Documentation Hygiene Verification
 # ==============================================================================
 
+@pytest.mark.local_cache
 def test_wave2_cycle2a_artifacts_holdout_and_doc_hygiene() -> None:
     lock_path = ROOT / "planning" / "research" / "NATIVE_FTMO_HOLDOUT_LOCK.json"
     assert lock_path.exists()

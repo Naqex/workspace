@@ -21,29 +21,29 @@ bên dưới giữ đúng ngày đo. Metadata/hash giúp truy vết, không ch�
 Local retrieval vẫn phục vụ tìm tài liệu; numeric đọc artifacts bằng code.
 Không có evidence mới cần vector DB, embeddings provider hoặc RAG service.
 
-[Tick normalization/performance](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
+[Tick normalization/performance](archive/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
 thêm explicit integer-grid/UTC-ms/native-volume/ordering/window contracts cho
 derived columns, không thay raw. Full fields/M1/locators khớp frozen oracle;
 source pins có before-use/final binding và active loop checks. Đây là áp dụng
 chuẩn hóa ở consumer thực, không migration lịch sử hoặc format DB mới.
 
-[Full tick view](INDEX-PAPER-WINDOW-TICK-HISTORY-PROTOCOL-20261109.md) áp metadata
+[Full tick view](archive/INDEX-PAPER-WINDOW-TICK-HISTORY-PROTOCOL-20261109.md) áp metadata
 theo hour: source identity/UTCms/price-grid/quote-volume units/consumed exposure,
 raw/output/proof seals, common-M1 conflicts/missing/extension và archived quote
 locators. Source và review có journals riêng; resume kiểm binding trước skip,
 không coi directory/file tồn tại là đã verified. R076/R077 revision lineage giữ
 trong catalogue thay vì ghi đè negatives. Numerical projections đọc bằng code,
-không embedding tick hoặc thêm RAG service. [Results/correction](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+không embedding tick hoặc thêm RAG service. [Results/correction](archive/INDEX-PAPER-WINDOW-RESULTS-20261109.md)
 đã review source/economics; full-year quarter omission bị phát hiện/sửa, có
 code guard trước PnL, không chỉ metadata/hash. Hai components không đạt netgate.
 
-[Consensus reuse](INDEX-CONSENSUS-RESULTS-20261109.md) kiểm experiment mới trên
+[Consensus reuse](archive/INDEX-CONSENSUS-RESULTS-20261109.md) kiểm experiment mới trên
 parent records đã sealed trong5,32s producer+review, không đọc lại raw16million
 ticks. [EU-open pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md) rebind original
 rawUTCday/side cho32nightbars vàfullquarterproofs; source role/clock/basis đổi
 thì có admission scope riêng, không suy hashmatch là mọi holdingwindow đã tickproof.
 
-[R075 recovery](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) bổ sung reuse
+[R075 recovery](archive/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) bổ sung reuse
 proof lịch sử khi code live đã revision: explicit frozen code/protocol snapshots,
 raw/calendar/canonical seals trực tiếp; không sửa old proof hoặc chạy lại data
 preparation. Đã rebind 4 source years và kiểm actual NASDAQ row/summary parity

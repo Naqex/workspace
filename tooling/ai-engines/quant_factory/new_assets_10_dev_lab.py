@@ -46,6 +46,11 @@ if str(AI_ENGINES) not in sys.path:
 
 import hot_m1_cache as hcache
 from native_ftmo_monfri_seal import STOP
+from quant_core.holdout_guard import (
+    enforce_holdout_zero_rows,
+    enforce_pre_holdout_dates,
+    enforce_pre_holdout_ts,
+)
 from quant_factory.crypto_causal_universe import RETURNS_DIR, _causal_ema_matrix, compute_daily_metrics
 from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry
 from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio
@@ -188,7 +193,8 @@ def fetch_and_cache_new10_dev(*, cache_dir: Path = NEW10_CACHE_DIR, force_refres
             tbl = pq.read_table(p, columns=["date", "ts_sec"])
             dates = tbl["date"].to_pylist()
             ts_a = tbl["ts_sec"].to_numpy()
-            assert len(dates) > 0 and max(dates) < "2025-01-01" and int(ts_a.max()) < STOP, f"HOLDOUT_VIOLATION:{aid}"
+            enforce_pre_holdout_dates(dates, context=f"new_assets_10:{aid}", allow_empty=False)
+            enforce_pre_holdout_ts(int(ts_a.max()), stop_ts=STOP, context=f"new_assets_10:{aid}")
             files_meta[f"{aid}.parquet"] = {
                 "ticker": ticker,
                 "rows": len(dates),
@@ -207,7 +213,7 @@ def fetch_and_cache_new10_dev(*, cache_dir: Path = NEW10_CACHE_DIR, force_refres
                 if err or not rows:
                     skipped.append({"asset": aid, "reason": err or "EMPTY"})
                     continue
-                assert max(r["date"] for r in rows) < "2025-01-01", f"HOLDOUT_VIOLATION:{aid}"
+                enforce_pre_holdout_dates([r["date"] for r in rows], context=f"new_assets_10.fetch:{aid}", allow_empty=False)
                 p = cache_dir / f"{aid}.parquet"
                 tbl = pa.table(
                     {
@@ -253,7 +259,7 @@ def load_new10_panel(*, cache_dir: Path = NEW10_CACHE_DIR) -> dict[str, Any]:
             continue
         tbl = pq.read_table(p)
         dates = tbl["date"].to_pylist()
-        assert max(dates) < "2025-01-01", f"HOLDOUT_VIOLATION:{aid}"
+        enforce_pre_holdout_dates(dates, context=f"new_assets_10.load:{aid}", allow_empty=False)
         loaded_ids.append(aid)
         raw[aid] = {
             "d": dates,
@@ -542,7 +548,7 @@ def run_lab3b(*, fetch: bool = True, cache_dir: Path = NEW10_CACHE_DIR, jobs_roo
     ftmo_specs = load_ftmo_symbol_specs()
 
     manifest = fetch_and_cache_new10_dev(cache_dir=cache_dir) if fetch else json.loads((cache_dir / "manifest.sha256.json").read_text(encoding="utf-8"))
-    assert manifest.get("holdout_rows") == 0
+    enforce_holdout_zero_rows(manifest.get("holdout_rows"), context="new_assets_10.manifest")
 
     # Load frozen PORT_7E daily return series for strict |r| < 0.15 orthogonality gate
     reg = load_registry()
@@ -553,7 +559,7 @@ def run_lab3b(*, fetch: bool = True, cache_dir: Path = NEW10_CACHE_DIR, jobs_roo
     port7_daily = {e["day"]: float(e["net_usd"]) / 10000.0 for e in dev_ex7}
 
     panel = load_new10_panel(cache_dir=cache_dir)
-    assert panel["dates"][-1] < "2025-01-01", "HOLDOUT_CONTAMINATION_DETECTED"
+    enforce_pre_holdout_dates(panel["dates"], context="new_assets_10.panel")
     specs = build_lab3b_strategies(panel, ftmo_specs)
 
     eval_items: list[dict[str, Any]] = []

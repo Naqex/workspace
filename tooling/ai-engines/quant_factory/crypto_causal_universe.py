@@ -15,28 +15,129 @@ Strict anti-bias & safety boundaries:
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
-import hashlib
 import json
 import math
-from pathlib import Path
 import sys
 import time
-from typing import Any
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import UTC, datetime
+from pathlib import Path
+from statistics import NormalDist
+from typing import Any, overload
 
 import httpx
 import numpy as np
+import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
-from scipy.stats import norm
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
-ROOT = AI_ENGINES.parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
-from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio
+from quant_core.io_utils import atomic_write_json, repo_root_from, sha256_file  # noqa: E402
+
+ROOT = repo_root_from(__file__)
+QUANT_LAB_SRC = ROOT / "projects" / "quant-trading" / "src"
+if str(QUANT_LAB_SRC) not in sys.path:
+    sys.path.insert(0, str(QUANT_LAB_SRC))
+
+try:
+    from quant_lab.causal_universe import (  # noqa: E402
+        _apply_rebalance_deadband as _quant_lab_apply_rebalance_deadband,
+    )
+    from quant_lab.causal_universe import (  # noqa: E402
+        _causal_ema_matrix as _quant_lab_causal_ema_matrix,
+    )
+    from quant_lab.causal_universe import (  # noqa: E402
+        causal_rolling_top_n_mask as _quant_lab_causal_rolling_top_n_mask,
+    )
+except ModuleNotFoundError:  # Fallback when projects/quant-trading submodule pin predates causal_universe.py
+    def _quant_lab_causal_ema_matrix(closes: np.ndarray, span: int) -> np.ndarray:
+        n_t, n_k = closes.shape
+        out = np.full((n_t, n_k), np.nan, dtype=np.float64)
+        alpha = 2.0 / (span + 1.0)
+        for j in range(n_k):
+            prev = np.nan
+            valid_streak = 0
+            for t in range(n_t):
+                c = closes[t, j]
+                if not np.isfinite(c) or c <= 0.0:
+                    prev = np.nan
+                    valid_streak = 0
+                    continue
+                prev = c if not np.isfinite(prev) else (alpha * c + (1.0 - alpha) * prev)
+                valid_streak += 1
+                if valid_streak >= span:
+                    out[t, j] = prev
+        return out
+
+    def _quant_lab_apply_rebalance_deadband(raw_w: np.ndarray, deadband: float) -> np.ndarray:
+        if isinstance(deadband, bool) or not math.isfinite(float(deadband)) or float(deadband) < 0.0:
+            raise ValueError("deadband must be a finite float >= 0.0.")
+        db = float(deadband)
+        if db == 0.0:
+            return raw_w.copy()
+        out = np.zeros_like(raw_w)
+        prev = np.zeros(raw_w.shape[1], dtype=np.float64)
+        for t in range(len(raw_w)):
+            cur = raw_w[t]
+            flip = (cur == 0.0) != (prev == 0.0)
+            upd = np.where(flip | (np.abs(cur - prev) >= db), cur, prev)
+            total = float(upd.sum())
+            if total > 1.0:
+                upd = upd / total
+            out[t] = upd
+            prev = upd
+        return out
+
+    def _quant_lab_causal_rolling_top_n_mask(
+        quote_volume: pd.DataFrame,
+        close: pd.DataFrame,
+        *,
+        lookback_bars: int = 30,
+        top_n: int = 15,
+        min_valid_frac: float = 0.90,
+    ) -> pd.DataFrame:
+        if quote_volume.empty or close.empty:
+            raise ValueError("quote_volume and close panels cannot be empty.")
+        if not quote_volume.index.equals(close.index) or list(quote_volume.columns) != list(close.columns):
+            raise ValueError("quote_volume and close must share identical index and columns.")
+        if type(lookback_bars) is not int or lookback_bars < 1 or type(top_n) is not int or top_n < 1:
+            raise ValueError("lookback_bars and top_n must be positive integers.")
+        if isinstance(min_valid_frac, bool) or not 0.0 < float(min_valid_frac) <= 1.0:
+            raise ValueError("min_valid_frac must be in (0, 1].")
+        qv = quote_volume.to_numpy(dtype=np.float64, copy=False)
+        cl = close.to_numpy(dtype=np.float64, copy=False)
+        n_t, n_k = qv.shape
+        cols = [str(col) for col in close.columns]
+        mask = np.zeros((n_t, n_k), dtype=bool)
+        min_req = max(1, int(math.ceil(lookback_bars * float(min_valid_frac))))
+        for t in range(lookback_bars - 1, n_t):
+            win = qv[t - lookback_bars + 1 : t + 1]
+            valid_cnt = np.sum(np.isfinite(win) & (win > 0.0), axis=0)
+            cur_ok = (
+                np.isfinite(cl[t])
+                & (cl[t] > 0.0)
+                & np.isfinite(qv[t])
+                & (qv[t] > 0.0)
+                & (valid_cnt >= min_req)
+            )
+            if not np.any(cur_ok):
+                continue
+            safe = np.where(np.isfinite(win) & (win > 0.0), win, 0.0)
+            mean_qv = np.where(cur_ok, np.sum(safe, axis=0) / float(lookback_bars), -1.0)
+            elig_idx = np.flatnonzero(cur_ok)
+            if len(elig_idx) <= top_n:
+                mask[t, elig_idx] = True
+            else:
+                order = sorted(elig_idx.tolist(), key=lambda j: (-float(mean_qv[j]), cols[j]))
+                mask[t, order[:top_n]] = True
+        return pd.DataFrame(mask, index=close.index, columns=close.columns)
+
+from quant_factory.eval_pipeline import benjamini_hochberg, deflated_sharpe_ratio  # noqa: E402
+
+_STD_NORM = NormalDist(0.0, 1.0)
 
 CACHE_DIR = ROOT / ".runtime" / "crypto-spot-cache"
 RETURNS_DIR = ROOT / ".runtime" / "quant-pod-returns"
@@ -74,12 +175,12 @@ PARQUET_SCHEMA = pa.schema([
 # ==============================================================================
 
 def _iso_to_ms(iso_date: str) -> int:
-    dt = datetime.fromisoformat(iso_date).replace(tzinfo=timezone.utc)
+    dt = datetime.fromisoformat(iso_date).replace(tzinfo=UTC)
     return int(dt.timestamp() * 1000)
 
 
 def _ms_to_date(ms: int) -> str:
-    return datetime.fromtimestamp(ms / 1000.0, timezone.utc).strftime("%Y-%m-%d")
+    return datetime.fromtimestamp(ms / 1000.0, UTC).strftime("%Y-%m-%d")
 
 
 def _fetch_binance_klines_symbol(
@@ -151,7 +252,7 @@ def _write_klines_parquet(path: Path, rows: list[list[Any]]) -> str:
         schema=PARQUET_SCHEMA,
     )
     pq.write_table(table, path, compression="zstd")
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_file(path)
 
 
 def fetch_and_cache_universe(
@@ -169,8 +270,8 @@ def fetch_and_cache_universe(
     start_ms = _iso_to_ms(start_date)
     if end_date is None:
         # Use completed UTC day boundary (yesterday 23:59:59 UTC so current partial day is excluded!)
-        now_utc = datetime.now(timezone.utc)
-        today_start = datetime(now_utc.year, now_utc.month, now_utc.day, tzinfo=timezone.utc)
+        now_utc = datetime.now(UTC)
+        today_start = datetime(now_utc.year, now_utc.month, now_utc.day, tzinfo=UTC)
         end_ms = int(today_start.timestamp() * 1000) - 1
     else:
         end_ms = _iso_to_ms(end_date) + 86_400_000 - 1
@@ -204,7 +305,7 @@ def fetch_and_cache_universe(
                         "rows": int(len(ot)),
                         "first_utc": _ms_to_date(int(ot[0])),
                         "last_utc": _ms_to_date(int(ot[-1])),
-                        "sha256": hashlib.sha256(p.read_bytes()).hexdigest(),
+                        "sha256": sha256_file(p),
                     }
                     continue
             tasks.append((sym, iv))
@@ -231,7 +332,7 @@ def fetch_and_cache_universe(
 
     manifest = {
         "schema": "naqex-crypto-spot-cache-v1",
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "source": "Binance Spot Public /api/v3/klines (zero API key)",
         "requested_symbols": list(symbols),
         "start_date": start_date,
@@ -241,7 +342,7 @@ def fetch_and_cache_universe(
         "files": dict(sorted(manifest_files.items())),
     }
     mpath = cache_dir / "manifest.sha256.json"
-    mpath.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    atomic_write_json(mpath, manifest, indent=2)
     return manifest
 
 
@@ -313,6 +414,18 @@ def load_panel_from_cache(
 # STRICTLY CAUSAL ROLLING 30-DAY DOLLAR-VOLUME TOP-N UNIVERSE SELECTOR
 # ==============================================================================
 
+@overload
+def causal_rolling_top_n_mask(
+    quote_vol: pd.DataFrame,
+    closes: pd.DataFrame,
+    *,
+    lookback_bars: int = 30,
+    top_n: int = 15,
+    min_valid_frac: float = 0.90,
+) -> pd.DataFrame: ...
+
+
+@overload
 def causal_rolling_top_n_mask(
     quote_vol: np.ndarray,
     closes: np.ndarray,
@@ -320,33 +433,52 @@ def causal_rolling_top_n_mask(
     lookback_bars: int = 30,
     top_n: int = 15,
     min_valid_frac: float = 0.90,
-) -> np.ndarray:
+) -> np.ndarray: ...
+
+
+def causal_rolling_top_n_mask(
+    quote_vol: np.ndarray | pd.DataFrame,
+    closes: np.ndarray | pd.DataFrame,
+    *,
+    lookback_bars: int = 30,
+    top_n: int = 15,
+    min_valid_frac: float = 0.90,
+) -> np.ndarray | pd.DataFrame:
     """Return boolean mask (T x K) where True iff coin j is in Top-N trailing dollar volume at bar t.
 
-    100% causal: decision at bar t uses ONLY quote_vol[t - lookback_bars + 1 : t + 1] and closes[t].
-    Requires coin to have >= min_valid_frac valid bars in the trailing window (no pre-listing leakage!).
+    Delegates strictly to canonical `quant_lab.causal_universe.causal_rolling_top_n_mask`
+    (100% causal using data <= bar t, zero pre-listing leakage), accepting both DataFrame
+    and legacy 2D NumPy array inputs for full workspace caller compatibility.
     """
-    n_t, n_k = quote_vol.shape
-    mask = np.zeros((n_t, n_k), dtype=bool)
-    min_req = max(1, int(math.ceil(lookback_bars * min_valid_frac)))
+    if isinstance(quote_vol, pd.DataFrame) and isinstance(closes, pd.DataFrame):
+        return _quant_lab_causal_rolling_top_n_mask(
+            quote_vol,
+            closes,
+            lookback_bars=lookback_bars,
+            top_n=top_n,
+            min_valid_frac=min_valid_frac,
+        )
 
-    for t in range(lookback_bars - 1, n_t):
-        win_qv = quote_vol[t - lookback_bars + 1:t + 1]
-        valid_counts = np.sum(np.isfinite(win_qv) & (win_qv > 0.0), axis=0)
-        cur_ok = np.isfinite(closes[t]) & (closes[t] > 0.0) & (valid_counts >= min_req)
-        if not np.any(cur_ok):
-            continue
-        # Compute mean trailing dollar volume strictly over valid bars <= t
-        safe_qv = np.where(np.isfinite(win_qv) & (win_qv > 0.0), win_qv, 0.0)
-        mean_qv = np.where(cur_ok, np.sum(safe_qv, axis=0) / np.maximum(1, valid_counts), -1.0)
-        eligible_idx = np.flatnonzero(cur_ok)
-        if len(eligible_idx) <= top_n:
-            mask[t, eligible_idx] = True
-        else:
-            # Deterministic tie-breaking by symbol index
-            order = sorted(eligible_idx.tolist(), key=lambda j: (-float(mean_qv[j]), j))
-            mask[t, order[:top_n]] = True
-    return mask
+    qv_arr = np.asarray(quote_vol, dtype=np.float64)
+    cl_arr = np.asarray(closes, dtype=np.float64)
+    if qv_arr.ndim != 2 or cl_arr.ndim != 2 or qv_arr.shape != cl_arr.shape:
+        raise ValueError("quote_vol and closes must be 2D arrays with identical shapes.")
+    n_t, n_k = qv_arr.shape
+    if n_t == 0 or n_k == 0:
+        return np.zeros((n_t, n_k), dtype=bool)
+
+    qv_clean = np.where(np.isfinite(qv_arr) & (qv_arr > 0.0), qv_arr, np.nan)
+    cl_clean = np.where(np.isfinite(cl_arr) & (cl_arr > 0.0), cl_arr, np.nan)
+    cols = [f"{j:06d}" for j in range(n_k)]
+    idx = pd.RangeIndex(n_t)
+    mask_df = _quant_lab_causal_rolling_top_n_mask(
+        pd.DataFrame(qv_clean, index=idx, columns=cols),
+        pd.DataFrame(cl_clean, index=idx, columns=cols),
+        lookback_bars=lookback_bars,
+        top_n=top_n,
+        min_valid_frac=min_valid_frac,
+    )
+    return mask_df.to_numpy(dtype=bool, copy=False)
 
 
 # ==============================================================================
@@ -401,7 +533,12 @@ def simulate_spot_backtest(
     }
 
 
-def aggregate_4h_to_daily(timestamps_ms: np.ndarray, r_4h: np.ndarray, turnover_4h: np.ndarray, exposure_4h: np.ndarray) -> tuple[list[str], np.ndarray, np.ndarray, np.ndarray]:
+def aggregate_4h_to_daily(
+    timestamps_ms: np.ndarray,
+    r_4h: np.ndarray,
+    turnover_4h: np.ndarray,
+    exposure_4h: np.ndarray,
+) -> tuple[list[str], np.ndarray, np.ndarray, np.ndarray]:
     """Compound 4H bar returns onto exact UTC calendar days."""
     day_order: list[str] = []
     day_idx: dict[str, int] = {}
@@ -410,7 +547,7 @@ def aggregate_4h_to_daily(timestamps_ms: np.ndarray, r_4h: np.ndarray, turnover_
     day_exp_sum: list[float] = []
     day_cnt: list[int] = []
 
-    for ts, rv, to, ex in zip(timestamps_ms, r_4h, turnover_4h, exposure_4h):
+    for ts, rv, to, ex in zip(timestamps_ms, r_4h, turnover_4h, exposure_4h, strict=False):
         dk = _ms_to_date(int(ts))
         idx = day_idx.get(dk)
         if idx is None:
@@ -422,14 +559,14 @@ def aggregate_4h_to_daily(timestamps_ms: np.ndarray, r_4h: np.ndarray, turnover_
             day_exp_sum.append(float(ex))
             day_cnt.append(1)
         else:
-            day_prod[idx] *= (1.0 + float(rv))
+            day_prod[idx] *= 1.0 + float(rv)
             day_to[idx] += float(to)
             day_exp_sum[idx] += float(ex)
             day_cnt[idx] += 1
 
     daily_ret = np.array([p - 1.0 for p in day_prod], dtype=np.float64)
     daily_to = np.array(day_to, dtype=np.float64)
-    daily_exp = np.array([s / max(1, c) for s, c in zip(day_exp_sum, day_cnt)], dtype=np.float64)
+    daily_exp = np.array([s / max(1, c) for s, c in zip(day_exp_sum, day_cnt, strict=False)], dtype=np.float64)
     return day_order, daily_ret, daily_to, daily_exp
 
 
@@ -444,47 +581,15 @@ def _compute_log_or_simple_rets(closes: np.ndarray) -> np.ndarray:
     return rets
 
 
-def _causal_ema_matrix(closes: np.ndarray, span: int) -> np.ndarray:
-    """Strictly causal EMA per column, initializing on first finite observation."""
-    n_t, n_k = closes.shape
-    out = np.full((n_t, n_k), np.nan, dtype=np.float64)
-    alpha = 2.0 / (span + 1.0)
-    for j in range(n_k):
-        prev = np.nan
-        for t in range(n_t):
-            c = closes[t, j]
-            if not np.isfinite(c):
-                prev = np.nan
-                continue
-            if not np.isfinite(prev):
-                prev = c
-            else:
-                prev = alpha * c + (1.0 - alpha) * prev
-            out[t, j] = prev
-    return out
+_causal_ema_matrix = _quant_lab_causal_ema_matrix
+_apply_rebalance_deadband = _quant_lab_apply_rebalance_deadband
 
 
-def _apply_rebalance_deadband(raw_w: np.ndarray, deadband: float) -> np.ndarray:
-    """Causal rebalance deadband to suppress micro-churn on 4H vol updates."""
-    if deadband <= 0.0:
-        return raw_w
-    out = np.zeros_like(raw_w)
-    prev = np.zeros(raw_w.shape[1], dtype=np.float64)
-    for t in range(len(raw_w)):
-        cur = raw_w[t]
-        # Always execute zero-to-nonzero or nonzero-to-zero signal flips immediately!
-        flip = (cur == 0.0) != (prev == 0.0)
-        diff = np.abs(cur - prev)
-        upd = np.where(flip | (diff >= deadband), cur, prev)
-        s = float(upd.sum())
-        if s > 1.0:
-            upd = upd / s
-        out[t] = upd
-        prev = upd
-    return out
-
-
-def build_d1_strategies(panel_d1: dict[str, Any], top15_mask: np.ndarray, top10_mask: np.ndarray) -> dict[str, tuple[str, np.ndarray]]:
+def build_d1_strategies(
+    panel_d1: dict[str, Any],
+    top15_mask: np.ndarray,
+    top10_mask: np.ndarray,
+) -> dict[str, tuple[str, np.ndarray]]:
     """Build D1 strategies across Families 1, 2, 3, 5 + Benchmarks (strictly data <= t)."""
     closes = panel_d1["close"]
     highs = panel_d1["high"]
@@ -530,9 +635,21 @@ def build_d1_strategies(panel_d1: dict[str, Any], top15_mask: np.ndarray, top10_
         n_elig15 = max(1, int(elig15.sum()))
 
         # BTC macro filters (strictly <= t)
-        btc_sma50_ok = t >= 50 and np.all(np.isfinite(closes[t - 49:t + 1, btc_idx])) and closes[t, btc_idx] > float(np.mean(closes[t - 49:t + 1, btc_idx]))
-        btc_sma100_ok = t >= 100 and np.all(np.isfinite(closes[t - 99:t + 1, btc_idx])) and closes[t, btc_idx] > float(np.mean(closes[t - 99:t + 1, btc_idx]))
-        btc_sma200_ok = t >= 200 and np.all(np.isfinite(closes[t - 199:t + 1, btc_idx])) and closes[t, btc_idx] > float(np.mean(closes[t - 199:t + 1, btc_idx]))
+        btc_sma50_ok = (
+            t >= 50
+            and np.all(np.isfinite(closes[t - 49 : t + 1, btc_idx]))
+            and closes[t, btc_idx] > float(np.mean(closes[t - 49 : t + 1, btc_idx]))
+        )
+        btc_sma100_ok = (
+            t >= 100
+            and np.all(np.isfinite(closes[t - 99 : t + 1, btc_idx]))
+            and closes[t, btc_idx] > float(np.mean(closes[t - 99 : t + 1, btc_idx]))
+        )
+        btc_sma200_ok = (
+            t >= 200
+            and np.all(np.isfinite(closes[t - 199 : t + 1, btc_idx]))
+            and closes[t, btc_idx] > float(np.mean(closes[t - 199 : t + 1, btc_idx]))
+        )
 
         raw_t60 = np.zeros(n_k, dtype=np.float64)
         raw_t30 = np.zeros(n_k, dtype=np.float64)
@@ -561,15 +678,25 @@ def build_d1_strategies(panel_d1: dict[str, Any], top15_mask: np.ndarray, top10_
 
             # --- Family 1 & 2 (D1 TSMOM & XSEC on Top-15 causal universe) ---
             if elig15[j]:
-                if t >= 60 and np.all(np.isfinite(closes[t - 49:t + 1, j])) and np.isfinite(closes[t - 60, j]) and closes[t - 60, j] > 0:
-                    sma50 = float(np.mean(closes[t - 49:t + 1, j]))
+                if (
+                    t >= 60
+                    and np.all(np.isfinite(closes[t - 49 : t + 1, j]))
+                    and np.isfinite(closes[t - 60, j])
+                    and closes[t - 60, j] > 0
+                ):
+                    sma50 = float(np.mean(closes[t - 49 : t + 1, j]))
                     ret60 = float(c_now / closes[t - 60, j] - 1.0)
                     if c_now > sma50 and ret60 > 0.0:
                         raw_t60[j] = vt15 / vol20
                         scores_60.append((ret60 / (vol20 * math.sqrt(60.0)), j, vol20))
 
-                if t >= 30 and np.all(np.isfinite(closes[t - 29:t + 1, j])) and np.isfinite(closes[t - 30, j]) and closes[t - 30, j] > 0:
-                    sma30 = float(np.mean(closes[t - 29:t + 1, j]))
+                if (
+                    t >= 30
+                    and np.all(np.isfinite(closes[t - 29 : t + 1, j]))
+                    and np.isfinite(closes[t - 30, j])
+                    and closes[t - 30, j] > 0
+                ):
+                    sma30 = float(np.mean(closes[t - 29 : t + 1, j]))
                     ret30 = float(c_now / closes[t - 30, j] - 1.0)
                     if c_now > sma30 and ret30 > 0.0:
                         raw_t30[j] = vt20 / vol20
@@ -603,11 +730,20 @@ def build_d1_strategies(panel_d1: dict[str, Any], top15_mask: np.ndarray, top10_
                 don40_state[j] = False
 
             # --- Family 5 (Liquidity-Filtered Panic Reversion on Top-10) ---
-            if t >= 5 and np.all(np.isfinite(closes[t - 4:t + 1, j])) and np.isfinite(closes[t - 3, j]) and closes[t - 3, j] > 0:
-                sma5 = float(np.mean(closes[t - 4:t + 1, j]))
+            if (
+                t >= 5
+                and np.all(np.isfinite(closes[t - 4 : t + 1, j]))
+                and np.isfinite(closes[t - 3, j])
+                and closes[t - 3, j] > 0
+            ):
+                sma5 = float(np.mean(closes[t - 4 : t + 1, j]))
                 ret3 = float(c_now / closes[t - 3, j] - 1.0)
                 z3 = ret3 / (vol20 * math.sqrt(3.0))
-                coin_sma200_ok = t >= 200 and np.all(np.isfinite(closes[t - 199:t + 1, j])) and c_now > float(np.mean(closes[t - 199:t + 1, j]))
+                coin_sma200_ok = (
+                    t >= 200
+                    and np.all(np.isfinite(closes[t - 199 : t + 1, j]))
+                    and c_now > float(np.mean(closes[t - 199 : t + 1, j]))
+                )
 
                 # Trend-gated panic reversion
                 if panic_t_hold[j] > 0:
@@ -685,7 +821,11 @@ def build_d1_strategies(panel_d1: dict[str, Any], top15_mask: np.ndarray, top10_
     }
 
 
-def build_4h_strategies(panel_4h: dict[str, Any], top15_mask_4h: np.ndarray, top10_mask_4h: np.ndarray) -> dict[str, tuple[str, np.ndarray]]:
+def build_4h_strategies(
+    panel_4h: dict[str, Any],
+    top15_mask_4h: np.ndarray,
+    top10_mask_4h: np.ndarray,
+) -> dict[str, tuple[str, np.ndarray]]:
     """Build 4H causal strategies across Families 1, 3, 4, 5 (strictly data <= bar t, with rebalance deadband)."""
     closes = panel_4h["close"]
     highs = panel_4h["high"]
@@ -882,7 +1022,13 @@ def build_old_5coin_baseline(panel_d1: dict[str, Any]) -> dict[str, np.ndarray]:
 # METRICS, BH-FDR, DSR & SLEEVE RETURN EXPORT
 # ==============================================================================
 
-def compute_daily_metrics(r: np.ndarray, turnover: np.ndarray | None = None, exposure: np.ndarray | None = None, *, ann_days: float = 365.0) -> dict[str, Any]:
+def compute_daily_metrics(
+    r: np.ndarray,
+    turnover: np.ndarray | None = None,
+    exposure: np.ndarray | None = None,
+    *,
+    ann_days: float = 365.0,
+) -> dict[str, Any]:
     arr = np.asarray(r, dtype=np.float64)
     n = len(arr)
     if n < 30:
@@ -904,7 +1050,7 @@ def compute_daily_metrics(r: np.ndarray, turnover: np.ndarray | None = None, exp
     nw_var = _newey_west_var(arr, max_lag=5)
     se_mu = math.sqrt(max(1e-18, nw_var / n))
     z_stat = mu / se_mu if se_mu > 1e-15 else 0.0
-    p_val = float(1.0 - norm.cdf(z_stat))
+    p_val = float(1.0 - _STD_NORM.cdf(z_stat))
     out = {
         "n_days": n,
         "cagr_pct": round(cagr * 100.0, 2),
@@ -938,9 +1084,18 @@ def _newey_west_var(r: np.ndarray, max_lag: int = 5) -> float:
     return max(var, gamma0 * 0.25, 1e-15)
 
 
-def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_out: Path = SLEEVE2_RETURNS_PATH) -> dict[str, Any]:
+def run_full_study(
+    *,
+    fetch: bool = True,
+    cache_dir: Path = CACHE_DIR,
+    returns_out: Path = SLEEVE2_RETURNS_PATH,
+) -> dict[str, Any]:
     t0 = time.perf_counter()
-    manifest = fetch_and_cache_universe(cache_dir=cache_dir) if fetch else json.loads((cache_dir / "manifest.sha256.json").read_text(encoding="utf-8"))
+    manifest = (
+        fetch_and_cache_universe(cache_dir=cache_dir)
+        if fetch
+        else json.loads((cache_dir / "manifest.sha256.json").read_text(encoding="utf-8"))
+    )
 
     panel_d1 = load_panel_from_cache("1d", cache_dir=cache_dir)
     panel_4h = load_panel_from_cache("4h", cache_dir=cache_dir)
@@ -983,7 +1138,9 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
             "full_1x": mF1,
             "delist_exits_w": round(sim1["delist_exits_weight_sum"], 4),
         }
-        daily_series_1x[name] = {d: float(rv) for d, rv in zip(dates_d1, sim1["net_returns"]) if d >= START_DATE}
+        daily_series_1x[name] = {
+            d: float(rv) for d, rv in zip(dates_d1, sim1["net_returns"], strict=False) if d >= START_DATE
+        }
         if fam != "BENCHMARK":
             candidate_names.append(name)
 
@@ -991,8 +1148,12 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
         sim1 = simulate_spot_backtest(panel_4h["close"], w, cost_bps_oneway=15.0)
         sim2 = simulate_spot_backtest(panel_4h["close"], w, cost_bps_oneway=30.0)
         exp1 = sim1["held_w"].sum(axis=1)
-        d_days, r1_d, to1_d, ex1_d = aggregate_4h_to_daily(panel_4h["timestamps_ms"], sim1["net_returns"], sim1["turnover"], exp1)
-        _, r2_d, to2_d, _ = aggregate_4h_to_daily(panel_4h["timestamps_ms"], sim2["net_returns"], sim2["turnover"], exp1)
+        d_days, r1_d, to1_d, ex1_d = aggregate_4h_to_daily(
+            panel_4h["timestamps_ms"], sim1["net_returns"], sim1["turnover"], exp1
+        )
+        _, r2_d, to2_d, _ = aggregate_4h_to_daily(
+            panel_4h["timestamps_ms"], sim2["net_returns"], sim2["turnover"], exp1
+        )
         ma = np.array([START_DATE <= d <= CLUSTER_A_END for d in d_days])
         mb = np.array([d >= CLUSTER_B_START for d in d_days])
         mall = np.array([d >= START_DATE for d in d_days])
@@ -1006,7 +1167,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
             "full_1x": compute_daily_metrics(r1_d[mall], to1_d[mall], ex1_d[mall]),
             "delist_exits_w": round(sim1["delist_exits_weight_sum"], 4),
         }
-        daily_series_1x[name] = {d: float(rv) for d, rv in zip(d_days, r1_d) if d >= START_DATE}
+        daily_series_1x[name] = {d: float(rv) for d, rv in zip(d_days, r1_d, strict=False) if d >= START_DATE}
         candidate_names.append(name)
 
     # BH-FDR across ALL m_total pre-registered candidates & DSR (n_trials = m_total)
@@ -1018,7 +1179,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
     q_b_list = benjamini_hochberg(p_b_list)
     q_f_list = benjamini_hochberg(p_f_list)
 
-    for name, qa, qb, qf in zip(candidate_names, q_a_list, q_b_list, q_f_list):
+    for name, qa, qb, qf in zip(candidate_names, q_a_list, q_b_list, q_f_list, strict=False):
         ser = daily_series_1x[name]
         r_a = np.array([v for d, v in sorted(ser.items()) if START_DATE <= d <= CLUSTER_A_END], dtype=np.float64)
         r_b = np.array([v for d, v in sorted(ser.items()) if d >= CLUSTER_B_START], dtype=np.float64)
@@ -1037,11 +1198,21 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
         sim2 = simulate_spot_backtest(panel_d1["close"], w, cost_bps_oneway=30.0)
         exp = sim1["held_w"].sum(axis=1)
         old5_results[name] = {
-            "cluster_a_1x": compute_daily_metrics(sim1["net_returns"][mask_a_d1], sim1["turnover"][mask_a_d1], exp[mask_a_d1]),
-            "cluster_a_2x": compute_daily_metrics(sim2["net_returns"][mask_a_d1], sim2["turnover"][mask_a_d1], exp[mask_a_d1]),
-            "cluster_b_1x": compute_daily_metrics(sim1["net_returns"][mask_b_d1], sim1["turnover"][mask_b_d1], exp[mask_b_d1]),
-            "cluster_b_2x": compute_daily_metrics(sim2["net_returns"][mask_b_d1], sim2["turnover"][mask_b_d1], exp[mask_b_d1]),
-            "full_1x": compute_daily_metrics(sim1["net_returns"][mask_all_d1], sim1["turnover"][mask_all_d1], exp[mask_all_d1]),
+            "cluster_a_1x": compute_daily_metrics(
+                sim1["net_returns"][mask_a_d1], sim1["turnover"][mask_a_d1], exp[mask_a_d1]
+            ),
+            "cluster_a_2x": compute_daily_metrics(
+                sim2["net_returns"][mask_a_d1], sim2["turnover"][mask_a_d1], exp[mask_a_d1]
+            ),
+            "cluster_b_1x": compute_daily_metrics(
+                sim1["net_returns"][mask_b_d1], sim1["turnover"][mask_b_d1], exp[mask_b_d1]
+            ),
+            "cluster_b_2x": compute_daily_metrics(
+                sim2["net_returns"][mask_b_d1], sim2["turnover"][mask_b_d1], exp[mask_b_d1]
+            ),
+            "full_1x": compute_daily_metrics(
+                sim1["net_returns"][mask_all_d1], sim1["turnover"][mask_all_d1], exp[mask_all_d1]
+            ),
         }
 
     # Strict Cluster A-ONLY selection (zero peeking at Cluster B!):
@@ -1058,7 +1229,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
         eligible_a = sorted(eligible_a, key=lambda n: results[n]["cluster_a_1x"]["calmar"], reverse=True)
     primary_selected = eligible_a[0]
 
-    # Also construct a diversified Cluster-A-selected 3-family equal-weight ensemble (1 best per top distinct family on Cluster A)
+    # Diversified Cluster-A-selected 3-family equal-weight ensemble (1 best per top distinct family)
     fam_best: dict[str, str] = {}
     for n in sorted(candidate_names, key=lambda x: results[x]["cluster_a_1x"]["sharpe"], reverse=True):
         f = results[n]["family"]
@@ -1094,7 +1265,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
         "sleeve_id": "sleeve2_crypto_spot",
         "strategy_name": primary_selected,
         "ensemble_name": "CRYPTO_SPOT_3FAM_EQW",
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "annualization_days": 365.0,
         "calendar_type": "24_7_calendar",
         "cost_assumption": "15 bps one-way (10 bps fee + 5 bps slip) + 100 bps delist haircut",
@@ -1114,7 +1285,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
             "BM_CAUSAL_EQW15": daily_series_1x["BM_CAUSAL_EQW15"],
         },
     }
-    returns_out.write_text(json.dumps(sleeve_payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    atomic_write_json(returns_out, sleeve_payload, indent=2)
 
     summary = {
         "schema": "naqex-crypto-sleeve2-survivorship-free-v1",
@@ -1133,7 +1304,7 @@ def run_full_study(*, fetch: bool = True, cache_dir: Path = CACHE_DIR, returns_o
         "old_5coin_comparison": old5_results,
         "returns_json_path": str(returns_out),
     }
-    (cache_dir / "study_summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    atomic_write_json(cache_dir / "study_summary.json", summary, indent=2)
     return summary
 
 

@@ -15,7 +15,6 @@ import json
 import pathlib
 import re
 import subprocess
-import sys
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
@@ -39,7 +38,8 @@ SCRIPT_MAP: dict[str, str] = {
 
 
 def resolve_ssh_host(hosts: tuple[str, ...] = DEFAULT_HOSTS, timeout: int = 4) -> str:
-    """Try primary LAN alias first, fall back to Tailscale alias."""
+    """Try primary LAN alias first, falling back to Tailscale alias ONLY on SSH transport error (rc=255)."""
+    last_err = ""
     for host in hosts:
         try:
             r = subprocess.run(
@@ -48,9 +48,15 @@ def resolve_ssh_host(hosts: tuple[str, ...] = DEFAULT_HOSTS, timeout: int = 4) -
             )
             if r.returncode == 0 and "OK" in r.stdout:
                 return host
-        except Exception:
+            if r.returncode != 255:
+                raise RuntimeError(f"Remote command failed on {host} (rc={r.returncode}): {r.stderr.strip()}")
+            last_err = r.stderr.strip()
+        except RuntimeError:
+            raise
+        except (subprocess.SubprocessError, OSError) as exc:
+            last_err = str(exc)
             continue
-    raise RuntimeError(f"Unable to reach any SSH host in {hosts}")
+    raise RuntimeError(f"Unable to reach any SSH host in {hosts}" + (f": {last_err}" if last_err else ""))
 
 
 def _validate_host(host: str) -> str:
@@ -73,6 +79,35 @@ def _validate_and_quote_extra_args(extra_args: list[str] | None) -> str:
     return " ".join(quoted)
 
 
+def _run_ssh_with_fallback(
+    remote_cmd: str,
+    *,
+    host: str | None = None,
+    connect_timeout: int = 6,
+    timeout: int = 20,
+) -> tuple[str, subprocess.CompletedProcess[str]]:
+    """Execute one SSH command directly on primary alias; fall back to `-ts` ONLY on rc=255/transport error."""
+    candidates = (_validate_host(host),) if host is not None else DEFAULT_HOSTS
+    last_err = ""
+    for idx, candidate in enumerate(candidates):
+        has_next = idx + 1 < len(candidates)
+        try:
+            proc = subprocess.run(
+                ["ssh", "-o", f"ConnectTimeout={connect_timeout}", "-o", "BatchMode=yes", candidate, remote_cmd],
+                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout,
+            )
+        except (subprocess.SubprocessError, OSError) as exc:
+            last_err = f"{candidate}: {exc}"
+            if has_next:
+                continue
+            raise RuntimeError(f"Unable to reach any SSH host in {candidates}: {last_err}") from exc
+        if proc.returncode == 255 and has_next:
+            last_err = f"{candidate}: {proc.stderr.strip()}"
+            continue
+        return candidate, proc
+    raise RuntimeError(f"Unable to reach any SSH host in {candidates}: {last_err}")
+
+
 def run_remote_probe(
     command_key: str,
     extra_args: list[str] | None = None,
@@ -83,26 +118,27 @@ def run_remote_probe(
     if command_key not in SCRIPT_MAP:
         raise ValueError(f"Unknown probe command: {command_key}")
     arg_str = _validate_and_quote_extra_args(extra_args)
-    target_host = _validate_host(host) if host is not None else resolve_ssh_host()
     script_name = SCRIPT_MAP[command_key]
     remote_cmd = f'"{REMOTE_PYTHON}" "{REMOTE_SCRIPTS_DIR}\\{script_name}" {arg_str}'.strip()
-    proc = subprocess.run(
-        ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", target_host, remote_cmd],
-        capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout,
-    )
+    target_host, proc = _run_ssh_with_fallback(remote_cmd, host=host, connect_timeout=6, timeout=timeout)
     if proc.returncode != 0:
-        raise RuntimeError(f"Remote probe {script_name} failed on {target_host} (rc={proc.returncode}): {proc.stderr.strip()}")
+        raise RuntimeError(
+            f"Remote probe {script_name} failed on {target_host} (rc={proc.returncode}): {proc.stderr.strip()}"
+        )
     payload = json.loads(proc.stdout.strip())
     payload["_ssh_host"] = target_host
     return payload
 
 
 def deploy_scripts(*, host: str | None = None) -> dict:
-    target_host = _validate_host(host) if host is not None else resolve_ssh_host()
-    subprocess.run(
-        ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", target_host, f'if not exist "{REMOTE_SCRIPTS_DIR}" mkdir "{REMOTE_SCRIPTS_DIR}"'],
-        check=True, capture_output=True, text=True, timeout=15,
+    target_host, proc = _run_ssh_with_fallback(
+        f'if not exist "{REMOTE_SCRIPTS_DIR}" mkdir "{REMOTE_SCRIPTS_DIR}"',
+        host=host,
+        connect_timeout=6,
+        timeout=15,
     )
+    if proc.returncode != 0:
+        raise RuntimeError(f"Remote mkdir failed on {target_host} (rc={proc.returncode}): {proc.stderr.strip()}")
     deployed: list[str] = []
     for name in sorted(SCRIPT_MAP.values()):
         local_p = SCRIPTS_DIR / name

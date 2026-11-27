@@ -26,12 +26,12 @@ Một trường hợp có thể có nhiều nhãn. Phải giữ scope để tác
 |---|---|---|---|
 | [EURUSD Catalogue13](EURUSD-CATALOGUE13-RESULTS-20261108.md) | 24 versions ×13 reset years ×2 costs;0/24 retained; tổng stress từng bản âm | `ECONOMIC_FAIL` cho frozen screen; `PROP_UNMEASURED` cho full target path | Không giữ các exact versions; không bác mọi FX. 624 cases không là624alphas |
 | [ML Discovery5](DISCOVERY5-RESULTS-20261108.md) | Ridge stress−593,70USD/475closed; Forest−1.537,26/263closed;2024 consumed development | `ECONOMIC_FAIL`; `PROP_UNMEASURED` | Hai real models không giữ; không gọi là IS đẹp rồi fail clean OOS |
-| [BR01/RS02 markout](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md) | Gộp2022–25: đà trước phí yếu/âm;24annual cells stressmeanâm | `ECONOMIC_FAIL` cho endpoint diagnostic; `DATA_PATH_INCOMPLETE` với missing windows; `PROP_UNMEASURED` | Park exact components; markout R không là USD/account PnL hoặc proof mọi exit thất bại |
-| [R123](US500-MA-RECLAIM-RESULTS-20261111.md) | 165lệnh/3reset books10k; reference+4,83/stress−307,03USD | `ECONOMIC_FAIL`; `CADENCE_OR_SAMPLE_SHORTFALL` cho current goal; `DATA_PATH_INCOMPLETE` chỉ intraminuteDD; `PROP_UNMEASURED` | Full M1 held coverage của study đã đủ; không biến net thànhN/A vì thiếu tickDD |
+| [BR01/RS02 markout](archive/US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md) | Gộp2022–25: đà trước phí yếu/âm;24annual cells stressmeanâm | `ECONOMIC_FAIL` cho endpoint diagnostic; `DATA_PATH_INCOMPLETE` với missing windows; `PROP_UNMEASURED` | Park exact components; markout R không là USD/account PnL hoặc proof mọi exit thất bại |
+| [R123](archive/US500-MA-RECLAIM-RESULTS-20261111.md) | 165lệnh/3reset books10k; reference+4,83/stress−307,03USD | `ECONOMIC_FAIL`; `CADENCE_OR_SAMPLE_SHORTFALL` cho current goal; `DATA_PATH_INCOMPLETE` chỉ intraminuteDD; `PROP_UNMEASURED` | Full M1 held coverage của study đã đủ; không biến net thànhN/A vì thiếu tickDD |
 | Năm US500 dương bên dưới | Tổng stress dương trong cùng mẫu đã search;13–28lệnh/3năm | `CADENCE_OR_SAMPLE_SHORTFALL`; `DATA_PATH_INCOMPLETE` chỉ G4intraminuteDD; `PROP_UNMEASURED` | Positive-in-sample, edge chưa chứng minh. Không `ECONOMIC_FAIL` chỉ vì có một năm âm |
-| [Recent RS01/RS07,2026](US500-RECENT-SCREEN-RESULTS-20261112.md) | 155/202trades;4/5held-path unresolved; known-subset net−80,75/−947,46USD | `DATA_PATH_INCOMPLETE` cho full PnL và intraminuteDD; `PROP_UNMEASURED` | FullnetN/A; diagnostic controls, không winner; subset âm không thành full-period verdict |
+| [Recent RS01/RS07,2026](archive/US500-RECENT-SCREEN-RESULTS-20261112.md) | 155/202trades;4/5held-path unresolved; known-subset net−80,75/−947,46USD | `DATA_PATH_INCOMPLETE` cho full PnL và intraminuteDD; `PROP_UNMEASURED` | FullnetN/A; diagnostic controls, không winner; subset âm không thành full-period verdict |
 | GoldR043 bên dưới | Tổng stress+4.035,06USD/15reset books50k,220closed | `CADENCE_OR_SAMPLE_SHORTFALL` cho measured baseline time-fit/current goal; `DATA_PATH_INCOMPLETE` cho target tick/DD; `PROP_UNMEASURED` | Original research retention vẫn pass10/15; chưa proven alpha/challenge |
-| [TC01](US500-SAME-CLOCK-RESULTS-20261112.md) | 673signals; aggregate midpoint cũng âm, stress point component âm3năm | `ECONOMIC_FAIL` cho component; `PROP_UNMEASURED` | Gác exact component, ngoài hướngH1→M15; không account strategy |
+| [TC01](archive/US500-SAME-CLOCK-RESULTS-20261112.md) | 673signals; aggregate midpoint cũng âm, stress point component âm3năm | `ECONOMIC_FAIL` cho component; `PROP_UNMEASURED` | Gác exact component, ngoài hướngH1→M15; không account strategy |
 
 **Không có ca nào trong bảng được gắn `PROP_VIOLATED`:** chưa có witness
 profile/path đầy đủ tương ứng để kết luận chúng bị Daily/Overall DD loại.
@@ -125,9 +125,9 @@ oneattempt/day; A=M15, B=thêm closedcashH1bias. Không có laneC/M5 trong năm 
 |R120 — M15, MA40/160, đệm0,10ATR|9 /2 /4 =15|+2,81 /+11,99 /+34,07|**+48,87USD** /5,00|Dương3năm nhưng chỉ15lệnh;142/157tuần không entry. Review cũ giữ inconclusive_small_sample|
 |R121 — thêmH1, MA40/160, đệm0,10ATR|9 /1 /3 =13|+2,81 /−8,64 /+28,86|**+23,03USD** /4,33|Bản cóH1 tương ứng R120, còn ít lệnh hơn và năm2023 âm; chưa có bằng chứng H1 tăng chất lượng|
 
-Tham chiếu [bảng27configs](US500-MULTIFRAME-FULL-TABLE-20261111.md),
-[phạm vi simulation](US500-MULTIFRAME-RESULTS-20261111.md),
-[R120 concentration](US500-R120-SAVED-REVIEW-20261112.md).
+Tham chiếu [bảng27configs](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md),
+[phạm vi simulation](archive/US500-MULTIFRAME-RESULTS-20261111.md),
+[R120 concentration](archive/US500-R120-SAVED-REVIEW-20261112.md).
 
 Tất cả năm bản còn chung: selection từ27related configs;2022–24 development
 đã exposed; chưa clean OOS/uncertainty đủ; full intraminuteDD=null và

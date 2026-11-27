@@ -1,0 +1,12 @@
+{
+  "schema_version": "naqex-ssot-fx-rates-v1",
+  "usd_vnd": 25765.94,
+  "eur_usd": 1.09595,
+  "eur_vnd": 28238.19,
+  "usd_eur": 0.91245,
+  "verified_utc": "2026-11-26T11:26:20Z",
+  "provider_timestamp_utc": "2026-11-25T00:02:31Z",
+  "source": "open.er-api.com",
+  "source_url": "https://open.er-api.com/v6/latest/USD",
+  "rate_status": "LIVE_PUBLIC_API"
+}

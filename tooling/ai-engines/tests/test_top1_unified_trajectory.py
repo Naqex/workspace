@@ -30,15 +30,17 @@ if str(ROOT / "tooling/knowledge") not in sys.path:
     sys.path.insert(0, str(ROOT / "tooling/knowledge"))
 
 import brain_cli
+from quant_core.holdout_guard import HoldoutLockError
 from quant_factory import top1_unified_trajectory_study as uts
 
 
+@pytest.mark.local_cache
 def test_own_book_nco_cexcap25_monthly_rebal_and_holdout_refusal() -> None:
     assert uts.ORDER_SEND_COUNT == 0
     assert uts.ORDER_SEND_CAPABLE is False
 
     # Must fail-closed if anyone attempts end_day >= 2025-01-01
-    with pytest.raises(AssertionError, match="HOLDOUT_CONTAMINATION"):
+    with pytest.raises((HoldoutLockError, ValueError), match="HOLDOUT_CONTAMINATION"):
         uts.build_own_book_nco_cexcap25_series(["2024-01-02"], end_day="2025-01-01")
 
     sample_days = ["2020-01-02", "2022-06-15", "2024-12-30"]
@@ -194,6 +196,7 @@ def test_unified_trajectory_receipt_sha_verbatim_parity_and_hygiene() -> None:
         assert abs(r["tier_vnd_tr"] - round(r["tier_usd"] * 25_500.0 / 1_000_000.0, 1)) <= 0.11
 
 
+@pytest.mark.local_cache
 def test_astra_f09_static_floor_checked_before_ea_cut_and_f10_no_lookahead_and_2leg_cost() -> None:
     """Astra F09 + F10 regression tests:
     - F09 counterexample: cap=100k, bal=94,200 (-5.8%), dd=4,500 (< 5k daily_cap, > 3.8k ea_cut),

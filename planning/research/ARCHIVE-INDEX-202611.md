@@ -7,34 +7,34 @@
 
 **Pass 22 · Pháp y M1 `WB_EXP_80_VOL_HIGH GBPUSD` & Thăng hạng Động Cơ #3 ngoài đồng Yên (`Calmar 0,83–0,84`).**
 Chạy pháp y đầy đủ trên Native Tick M1 Bid/Ask (`2018–2024`, `holdout_rows = 0`, `OrderSend = 0`, `network_calls = 0`, `1537/1537` tests PASS): `WB_EXP_80_VOL_HIGH GBPUSD` sống sót qua cả 3 bậc phí kể cả Stress cực đoan `+1,00 pip` (`all_dev`: Base `+15,54R`, Stress05 `+14,19R`, Stress10 `+12,86R`; `ext` Stress05 `+15,47R`, DD `4,8R`, UW `17,4m`), đạt **`8/9` ô `trig×sl_atr`** dương cả 2 cụm A&B (`3/12` ô `trig×vol_mult` — ghi nhận độ nhạy ngưỡng lọc biến động), dương cả 2 chiều (`BUY +4,72R`, `SELL +9,47R`), vẫn dương **`+4,66R`** ngay cả khi loại đồng thời cả COVID 03/2020 lẫn khủng hoảng Gilt Anh 09–10/2022, và có tương quan gần bằng 0 với lõi `USDJPY` (`r = 0,0174`). Khi ghép **Danh mục 3 Động Cơ (Prague Reset)** trên cả 3 cỡ sổ (`10k / 25k / 50k`): **`PORT3E_INVDD_125`** nâng lãi lên **`+4,23%–4,46%/năm`** đồng thời **giảm Peak DD xuống `5,18%–5,41%`** (`Calmar = 0,82`); **`PORT3E_075_GBP075`** đạt **`+5,07%–5,33%/năm`** ở Peak DD chỉ **`6,09%–6,46%`**, Daily Loss **`1,52%–1,53%`**, **`Calmar = 0,82–0,84`**, `0` lỗi margin. Đã xuất mẫu `.mq5` sạch `Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5` (`InpDryRunLogOnly = true`).
-[Báo cáo](PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.md) ·
-[Protocol](PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.md) ·
+[Protocol](archive/PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-PROTOCOL-20261123.md).
 
 **Pass 21 · Song Song: `GBPJPY` M1 Bid/Ask (`2,61M` nến) & Hệ Thống White-Box Prop-First Discovery.**
 Chạy song song 2 nhánh (`holdout_rows = 0`, `OrderSend = 0`, `1534/1534` tests PASS, AI env audit `0` lỗi): (1) **Nhánh A (`GBPJPY` Native M1 Bid/Ask đã niêm phong vào D: SSD Hot Cache, `43,1 MB`):** `EXP_DAILY_OPEN_080` rơi từ `+9,28R` (ảo giác H4 Pass 19) xuống **`-9,52R` Stress (`Base -6,55R`, `0/12` ô 2D, Solo `-0,86%/năm`)** do spread thực `1,4–2,4 pip` và nhiễu M1 — loại dứt điểm `GBPJPY` (`0/30` spec qua Cụm B); (2) **Nhánh B (Triển khai `whitebox_discovery.py`, `mq5_whitebox_exporter.py`, `.agents/skills/whitebox-prop-discovery/` & xuất mẫu sạch `Naqex_WB_EXP080_USDJPY.mq5`):** Chạy khám phá `174` cấu hình (Cụm A tìm → Cụm B kiểm mù) tái phát hiện đúng #1 `WB_EXP_80_NONE USDJPY` (`+35,08R`, `q=0,048`) và **phát hiện mới hoàn toàn 1 ứng viên ngoài đồng Yên cực sạch: `WB_EXP_80_VOL_HIGH GBPUSD`** (`n=198`, Cụm A `+5,72R` → **Cụm B mù `+8,61R`, `4/4` năm mù dương**, tổng `+14,33R` Stress / `+15,68R` Base, cả `BUY +5,03R` & `SELL +9,30R` đều dương, DD `5,43R`, thắng Fade `-38,45R`, `p=0,006`, `q_all=0,0915`, **tương quan lõi `USDJPY` = `0,0168`** — tạm xếp `TIER_2` do `top10_R = 19,18R`, đề xuất pháp y ghép 3 động cơ ở Pass 22).
-[Báo cáo](PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.md) ·
-[Protocol](PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.md) ·
+[Protocol](archive/PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-PROTOCOL-20261123.md).
 
 **Pass 20 · Pháp y H4/M1 Positive-Swap Carry-Trend (8 cặp) & Ghép Danh Mục 3 Động Cơ (Prague Reset).**
 Kiểm định toàn bộ 8 cặp FX Swap dương trên FTMO Swing (`USDCAD/USDCHF/USDJPY/EURJPY/GBPJPY/AUDJPY` Long + `EURUSD/EURGBP` Short; `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, `1531/1531` tests PASS). Đối chứng H4 vs Native M1 trên `USDJPY` (`+14,68R` vs `+15,18R`) và `EURUSD` (`-1,58R` vs `-0,06R`) khớp chặt. Tuy nhiên nhánh Donchian Carry-Trend bị **bác bỏ dứt điểm**: **`0/12` ô 2D** (`NON_JPY_4`) và **`0/12` ô 2D** (`ALL_8_JPYCAP1`) dương cả hai cụm A&B, trượt bài kiểm định thời điểm ngẫu nhiên (`p_timing = 0,14–0,97`), và khi ghép lỗ nổi Prague-reset vào lõi 2 động cơ `USDJPY` Pass 17 (`BASE_2E_INVDD_075`: Calmar `0.65`) không nâng được hiệu quả rủi ro/lợi nhuận (tốt nhất `PORT3E_075_NJ4_025`: `+3.57%/năm`, DD `6.29%`, Calmar `0.57`). Giữ nguyên lõi 2 động cơ Pass 17.
-[Báo cáo](PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md) ·
-[Protocol](PASS20-POS-SWAP-CARRY-TREND-3ENGINE-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md) ·
+[Protocol](archive/PASS20-POS-SWAP-CARRY-TREND-3ENGINE-PROTOCOL-20261123.md).
 
 **Pass 19 · `US500` Overnight M1 (FTMO Swap) · Clean-Room `SuperTrend(10,3)` · Stage-0 Cặp Chéo Yên & Positive-Carry.**
 Chạy 3 nhánh zero-network (`holdout_rows = 0`, `OrderSend = 0`, `network_calls = 0`, `1528/1528` tests PASS): (1) `US500` Overnight/Short-Swing (`m = 6`, đúng FTMO Swing `swapL = -138,03`, `3×` T6): `0/6` qua FTMO vì Swap ăn `-596` đến `-2.003 USD` (`US500_IBS_OVERNIGHT_LONG` FTMO `-6,42R`, nhưng trên Exness Swap-Free đảo sang `+9,40R`; `OVERNIGHT_DRIFT` `+8,02R`); (2) Clean-Room `SuperTrend(10, 3.0)` Retracement + Step-Trailing (`swap = 0`, `m = 5`): rớt cả `5/5` tài sản (`-41,1R` đến `-76,7R`); (3) Stage-0 H4/D1 Scout (`swing-10k-20261120/development/`, hiệu chuẩn đúng trên `CONTROL_USDJPY` `+24,85R`): **`GBPJPY`** là cặp duy nhất qua `EXP080_H4` (`+9,28R`, `5/7` năm, `rJPY = 0,23`); ở nhánh **Positive-Swap Carry-Trend (`DON20_POS`)**, **`USDCAD`** đạt `+8,07R` (`6/7` năm dương, A `+3,4` / B `+4,7`, DD `3,4R`, `+590 USD` Swap dương, `rJPY = -0,003`), và cả rổ 6 cặp thu `+10.435 USD` Swap dương / `+28,7R` (`177` lệnh) — cần kiểm chứng M1/H1 & floating equity ở Pass 20.
-[Báo cáo](PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md) ·
-[Protocol](PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md) ·
+[Protocol](archive/PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-PROTOCOL-20261123.md).
 
 **Pass 18 · Sàng lọc 14 chiến lược mã nguồn mở & học thuật ngoài `USDJPY` (`swap = 0`).**
 Kiểm định 14 giả thuyết chính thống từ *JFE*, *Journal of Finance*, *JFM*, Quantpedia và MQL5 CodeBase NR4 trên 4 tài sản ngoài đồng Yên (`US500`, `EURUSD`, `GBPUSD`, `XAUUSD`, `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, `1.524/1.524` tests PASS, BH FDR `m = 14`). Kết quả: **`0/14` Tier 1, `0/14` Tier 2, `14/14` `TIER_3_DEAD_NO_EDGE`** (`ALL_14_OPENSOURCE_INTRADAY_NON_USDJPY_REJECTED_BY_CFD_SPREAD_OR_NO_EDGE`). Hiệu ứng tần suất cao học thuật (`FX_WMR_POST_FIX` +17R so với Fade nhưng biên lãi quá mỏng bị spread/comm FTMO kéo xuống `-48R..-50R`; `US500_GHLZ_LAST30` suy giảm `-55,2R`; `US500_GAP_FADE_NY` `-76,6R`; `IBS` trong ngày `-49,7R`; `NR4` âm cả 3 mã; `XAU_LBMA_PM_DRIFT` hòa vốn Base `-0,01R` nhưng Stress `-3,50R`). Giữ lõi 2 động cơ `USDJPY` Pass 17.
-[Báo cáo](PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md) ·
-[Protocol](PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md) ·
+[Protocol](archive/PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-PROTOCOL-20261123.md).
 
 **Pass 17 · Pháp y M1 Floating Equity `EXP_DAILY_OPEN_080 USDJPY` & kiểm chéo `GBPUSD` / `US500`.**
 - **Nhánh 1 (`EXP_DAILY_OPEN_080 USDJPY`, Native Tick M1 Bid/Ask, `swap = 0`):** Sống sót qua **cả 3 bậc phí** kể cả Stress cực đoan `+1,00 pip` (`all_dev`: Base `+40,05R`, Stress05 `+34,75R`, Stress10 `+29,54R`, DD nổi chỉ `7,4–7,7R`), và đạt **`12 / 12` ô mặt phẳng tham số 2 chiều** dương đồng thời ở cả Cụm A (`2018–2020`) và Cụm B (`2021–2024`). Khi ghép với Engine #1 `USDJPY` Tokyo-box (`PORT_INV_DD_075`, Stress `+0,50 pip`, Prague reset): nâng lãi từ `+2,93% → +3,51%/năm` (Swing 10k) / `+3,70%/năm` (Standard 50k), **kéo Peak DD nổi giảm 40% (`9,08% → 5,45%`), cắt một nửa thời gian đi ngang (`41,2 → 20,6` tháng), Daily Loss chỉ `0,74%`, `0` lỗi margin**, tăng gấp đôi Calmar (`0,32 → 0,64`). Lưu ý trung thực: lãi tập trung mạnh ở chiều `BUY` (`+37,28R`, DD `3,8R`) trong khi `SELL` `-2,53R`, và tốc độ `3,5–3,7%/năm` vẫn dưới mục tiêu `8–12%/năm` của FTMO Challenge → cần Engine #3 trên tài sản khác đồng Yên.
 - **Nhánh 2 (kiểm chéo `GBPUSD` & `US500`, `swap = 0`, BH FDR `m = 8`):** `US500` trượt cả 4 cấu hình (`-10,1R..-18,0R`, `TIER_3`); `GBPUSD` có 1 cấu hình vào `TIER_2_PERSONAL_VAULT` (`EXP_DAILY_OPEN_120`, `+4,95R`, `5/7` năm, `p = 0,037`), 3 cấu hình còn lại `TIER_3`.
-[Báo cáo](PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md) ·
-[Protocol](PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md) ·
+[Protocol](archive/PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-PROTOCOL-20261123.md).
 
 **Pass 16 · Động lượng mở rộng tần suất thấp (`swap = 0`) & 8 mã `H1` còn lại của `strategy-intel`.**
 Chạy song song 2 nhánh (`36` cặp M1 thực `2018–2024`, `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`).
@@ -44,23 +44,23 @@ Chạy song song 2 nhánh (`36` cặp M1 thực `2018–2024`, `holdout_rows = 0
   - Lân cận `1,00 ATR USDJPY` (`+21,81R`, `6/7`, `FDR q = 0,026`, `TIER_2`) và `1,20 ATR XAUUSD` (`+10,43R`, `5/7`, `DD 4,60R`, `FDR q = 0,004`, `TIER_2_PROVISIONAL_XAU`, corr `0,051` với Engine #1, kéo underwater Engine #1 từ `41,2 → 20,8` tháng).
 - **Nhánh 2 (đóng sổ hoàn toàn Source 1 `strategy-intel`):** `23/24` cặp vào `TIER_3_DEAD_NO_EDGE`, `1/24` vào `TIER_2_PERSONAL_VAULT` (`VIR024 USDJPY`, `+16,27R`, `p_f=0,049`).
 - **Tiếp theo (Pass 17):** Pháp y M1 floating equity + Prague reset + kiểm trùng lặp & ghép danh mục chính thức cho `EXP_DAILY_OPEN_080 USDJPY` (và kiểm mở rộng sang `GBPUSD`/`AUDUSD`/`EURJPY`/`GBPJPY` nếu cần).
-[Báo cáo](PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md) ·
-[Protocol](PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-PROTOCOL-20261123.md) ·
+[Báo cáo](archive/PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md) ·
+[Protocol](archive/PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-PROTOCOL-20261123.md) ·
 [Exness Specs](EXNESS-CONTRACT-SPECS-SNAPSHOT-20261123.json).
 
 **Pass 15 · Engine #2 đo ni đóng giày cho FTMO (`XAUUSD` Intraday `swap = 0` & FX Positive-Carry Trend).**
 Chạy 7 giả thuyết trực giao (`4` nhánh `XAUUSD` intraday `swap = 0` + `3` nhánh FX thuận chiều Swap dương FTMO `USDJPY` Long / `EURUSD` Short) trong `14,61s` trên Hot M1 Cache SSD (`holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, BH FDR `m = 7`).
 Kết quả: `0/7` đạt Tier 1 hoặc Tier 2 (`TIER_3_DEAD_NO_EDGE = 7/7`). Phát hiện chẩn đoán quan trọng: `XAU_DAILY_OPEN_ATR` có tín hiệu động lượng thật (`gross +$29.484`, thắng 99,6% ngẫu nhiên `p = 0,004`, `FDR q = 0,028`, thắng Fade `+144,5R`) nhưng bị ma sát `1.235` lệnh (`-$64.803` phí) kéo xuống `-38,2R`; còn `USDJPY` Carry Long nhận dương `+$1.677..+$1.826` Swap FTMO và lãi `+11,3R..+12,2R` nhưng âm Cụm A (`2018–2020`) và trượt Null Test (`p = 0,37–0,70`, chỉ ăn theo sóng USDJPY 2021–2024).
 Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
-[Báo cáo](PASS15-FTMO-NATIVE-ENGINE2-20261123.md) ·
-[Protocol](PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS15-FTMO-NATIVE-ENGINE2-20261123.md) ·
+[Protocol](archive/PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md).
 
 **Pass 14 · Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (hoàn tất 15/15 Top Leads).**
 Chạy toàn bộ 52 cặp (`13` chiến lược × `4` tài sản: `XAUUSD`, `EURUSD`, `GBPUSD`, `USDJPY`) trong `35,47s` trên Hot M1 Cache SSD (`249,3 MB`, `network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `52.000` lượt MC Null + FDR).
 Kết quả phân loại 3 tầng: `TIER_1_FTMO_READY = 0/52`, `TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU = 2/52` (`NEN006 XAUUSD`: FTMO `+14,89R` / ExSF `+30,30R`, `p_g=0,016`, 4/4 ô ±30% dương cả A&B; `IND026 XAUUSD`: FTMO `+10,49R` / ExSF `+19,70R`, `p_g=0,014`, 3/3 ô ±30% dương cả A&B — cần xác nhận Tick Bid/Ask thật & lưu ý `FDR q=0,416`), `TIER_3_DEAD_NO_EDGE = 50/52`.
 Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
-[Báo cáo](PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md) ·
-[Protocol](PASS14-STRATEGY-INTEL-TOP15-BATCH-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md) ·
+[Protocol](archive/PASS14-STRATEGY-INTEL-TOP15-BATCH-PROTOCOL-20261123.md).
 
 **Pass 13 · 3 nhánh song song tìm Engine #2 (FX Sweep · Clean-Room Intel · US500 Explicit M1).**
 Chạy 100% cục bộ (`network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `1.514/1.514` tests PASS).
@@ -68,55 +68,55 @@ Nhánh 1 (`GBPUSD`/`EURUSD` Liquidity Sweep M1 Bid/Ask): rớt toàn bộ ở St
 Nhánh 2 (`NEN022` Fakey H4 trên `EURUSD`/`GBPUSD`/`XAUUSD`: `-25,6R..-74,9R`, `p = 0,52–0,79`; `SEA003` XAUUSD Turn-of-Month: Swap 3× FTMO ăn `-$25.270 / $42.023 = 60,1%`, Cụm B âm `-$69`, `MC p = 0,279` — bác bỏ như drift illusion).
 Nhánh 3 (`US500 NY ORB` trên Explicit M1 Bid/Ask đã niêm phong `2018–2024`, `1.316/1.351` lệnh): rớt `M1_Stress_High` (`-46,66R / -58,89R`, chỉ 1/7 năm dương, `p = 0,072`, Fade `-238,6R`), chính thức đóng dòng ORB (`ORB_ENGINE2_SEARCH_EXHAUSTED`).
 Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
-[Báo cáo](PASS13-TRIPLE-TRACK-ENGINE2-20261123.md) ·
-[Protocol](PASS13-TRIPLE-TRACK-ENGINE2-PROTOCOL-20261123.md).
+[Báo cáo](archive/PASS13-TRIPLE-TRACK-ENGINE2-20261123.md) ·
+[Protocol](archive/PASS13-TRIPLE-TRACK-ENGINE2-PROTOCOL-20261123.md).
 
 **Pass 12 · US500 NY ORB M1 bị chặn nguồn QDM & pháp y USDJPY.** QDM
 `USA500IDXUSD_PASS12_QUARANTINE` gặp HTTP 429 ở 2011 qua 3 lượt (`US500_M1_DATA_UNAVAILABLE`,
 0 giá holdout). USDJPY tái lập đủ 1.228/1.437 lệnh; cổng phí/hộp ≤12% tăng mẫu chặt
 nhưng kéo Cụm A mẫu mở rộng từ +6,50 về +1,47R/năm và tăng DD (`USDJPY_COST_HYGIENE_NOT_RETAINED`).
 Giữ USDJPY gốc làm Engine #1 baseline và `ENGINE_1_NEEDS_PARTNER`.
-[Báo cáo](PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md) ·
-[Protocol](PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-PROTOCOL-20261120.md).
+[Báo cáo](archive/PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md) ·
+[Protocol](archive/PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-PROTOCOL-20261120.md).
 
 **Pass 11 · GBPUSD London ORB rớt M1 Bid/Ask.** QDM Development có
 204,49 triệu tick. Stress +0,50 pip âm ở Cụm B trong cả hai mẫu.
-Track 3 giữ đóng. [Báo cáo](PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md).
+Track 3 giữ đóng. [Báo cáo](archive/PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md).
 
 **Pass 10 · Stage‑0 dòng tiền phiên và đầu tháng.** GBPUSD London ORB
 qua cửa H1 và lát SL, sau đó rớt kiểm M1 ở Pass 11. EURUSD London và US500 TOM
 rớt Stage‑0. US500 NY ORB thiếu chuỗi QDM đủ hai cụm.
-[Báo cáo và quyết định](PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
+[Báo cáo và quyết định](archive/PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
 
 **Bot Lab · Pass 9 audit MQL5 Round 2.** Sáu CSV, 3.304 lệnh đóng,
 năm hồ sơ có dấu hiệu thêm vị thế bất lợi và 0/6 đủ căn cứ chuyển
 sang Clean-Room Pass 10. ALocalLevels thiếu SL ban đầu và lãi tập trung.
-[Báo cáo và quyết định](PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md).
+[Báo cáo và quyết định](archive/PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md).
 
 **Bot Lab · Pass 8 anti-grid và khoảng trống M1.** 6 hồ sơ qua hai tầng
 MQL5 công khai trong 63 detail đã đọc. USDJPY nhận thêm 230 ngày trong
 đối chứng, Stress +0,50 pip giảm từ +11,74 xuống +10,92R/năm.
-[Báo cáo, shortlist và khoảng trống](PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
+[Báo cáo, shortlist và khoảng trống](archive/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
 
 **Bot Lab · Pass 7B USDJPY QDM và floating equity.** 203,60 triệu tick
 2018–2024, 1.334 ngày đủ đường tới hard flat. Stress +0,50 pip còn
 +11,74R/năm nhưng không đạt ngưỡng solo Challenge ở 36 sổ. Giữ
 ENGINE_1_NEEDS_PARTNER trong phạm vi mẫu đủ đường.
-[Báo cáo](PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
+[Báo cáo](archive/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
 
 **Bot Lab · Pass 7 QDM và FX Tokyo-box.** Cache QDM chưa có USDJPY
 Bid/Ask nên M1 và equity chờ dữ liệu. EURJPY, EURUSD và GBPUSD rớt
 Stage-0 trên H1 native FTMO 2018–2024.
-[Báo cáo](PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md) · [Protocol](PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-PROTOCOL-20261120.md).
+[Báo cáo](archive/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md) · [Protocol](archive/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-PROTOCOL-20261120.md).
 
 **Bot Lab · Pass 6 USDJPY/XAUUSD.** USDJPY dương cả hai cụm dưới H1
 stress mạnh nhất (+9,38R/năm, DD đóng 37,65R), đối chiếu M1 rời rạc.
 XAUUSD rớt Stage‑0, chưa đo prop cho hai cấu hình.
-[Báo cáo](PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md) · [Protocol](PASS6-USDJPY-HIRES-AND-XAUUSD-PROTOCOL-20261120.md).
+[Báo cáo](archive/PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md) · [Protocol](archive/PASS6-USDJPY-HIRES-AND-XAUUSD-PROTOCOL-20261120.md).
 
 **Bot Lab · Pass 5 USDJPY Tokyo box.** +4h/+8h qua Stage‑0 trên H1
 Development. Một lát stop cạnh hộp đạt +29,09R/năm, prop chưa đo.
-[Báo cáo](PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md) · [Protocol](PASS5-USDJPY-TOKYO-BOX-PROTOCOL-20261120.md).
+[Báo cáo](archive/PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md) · [Protocol](archive/PASS5-USDJPY-TOKYO-BOX-PROTOCOL-20261120.md).
 
 **Bot Lab · MQL5 Pass 4.** Giải phẫu 776 lệnh Breakout EA chỉ từ CSV.
 Mốc đóng theo từng mã và đề xuất Stage‑0 độc lập cho USDJPY.
@@ -169,20 +169,20 @@ Tra bằng `--key ftmo-demo-10k-standard-20261119`.
 **US500.cash Swing · mua trước NFP, ISM Manufacturing và GDP.** Gác ở
 preflight. Lịch có điều kiện cho 31–36 cửa sổ/năm và phép chuyển gross từ
 futures cho bình quân 378,70 USD/năm trước phí ở risk 125 USD, stop 1%.
-[Kết quả](PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
+[Kết quả](archive/PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
 
 **EURUSD · audit giờ rollover.** Đối chiếu 22:00 UTC với 17:00 New York.
 Catalogue13 không đổi tiền swap, F2 và RSI37 vẫn âm. Tape Reward V15,
 V4 và BASE_GUARD trong Development không cắt qua rollover EURUSD.
-[Kết quả](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+[Kết quả](archive/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
 
 **EURUSD · trước tin Mỹ sau ngày đấu giá Treasury.** 190 cơ hội trong
 2018–2023, 177 đủ giá. Theo đồng hồ rollover FX, cả hai cụm âm sau
-stress. Dừng Stage-0. [Kết quả](PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).
+stress. Dừng Stage-0. [Kết quả](archive/PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).
 
 **XAUUSD · lợi suất thực Mỹ 10 năm và London kế tiếp.** 454 cơ hội qua
 cổng giá và chi phí. Net stress âm 4/6 năm và âm cả hai cụm khi quy đổi
-khối lượng. Dừng Stage-0. [Kết quả](PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md).
+khối lượng. Dừng Stage-0. [Kết quả](archive/PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md).
 
 **EURUSD RSI37 · đối soát hard-flat.** Giữ 446 cơ hội thô.
 Chặn năm mốc, bỏ ba lệnh có quote, cải thiện 250,71 USD trên tick
@@ -194,49 +194,49 @@ cụm, dừng trước replay tài khoản. [Kết quả](PROP-EURUSD-RSI37-POOL
 
 **WTI · đảo chiều sau 5 phút tin EIA.** Trên 88 thứ Tư 2019/2022,
 gross và net đều âm từng năm. Cổng phí stress giữ 0/43 và 1/44 tín
-hiệu. Gác ở Stage-0. [Kết quả](PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).
+hiệu. Gác ở Stage-0. [Kết quả](archive/PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).
 
 **Reward từ Challenge · 12/24/36 tháng.** Hai cấu hình V15 có Reward
 trong năm đầu ở 50k, mỗi bản chỉ có một mốc trên 61 mốc đủ năm.
 Chưa có hai đợt không chồng lấn trong 12 tháng có xác nhận bất lợi.
-[Kết quả](PROP-CHALLENGE-REWARD-MILESTONES-20261119.md).
+[Kết quả](archive/PROP-CHALLENGE-REWARD-MILESTONES-20261119.md).
 
 **V4 Harvest · khép 61 mốc đủ 12 tháng.** Gold A0 + EURUSD SAT1 ở
 10k/25k chỉ qua P1 ở 4–10/61 mốc tùy vốn và swap. Sau khi nối đủ 11
 mốc 2021 qua 2022, vẫn 0 P2 và 0 Reward trong nhóm đủ năm. Giữ V4
-làm đối chứng. [Kết quả](PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md#khép-61-mốc-đủ-12-tháng--nối-2021-sang-2022).
+làm đối chứng. [Kết quả](archive/PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md#khép-61-mốc-đủ-12-tháng--nối-2021-sang-2022).
 
 **V4 Harvest · Swing 10k/25k.** Mốc 02–03/2023 qua P2 trong cùng
 một đợt. Chưa thấy Reward tới hết 2023. Phép đo có mẫu số 3/6/12 tháng.
-[Kết quả](PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
+[Kết quả](archive/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
 
 **BTCUSD funding · đổi delay +60 → +2 phút.** Raw stress trên cùng
 197 tín hiệu tăng +50,83 → +62,05 bp. Sổ 48 lệnh lỗ từ 171,97 lên
-1.217,13 USD. Đóng nhánh. [Kết quả](PROP-BTC-FUNDING-ENTRY-DELAY-RESULTS-20261119.md).
+1.217,13 USD. Đóng nhánh. [Kết quả](archive/PROP-BTC-FUNDING-ENTRY-DELAY-RESULTS-20261119.md).
 
 **BTCUSD · BUY sau funding nhóm thấp.** Raw stress +50,37 bp trên 198
 tín hiệu 2021–2023. Sổ 48 lệnh sau cổng và overlap −171,97 USD.
-[Kết quả](PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).
+[Kết quả](archive/PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).
 
 **US500 V16 · tách riêng trượt giá.** Dương hai cụm tăng 4 → 14 khi bỏ
 trượt. 0/98 đủ nhịp và dương cả hai cụm. Cụm yếu tốt nhất +109,91 USD/năm.
-[Kết quả](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+[Kết quả](archive/PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
 
 **US500 M15 · chuyển SPY S-Sign.** Đo phí stress bình quân 2,77 bp/phía
 trên 38.847/39.090 mốc. Chưa có nguồn forecast đúng bản, gác trước runner.
-[Kết quả](PROP-US500-SPY-S-SIGN-PREFLIGHT-20261119.md).
+[Kết quả](archive/PROP-US500-SPY-S-SIGN-PREFLIGHT-20261119.md).
 
 **V4_Harvest · chia đôi suất FX.** Thêm GBP bằng nửa suất EUR hạ
 peak DD, giảm mốc qua P1 và không tạo lượt qua P2 hay payout.
-[Kết quả](PROP-V4-HARVEST-FX-SPLIT-20261119.md).
+[Kết quả](archive/PROP-V4-HARVEST-FX-SPLIT-20261119.md).
 
 **XAUUSD · premium Thượng Hải–London.** Ghép được 1.181 ngày, thiếu
 chuỗi SHAU PM 2023. Gác ở bước nguồn và nhịp, chưa tính PnL.
-[Kết quả](PROP-XAU-SHANGHAI-PREMIUM-PREFLIGHT-20261119.md).
+[Kết quả](archive/PROP-XAU-SHANGHAI-PREMIUM-PREFLIGHT-20261119.md).
 
 **US500 · chuẩn BUY gần trọn phiên cash NYSE.** Có giá 1.502 endpoint,
 gộp trước phí không đủ quy mô và net âm cả hai cụm. Gác replay.
-[Kết quả](PROP-US500-CASH-SESSION-20261119.md).
+[Kết quả](archive/PROP-US500-CASH-SESSION-20261119.md).
 
 **EURUSD F2 · chẩn đoán hướng, phí và stop.** Đảo hướng raw lỗ sau
 phí cả sáu năm. Đối chiếu 65 đường thiếu bằng tick, còn 64 chưa rõ.
@@ -244,119 +244,119 @@ phí cả sáu năm. Đối chiếu 65 đường thiếu bằng tick, còn 64 ch
 
 **Chọn nhánh F1–F4 tại cuối 2020.** 0/11 đại diện qua cổng fit.
 Không tăng PnL ở 2021–2023. Giữ BASE_GUARD và gác replay.
-[Kết quả](PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
+[Kết quả](archive/PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
 
 **Japan200+ cuối phiên.** Đã đối chiếu benchmark Nikkei và đọc 485
 phiên cache. Phần định giá âm sau spread ở cả 2019 và 2022.
-[Kết quả và độ nhạy DAX](PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).
+[Kết quả và độ nhạy DAX](archive/PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).
 
 **DAX / Nikkei 225 cuối phiên.** DAX không qua quy mô stop so với phí
 ở cụm 2021–2023. Chuỗi Japan200+ thiếu đối chiếu hợp đồng Nikkei.
-[Mẫu và quyết định](PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).
+[Mẫu và quyết định](archive/PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).
 
 **Dư địa hoàn tất hai vòng trong 12 tháng.** Cùng risk BASE, mức giả
 định +1.000 USD/năm thêm đúng một cửa sổ PRIMARY và 0 payout. Kết quả
-giữ đủ cả 61 sổ, kể cả sổ chưa tới đích. [Độ nhạy](PROP-TWO-PHASE-SENSITIVITY-20261119.md).
+giữ đủ cả 61 sổ, kể cả sổ chưa tới đích. [Độ nhạy](archive/PROP-TWO-PHASE-SENSITIVITY-20261119.md).
 
 **ATC 2011.** Đã khóa 12 định danh từ biểu đồ gốc. Bản chạy và sổ
 lệnh đúng phiên bản chưa xác minh được cho cả nhóm.
-[Hồ sơ và quyết định](PROP-ATC-2011-COHORT-ADMISSION-20261119.md).
+[Hồ sơ và quyết định](archive/PROP-ATC-2011-COHORT-ADMISSION-20261119.md).
 
 **US500 bỏ commission theo biểu phí FTMO.** Đã tính cả cơ hội mới qua cổng
 và thay đổi lot ở VIX Curve. Tín hiệu đổi dấu nhưng hụt tiền và tần suất.
 Kho V12/V16 cũng không đạt mốc 1.000 USD/năm ở cả hai cụm Development.
-[Kết quả](PROP-US500-TARGET-FEE-RESULTS-20261119.md).
+[Kết quả](archive/PROP-US500-TARGET-FEE-RESULTS-20261119.md).
 
 **US500 Calendar 60/40.** Dùng IVV/IEF trước phiên US500 kế tiếp.
 Bỏ commission và tính phần giá trước 09:32 vẫn hụt mốc kinh tế.
-[Kết quả và đối chứng](PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
+[Kết quả và đối chứng](archive/PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
 
 **Phân rã EURUSD PreECB R056.** Sổ có SL lãi 39,89 / 56,26 USD/năm
 sau phí BASE. Phần tiền đo theo giờ cũng hụt 2% và đối chứng cùng
-SELL phiên liền sau âm. Gác cho mục tiêu payout. [Kết quả](PROP-PRE-ECB-R056-DEVELOPMENT-ATTRIBUTION-20261119.md).
+SELL phiên liền sau âm. Gác cho mục tiêu payout. [Kết quả](archive/PROP-PRE-ECB-R056-DEVELOPMENT-ATTRIBUTION-20261119.md).
 
 **Dư địa AUD/USD quanh fixing.** Chỉ 21/79 ngày có chiều qua trần phí.
 Cận biết trước trong mẫu 2019 chỉ +45,93 USD. Gác tìm thêm dữ liệu.
-[Kết quả](PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).
+[Kết quả](archive/PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).
 
 **CFETS → AUD/USD.** Quy tắc đã khóa, nguồn chưa chứng minh được giờ
 khả dụng của fixing hoặc đường Bid/Ask để vào 01:20. Chưa đo lợi nhuận.
 Báo cáo có quy đổi mục tiêu 2%/năm cho vốn 10k, 25k và 50k.
-[Kết quả kiểm nguồn](PROP-CFETS-AUD-SOURCE-PREFLIGHT-20261119.md).
+[Kết quả kiểm nguồn](archive/PROP-CFETS-AUD-SOURCE-PREFLIGHT-20261119.md).
 
 **Trần bật/tắt BASE theo quý.** PRIMARY 2018–2020 hụt mốc
 1.000 USD/năm ngay cả khi chọn đúng mọi quý âm.
-[Kết quả](PROP-QUARTER-SLEEVE-CEILING-20261119.md).
+[Kết quả](archive/PROP-QUARTER-SLEEVE-CEILING-20261119.md).
 
 **GBPUSD S01 so giờ thoát.** Cùng 287 lệnh tick, hạn gốc 20:30 mất
 2,68R so với 20:00. Cận 2018–2020 và kiểm nguồn củng cố quyết định gác.
-[Kết quả](PROP-GBP-S01-EXIT-CLOCK-20261119.md).
+[Kết quả](archive/PROP-GBP-S01-EXIT-CLOCK-20261119.md).
 
 **Độ trùng với BASE.** Tám đại diện có thêm cơ hội nhưng tiền trên
 phần đo được chỉ 277–376 USD/năm và chưa đưa cửa sổ nào tới mốc.
-[Kết quả](PROP-SCREEN-OVERLAP-20261119.md).
+[Kết quả](archive/PROP-SCREEN-OVERLAP-20261119.md).
 
 **Rà ứng viên bị bỏ sót.** Bốn họ F1–F4 có cặp markout/SL-active.
 Không cấu hình từng bị gác nào đạt 1.000 USD/năm ở cả hai cụm.
-[Kết quả](PROP-SCREEN-MISS-AUDIT-20261119.md).
+[Kết quả](archive/PROP-SCREEN-MISS-AUDIT-20261119.md).
 
 **WTI chênh lệch kỳ hạn.** Settlement cùng hợp đồng đạt khoảng
 +0,70 USD/thùng gross ở mỗi cụm. Tín hiệu thua luôn BUY ở 2021–2023
 và hụt quy mô. Gác truy feed phí cho luật này.
-[Chẩn đoán futures](PROP-WTI-CURVE-FIXED-CONTRACT-RESULTS-20261118.md) · [Kiểm nguồn CFD](PROP-WTI-CURVE-CFD-ADMISSION-20261118.md).
+[Chẩn đoán futures](archive/PROP-WTI-CURVE-FIXED-CONTRACT-RESULTS-20261118.md) · [Kiểm nguồn CFD](archive/PROP-WTI-CURVE-CFD-ADMISSION-20261118.md).
 
 **ORB 5 phút chuyển mã.** KO, TWTR và sổ chung trượt cả bốn tiêu chí
 ưu tiên dữ liệu kỳ mới. SPY là đối chứng, TSLA là case hậu chọn đã dùng.
-[Kết quả](PROP-STOCK-ORB-SYMBOL-TRANSFER-RESULTS-20261118.md).
+[Kết quả](archive/PROP-STOCK-ORB-SYMBOL-TRANSFER-RESULTS-20261118.md).
 
 **R029 currency carry.** Chỉ 5 vị thế trong sáu năm, cần swap ròng
 11,50%/năm trên notional chịu swap để góp 1.000 USD/năm. Hai cụm
 đều hụt quy mô ở risk hiện hành.
-[Kết quả](PROP-FX-CARRY-R029-RESULTS-20261118.md).
+[Kết quả](archive/PROP-FX-CARRY-R029-RESULTS-20261118.md).
 
 **BTC/USD ngày và đường cong VIX.** BTC đủ cadence và scale, hụt
 raw markout 6/6 năm. US500 đảo ngược kỳ hạn VIX hụt cadence 4/6 năm
 và không lặp đủ quy mô giữa hai cụm.
-[Kết quả](PROP-BTC-DAILY-MOMENTUM-AND-VIX-CURVE-RESULTS-20261118.md).
+[Kết quả](archive/PROP-BTC-DAILY-MOMENTUM-AND-VIX-CURVE-RESULTS-20261118.md).
 
 **TSLA ORB không RVOL và Gold COMEX.** Sổ TSLA có dư địa phí trong mô
 hình khớp tại SL, nhưng thiếu quote và kỳ ngoài mẫu. Gold COMEX trượt
 cổng markout cả sáu năm.
-[Kết quả](PROP-TSLA-ORB-COST-AND-GOLD-COMEX-RESULTS-20261118.md).
+[Kết quả](archive/PROP-TSLA-ORB-COST-AND-GOLD-COMEX-RESULTS-20261118.md).
 
 **Stocks in Play và Gold PM.** Pilot TSLA có 42 trigger cash và còn thiếu
 giá khớp CFD đích. Gold PM có 335 tín hiệu, 17 qua phí và trượt Stage‑0.
-[Kết quả nguồn và Gold](PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).
+[Kết quả nguồn và Gold](archive/PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).
 Theo dõi đúng 42 lệnh TSLA sau SL: −269,28 tới +991,97 USD theo thứ
 tự nến, stress khớp −2.355,15 USD. Gác pilot.
-[Đối soát lãi lỗ cash](PROP-TSLA-2022H2-CASH-PATH-RESULTS-20261118.md).
+[Đối soát lãi lỗ cash](archive/PROP-TSLA-2022H2-CASH-PATH-RESULTS-20261118.md).
 
 **Quyết định replay payout ở 50.000 USD.** V23 bỏ F3 đã được đo,
 V26 đã đổi trọng số và R043 hụt cổng để ghép. Báo riêng tháng trắng
 và thời gian nhận payout mô phỏng sau Challenge.
-[Kết quả](PROP-PAYOUT-REPLAY-DECISION-20261118.md) · [Tiêu chí khóa trước](PROP-PAYOUT-REPLAY-ADMISSION-20261118.md).
+[Kết quả](archive/PROP-PAYOUT-REPLAY-DECISION-20261118.md) · [Tiêu chí khóa trước](archive/PROP-PAYOUT-REPLAY-ADMISSION-20261118.md).
 
 **Gold sweep London DAY của V8.** Ngay cả khi Ask proxy có spread 0,
 2023 chỉ giữ 25/56 tín hiệu ở cap 12%, dưới mức 28/56. Dừng ở kiểm
 chi phí, không mở replay.
-[Kết quả](PROP-GOLD-V8-DAY-COST-CHECK-20261118.md).
+[Kết quả](archive/PROP-GOLD-V8-DAY-COST-CHECK-20261118.md).
 
 **US500 ETF và EURUSD COT.** Hai công thức đã khóa trượt Stage‑0.
 US500 âm cả sáu năm, phần so cùng biến động phủ 78/751 tín hiệu có giá.
 EURUSD COT âm trung bình 2,83 pip/lệnh sau stress.
-[Kết quả](PROP-US500-LETF-AUM-AND-EUR-COT-RESULTS-20261118.md).
+[Kết quả](archive/PROP-US500-LETF-AUM-AND-EUR-COT-RESULTS-20261118.md).
 
 **Đồng hồ EURUSD F5 và đấu giá Treasury.** Đã hiệu chỉnh phép đo nhạy
 12 tháng từ 18 xuống 17 lệnh. Luật Treasury trượt Stage‑0 với 152/438
 qua phí và 0/6 năm đạt sàn markout.
-[Kết quả](PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md) · [Card](PROP-EUR-TREASURY-AUCTION-CARD-20261118.md).
+[Kết quả](archive/PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md) · [Card](archive/PROP-EUR-TREASURY-AUCTION-CARD-20261118.md).
 
 **Dầu/CAD và phần lệch FX.** Pilot tiếp nối lấy được tick USD/CAD.
 Luật WTI → USD/CAD khóa trước đo tạo 498 tín hiệu và trượt Stage‑0.
-[Card](PROP-OIL-CAD-STAGE0-CARD-20261118.md) ·
-[Kết quả](PROP-OIL-CAD-STAGE0-RESULTS-20261118.md).
+[Card](archive/PROP-OIL-CAD-STAGE0-CARD-20261118.md) ·
+[Kết quả](archive/PROP-OIL-CAD-STAGE0-RESULTS-20261118.md).
 Luật EURUSD phần lệch FX giữ 271/660 tín hiệu qua phí và 0/6 năm đạt
-markout. [Kết quả EURUSD](PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md).
+markout. [Kết quả EURUSD](archive/PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md).
 
 **EURUSD và lợi suất Mỹ hai năm.** Trượt Stage‑0 với 342/988 tín hiệu
 qua cap phí. [Kết quả](PROP-EURUSD-US-RATES-RESULTS-20261118.md) ·
@@ -364,37 +364,37 @@ qua cap phí. [Kết quả](PROP-EURUSD-US-RATES-RESULTS-20261118.md) ·
 
 **Chọn tài sản trước khi viết tín hiệu.** Với phiên Mỹ đã khóa, EURUSD
 có 80–211 ngày/năm mà ít nhất một chiều qua cổng phí.
-[Phép đếm biên độ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).
+[Phép đếm biên độ](archive/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).
 
 **43 khoảng thiếu Development.** Đã phục hồi ca thiếu do lỗi timestamp
 ngoài cửa sổ, tìm tick ở 26 khoảng, và kiểm số dư 12 tháng với lot cũ.
-[Kết quả](PROP-GAP-FULL-DEV-RESULTS-20261118.md).
+[Kết quả](archive/PROP-GAP-FULL-DEV-RESULTS-20261118.md).
 
 **Hồi quy BASE_GUARD và đối chiếu nguồn tick.** Đã sửa cutoff, đối
 chiếu 340 lệnh, tìm tick HistData ở 8/14 khoảng và giữ sổ gốc.
-[Protocol](PROP-REPLAY-REGRESSION-PROTOCOL-20261118.md) ·
-[Kết quả](PROP-REPLAY-REGRESSION-RESULTS-20261118.md).
+[Protocol](archive/PROP-REPLAY-REGRESSION-PROTOCOL-20261118.md) ·
+[Kết quả](archive/PROP-REPLAY-REGRESSION-RESULTS-20261118.md).
 
 **US500 VIX — gác tại Stage‑0.** 313 tín hiệu, 31 qua cap phí, 5/6 năm
-âm sau phí stress. [Protocol](PROP-US500-VIX-DIVERGENCE-PROTOCOL-20261118.md) ·
-[Kết quả](PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).
+âm sau phí stress. [Protocol](archive/PROP-US500-VIX-DIVERGENCE-PROTOCOL-20261118.md) ·
+[Kết quả](archive/PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).
 
 **Thiếu hụt vòng 1 sau 12 tháng.** PRIMARY qua 6/61 cửa sổ Development,
 thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Có phân rã theo nhánh và
-yêu cầu cho một ứng viên Stage‑0. [Kết quả](PROP-PHASE1-SHORTFALL-20261118.md)
+yêu cầu cho một ứng viên Stage‑0. [Kết quả](archive/PROP-PHASE1-SHORTFALL-20261118.md)
 
 **Nhịp 1 sau V26 — hai cơ chế liên thị trường trượt Stage‑0, giữ BASE_GUARD.**
-[Kết quả](PROP-N1-RESULTS-20261118.md) ·
-[Protocol](PROP-N1-PROTOCOL-20261118.md) · [Lộ trình hệ thống prop](PROP-SYSTEM-ROADMAP.md).
+[Kết quả](archive/PROP-N1-RESULTS-20261118.md) ·
+[Protocol](archive/PROP-N1-PROTOCOL-20261118.md) · [Lộ trình hệ thống prop](PROP-SYSTEM-ROADMAP.md).
 
-**V26 — ISO qua Development, vòng đời giữ BASE_GUARD.** [Báo cáo](BATCH-EXACT-ISO-V26-RESULTS-20261118.md) · [Số liệu](BATCH-EXACT-ISO-V26-RESULTS-20261118.json) · [Danh mục bot](CORPUS-BATCH-V26-CARD-20261118.json).
+**V26 — ISO qua Development, vòng đời giữ BASE_GUARD.** [Báo cáo](archive/BATCH-EXACT-ISO-V26-RESULTS-20261118.md) · [Số liệu](archive/BATCH-EXACT-ISO-V26-RESULTS-20261118.json) · [Danh mục bot](archive/CORPUS-BATCH-V26-CARD-20261118.json).
 91 ô rớt Stage-0, 24 ô MFI thiếu dữ liệu. ISO qua 69/105 mốc phí chuẩn so với
 71/105 baseline, bootstrap 36 tháng 30,06% so với 33,56%. GBPUSD S01 đã đóng.
 
 **V25 — hạ tầng/hiệu năng đạt; chưa có chiến lược mới qua Development:**
-[Kết quả](CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
-[JSON](CORPUS-ISOLATION-V25-RESULTS-20261118.json) /
-[protocol](CORPUS-ISOLATION-V25-PROTOCOL-20261118.md).
+[Kết quả](archive/CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
+[JSON](archive/CORPUS-ISOLATION-V25-RESULTS-20261118.json) /
+[protocol](archive/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md).
 48.425path cũ đọc lại được;0file-readerrors,2protectedVI fixture exclusions còn rõ.
 1.029profiles/24structural,Top10 gần ý tưởng;1Engulfing–RSItrial failStage0.
 ISO26,7599R nhưngDD12,2419>12,2065R;GBP20:00H1scenario tăngDD/thiếuintrahourcertification.
@@ -407,9 +407,9 @@ Privatejob`execution-v1/corpus-isolation-v25-20261118`;CI/PRfinal theo[currentco
 GBP/S02 chưa promote; runtime/artifact được port chọn lọc qua PR33 trong V25, chưa deploy.
 
 **V24 — P80 fail; connector reuse/static Bot Lab có implementation, speed targets chưa đạt:**
-[Kết quả](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
-[JSON](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /
-[protocol](PARETO-MT5-BOT-LAB-V24-PROTOCOL-20261117.md) /
+[Kết quả](archive/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
+[JSON](archive/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /
+[protocol](archive/PARETO-MT5-BOT-LAB-V24-PROTOCOL-20261117.md) /
 [playbook](BOT-REVERSE-LAB-PLAYBOOK.md).
 P8032,278R nhưngDD14,673R/openrisk314,52USD vượtbaseline;0Full/MCchild, giữBASE_GUARD.
 Reuse Trader isolation/clock/account binding, credential rotation mới chưa native acceptance.
@@ -418,10 +418,10 @@ Reuse Trader isolation/clock/account binding, credential rotation mới chưa na
 source/freezes/VIWIP/Traderpin giữ nguyên. PR103/current CI theo[current context](../CURRENT-CONTEXT.md).
 
 **V23 — A1 qua Dev nhưng chưa thắng toàn kỳ; performance target chưa đạt:**
-[Kết quả](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.md) /
-[JSON](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.json) /
-[protocol](SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md) /
-[freeze](SLEEVE-ABLATION-MT5-V23-FREEZE-20261117.json).
+[Kết quả](archive/SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.md) /
+[JSON](archive/SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.json) /
+[protocol](archive/SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md) /
+[freeze](archive/SLEEVE-ABLATION-MT5-V23-FREEZE-20261117.json).
 A1 bỏ F3: Dev33,554R/DD11,437R; Full391 lệnh/41,866R, historical63/105 hai vòng so với71/105.
 5.000 common draws/ordering:24m12,04%,36m29,86%; giữ V16/V19 BASE_GUARD, không promote.
 Ba F5 transfers fail. GBP/AUD endpoint đủ100%;12 calendar rejections không phải missing quotes.
@@ -432,10 +432,10 @@ có timeout/account binding, actual no-terminal; chưa native acceptance.
 [current context](../CURRENT-CONTEXT.md).
 
 **V22 — hai cổng exhaustion rớt Dev; H120:00 chưa tạo booster:**
-[Kết quả](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
-[JSON](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
-[protocol](EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
-[freeze](EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
+[Kết quả](archive/EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
+[JSON](archive/EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
+[protocol](archive/EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
+[freeze](archive/EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
 A/B giữ Dev top10 nhưng net giảm/DD tăng; không tune ngưỡng thứ3.
 GBP H1 endpoint2282/2288, AUD1789/1795 theo mask cũ; V23 đã sửa interpretation:
 12 quan sát đều có giá, bị lịch Gold áp sang FX chặn.0/34 đủ Stage-0,22 cases M1 reuse.
@@ -444,10 +444,10 @@ smoke10/10<0,75s, stretch<0,72s chỉ9/10. PR100 đã merge, giữ baseline/sour
 Trạng thái và CI receipts theo [current context](../CURRENT-CONTEXT.md).
 
 **V21 — đủ494 nhãn đường giá, không có cải tiến vượt Development:**
-[Kết quả](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
-[JSON](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.json) /
-[protocol](TRADE-FORENSICS-BEHAVIORAL-V21-PROTOCOL-20261117.md) /
-[freeze](TRADE-FORENSICS-BEHAVIORAL-V21-FREEZE-20261117.json).
+[Kết quả](archive/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
+[JSON](archive/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.json) /
+[protocol](archive/TRADE-FORENSICS-BEHAVIORAL-V21-PROTOCOL-20261117.md) /
+[freeze](archive/TRADE-FORENSICS-BEHAVIORAL-V21-FREEZE-20261117.json).
 W1/W2/L1/L2/L3/L4 =194/24/12/28/45/191;40 nhãn provisional, không là skill certificate.
 Bỏ top10 winner thì42,392R thành−6,281R. B1 net giảm;0/28 B2/B3 qua Stage-0.
 Giữ bản lỗi dual-sweep và24 ca sửa;4 B3 reuse, không tune thêm/không chạy MC child.
@@ -455,10 +455,10 @@ Giữ bản lỗi dual-sweep và24 ca sửa;4 B3 reuse, không tune thêm/không
 PR99 đã merge trong V21. Trạng thái/bindings/CI theo [current context](../CURRENT-CONTEXT.md).
 
 **V20 — hoàn tất phép đo; O2 scaling chưa thắng V16, chưa đủ điều kiện Challenge:**
-[Kết quả](VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
-[JSON](VOLTARGET-SHADOW-V20-RESULTS-20261117.json) /
-[protocol](VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
-[freeze](VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
+[Kết quả](archive/VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
+[JSON](archive/VOLTARGET-SHADOW-V20-RESULTS-20261117.json) /
+[protocol](archive/VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
+[freeze](archive/VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
 [observer quickstart](QUICKSTART-FTMO-FREE-TRIAL.md).
 k cuối 1,006087×; 60.000 MC / 1.752 Dev / 1.908 historical ledgers audit đủ.
 32 lệnh thiếu giá vẫn còn; observer kiểm replay, chưa attach MT5 thật.
@@ -467,12 +467,12 @@ smoke 10/10 <0,78s, median 0,655s chưa đạt trần median 0,65s; giữ lần 
 Trạng thái và exact-head CI receipts theo [current context](../CURRENT-CONTEXT.md).
 
 **V19 — hoàn tất kiểm định; chưa đủ điều kiện Challenge:**
-[Kết quả](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /
-[JSON](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json) /
-[protocol](ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md) /
+[Kết quả](archive/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /
+[JSON](archive/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json) /
+[protocol](archive/ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md) /
 [freeze](ASYMMETRIC-RECOVERY-V19-FREEZE-20261116.json).
 PR #97 đã merge `beaabdd`; V19 đăng ký `f2c7dd8`.
-Giữ `BASE_GUARD`; [O2 correction](V19-O2-CONSTRAINT-CORRECTION-20261116.md)
+Giữ `BASE_GUARD`; [O2 correction](archive/V19-O2-CONSTRAINT-CORRECTION-20261116.md)
 giảm unit-book variance 44,53% nhưng không thắng lifecycle gates.
 3.504 Dev/120.000 MC ledgers đối soát toàn bộ; 32 source-uncertain trades còn nguyên.
 Full suite 1.216 PASS/0 skip, 15,580s; smoke 7/10 <0,78s, chưa đạt target.
@@ -481,10 +481,10 @@ Trạng thái và resume tại [current context](../CURRENT-CONTEXT.md).
 
 **V18 — hoàn tất tuyển chọn và stress, chưa có Champion đủ chứng cứ:**
 [Báo cáo buổi sáng](MORNING-EXECUTIVE-SUMMARY-20261116.md) /
-[kết quả](FINAL-CONVERGENCE-V18-RESULTS-20261116.md) /
-[JSON](FINAL-CONVERGENCE-V18-RESULTS-20261116.json) /
-[freeze](FINAL-CONVERGENCE-V18-FREEZE-20261116.json) /
-[protocol](FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md) /
+[kết quả](archive/FINAL-CONVERGENCE-V18-RESULTS-20261116.md) /
+[JSON](archive/FINAL-CONVERGENCE-V18-RESULTS-20261116.json) /
+[freeze](archive/FINAL-CONVERGENCE-V18-FREEZE-20261116.json) /
+[protocol](archive/FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md) /
 [Free Trial spec](FTMO-FREE-TRIAL-EXECUTION-SPEC-20261116.md).
 PR #96 merge `92569ca`; protocol `50c474f`, code/freeze `bec7fe1`.
 V16 tham chiếu tốc độ: PRIMARY +42,30R, 71/105, median 47,08 tháng;
@@ -500,10 +500,10 @@ Kit chuẩn bị quote/spec capture, chưa là EA/quyền giao dịch; terms hi�
 chưa truy cập lại thành công. Giữ data/freezes/negative attempts/VI WIP/Trader pin.
 
 **V17 — chưa có nâng cấp đạt time-fit/gap convergence:**
-[Báo cáo bốn phần](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
-[JSON](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
-[freeze](ADAPTIVE-VELOCITY-V17-FREEZE-20261116.json) /
-[protocol](ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md).
+[Báo cáo bốn phần](archive/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
+[JSON](archive/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
+[freeze](archive/ADAPTIVE-VELOCITY-V17-FREEZE-20261116.json) /
+[protocol](archive/ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md).
 PR #95 merge `0fb47ae`; V17 đăng ký `e3a390d`, khóa `d1d1d3b`.
 V16 không có overnight blocker; cap chỉ loại 3 unique Dev signals PRIMARY.
 Tier EUR 1,0 / Gold 0,6, daily reservation 2,4%; 503 session cells, 0 additions.
@@ -516,10 +516,10 @@ Exact-head CI/ID receipt lịch sử nằm trong private V17 job.
 V17 không broker/deploy/provider downloads/Astra/memory update; V18 theo protocol riêng.
 
 **V16 — chưa có breadth addition đạt chuẩn, G2 vẫn nhạy gap:**
-[Báo cáo bốn phần](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
-[JSON](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
-[freeze](GAP-IMMUNE-MULTIASSET-V16-FREEZE-20261116.json) /
-[protocol](GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md).
+[Báo cáo bốn phần](archive/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
+[JSON](archive/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
+[freeze](archive/GAP-IMMUNE-MULTIASSET-V16-FREEZE-20261116.json) /
+[protocol](archive/GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md).
 PR #94 merge `1c6e516`; code/selection khóa `985df06`. 715 DAY cells,
 0 additions; không hạ gate để chọn nhánh. G1 thêm 0 observed M1.
 G2 daily flat còn 32 uncertain trades; primary SYM 71/105, median 47,08
@@ -529,10 +529,10 @@ Nén 8 logs có restore/SHA, giữ nguồn/freezes/ledger và VI WIP/Trader pin.
 PR #95 đã merge trong V17; full test/smoke/CI receipts lịch sử giữ nguyên.
 
 **V15 — sizing có cải thiện, chưa đạt time-fit và còn bất định gap:**
-[Báo cáo bốn phần](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
-[JSON](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
-[freeze](BRIDGE-AND-VELOCITY-V15-FREEZE-20261115.json) /
-[protocol](BRIDGE-AND-VELOCITY-V15-PROTOCOL-20261115.md).
+[Báo cáo bốn phần](archive/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
+[JSON](archive/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
+[freeze](archive/BRIDGE-AND-VELOCITY-V15-FREEZE-20261115.json) /
+[protocol](archive/BRIDGE-AND-VELOCITY-V15-PROTOCOL-20261115.md).
 PR #93 merge `69bc7a6`; B dừng tối ưu. Đăng ký `7ed51a5`, khóa `4b426ae`:
 Dev chọn factor 1,5. SYM 63/105 hoàn tất, median 41,03 tháng; cushion 66/105,
 34,85 tháng; chưa đạt <18. Primary bridge model không ép stop nào, không
@@ -541,10 +541,10 @@ là chứng nhận thị trường. All-uncertified shared-path sensitivity 0/10
 Giữ nguồn/freeze/lịch sử, VI WIP/Trader pin. PR #94 đã merge trong V16.
 
 **V14 — đã merge; baseline lifecycle 2018–2026:**
-[Báo cáo bốn phần](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
-[JSON](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
-[freeze](EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
-[protocol](EVIDENCE-AND-LIFECYCLE-V14-PROTOCOL-20261115.md).
+[Báo cáo bốn phần](archive/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
+[JSON](archive/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
+[freeze](archive/EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
+[protocol](archive/EVIDENCE-AND-LIFECYCLE-V14-PROTOCOL-20261115.md).
 PR #92 đã merge `65bf0c2`; A/B khóa `ae575b7` trước khi mở 2024–13/10/2026.
 Cổng trung bình >=50/năm được owner duyệt cho V14. A 3 sleeves, B thêm đúng
 2 cấu hình theo thứ tự cơ học. Giữ V13 verdict cũ. A/SYM NEXT_QUOTE
@@ -559,10 +559,10 @@ Private job `execution-v1/evidence-and-lifecycle-v14-20261115`;
 PR #93 đã merge trong V15 và nhánh `codex/evidence-and-lifecycle-v14` đã xóa.
 
 **V13 — 19 cases định giá đủ theo gap scenario; ensemble fail cadence:**
-[Báo cáo bốn phần](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
-[JSON](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
-[decision](PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
-[protocol](PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
+[Báo cáo bốn phần](archive/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
+[JSON](archive/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
+[decision](archive/PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
+[protocol](archive/PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
 PR #91 merged `ad362ea`; PR #92/V13 cũng đã merge trong V14. Các nhánh cũ
 đã xóa; đoạn sau giữ kết luận V13 trước khi owner đổi cổng cadence.
 28 frozen cells → 16 scenario components → 3 medoids, SYM +50,232R/6năm,
@@ -576,11 +576,11 @@ V10→V12 D chỉ +1.925.237 bytes, không +15GB. Tick timestamp probe giữ
 Private job `execution-v1/path-resolution-and-dedup-v13-20261115`.
 
 **V12 — SL-active/F5 đã đo; chưa có ensemble vì path gaps và kinh tế:**
-[Báo cáo bốn phần](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
-[JSON](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.json) /
-[decision](SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
-[protocol](SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
-[cent correction](SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
+[Báo cáo bốn phần](archive/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
+[JSON](archive/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.json) /
+[decision](archive/SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
+[protocol](archive/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
+[cent correction](archive/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
 PR #91 merged `ad362ea`, nhánh V12 đã xóa theo V13. 2.888 path cells: 1.264 F1–F4 ×2 modes
 và 120 F5 ×3 modes. 28 available-path dual-positive; 19 chỉ còn path gate,
 chưa chứng minh full expectancy. K=0, không mở giá 2024–2026/lifecycle/payout.
@@ -592,12 +592,12 @@ Không clean OOS hoặc independent person review. Private job
 `execution-v1/sl-active-ensemble-v12-20261115`; đọc report trước source repair.
 
 **V11 — purge 119,79 GB trên E; ensemble 6 nhánh chưa vượt Development:**
-[Báo cáo bốn phần](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
-[JSON](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
-[decision](ENSEMBLE-AND-STORAGE-V11-DECISION-20261115.json) /
-[protocol](ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
-[source admission](ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
-[clock correction](ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
+[Báo cáo bốn phần](archive/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
+[JSON](archive/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
+[decision](archive/ENSEMBLE-AND-STORAGE-V11-DECISION-20261115.json) /
+[protocol](archive/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
+[source admission](archive/ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
+[clock correction](archive/ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
 PR #90 merged `2175685`, nhánh V11 đã xóa theo V12. Giữ VI WIP/Trader pin/raw/seals.
 17 target E đã purge đúng manifest: 100.287 files / 12.101 folders.
 Source sweep tìm lại GBP/AUD native H1 và US500 M1, không copy raw.
@@ -608,10 +608,10 @@ Không clean OOS. 1.048 tests / 0 skip, smoke 0,673s; scalar/source oracle khớ
 Private job `execution-v1/ensemble-and-storage-v11-20261115`; đọc report trước trial mới.
 
 **V10 — 0/544 cấu hình F1–F4 qua Stage0; chưa mở validation/lifecycle:**
-[Báo cáo bốn phần](ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
-[JSON](ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
-[decision](ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
-[protocol](ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
+[Báo cáo bốn phần](archive/ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
+[JSON](archive/ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
+[decision](archive/ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
+[protocol](archive/ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
 PR #89 merged `3dd35a7`, nhánh `codex/enterprise-alpha-v10` đã xóa theo V11.
 Dev2018–2023: XAUUSD92/EURUSD44recipes ×4horizons; Ask/swap conditional.
 Đã sửa backward DAY/post-Friday entry và pooled cluster scale; giữ original
@@ -623,11 +623,11 @@ Giá2024–2026 không mở trong V10; không portfolio/payout mới hoặc clea
 Private jobexecution-v1/enterprise-alpha-v10-20261115; đọc report trước trial mới.
 
 **V9 — storage/quant core đã giao; Gold/EUR S1/S2 đều No-Go ở Stage0:**
-[Báo cáo4trụ cột](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.md) /
-[JSON](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.json) /
-[closure](SYSTEM-AND-ALPHA-V9-DECISION-20261115.json) /
-[protocol](SYSTEM-AND-ALPHA-V9-PROTOCOL-20261115.md) /
-[EUR admission](SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
+[Báo cáo4trụ cột](archive/SYSTEM-AND-ALPHA-V9-RESULTS-20261115.md) /
+[JSON](archive/SYSTEM-AND-ALPHA-V9-RESULTS-20261115.json) /
+[closure](archive/SYSTEM-AND-ALPHA-V9-DECISION-20261115.json) /
+[protocol](archive/SYSTEM-AND-ALPHA-V9-PROTOCOL-20261115.md) /
+[EUR admission](archive/SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
 PR88 merged97a44f2; nhánh V9 đã xóa.
 D−11,84GB/41.906files;2VIpermission gaps vẫn giữ; Ekhôngpurge.
 1.013tests giữ995IDs cũ,2anti-bloatfixtures riêng. Core/adapters reuse legacy
@@ -640,11 +640,11 @@ Privatejobexecution-v1/system-and-alpha-v9-20261115. Read report trước hypoth
 
 
 **V8 — N1/N2 và ba Gold sleeves No-Go; baseline backward cũng không đạt:**
-[Báo cáo](PROP-GOLD-V8-RESULTS-20261115.md) /
+[Báo cáo](archive/PROP-GOLD-V8-RESULTS-20261115.md) /
 [JSON](PROP-GOLD-V8-RESULTS-20261115.json) /
-[decision](PROP-GOLD-V8-DECISION-20261115.json) /
-[N2 correction](PROP-V8-N2-CORRECTION-20261115.json) /
-[protocol](PROP-GOLD-V8-PROTOCOL-20261115.md) /
+[decision](archive/PROP-GOLD-V8-DECISION-20261115.json) /
+[N2 correction](archive/PROP-V8-N2-CORRECTION-20261115.json) /
+[protocol](archive/PROP-GOLD-V8-PROTOCOL-20261115.md) /
 [calendar](PROP-V8-SESSION-CALENDAR-20261115.json).
 PR86 merge `c99fa7e`; PR87 đã merge `5f1b687`, nhánh V8 đã xóa.
 N1 SYM2022/23 −1,54/−12,77R; N2 conditional −6,28/−4,58R; ba sweep horizons dương
@@ -662,10 +662,10 @@ gap~66phút trên2SELL paths dù endpoints đủ. Giữ VIWIP/Traderpin.
 Private job `prop-gold-v8-20261115`; delivery/CI receipt tại đó.
 
 **V7 — Gold audit sau sửa lịch, EURUSD decommission; NOT_QUALIFIED:**
-[Báo cáo](PROP-GOLD-V7-RESULTS-20261115.md) /
+[Báo cáo](archive/PROP-GOLD-V7-RESULTS-20261115.md) /
 [JSON](PROP-GOLD-V7-RESULTS-20261115.json) /
-[freeze](PROP-GOLD-V7-DECISION-20261115.json) /
-[protocol](PROP-GOLD-V7-PROTOCOL-20261115.md) /
+[freeze](archive/PROP-GOLD-V7-DECISION-20261115.json) /
+[protocol](archive/PROP-GOLD-V7-PROTOCOL-20261115.md) /
 [calendar](PROP-V7-SESSION-CALENDAR-20261115.json).
 PR85 merged `70b9ba1`; PR86 sau đó merge `c99fa7e`, nhánh V7 đã xóa.
 Rule holiday preclose2phút: 931/931 đường lệnh có giá, 57 mốc/policy/model đo
@@ -677,10 +677,10 @@ Ba GoldTop10 cells chỉ reuseDev và chưa đủ source/scale, không thêm sle
 Giữ VIWIP/Traderpin; private job `prop-gold-v7-20261115`, delivery/CI receipt tại đó.
 
 **V6 — lịch sử trước sửa lịch V7; NOT_QUALIFIED:**
-[Báo cáo](PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
+[Báo cáo](archive/PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
 [JSON](PROP-V4-HARVEST-V6-RESULTS-20261115.json) /
-[freeze](PROP-V4-HARVEST-V6-DECISION-20261115.json) /
-[protocol](PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
+[freeze](archive/PROP-V4-HARVEST-V6-DECISION-20261115.json) /
+[protocol](archive/PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
 PR83 merged `5a8dd69`; branch `codex/prop-v4-harvest-v6`.
 V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), đã merge `70b9ba1`;
 GitHub tự cấp số85 thay số84 dự kiến.
@@ -696,10 +696,10 @@ không tune từ kết quả. Phạm vi V7 đã thay trạng thái endpoint; kh�
 Giữ VI WIP/Traderpin, private job `prop-v4-harvest-v6-20261115`.
 
 **V5 đã kiểm (lịch sử), No-Go promote; source/exact-bootstrap chưa đủ:**
-[Báo cáo](PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
-[JSON](PROP-OVERNIGHT-V5-RESULTS-20261115.json) /
-[quyết định](PROP-OVERNIGHT-V5-DECISION-20261115.json) /
-[protocol](PROP-OVERNIGHT-V5-PROTOCOL-20261115.md).
+[Báo cáo](archive/PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
+[JSON](archive/PROP-OVERNIGHT-V5-RESULTS-20261115.json) /
+[quyết định](archive/PROP-OVERNIGHT-V5-DECISION-20261115.json) /
+[protocol](archive/PROP-OVERNIGHT-V5-PROTOCOL-20261115.md).
 PR82 merged `5beeb75`; branch `codex/prop-overnight-v5`.
 Không GBP M1/tick2022–24 hoặc third sleeve. D1/D2 rớtDev; giữPARENT.
 Ratchet/harvester72accounts: ASYM6/36P1,1/36hai vòng; SYM4/36,0;
@@ -714,10 +714,10 @@ Privatejob `prop-overnight-v5-20261115`; source/exactMC blockers ghi rõ,
 không gọi mọi acceptance đã đạt vì CI xanh.
 
 **V4 hoàn tất, co-core chưa tạo payout hoặc sẵn sàng full holdout:**
-[Báo cáo](PROP-COCORE-V4-RESULTS-20261114.md) /
-[JSON](PROP-COCORE-V4-RESULTS-20261114.json) /
-[quyết định](PROP-COCORE-V4-DECISION-20261114.json) /
-[protocol](PROP-COCORE-V4-PROTOCOL-20261114.md).
+[Báo cáo](archive/PROP-COCORE-V4-RESULTS-20261114.md) /
+[JSON](archive/PROP-COCORE-V4-RESULTS-20261114.json) /
+[quyết định](archive/PROP-COCORE-V4-DECISION-20261114.json) /
+[protocol](archive/PROP-COCORE-V4-PROTOCOL-20261114.md).
 PR81 merged `5864d8b`, V3 branch xóa; branch mới `codex/prop-cocore-v4`.
 Không third sleeve đủ source/scale/carry. Một trial equal-risk hai nhánh,
 cap1,6%/reserve8%; chọn chỉ2022–23, commit`8b1bfba` trước2024.
@@ -731,10 +731,10 @@ Giữ VIWIP/Traderpin; không auto-merge PR V4, holdout, broker hoặc Astra.
 Privatejob `prop-cocore-v4-20261114`; ngày UTC14/11, local15/11.
 
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**
-[Báo cáo](PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
-[JSON](PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
-[composition](PROP-PORTFOLIO-V3-DECISION-20261114.json) /
-[protocol](PROP-PORTFOLIO-V3-PROTOCOL-20261114.md), task
+[Báo cáo](archive/PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
+[JSON](archive/PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
+[composition](archive/PROP-PORTFOLIO-V3-DECISION-20261114.json) /
+[protocol](archive/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md), task
 `ded836a8-3f42-4204-9742-9fc0ad3c369e`; PR #80 đã merge `91dd2d5`.
 Giữ A gốc, không dùng D1 scaling; 112 Natural-SL screens chỉ chọn một vệ tinh
 EURUSD Asia/London sweep DAY. Tick Dev +3,7714R / +10,5621R,
@@ -748,10 +748,10 @@ Job `prop-portfolio-v3-20261114`, nhánh `codex/prop-portfolio-v3`.
 Giữ đóng 2025–2026, WIP VI Dubber; không tự merge PR mới, broker hoặc Astra.
 
 **V2 hoàn tất, chưa đủ điều kiện Challenge:**
-[Báo cáo](PROP-ATLAS-V2-RESULTS-20261114.md) /
-[JSON](PROP-ATLAS-V2-RESULTS-20261114.json) /
-[quyết định](PROP-ATLAS-V2-DECISION-20261114.json) /
-[protocol](PROP-ATLAS-V2-PROTOCOL-20261114.md).
+[Báo cáo](archive/PROP-ATLAS-V2-RESULTS-20261114.md) /
+[JSON](archive/PROP-ATLAS-V2-RESULTS-20261114.json) /
+[quyết định](archive/PROP-ATLAS-V2-DECISION-20261114.json) /
+[protocol](archive/PROP-ATLAS-V2-PROTOCOL-20261114.md).
 2024 BUY +14,689R / SELL −12,044R; 13 tài khoản vòng 2 cũ đều hết dữ liệu.
 Giữ A0; Atlas 112 cấu hình / 5 tài sản có 84 đủ endpoint, 28 chưa đủ,
 0 sleeve; Stage-1/correlation N/A. Risk v2 qua vòng 1 2/36 SYM, 5/36 ASYM;
@@ -763,9 +763,9 @@ PR #79 đã merge `a42fb9f`; job `prop-atlas-v2-20261114`,
 nhánh `codex/prop-stage0-atlas-v2`. Không tự merge PR V2 hoặc mở nghiên cứu mới.
 
 **Hiện tại — exit/sleeves/phase-aware campaign hoàn tất, chưa Challenge-ready:**
-[Báo cáo](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
-[JSON](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /
-[Protocol](PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md).
+[Báo cáo](archive/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
+[JSON](archive/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /
+[Protocol](archive/PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md).
 PR78merged`3307fae`; A0 giữ nguyên, cả3exit/3sleeve không được chọn từDev2022–23.
 36starts×2costs: risk.50→.35→.25% P1 8/36SYM,13/36ASYM; P2/payout0,
 observedbreach0; worststatic9,321/8,899%. 147tests/72accountoracles/2.464costbridges
@@ -902,8 +902,8 @@ Mia/RD-Agent/BacktestBench,SMCsourcefuturelabels,Freqtradecausality/warmup;
 đềxuất levelbreak→retest +MAcomparator,khônggrid/newbatch hoặc proofedge.
 Phân biệt zone/setup/trigger và known-at;cashH1clock/carry phải chốt trướccode.
 
-[TC01: cùng khung giờ qua20ngày trước](US500-SAME-CLOCK-RESULTS-20261112.md),
-[protocol](US500-SAME-CLOCK-PROTOCOL-20261112.md):673cơhội/2022–24,4,47/5phiên;
+[TC01: cùng khung giờ qua20ngày trước](archive/US500-SAME-CLOCK-RESULTS-20261112.md),
+[protocol](archive/US500-SAME-CLOCK-PROTOCOL-20261112.md):673cơhội/2022–24,4,47/5phiên;
 endpointstressâm3năm,khôngqua frozenpriority/controlgate.8tests,673signals/
 4.038componentrows đượcđốichiếu,3mutations;15,025s+14,850s. Park exactrecipe,
 khôngtune/SL/account/2025–26. Stockpaper→indexCFD làhypothesistransfer,khôngreplication.
@@ -911,56 +911,56 @@ khôngtune/SL/account/2025–26. Stockpaper→indexCFD làhypothesistransfer,kh�
 [Ứng viên từng được giữ: rà lại trước đề xuất mới](STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026):
 R120 US500/M15 còn inconclusive vì15lệnh/3năm và cadence thấp; GoldR043 dự
 phòng ngoài scope; UTC range/H1 cũ có later negatives/model limitations.
-[SavedR120review đã xong](US500-R120-SAVED-REVIEW-20261112.md):6books/30scenario
+[SavedR120review đã xong](archive/US500-R120-SAVED-REVIEW-20261112.md):6books/30scenario
 rows/3mutations,Decimal→Fractionreview,0simulation. Stress+48,87USD;trừ top1
 còn+27,87/top3−10,91 chỉconcentrationdiagnostic. Giữresearchphụ,chưaưu tiên
 recent extension cho daytrading chính,không đổi luật hoặc mở2025–26.
 
-[Chẩn đoán đà/chi phí/đường đi sau phá kênh](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
-[protocol](US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md):4năm/2recipe,
+[Chẩn đoán đà/chi phí/đường đi sau phá kênh](archive/US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
+[protocol](archive/US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md):4năm/2recipe,
 15–30–60phút,2.865eventrows/18.194controlbars,24annualcells stressmeanâm.
 37,041snumeric+45,627sseparatereview,7tests. Giữ2025RS02/60dấuhệumỏng,
 khôngedge/OOS;park exactATR/channel/exitgrid. Khôngnewstrategy/2026/broker.
 
-[Vào sau phá hay chờ hồi: đối chiếu cùng cutoff14NY](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
-[protocol](US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md):BR01relatedversion
+[Vào sau phá hay chờ hồi: đối chiếu cùng cutoff14NY](archive/US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
+[protocol](archive/US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md):BR01relatedversion
 mới,12native+8reuse/70,618s,624vs331trades. ATR14/kênh20/.10buffer/2ATRstop
 giữ cố định; chưaparametergrid. Unknowns giữ; chưaedge hoặc retest dominance.
 
-[Tổ chức tìm chiến lược theo bản đồ, top-down và bottom-up](US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md):
+[Tổ chức tìm chiến lược theo bản đồ, top-down và bottom-up](archive/US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md):
 RS01/03/04 cùng nhánh phá mốc,RS02 related retest;8setup không8edge độc lập.
 Đề xuất ít representative rồi đi sâu theo evidence, giữ unknown/trialhistory;
 Hyperband chỉ tham khảo phân bổ ngân sách, chưa auto-search/newbatch hoặc proofedge.
 
-[Phút thiếu chung RS01/RS02: đã kiểm tick source](US500-RECENT-GAP-RESULTS-20261112.md),
-[protocol](US500-RECENT-GAP-PROTOCOL-20261112.md):23.875ticks/giờ, target04/04/2025
+[Phút thiếu chung RS01/RS02: đã kiểm tick source](archive/US500-RECENT-GAP-RESULTS-20261112.md),
+[protocol](archive/US500-RECENT-GAP-PROTOCOL-20261112.md):23.875ticks/giờ, target04/04/2025
 11:02NY vẫn0tick;118M1BidAsk overlap exact,3mutations bị phát hiện. Chưa sửa
 được nguồn này, không ffill/rerun/promote; exact full net vẫnN/A.
 
-[US500 recent: 8 setup, 2025 và 2026 đến 11/11, điểm và đề xuất](US500-RECENT-SCREEN-RESULTS-20261112.md):
+[US500 recent: 8 setup, 2025 và 2026 đến 11/11, điểm và đề xuất](archive/US500-RECENT-SCREEN-RESULTS-20261112.md):
 56 sổ retained/48 financial/8 null; 37 reuse có review. Chưa có winner:
 recent full net N/A do held gaps, known subsets stress âm; fixed RS01/RS07
-2026 là diagnostics, không shortlist. [Protocol](US500-RECENT-SCREEN-PROTOCOL-20261112.md),
-[amendment/recovery](US500-RECENT-RECOVERY-AMENDMENT-20261112.md) giữ hai lỗi
+2026 là diagnostics, không shortlist. [Protocol](archive/US500-RECENT-SCREEN-PROTOCOL-20261112.md),
+[amendment/recovery](archive/US500-RECENT-RECOVERY-AMENDMENT-20261112.md) giữ hai lỗi
 và source deltas. 38 focused tests; không job nền; inventory RS01/RS02 năm2025
 cùng thiếu04/04 11:02NY, tiếp source recovery có giới hạn; không tuning hoặc
 đọc RS02/2026 như validation mới.
 
-[FP07 cùng luật: cadence2013–2021 và data gaps](US500-CHANNEL-HISTORY-RESULTS-20261112.md),
-[protocol/amendment trước counts](US500-CHANNEL-HISTORY-PROTOCOL-20261112.md):
+[FP07 cùng luật: cadence2013–2021 và data gaps](archive/US500-CHANNEL-HISTORY-RESULTS-20261112.md),
+[protocol/amendment trước counts](archive/US500-CHANNEL-HISTORY-PROTOCOL-20261112.md):
 9years/45,41s,11scopedtests,912firstdaysđủquote;2016/20/21≈3/5phiên,
 2013/14/17datawindowthiếunhiều. Không gọi nhịp thấp là rulefail/no-setup;
 2022–24reuse,2025+đóng,0PnL/newrules. V1preflightLF/CRLFfail0years giữ,
 v2verifiedsnapshotsource-newlineexception;marketdata/lockvẫnbindexact.
 
-[Đã đếm ba thiết kế cơ hội US500](US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
-[protocol trước outcomes](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md):
+[Đã đếm ba thiết kế cơ hội US500](archive/US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
+[protocol trước outcomes](archive/US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md):
 baseline165;FP06retry181,FP07prior20channel540firstdays/992rawtriggers,
 FP08MAcross196firstdays/209raw. FP073,59/5phiên,1/157tuầntrống,month10–21;
 ưu tiên thiết kếG2screen riêng, chưaPnL/edge/prop.12cases/22,77s,9tests,
 savedFP05parity3năm,catalogue123/88/53giữ+3relatedfrequencydesigns.
 
-[Tần suất US500: các nhóm, độ đều và dễ code](US500-FREQUENCY-LANDSCAPE-20261111.md):
+[Tần suất US500: các nhóm, độ đều và dễ code](archive/US500-FREQUENCY-LANDSCAPE-20261111.md):
 180savedbooks/30versions,90annualcostpairs entryclockparity,0replay/0newtrial.
 ORB677/0tuầntrống;failedbreak269/23;reclaim165/47;R12015/142trên157tuần.
 Đềxuất3–5/tuần5phiên cho cap1/ngày,khôngquota/optimum/challengeproof.
@@ -977,34 +977,34 @@ ownerchưachốtmonthlyincome;agentđềxuất3–8lệnh/tuần,ngàythường0
 Các kịchbản50k/100k/200k chỉplanning,80%reward2Step official11/11,
 FX25k+chi1triệu làgiảđịnh,khôngforecast hoặcquyềnmuaquỹ/tăngrisk.
 
-[R123 MA reclaim đã sàng lọc native](US500-MA-RECLAIM-RESULTS-20261111.md),
-[protocol](US500-MA-RECLAIM-PROTOCOL-20261111.md),
-[separateG2registration](US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md):
+[R123 MA reclaim đã sàng lọc native](archive/US500-MA-RECLAIM-RESULTS-20261111.md),
+[protocol](archive/US500-MA-RECLAIM-PROTOCOL-20261111.md),
+[separateG2registration](archive/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md):
 165lệnh/cost,6financial+3null/88,02s;reference+4,83USD,stress−307,03USD,
 stressâm3năm,khônggiữexactrecipe. Originalfloor200falsegiữ;khônghạgaterồi
 claimpass. 40scopedtests,parentdefault/clock/SL/cash/unknown/parityđạt.
 Catalogue123/88versions/53native;FP05historykhôngdoublecount. Chưaedge/OOS/
 challenge,khôngjobnền. Tiếpý tưởngcómechanism/cadence/edge,khôngretuneR123.
 
-[US500: đã kiểm vì sao ít tín hiệu](US500-FREQUENCY-AUDIT-RESULTS-20261111.md),
-[protocol trước số đếm](US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md):
+[US500: đã kiểm vì sao ít tín hiệu](archive/US500-FREQUENCY-AUDIT-RESULTS-20261111.md),
+[protocol trước số đếm](archive/US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md):
 5probes/15annualcases,22,06s,10tests,parentR098/R120signaltraceparity.
 Giữ19signals;ownwarmup19;giờrộng93;wick54;kếthợp158(55/50/53),khoảng1/tuần.
 FP04chưafloor200totalđãkhóa,0newfinancialsimulations;khôngnớitiếptựđộng.
 Lưu4relatedfrequency-onlydesigns,catalogueaccount122/87versionsgiữ;khôngedge/OOS.
 Bướctiếpcầnconfirmationhypothesismới,khôngrerununchanged hoặc2025+/broker.
 
-[US500 multiframe đã backtest](US500-MULTIFRAME-RESULTS-20261111.md),
-[bảng đủ27cấu hình](US500-MULTIFRAME-FULL-TABLE-20261111.md),
+[US500 multiframe đã backtest](archive/US500-MULTIFRAME-RESULTS-20261111.md),
+[bảng đủ27cấu hình](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md),
 [protocol](US500-MULTIFRAME-PROTOCOL-20261111.md):162nativebooks+9null,
 A/B/C×7buffers+6MA sensitivity,2022–24 exposed;≈5phút44batchparallel.
-24tests và6old→fixednativeparity đạt; [postreview](US500-MULTIFRAME-REVIEW-AMENDMENT-20261111.md)
+24tests và6old→fixednativeparity đạt; [postreview](archive/US500-MULTIFRAME-REVIEW-AMENDMENT-20261111.md)
 sửaqualityflags từsavedbooks,khôngđổiPnL/fills hoặcfinancialrerun. Dùngv3,
 khôngv2qualityflags. R120stress+48,87USD/15lệnh/3sổnăm,dương3năm nhưng
 mẫuquánhỏ,chưachallenge/OOS. Catalogue122/87versions,không27independentedges.
 Tiếpsoitrace/opportunityscarcity trướcnewtrial;khôngjobnền/2025+/broker.
-Drafts [baseline](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) và
-[multiTF](US500-MULTITIMEFRAME-DRAFT-20261111.md) giữhistoricaldecisions/pins.
+Drafts [baseline](archive/US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) và
+[multiTF](archive/US500-MULTITIMEFRAME-DRAFT-20261111.md) giữhistoricaldecisions/pins.
 
 [Full framework adoption cả5 theo owner](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine):
 đã cài isolatedruntimes và chạy nativefixtures;3Pythonroundtripsđạt,
@@ -1020,7 +1020,7 @@ port/parity/PnL; adoptionmới ởlinktrên. Catalogue95giữ. **Đã clone
 đủ5repo** tại `.runtime/strategy-references/`:12962files/593MiBsource, README/
 manifest/96keywordfile index; origin/pin/clean/fsck và17reference matches đã kiểm.
 
-[Hai bộ luật US500 M15 đã sàng lọc11/11](US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
+[Hai bộ luật US500 M15 đã sàng lọc11/11](archive/US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
 18books/18reviews trong22,289s; breakout cost-sensitive/fullannualunknown,
 failed-break known2022/24âm, chưa giữ ứng viên.19tests/3actualmutations,
 v1newlinefail0books giữ, v2acceptedsource/4quarters; postreview sửa knownclosed
@@ -1104,9 +1104,9 @@ cells đủ nhưng cả 4 ngày chưa admit known-at/access; tick pilot vẫn fa
 Source 2,593s/3GET, offline review 87,052s/0GET; không financial trial/job nền.
 Catalogue92/58 giữ, không retry package/relax gate hoặc dùng archive lấp quotes.
 
-[R092S&P–Nasdaqformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md):503datesđủ,
+[R092S&P–Nasdaqformation](archive/INDEX-PAIR-FORMATION-RESULTS-20261110.md):503datesđủ,
 p2018=0,55272/2021=0,41111;khôngretained fixedlinearformations,khôngbot/PnL.
-[Source](INDEX-PAIR-SOURCE-RESULTS-20261110.md)96months/223.450fields/88GET+8reuse,
+[Source](archive/INDEX-PAIR-SOURCE-RESULTS-20261110.md)96months/223.450fields/88GET+8reuse,
 47,373s;statisticalproducer/review3,740s/6mutations.92records/58versions,
 Goalactive/C1C2chưađạt/khôngjobnền. Khôngpair/window/lag/modelgridcứu.
 [WTItickgaps](WTI-GAP-TICK-RESULTS-20261110.md):6holeskhôngtick/6controlsđủ,
@@ -1187,7 +1187,7 @@ và [costheadroom](COST-HEADROOM-DIAGNOSTIC-20261109.md) giữnguồn/diễn gi�
 R086fundingbreak-even11,62%/15,26% làfixedpathmodel, khôngtargetrate.
 Đây là checkpoint trướcR088; khônggiảmfee/chọnclockđểcứu.
 
-[R086 FOMC price momentum](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md):
+[R086 FOMC price momentum](archive/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md):
 32books/256cases reviewed, không qua stressgate;2019−63,33/2022−14,66USD/unit.
 Source126minutes đủ/250raws reuse/2tailGETs;deadlinefailure giữ và sealedrecovery
 đã review trước economics.86records/58versions, chưa challenge/nojob. Tiếp
@@ -1246,8 +1246,8 @@ tuning. [EIA datecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)52/51dates
 
 Owner đã giao thực thi sau đúc kết09/11: đọc [mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md).
 Đã gom80historicalrecords,thêmR081relatedvariant;catalogue81/58/25native/9controls.
-[R081conditional](US500-INVENTORY-CONDITION-RESULTS-20261109.md) reviewednegative,
-218/242selectedresolved/24unknown;[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
+[R081conditional](archive/US500-INVENTORY-CONDITION-RESULTS-20261109.md) reviewednegative,
+218/242selectedresolved/24unknown;[R080](archive/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
 giữnegatives. [Oil/EIA sourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)
 reviewed8URLs nhưngUSO16:00Openmissing, chưaadmitETF→CFDeconomics.
 Chưa challenge candidate/không job nền; [Goal cập nhật](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026)
@@ -1262,17 +1262,17 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
-| Đầu/cuối phiên cùng hướng có giữ được sau phí không? | [R078/R079 results](INDEX-CONSENSUS-RESULTS-20261109.md), [protocol](INDEX-CONSENSUS-PROTOCOL-20261109.md): cả hai không đạt, full parent reuse, 5,32s producer+review; không chọn opposite mask rescue |
-| Chỉ trade sau closingpressure có cải thiện economics? | [R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):knownnetâm,24selectedunknown,khôngretained;parent[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)giữnguyên |
+| Đầu/cuối phiên cùng hướng có giữ được sau phí không? | [R078/R079 results](archive/INDEX-CONSENSUS-RESULTS-20261109.md), [protocol](archive/INDEX-CONSENSUS-PROTOCOL-20261109.md): cả hai không đạt, full parent reuse, 5,32s producer+review; không chọn opposite mask rescue |
+| Chỉ trade sau closingpressure có cải thiện economics? | [R081results](archive/US500-INVENTORY-CONDITION-RESULTS-20261109.md):knownnetâm,24selectedunknown,khôngretained;parent[R080](archive/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)giữnguyên |
 | Paper dầu/EIA có chuyển thẳng sang WTI CFD được không? | [Pilotresults](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md),[protocol](OIL-EIA-SOURCE-PILOT-PROTOCOL-20261109.md):rawsourceđãkiểm,USO16:00Opengap/calendar/targetcostschưaadmitted;khôngbulk/PnL |
-| Source lỗi có phải thu lại từ đầu; lượt dài đã xong chưa? | [Results/recovery](INDEX-PAPER-WINDOW-RESULTS-20261109.md):1.996hours terminal, prefix1.353reuse; source-quarter fix chỉ498hours, phần đúng giữ; không còn job phải chờ |
-| V2 đã có edge/challenge chưa; framework có bắt lỗi không? | [Economic results](INDEX-PAPER-WINDOW-RESULTS-20261109.md), [correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md):rawreviewer chặn wrongquarter mask, corrected review đạt nhưng netgate cả2fail; không challenge |
-| Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |
-| Tick quanh cuối phiên có khớp nguồn M1 và cho biết latency thật không? | [Pilot results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md): 115.502 joint ticks /577.510 raw checks, 960 side bars exact, 64 target timestamps; chỉ archived availability, chưa broker latency/PnL |
-| Tín hiệu tới15:30 có tốt hơn đầu phiên và qua phí không? | [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [protocol](INDEX-REST-OF-DAY-PROTOCOL-20261109.md): 995 resolved asset-days, primary gate fail; US5002019 known-partial, không account/prop/OOS |
-| Next-M1Open có phải delay thực không; nên kiểm nguồn gì trước? | [Closing-tick results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md), [protocol](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md): 8 giờ đã thu/review; chỉ archived quote availability, chưa broker latency hoặc PnL |
-| S&P opening reversal đã có edge chưa; source proof cũ bị code drift thì sao? | [R075 results](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md): stress âm cả hai năm; 4 source years tái dùng bằng frozen code/protocol, raw/seals trực tiếp; full Fraction/cost review, chưa account/prop/OOS |
-| Cơ chế khác opening gap/first-half trên data đã kiểm có kết quả chưa? | [Rest-of-day results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [method](INDEX-REST-OF-DAY-METHOD-20261109.md): đã register/run/review R076/R077, không đạt frozen net gate; không gamma hoặc challenge proof |
+| Source lỗi có phải thu lại từ đầu; lượt dài đã xong chưa? | [Results/recovery](archive/INDEX-PAPER-WINDOW-RESULTS-20261109.md):1.996hours terminal, prefix1.353reuse; source-quarter fix chỉ498hours, phần đúng giữ; không còn job phải chờ |
+| V2 đã có edge/challenge chưa; framework có bắt lỗi không? | [Economic results](archive/INDEX-PAPER-WINDOW-RESULTS-20261109.md), [correction](archive/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md):rawreviewer chặn wrongquarter mask, corrected review đạt nhưng netgate cả2fail; không challenge |
+| Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](archive/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](archive/INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |
+| Tick quanh cuối phiên có khớp nguồn M1 và cho biết latency thật không? | [Pilot results](archive/INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md): 115.502 joint ticks /577.510 raw checks, 960 side bars exact, 64 target timestamps; chỉ archived availability, chưa broker latency/PnL |
+| Tín hiệu tới15:30 có tốt hơn đầu phiên và qua phí không? | [R076/R077 results](archive/INDEX-REST-OF-DAY-RESULTS-20261109.md), [protocol](archive/INDEX-REST-OF-DAY-PROTOCOL-20261109.md): 995 resolved asset-days, primary gate fail; US5002019 known-partial, không account/prop/OOS |
+| Next-M1Open có phải delay thực không; nên kiểm nguồn gì trước? | [Closing-tick results](archive/INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md), [protocol](archive/INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md): 8 giờ đã thu/review; chỉ archived quote availability, chưa broker latency hoặc PnL |
+| S&P opening reversal đã có edge chưa; source proof cũ bị code drift thì sao? | [R075 results](archive/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md): stress âm cả hai năm; 4 source years tái dùng bằng frozen code/protocol, raw/seals trực tiếp; full Fraction/cost review, chưa account/prop/OOS |
+| Cơ chế khác opening gap/first-half trên data đã kiểm có kết quả chưa? | [Rest-of-day results](archive/INDEX-REST-OF-DAY-RESULTS-20261109.md), [method](archive/INDEX-REST-OF-DAY-METHOD-20261109.md): đã register/run/review R076/R077, không đạt frozen net gate; không gamma hoặc challenge proof |
 | Overnight gap của NASDAQ dự báo cú hồi đầu phiên không? | [R074 results](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md), [protocol](NASDAQ-OVERNIGHT-REVERSAL-PROTOCOL-20261109.md): 499 planned days, âm cả hai năm; full Fraction/cost review; 7,763 s producer + 5,280 s review, không account/prop/OOS |
 | NYFX gap models đã giải quyết được annual unknown chưa? | [Conditional results](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md): 64 books đã review, primary âm cả hai năm; gác exact recipe, strict annual N/A giữ nguyên; 93,415 s producer + 115,232 s review |
 | NASDAQ opening5 đã có edge chưa; sourcegaps đã sửa chưa? | [Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md):2022knownflat/243trades/+714,71 hoặc+568,12USD,2019unknown giữ nguyên; tickderivedhour480fields reviewed, nguyên191tradeprefix và nullstate. Overallgate vẫn chưađạt; [interim](NASDAQ-OPENING5-ORB-INTERIM-20261108.md)/[tickgapreview](NASDAQ-M1-GAP-TICK-RESULTS-20261108.md) giữv1failures |
@@ -1302,26 +1302,26 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 | R024weekendgap có dữ liệu để bắt đầu chưa? | [Admission](WEEKEND-GAP-DATA-ADMISSION-20261108.md), [metadata/raworacle](WEEKEND-GAP-DATA-RESULTS-20261108.md), [componentoutcomes](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md);103weekends/206rawendpoints khớp;componentđãxong,chưastrategyimplementation |
 | IBS02hold R049 đã sửa nến padding chưa; sau sửa còn đạt không? | [Protocol](IBS02-EXPLICIT-SOURCE-CORRECTION-20261108.md), [AST scope](IBS02-SOURCE-PREFLIGHT-NOTE-20261108.md), [results](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md):3books/9scenarios reviewed;stresssum+27,46→−8,90USD;khôngoldpriority;2022reuse sau lỗiCLIreviewer |
 | Gold SMA50k có phù hợp3/6/12tháng hoặc challenge chưa? | [Preflight](GOLD-SMA50K-PREFLIGHT-20261108.md), [review30books/90prefixes](GOLD-SMA50K-REVIEW-20261108.md):ledger/sourcequotes khớp declaredmodel;closedcash chưa target,retainedresearch nhưng hạ ưu tiên qualification;không rerun simulator |
-| Long RSI/preclose đã sửa source padding chưa; monthly có nên chạy tiếp? | [Protocol](INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [results/review](INDEX-LONG-EXPLICIT-RESULTS-20261108.md):source2013–24 đãkiểm,24books/72scenarios chưa đạt triage;monthly32/132eligible,guard chặn0simulationcalls |
-| Nến có timestamp/hash có phải giá nguồn thật; decoder tự chèn; source-only correction | [Protocol](INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md), [quarterly gates](INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md), [results](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), [long continuation](INDEX-LONG-EXPLICIT-RESULTS-20261108.md):sourceviews/gates+6intraday+24longbooks reviewed; khôngwholeproduct/tick/prop acceptance |
-| Có log để kiểm tối ưu/chọn/đổi strategy đúng hay sai không? | [Workflow decision record](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược), [actual baseline/delta](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md); giữ cảfailures,source/protocol/inputexposure,timing,verdict vàlimits |
+| Long RSI/preclose đã sửa source padding chưa; monthly có nên chạy tiếp? | [Protocol](archive/INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [results/review](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md):source2013–24 đãkiểm,24books/72scenarios chưa đạt triage;monthly32/132eligible,guard chặn0simulationcalls |
+| Nến có timestamp/hash có phải giá nguồn thật; decoder tự chèn; source-only correction | [Protocol](archive/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md), [quarterly gates](archive/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md), [results](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), [long continuation](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md):sourceviews/gates+6intraday+24longbooks reviewed; khôngwholeproduct/tick/prop acceptance |
+| Có log để kiểm tối ưu/chọn/đổi strategy đúng hay sai không? | [Workflow decision record](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược), [actual baseline/delta](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md); giữ cảfailures,source/protocol/inputexposure,timing,verdict vàlimits |
 | Goal đang tiếp tục; commission US500 khác công bố FTMO | [Protocol](FTMO-INDEX-COMMISSION-REVIEW-20261108.md), [results/hậu kiểm](FTMO-INDEX-COMMISSION-RESULTS-20261108.md);6books86,05s, hai policies vẫn không đạt, actual1.143trade/10.279decision parity |
-| Cơ chế equity khác sau các bản intraday âm; đầu/cuối tháng có nên viết bot? | [Calendar review](EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md), [protocol](US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md), [historical view](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md), [source-corrected results](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md);1510sessions, không đạt priority; chưa bot/accountPnL |
-| Fixing cuối tháng có phải cứ mua/bán theo lịch; cần thêm data gì? | [R026 method](FX-MONTH-END-FIXING-METHOD-20261108.md), [fixture protocol](FX-FIXING-PROXY-DATA-PREFLIGHT-20261108.md), [data/source review](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md); relative-equity/currency/calendar gaps, chưa strategy PnL |
-| Kết quả long RSI đã xong; reviewer entry/ID/count và annual0 do thiếu dữ liệu | [Long review](US500-LONG-REVIEW-20261108.md); 24 books/72 scenarios đối soát lại, không rerun simulation; cả hai không đạt retention |
-| Xu hướng tháng/long benchmark, account liên tục và preflight theo clock | [Protocol](US500-MONTHLY-TREND-PREPARATION-20261108.md), [results và admission repair](US500-MONTHLY-TREND-RESULTS-20261108.md); 83/132 tháng usable, 576 decisions exact, chưa challenge-qualified |
-| Month-end thiếu quote, CFD sessions khác NYSE, UTC/local year bug | [Tick-oracle protocol](INDEX-MONTH-END-QUOTE-ORACLE-20261108.md), [results](INDEX-MONTH-END-QUOTE-RESULTS-20261108.md); ba khoảng rỗng, 2016 có304ticks/Bid exact/Ask thiếu; chưa reconstruct dataset |
-| CFD không có quote sau cashclose; preclose adaptation có leak không | [Precloserecipe](US500-PRECLOSE-REVERSION-20261108.md), [results](US500-PRECLOSE-REVERSION-RESULTS-20261108.md);2022stress−0,12USD,chưađủretention/edge;prefix/future/halfdayoraclesđãkiểm |
-| Long study tiếp tục sau lỗi nguồn; OR-exit signal oracle; first→last30min | [Signalrepair](US500-RSI-SIGNAL-REPAIR-20261108.md), [partial-sourcepolicy](INDEX-HISTORY-PARTIAL-AVAILABILITY-20261108.md), [closemomentumrecipe](US500-CLOSE-MOMENTUM-20261108.md), [results](US500-CLOSE-MOMENTUM-RESULTS-20261108.md);actualjobs/sourcepins ởcurrentcontext |
-| Material loaderfix, corrected US500 results và protocol long RSI | [Correction](INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md), [corrected2022–24](US500-CORRECTED-REPLAY-20261108.md), [longfrozenstudy](US500-CASH-RSI-LONG-VALIDATION-20261108.md), [final long review](US500-LONG-REVIEW-20261108.md); old filtered results giữ để truy vết |
-| Campaign sau noise14: daily reversion, nguồn D1 sai range, tải dài và resume | [Dailyrecipe](US500-DAILY-REVERSION-20261108.md), [results/review](US500-DAILY-REVERSION-RESULTS-20261108.md), [rangeoracle](INDEX-DAILY-RANGE-ORACLE-20261108.md), [longM1](US500-VERIFIED-LONG-HISTORY-PREPARATION-20261108.md), [recovery](INDEX-HISTORY-DOWNLOAD-RECOVERY-20261108.md);campaignactive/longM1v2,preserve failures/negatives |
+| Cơ chế equity khác sau các bản intraday âm; đầu/cuối tháng có nên viết bot? | [Calendar review](EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md), [protocol](archive/US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md), [historical view](archive/US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md), [source-corrected results](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md);1510sessions, không đạt priority; chưa bot/accountPnL |
+| Fixing cuối tháng có phải cứ mua/bán theo lịch; cần thêm data gì? | [R026 method](FX-MONTH-END-FIXING-METHOD-20261108.md), [fixture protocol](FX-FIXING-PROXY-DATA-PREFLIGHT-20261108.md), [data/source review](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md); relative-equity/currency/calendar gaps, chưa strategy PnL |
+| Kết quả long RSI đã xong; reviewer entry/ID/count và annual0 do thiếu dữ liệu | [Long review](archive/US500-LONG-REVIEW-20261108.md); 24 books/72 scenarios đối soát lại, không rerun simulation; cả hai không đạt retention |
+| Xu hướng tháng/long benchmark, account liên tục và preflight theo clock | [Protocol](archive/US500-MONTHLY-TREND-PREPARATION-20261108.md), [results và admission repair](archive/US500-MONTHLY-TREND-RESULTS-20261108.md); 83/132 tháng usable, 576 decisions exact, chưa challenge-qualified |
+| Month-end thiếu quote, CFD sessions khác NYSE, UTC/local year bug | [Tick-oracle protocol](archive/INDEX-MONTH-END-QUOTE-ORACLE-20261108.md), [results](archive/INDEX-MONTH-END-QUOTE-RESULTS-20261108.md); ba khoảng rỗng, 2016 có304ticks/Bid exact/Ask thiếu; chưa reconstruct dataset |
+| CFD không có quote sau cashclose; preclose adaptation có leak không | [Precloserecipe](archive/US500-PRECLOSE-REVERSION-20261108.md), [results](archive/US500-PRECLOSE-REVERSION-RESULTS-20261108.md);2022stress−0,12USD,chưađủretention/edge;prefix/future/halfdayoraclesđãkiểm |
+| Long study tiếp tục sau lỗi nguồn; OR-exit signal oracle; first→last30min | [Signalrepair](archive/US500-RSI-SIGNAL-REPAIR-20261108.md), [partial-sourcepolicy](archive/INDEX-HISTORY-PARTIAL-AVAILABILITY-20261108.md), [closemomentumrecipe](archive/US500-CLOSE-MOMENTUM-20261108.md), [results](archive/US500-CLOSE-MOMENTUM-RESULTS-20261108.md);actualjobs/sourcepins ởcurrentcontext |
+| Material loaderfix, corrected US500 results và protocol long RSI | [Correction](archive/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md), [corrected2022–24](archive/US500-CORRECTED-REPLAY-20261108.md), [longfrozenstudy](archive/US500-CASH-RSI-LONG-VALIDATION-20261108.md), [final long review](archive/US500-LONG-REVIEW-20261108.md); old filtered results giữ để truy vết |
+| Campaign sau noise14: daily reversion, nguồn D1 sai range, tải dài và resume | [Dailyrecipe](archive/US500-DAILY-REVERSION-20261108.md), [results/review](archive/US500-DAILY-REVERSION-RESULTS-20261108.md), [rangeoracle](archive/INDEX-DAILY-RANGE-ORACLE-20261108.md), [longM1](archive/US500-VERIFIED-LONG-HISTORY-PREPARATION-20261108.md), [recovery](archive/INDEX-HISTORY-DOWNLOAD-RECOVERY-20261108.md);campaignactive/longM1v2,preserve failures/negatives |
 | Nhiệm vụ tìm ứng viên challenge và tự kiểm/sửa quá trình tới khi đạt | [Campaign08/11](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md), [Discovery4H1 frozen recipes](CHALLENGE-DISCOVERY-ROUND4-20261108.md); C1/C2 pending, không mặc định có winner hoặc mở holdout |
 | ML, fixing và ORB đã thử; hai survivors đang native review | [ML5results](DISCOVERY5-RESULTS-20261108.md), [6/7results](DISCOVERY6-7-RESULTS-20261108.md), [frozen native study](H1-SURVIVOR-TICK-REVIEW-20261108.md); C1/C2pending |
 | Native survivors, timeout và sai số coarse SL | [Native results](H1-NATIVE-SURVIVORS-RESULTS-20261108.md): Asia2024completed; Londonstressincomplete; quyết định vàentries khớp nhưngSLquote giảm net |
 | Resume giữa scenario, tránh làm lại prefix | [Complete checkpoint review](NATIVE-RESUME-REVIEW-20261108.md): actual442.341tickparity; source-bound CLI và supervisor forwarding, không auto migrate legacy |
 | Hai survivors trên lịch sử EURUSD2010–2022 | [Preparation](EURUSD-LONG-HISTORY-PREPARATION-20261108.md), [frozen11](EURUSD-SURVIVORS-LONG-HISTORY-20261108.md), [52rows/results](EURUSD-DISCOVERY11-RESULTS-20261108.md); indicative1/2pipAsk, không comparable nativehistorical spread/prop |
 | Observed Bid/Ask history2010–2022 và catalogue24fixedversions | [Discovery12](EURUSD-OBSERVED-HISTORY-20261108.md), [Catalogue13protocol](EURUSD-CATALOGUE-LONG-SCREEN-20261108.md), [624cases/results](EURUSD-CATALOGUE13-RESULTS-20261108.md); completed,0/24retained, khôngholdout/promotion |
-| Equity intraday noise bands; US500/SPY data | [Fixture](INDICES-DISCOVERY14-PREPARATION-20261108.md), [2022data/quality](US500-DATA-PREPARATION-20261108.md), [recipe](US500-NOISE-STUDY-20261108.md), [2022–24results](US500-NOISE-RESULTS-20261108.md), [2023/24protocol](US500-ROBUSTNESS-20261108.md);completed,noise14failedretention,khôngedge/prop |
+| Equity intraday noise bands; US500/SPY data | [Fixture](INDICES-DISCOVERY14-PREPARATION-20261108.md), [2022data/quality](archive/US500-DATA-PREPARATION-20261108.md), [recipe](archive/US500-NOISE-STUDY-20261108.md), [2022–24results](archive/US500-NOISE-RESULTS-20261108.md), [2023/24protocol](archive/US500-ROBUSTNESS-20261108.md);completed,noise14failedretention,khôngedge/prop |
 | Gold capability/15year capital feasibility/intraday | [Preparation](METAL-DISCOVERY8-PREPARATION-20261108.md), [H4results](METAL-DISCOVERY8-RESULTS-20261108.md), [longhistory](METAL-LONG-HISTORY-20261108.md), [H1protocol](METAL-INTRADAY-DISCOVERY10-20261108.md); isolatedbranch, no nativeMetal/prop qualification |
 | Sau mỗi screening/validation nên hậu kiểm và tối ưu thế nào; bản sửa mới nhất | [Hậu kiểm campaign08/11](ENGINEERING-REVIEW-CAMPAIGN-20261108.md): ledger/decision fixes, source isolation, H1 preparation/cap guards và skill reuse; chưa C1/C2 complete |
 | Kho ý tưởng rộng, tránh trùng chiến lược, data/automation/prop readiness | [Catalogue62hồ sơ, cập nhật08/11](STRATEGY-CATALOGUE-20261107.md), [structured records](STRATEGY-CATALOGUE-20261107.json):44policy versions gồm3controls/benchmarks,22hồ sơ chưa accountpolicy và1risk component; chưa qualifiededges |

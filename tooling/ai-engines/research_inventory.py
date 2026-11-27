@@ -27,6 +27,19 @@ DATASET_FIELDS = {
 STUDY_FIELDS = {"method", "scope", "kind", "cost", "unit", "risk", "verdict", "limitation", "reopen", "docs"}
 
 
+def _research_file(rel_path):
+    """Resolve a tracked research document at its canonical path or under planning/research/archive/."""
+    rel_str = rel_path.as_posix() if hasattr(rel_path, "as_posix") else str(rel_path)
+    primary = ROOT / rel_str
+    if primary.is_file():
+        return primary
+    if rel_str.startswith(RESEARCH):
+        archived = ROOT / RESEARCH / "archive" / rel_str[len(RESEARCH):]
+        if archived.is_file():
+            return archived
+    return primary
+
+
 def require(condition, detail):
     if not condition:
         raise ValueError(detail)
@@ -330,7 +343,7 @@ def verify_document_manifests(inventory, private_root, tracked_paths):
         doc = relative(row["document"])
         require(path.name == "manifest.json" and doc.as_posix() in tracked_paths and doc.suffix == ".md"
                 and HASH.fullmatch(row["sha256"]), f"invalid documented metadata pin: {path}")
-        require(row["sha256"] in (ROOT / doc).read_text(encoding="utf-8-sig"),
+        require(row["sha256"] in _research_file(doc).read_text(encoding="utf-8-sig"),
                 f"manifest hash is not cited in its tracked report: {path}")
         entries = row["entries"]
         require(set(entries) == {"run_input", "output"} and all(entries.values()), f"invalid manifest roles: {path}")
@@ -534,7 +547,7 @@ def legacy_corpus(inventory, paths):
     meta = inventory["legacy_corpus_meta"]
     path = RESEARCH + meta["source"]
     require(path in paths, "legacy corpus metadata locator is not tracked")
-    wire = (ROOT / path).read_bytes().replace(b"\r\n", b"\n")
+    wire = _research_file(path).read_bytes().replace(b"\r\n", b"\n")
     require(sha256(wire).hexdigest() == meta["sha256"], "legacy corpus card hash mismatch")
     card = json.loads(wire)
     profiles = by_key(card["profiles"], meta["identity_field"])
@@ -553,7 +566,7 @@ def fee_recipes(inventory, paths, records, studies):
     table = inventory["eurusd_catalogue13_recipes"]
     path = RESEARCH + table["source"]
     require(table["study"] in studies and path in paths, "Catalogue13 cost attribution orphan")
-    wire = (ROOT / path).read_bytes().replace(b"\r\n", b"\n")
+    wire = _research_file(path).read_bytes().replace(b"\r\n", b"\n")
     require(sha256(wire).hexdigest() == table["sha256"], "Catalogue13 published table hash mismatch")
     recipes = by_key(table["recipes"], "id")
     published = {}
@@ -629,7 +642,7 @@ def inspect(private_root=None):
     costs = fee_recipes(inventory, snapshot, records, studies)
     broker_observations = by_key(inventory.get("broker_observations", []), "id")
     for row in broker_observations.values():
-        require(all((ROOT / RESEARCH / relative(row[field])).is_file() for field in ("report", "summary")),
+        require(all(_research_file(RESEARCH + relative(row[field]).as_posix()).is_file() for field in ("report", "summary")),
                 f"broker observation report locator missing: {row['id']}")
         manifest = relative(row["private_manifest"])
         require(manifest.name == "manifest.json" and HASH.fullmatch(row["private_manifest_sha256"]),

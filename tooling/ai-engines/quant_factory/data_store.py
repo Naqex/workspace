@@ -1,37 +1,73 @@
-"""Layer 1: Zero-pickle precomputed derived tape cache (<0.35s load), declarative JSON config loader & Holdout Lock."""
+"""Layer 1: Zero-pickle precomputed derived tape cache (<0.30s load), declarative JSON config loader & Holdout Lock."""
 
-from datetime import datetime, timezone
+from __future__ import annotations
+
 import hashlib
 import json
-from pathlib import Path
+import os
+import tempfile
 import time
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any, cast
 
 import numpy as np
 
-import hot_m1_cache as hcache
-import pass5_usdjpy_tokyo as clock
-import pass11_portfolio as portfolio
-import pass14_intel_top15_batch as p14
-import pass17_usdjpy_forensic_cross as p17
-import pass19_us500_supertrend_yencross as p19
-import pass22_gbpusd_volhigh_3engine as p22
-import pass24_mtf_new_archetypes as p24
-import pass27_portfolio_m1_phase_audit as p27
-import pass28_final_discovery_rednews_frontier as p28
-from native_ftmo_monfri_seal import ROOT, STOP, sha
-from quant_core.ftmo_track_replay import profiles
+AI_ENGINES_DIR = Path(__file__).resolve().parents[1]
+ROOT = AI_ENGINES_DIR.parents[1]
+STOP = int(datetime(2025, 1, 1, tzinfo=UTC).timestamp())
+LOCK_SHA = "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486"
+DEFAULT_JOBS = Path(r"E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs")
+DEFAULT_CACHE = ROOT / ".runtime" / "hot-m1-cache"
 
 CONFIGS_DIR = ROOT / "tooling/ai-engines/configs"
 REGISTRY_PATH = ROOT / "planning/research/PORTFOLIO-REGISTRY.json"
-DERIVED_CACHE_DIR = hcache.DEFAULT_CACHE / "_derived"
+DERIVED_CACHE_DIR = DEFAULT_CACHE / "_derived"
 HOLDOUT_CUTOFF_DAY = "2025-01-01"
+
+_TAPE_BUILDER_FILES: tuple[str, ...] = (
+    "pass24_mtf_new_archetypes.py",
+    "pass27_portfolio_m1_phase_audit.py",
+    "pass28_final_discovery_rednews_frontier.py",
+    "whitebox_discovery.py",
+)
+
+
+def _sha256_file(path: Path) -> str:
+    with path.open("rb") as fh:
+        return hashlib.file_digest(fh, "sha256").hexdigest()
+
+
+def _atomic_write_text(path: Path, text: str) -> None:
+    """Atomically replace a text file after flush + fsync (zero torn-write corruption)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as fh:
+            fh.write(text)
+            fh.flush()
+            os.fsync(fh.fileno())
+            temp_path = Path(fh.name)
+        os.replace(temp_path, path)
+        temp_path = None
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
 
 
 def assert_holdout_locked() -> str:
     lock_path = ROOT / "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json"
-    digest = sha(lock_path)
-    if digest != clock.LOCK_SHA:
-        raise ValueError(f"HOLDOUT_LOCK_SHA_MISMATCH: expected={clock.LOCK_SHA[:12]} got={digest[:12]}")
+    digest = _sha256_file(lock_path)
+    if digest != LOCK_SHA:
+        raise ValueError(f"HOLDOUT_LOCK_SHA_MISMATCH: expected={LOCK_SHA[:12]} got={digest[:12]}")
     return digest
 
 
@@ -58,7 +94,8 @@ def assert_dev_series_strictly_pre_holdout(
                 stamps = item[1]
                 if len(stamps) > 0 and int(stamps[-1]) >= int(stop_ts):
                     raise ValueError(
-                        f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' day '{dk}' timestamp {int(stamps[-1])} >= STOP ({int(stop_ts)})"
+                        f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' day '{dk}' "
+                        f"timestamp {int(stamps[-1])} >= STOP ({int(stop_ts)})"
                     )
 
 
@@ -77,16 +114,61 @@ def load_profile_config(name: str) -> dict:
 
 
 def load_red_news_calendar(name: str = "red_news_official_2018_2024") -> dict[str, list[tuple[int, str]]]:
+    """Load red-news calendar supporting both `events_by_day` and flat `events` schemas (or `quant_core.red_news`)."""
     p = CONFIGS_DIR / "calendars" / (name if name.endswith(".json") else f"{name}.json")
     raw = json.loads(p.read_text(encoding="utf-8"))
-    return {dk: [(int(ev["utc_ts"]), str(ev["ccy"])) for ev in evs] for dk, evs in raw["events_by_day"].items()}
+    if "events_by_day" in raw:
+        return {
+            str(dk): [(int(ev["utc_ts"]), str(ev["ccy"])) for ev in evs]
+            for dk, evs in raw["events_by_day"].items()
+        }
+    if "events" in raw:
+        by_day: dict[str, list[tuple[int, str]]] = {}
+        for ev in raw["events"]:
+            ts = int(ev["utc_ts"])
+            dk = datetime.fromtimestamp(ts, UTC).strftime("%Y-%m-%d")
+            by_day.setdefault(dk, []).append((ts, str(ev["ccy"])))
+        return by_day
+    raise ValueError(f"Unsupported red-news calendar schema in {p.name}: expected 'events_by_day' or 'events'")
+
+
+def compute_tapes_binding(
+    lock_sha: str,
+    reg_sha: str,
+    *,
+    profile_mode: str = "Swing",
+    cache_dir: Path = DEFAULT_CACHE,
+    builders_dir: Path = AI_ENGINES_DIR,
+) -> tuple[str, str]:
+    """Compute builder-aware cryptographic cache binding `(binding_sha256, stem)`.
+
+    Hashes Holdout lock SHA, registry engines SHA, `profile_mode`, `hot-m1-cache/manifest.json`
+    (if present), and SHA-256 of the core tape builder source files so any upstream signal/lookahead
+    fix automatically invalidates stale derived caches.
+    """
+    parts: list[str] = [lock_sha, reg_sha, str(profile_mode), "v2"]
+    manifest_path = cache_dir / "manifest.json"
+    if manifest_path.is_file():
+        parts.append(f"manifest:{_sha256_file(manifest_path)}")
+    else:
+        parts.append("manifest:MISSING")
+
+    for fname in _TAPE_BUILDER_FILES:
+        fpath = builders_dir / fname
+        if fpath.is_file():
+            parts.append(f"{fname}:{_sha256_file(fpath)}")
+        else:
+            parts.append(f"{fname}:MISSING")
+
+    binding = hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()
+    return binding, "frozen_9e_tapes_v2"
 
 
 def _save_tapes_safe_npz(cache_dir: Path, stem: str, meta: dict, tapes: dict[str, dict]) -> None:
-    """Persist exact M1 minute-by-minute trade tapes using safe zero-pickle JSON + compressed NPZ arrays."""
+    """Persist exact M1 minute-by-minute trade tapes atomically using zero-pickle JSON + uncompressed NPZ."""
     cache_dir.mkdir(parents=True, exist_ok=True)
-    arrays = {}
-    tape_index = {}
+    arrays: dict[str, np.ndarray] = {}
+    tape_index: dict[str, dict] = {}
     for eng, day_map in tapes.items():
         eng_rows = {}
         stamps_list = []
@@ -96,8 +178,11 @@ def _save_tapes_safe_npz(cache_dir: Path, stem: str, meta: dict, tapes: dict[str
         for dk in sorted_days:
             row, stamps, marks = day_map[dk]
             # Keep only JSON-serializable scalar metadata fields in row
-            eng_rows[dk] = {k: (float(v) if isinstance(v, (np.floating,)) else (int(v) if isinstance(v, (np.integer,)) else v))
-                            for k, v in row.items() if isinstance(v, (str, int, float, bool, np.integer, np.floating)) or v is None}
+            eng_rows[dk] = {
+                k: (float(v) if isinstance(v, (np.floating,)) else (int(v) if isinstance(v, (np.integer,)) else v))
+                for k, v in row.items()
+                if isinstance(v, (str, int, float, bool, np.integer, np.floating)) or v is None
+            }
             stamps_list.append(np.asarray(stamps, dtype=np.int64))
             marks_list.append(np.asarray(marks, dtype=np.float64))
             offsets.append(offsets[-1] + len(stamps))
@@ -113,10 +198,28 @@ def _save_tapes_safe_npz(cache_dir: Path, stem: str, meta: dict, tapes: dict[str
 
     npz_path = cache_dir / f"{stem}.npz"
     meta_path = cache_dir / f"{stem}.json"
-    np.savez(npz_path, **arrays)  # Uncompressed NPZ on local SSD loads 5-10x faster than zlib!
-    npz_sha = hashlib.sha256(npz_path.read_bytes()).hexdigest()
+    tmp_npz: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=cache_dir,
+            prefix=f".{stem}.",
+            suffix=".npz.tmp",
+            delete=False,
+        ) as fh:
+            np.savez(fh, **cast(Any, arrays))  # Uncompressed NPZ on local SSD loads 5-10x faster than zlib
+            fh.flush()
+            os.fsync(fh.fileno())
+            tmp_npz = Path(fh.name)
+        npz_sha = _sha256_file(tmp_npz)
+        os.replace(tmp_npz, npz_path)
+        tmp_npz = None
+    finally:
+        if tmp_npz is not None:
+            tmp_npz.unlink(missing_ok=True)
+
     payload = {**meta, "npz_sha256": npz_sha, "tapes": tape_index}
-    meta_path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8", newline="\n")
+    _atomic_write_text(meta_path, json.dumps(payload, ensure_ascii=False))
 
 
 def _load_tapes_safe_npz(cache_dir: Path, stem: str, expected_binding: str) -> tuple[dict, dict[str, dict]] | None:
@@ -127,19 +230,19 @@ def _load_tapes_safe_npz(cache_dir: Path, stem: str, expected_binding: str) -> t
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     if meta.get("binding_sha256") != expected_binding:
         return None
-    if hashlib.sha256(npz_path.read_bytes()).hexdigest() != meta.get("npz_sha256"):
+    if _sha256_file(npz_path) != meta.get("npz_sha256"):
         return None
-    z = np.load(npz_path, allow_pickle=False)
-    tapes = {}
-    for eng, info in meta["tapes"].items():
-        stamps_all = z[f"{eng}__stamps"]
-        marks_all = z[f"{eng}__marks"]
-        offsets = z[f"{eng}__offsets"]
-        eng_map = {}
-        for i, dk in enumerate(info["days"]):
-            a, b = int(offsets[i]), int(offsets[i + 1])
-            eng_map[dk] = (info["rows"][dk], stamps_all[a:b], marks_all[a:b])
-        tapes[eng] = eng_map
+    tapes: dict[str, dict] = {}
+    with np.load(npz_path, allow_pickle=False) as z:
+        for eng, info in meta["tapes"].items():
+            stamps_all = z[f"{eng}__stamps"]
+            marks_all = z[f"{eng}__marks"]
+            offsets = z[f"{eng}__offsets"]
+            eng_map = {}
+            for i, dk in enumerate(info["days"]):
+                a, b = int(offsets[i]), int(offsets[i + 1])
+                eng_map[dk] = (info["rows"][dk], stamps_all[a:b], marks_all[a:b])
+            tapes[eng] = eng_map
     return meta, tapes
 
 
@@ -152,17 +255,22 @@ def compute_registry_engines_sha() -> str:
 
 def build_or_load_frozen_tapes(
     *,
-    jobs_root: Path = hcache.DEFAULT_JOBS,
-    cache_dir: Path = hcache.DEFAULT_CACHE,
+    jobs_root: Path = DEFAULT_JOBS,
+    cache_dir: Path = DEFAULT_CACHE,
     derived_dir: Path = DERIVED_CACHE_DIR,
     force_rebuild: bool = False,
+    profile_mode: str = "Swing",
 ) -> dict:
-    """Load exact M1 minute-by-minute tapes for all 9 frozen engines (<0.35s cache hit, ~15s cold rebuild)."""
+    """Load exact M1 minute-by-minute tapes for all 9 frozen engines (<0.30s warm hit, ~15s cold rebuild)."""
     t0 = time.perf_counter()
     lock_sha = assert_holdout_locked()
     reg_sha = compute_registry_engines_sha()
-    binding = hashlib.sha256(f"{lock_sha}|{reg_sha}|v1".encode()).hexdigest()
-    stem = "frozen_9e_tapes_v1"
+    binding, stem = compute_tapes_binding(
+        lock_sha,
+        reg_sha,
+        profile_mode=profile_mode,
+        cache_dir=cache_dir,
+    )
 
     if not force_rebuild:
         hit = _load_tapes_safe_npz(derived_dir, stem, binding)
@@ -180,13 +288,29 @@ def build_or_load_frozen_tapes(
                 "tapes": tapes,
             }
 
-    specs, _ = profiles()
-    swing_specs = specs["Swing"]
-    ts_j, _, _, _, c_j = p19.load_sealed_bars(jobs_root, "USDJPY", "D1")
-    usdjpy_close_map = {datetime.fromtimestamp(int(t), timezone.utc).date(): float(cv) for t, cv in zip(ts_j, c_j)}
+    # Cold-rebuild branch ONLY: defer all heavy pyarrow / pass5..pass28 imports here
+    import pass11_portfolio as portfolio
+    import pass14_intel_top15_batch as p14
+    import pass17_usdjpy_forensic_cross as p17
+    import pass19_us500_supertrend_yencross as p19
+    import pass22_gbpusd_volhigh_3engine as p22
+    import pass24_mtf_new_archetypes as p24
+    import pass27_portfolio_m1_phase_audit as p27
+    import pass28_final_discovery_rednews_frontier as p28
+    from quant_core.ftmo_track_replay import profiles
 
-    assets11 = ("USDJPY", "GBPUSD", "EURUSD", "GBPJPY", "AUDUSD", "USDCAD", "EURJPY", "XAUUSD", "US500", "US100", "GER40")
-    bundles = {a: p24.build_unified_asset(a, jobs_root, cache_dir, swing_specs, usdjpy_close_map) for a in assets11}
+    specs, _ = profiles()
+    mode_specs = specs[profile_mode]
+    ts_j, _, _, _, c_j = p19.load_sealed_bars(jobs_root, "USDJPY", "D1")
+    usdjpy_close_map = {
+        datetime.fromtimestamp(int(t), UTC).date(): float(cv) for t, cv in zip(ts_j, c_j, strict=True)
+    }
+
+    assets11 = (
+        "USDJPY", "GBPUSD", "EURUSD", "GBPJPY", "AUDUSD",
+        "USDCAD", "EURJPY", "XAUUSD", "US500", "US100", "GER40",
+    )
+    bundles = {a: p24.build_unified_asset(a, jobs_root, cache_dir, mode_specs, usdjpy_close_map) for a in assets11}
     day_maps = {a: {d["day"]: d for d in bundles[a]["days"]} for a in assets11}
     all_days = sorted({d for dm in day_maps.values() for d in dm})
     vol_ratios = {a: p28._compute_vol_ratio_map(bundles[a]) for a in assets11}
@@ -194,10 +318,16 @@ def build_or_load_frozen_tapes(
     ref_trades, ref_days = portfolio.frozen_usdjpy(jobs_root)
     ext_days = sorted(ref_days["extended"])
     strict_a_days = sorted(d for d in ref_days["strict"] if d < "2021-01-01")
-    gbp_ctx = p14.build_asset_context(jobs_root, "GBPUSD", cache_dir, swing_specs["GBPUSD"])
-    jpy_ctx = p14.build_asset_context(jobs_root, "USDJPY", cache_dir, swing_specs["USDJPY"])
-    exp_usd = {r["day"]: (r, t, m) for r, t, m in p17.build_usdjpy_exp_tape(jpy_ctx, trig_atr=0.80, sl_atr=0.75, addon=0.005)}
-    gbp_vh = {r["day"]: (r, t, m) for r, t, m in p22.build_gbpusd_volhigh_tape(gbp_ctx, trig_atr=0.80, sl_atr=0.75, vol_mult=1.10, addon_pips=0.50)[0]}
+    gbp_ctx = p14.build_asset_context(jobs_root, "GBPUSD", cache_dir, mode_specs["GBPUSD"])
+    jpy_ctx = p14.build_asset_context(jobs_root, "USDJPY", cache_dir, mode_specs["USDJPY"])
+    exp_usd = {
+        r["day"]: (r, t, m)
+        for r, t, m in p17.build_usdjpy_exp_tape(jpy_ctx, trig_atr=0.80, sl_atr=0.75, addon=0.005)
+    }
+    gbp_vh_rows = p22.build_gbpusd_volhigh_tape(
+        gbp_ctx, trig_atr=0.80, sl_atr=0.75, vol_mult=1.10, addon_pips=0.50
+    )[0]
+    gbp_vh = {r["day"]: (r, t, m) for r, t, m in gbp_vh_rows}
     for eng_d, aname in ((ref_trades, "USDJPY"), (exp_usd, "USDJPY"), (gbp_vh, "GBPUSD")):
         for _dk, (r, _t, _m) in eng_d.items():
             r["asset"] = aname
@@ -216,8 +346,9 @@ def build_or_load_frozen_tapes(
     assert_dev_series_strictly_pre_holdout(ext_days, tapes)
     assert_dev_series_strictly_pre_holdout(strict_a_days)
     meta = {
-        "schema": "naqex-frozen-tapes-v1",
-        "built_utc": datetime.now(timezone.utc).isoformat(),
+        "schema": "naqex-frozen-tapes-v2",
+        "profile_mode": profile_mode,
+        "built_utc": datetime.now(UTC).isoformat(),
         "binding_sha256": binding,
         "holdout_lock_sha256": lock_sha,
         "ext_days": ext_days,

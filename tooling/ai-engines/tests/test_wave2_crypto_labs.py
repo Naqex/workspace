@@ -293,6 +293,7 @@ def test_lab2_all_four_families_zero_lookahead_and_neutrality() -> None:
 # Artifact, Holdout Seal & Documentation Hygiene Verification
 # ==============================================================================
 
+@pytest.mark.local_cache
 def test_wave2_artifacts_holdout_seal_and_doc_hygiene() -> None:
     # 1. Holdout 2025+ seal intact
     lock_path = ROOT / "planning" / "research" / "NATIVE_FTMO_HOLDOUT_LOCK.json"

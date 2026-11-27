@@ -1,7 +1,7 @@
 # Research giai đoạn tiếp theo — Reuse Engine, VI Dubber, UI và Figma
 
 **v1.1 · khảo sát 26/09/2026 · RESEARCH FOR PLANNING, không product/runtime acceptance.**
-Đề bài: [OWNER-BRIEF](../archive/2026-09-26-context/OWNER-BRIEF.md). Đầu ra thực thi: [WORKSPACE-NEXT-STAGE-PLAN](../WORKSPACE-NEXT-STAGE-PLAN.md). Review đầu vào: [WORKER-REVIEW](../WORKER-REVIEW-2026-09-26.md). Không sửa source, chạy model trong Figma, cấp OAuth, publish hoặc khởi động worker trong research này.
+Đề bài: [OWNER-BRIEF](../archive/2026-09-26-context/OWNER-BRIEF.md). Đầu ra thực thi: [WORKSPACE-NEXT-STAGE-PLAN](../WORKSPACE-NEXT-STAGE-PLAN.md). Review đầu vào: [WORKER-REVIEW](../archive/2026-09/WORKER-REVIEW-2026-09-26.md). Không sửa source, chạy model trong Figma, cấp OAuth, publish hoặc khởi động worker trong research này.
 
 ## 1. Kết luận và mức bằng chứng
 
@@ -33,7 +33,7 @@ Các kết luận về hiệu suất/UI quality dưới đây là lựa chọn t
 | `tooling/ui-qa`, MT5 `run_*ui*_acceptance.mjs`, VI `tests/test_web_e2e_playwright.py` | CLI/test tooling và product checks hiện có | Reuse; fixture PASS khác app PASS. UI kit hiện route MT5, không gọi doctor với plan mới rồi mặc định hỗ trợ mọi app |
 | `.agents/skills/ui-platform-workflow`, MT5 `trading-ui-qa`, environment-maintainer | Scoped instructions và audit có sẵn | Mở rộng nhỏ nếu cần; không thêm skill, browser MCP hoặc orchestration framework trùng |
 | `tooling/agent-workflow` | Legacy runner/policy, browser bị cấm trong staged roles | Reuse packet/checkpoint ideas, **không** cho runner đó chạy Figma/Playwright hoặc bỏ guard |
-| [Integrations brief](../WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md) + archive | SaaS/ownership/recovery/Notion Education/E1–E7 đã research trong cùng đợt | Reuse findings, chỉ refresh entitlement khi execution; không nghiên cứu lại từ đầu |
+| [Integrations brief](../archive/2026-09/WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md) + archive | SaaS/ownership/recovery/Notion Education/E1–E7 đã research trong cùng đợt | Reuse findings, chỉ refresh entitlement khi execution; không nghiên cứu lại từ đầu |
 | [Context lifecycle](../CONTEXT-LIFECYCLE.md) + archive | Review trước compact, snapshot hash, dấu trạng thái riêng, resumable handoff | Dùng convention này; không vector DB/context-generator/custom CLI |
 
 **Shared thật:** token semantics, generic controls đã chứng minh, accessibility, QA conventions, artifact reference contract và eventually connector mechanics. **Không share bằng cách copy:** account/risk/evaluator, ASR/TTS scheduler, media playback timelines, credentials, runtime model pool, operational ledgers, app database.
@@ -147,7 +147,7 @@ UI-Systems: tokens / generic controls / accessibility contracts
 
 **Nguồn nào own dữ liệu đó.** Shared UI không là shared DB/auth/account. Mỗi project usable independently; cross-link chỉ metadata/authorized references, không chạy import Python modules của nhau. Một connector chung chỉ khi hai consumer cần cùng semantics; artifact exporter đầu tiên có thể project-local, không dựng integration service sớm.
 
-Giữ thứ tự [Integrations brief](../WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md): local artifact/Learn link → Drive export → MT5 report/Notion index → Calendar nhắc. Notion Education khảo sát trước: Plus 1-member/100 guests/30-day history, trường hợp đủ điều kiện và verify hằng năm; **không Notion AI unlimited**, không thay DB/broker authority. Không giữ ứng dụng chỉ vì có gói edu; gói/eligibility kiểm lại khi connect.
+Giữ thứ tự [Integrations brief](../archive/2026-09/WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md): local artifact/Learn link → Drive export → MT5 report/Notion index → Calendar nhắc. Notion Education khảo sát trước: Plus 1-member/100 guests/30-day history, trường hợp đủ điều kiện và verify hằng năm; **không Notion AI unlimited**, không thay DB/broker authority. Không giữ ứng dụng chỉ vì có gói edu; gói/eligibility kiểm lại khi connect.
 
 API/SDK + native jobs cho automation deterministic, MCP cho agent tương tác có scope. OAuth được user xác nhận một lần cho destination/budget/data class, refresh/revoke có state. Driver thật: Drive `drive.file` + Picker nơi phù hợp, không hiểu là toàn Drive/folder. Report checksum/version và remote ID; timeout create **UNKNOWN** → reconcile trước retry, không exactly-once promise. Calendar review không là economic-news feed. Notification chỉ một kênh được chọn, không cài nhiều plugin.
 

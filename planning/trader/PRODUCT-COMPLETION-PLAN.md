@@ -76,7 +76,7 @@ Phiên bản **2.3 · 26/09/2026** · **PATH-2 OWNER-APPROVED; PLAYWRIGHT-FIRST 
 
 **Nguyên tắc greenfield được bảo toàn:** PATH-2 thắng vì source-level reuse có boundary sạch, không vì sunk cost. Giữ [knowledge](KNOWLEDGE-PRESERVATION-REGISTER.md), không giữ implementation bằng mọi giá. Những tên module/route cũ trong các U là capability/reference map, không buộc nền mới mang Flask/SQLite authority sang; worker map chúng vào foundation đã duyệt. Revisit PATH chỉ theo evidence/trigger trong ADR.
 
-**Cập nhật TypeSafe:** đã được người dùng cho phép research và thử API cách ly (34 requests synthetic), không phải triển khai sản phẩm. Phụ lục [TYPESAFE-MT5-WORKER-PLAN.md](../TYPESAFE-MT5-WORKER-PLAN.md) v1.1 và [báo cáo thử lại](../typesafe-research-2026-09-19/REPORT.md) là knowledge/eval candidate cho U7, không buộc nền greenfield dùng provider đó. Người dùng vẫn chỉ giao plan chính này; worker tự đọc phụ lục đúng mốc.
+**Cập nhật TypeSafe:** đã được người dùng cho phép research và thử API cách ly (34 requests synthetic), không phải triển khai sản phẩm. Phụ lục [TYPESAFE-MT5-WORKER-PLAN.md](../archive/2026-09/TYPESAFE-MT5-WORKER-PLAN.md) v1.1 và [báo cáo thử lại](../typesafe-research-2026-09-19/REPORT.md) là knowledge/eval candidate cho U7, không buộc nền greenfield dùng provider đó. Người dùng vẫn chỉ giao plan chính này; worker tự đọc phụ lục đúng mốc.
 
 **Một đầu mối giao việc:** người dùng chỉ cần giao tài liệu này. Worker tự đọc các tài liệu liên kết theo mốc, kể cả hướng dẫn dọn repo; không yêu cầu người dùng giao riêng plan cleanup. C0/C1/C2 là việc nằm trong U0/U1–U8/U9, không phải một pipeline chạy song song.
 
@@ -317,7 +317,7 @@ Mở rộng R2/R3 chứ không build dashboard/công thức mới. Mỗi metric 
 
 ### U7-TS: TypeSafe là một phần trong U7, không phải plan chạy riêng
 
-Worker đọc [phụ lục TypeSafe](../TYPESAFE-MT5-WORKER-PLAN.md) và [kết quả research/API](../typesafe-research-2026-09-19/REPORT.md) trước slice liên quan. Skill TypeSafe được dùng để đối chiếu docs/cookbooks/model/API, rồi mới chọn SDK implementation. Giữ một AI service/provider boundary chung, không thêm routes/store riêng cạnh tranh với U7a.
+Worker đọc [phụ lục TypeSafe](../archive/2026-09/TYPESAFE-MT5-WORKER-PLAN.md) và [kết quả research/API](../typesafe-research-2026-09-19/REPORT.md) trước slice liên quan. Skill TypeSafe được dùng để đối chiếu docs/cookbooks/model/API, rồi mới chọn SDK implementation. Giữ một AI service/provider boundary chung, không thêm routes/store riêng cạnh tranh với U7a.
 
 Thứ tự: **eval + security/offline foundation → semantic Playbook search → Research draft → Journal suggestions**. U3 cung cấp surface/note owner/rule mapping, U5 cung cấp draft schema/capability; contracts/fixtures có thể làm sớm khi được giao, UI/persistence không bỏ qua dependencies. Không cần chờ toàn bộ U6 để nghiên cứu search, nhưng không nhận full U7 chỉ từ search pass.
 

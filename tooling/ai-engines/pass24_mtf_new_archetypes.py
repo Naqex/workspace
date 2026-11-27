@@ -2,7 +2,7 @@
 
 import argparse
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from math import fsum
 from pathlib import Path
 import time
@@ -22,6 +22,7 @@ import pass23_xau_indices_discovery as p23d
 import whitebox_discovery as wbd
 from native_ftmo_monfri_seal import ROOT, START, STOP, sha, write
 from quant_core.ftmo_track_replay import profiles
+from quant_core.holdout_guard import enforce_pre_holdout_ts
 
 PROTOCOL = "52a53cb785a63998a281aab06cf449cd061f140a"
 SEED = 20261123
@@ -94,7 +95,7 @@ def replay_causal_intraday(
 
     e_ts = int(times[entry_idx])
     x_ts = int(times[entry_idx + rel])
-    assert START <= e_ts <= x_ts < STOP
+    enforce_pre_holdout_ts((e_ts, x_ts), START, STOP, context=f"pass24.replay_causal_intraday:{asset}")
 
     c = asset_cost_tiers(asset)
     if c.get("is_crypto"):
@@ -128,32 +129,64 @@ def replay_causal_intraday(
         gross_usd = gross
         ftmo_cs = c["stress"]
     else:
-        assert spec is not None
+        if spec is None:
+            raise ValueError(f"Missing broker spec for non-index asset: {asset}")
         cs = float(spec["trade_contract_size"])
+        d_entry = datetime.fromtimestamp(e_ts, timezone.utc).date()
+        d_ex = datetime.fromtimestamp(x_ts, timezone.utc).date()
+
+        def _prior_day_rate(rmap: dict | None, ref_d) -> float | None:
+            if not rmap:
+                return None
+            for lag in range(1, 15):
+                val = rmap.get(ref_d - timedelta(days=lag))
+                if val is not None and float(val) > 0.0:
+                    return float(val)
+            earlier = [k for k in rmap if k < ref_d]
+            return float(rmap[max(earlier)]) if earlier else None
+
         if spec["currency_profit"] == "USD":
-            conv = 1.0
+            entry_conv_rate = 1.0
+            exit_conv_rate = 1.0
         elif spec["currency_profit"] == "JPY":
-            d_ex = datetime.fromtimestamp(x_ts, timezone.utc).date()
-            conv = 1.0 / (usdjpy_close_map.get(d_ex, ex_p) if (asset != "USDJPY" and usdjpy_close_map) else ex_p)
+            if asset == "USDJPY":
+                entry_conv_rate = 1.0 / entry_p
+                exit_conv_rate = 1.0 / ex_p
+            else:
+                usdjpy_ent = _prior_day_rate(usdjpy_close_map, d_entry)
+                entry_conv_rate = 1.0 / (usdjpy_ent if usdjpy_ent is not None else entry_p)
+                usdjpy_ex = (
+                    (usdjpy_close_map.get(d_ex) or _prior_day_rate(usdjpy_close_map, d_ex) or usdjpy_ent)
+                    if usdjpy_close_map
+                    else ex_p
+                )
+                exit_conv_rate = 1.0 / (float(usdjpy_ex) if usdjpy_ex is not None else ex_p)
         elif spec["currency_profit"] in ("CAD", "CHF"):
-            conv = 1.0 / ex_p
+            entry_conv_rate = 1.0 / entry_p
+            exit_conv_rate = 1.0 / ex_p
         else:
-            conv = 1.0
-        gross_usd = side * (ex_p - entry_p) * cs * conv
+            entry_conv_rate = 1.0
+            exit_conv_rate = 1.0
+
+        entry_scale = cs * entry_conv_rate
+        exit_scale = cs * exit_conv_rate
+        gross_usd = side * (ex_p - entry_p) * exit_scale
         comm = c["comm_usd"]
         def _fx_r(slip_rt: float) -> tuple[float, float]:
-            drag = comm + slip_rt * cs * conv
-            net = gross_usd - drag
-            rsk = risk_p * cs * conv + drag
+            exit_drag = comm + slip_rt * exit_scale
+            entry_drag = comm + slip_rt * entry_scale
+            net = gross_usd - exit_drag
+            rsk = risk_p * entry_scale + entry_drag
             return net, net / rsk
         net_b, r_b = _fx_r(c["base"])
         net_s, r_s = _fx_r(c["stress"])
         net_d, r_d = _fx_r(c["double"])
         worst_px = float(liq[:rel + 1, 2].min()) if side == 1 else float(liq[:rel + 1, 1].max())
         mae_p = max(0.0, side * (entry_p - worst_px))
-        drag_s = comm + c["stress"] * cs * conv
-        mae_r = min(1.5, (mae_p * cs * conv + drag_s) / (risk_p * cs * conv + drag_s))
-        ftmo_cs = drag_s
+        mae_scale = (cs / worst_px) if asset in ("USDJPY", "USDCAD", "USDCHF") else entry_scale
+        drag_s_entry = comm + c["stress"] * entry_scale
+        mae_r = min(1.5, (mae_p * mae_scale + drag_s_entry) / (risk_p * entry_scale + drag_s_entry))
+        ftmo_cs = comm + c["stress"] * exit_scale
 
     d_iso = datetime.fromtimestamp(e_ts, timezone.utc).date().isoformat()
     return {

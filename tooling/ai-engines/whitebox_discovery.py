@@ -2,7 +2,7 @@
 
 import argparse
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 from math import fsum
 from pathlib import Path
@@ -17,6 +17,7 @@ import pass17_usdjpy_forensic_cross as p17
 import pass18_opensource_non_usdjpy as p18
 from native_ftmo_monfri_seal import ROOT, START, STOP, sha, write
 from quant_core.ftmo_track_replay import profiles
+from quant_core.holdout_guard import enforce_pre_holdout_ts
 
 PROTOCOL = "9bbf69c83241d2b1084d21bd3a23f057414a5677"
 SEED = 20261123
@@ -39,6 +40,7 @@ def replay_fx_intraday_fast(ctx: dict, entry_idx: int, side: int, entry_p: float
     if risk_p <= 0 or entry_idx < 0:
         return None
     entry_ts = int(times[entry_idx])
+    enforce_pre_holdout_ts((entry_ts, int(times[-1])), START, STOP, context=f"whitebox_discovery:{asset}")
     cap_sec = min(max_exit_sec, STOP - 60)
     hi_idx = int(times.searchsorted(cap_sec, side="right")) - 1
     if hi_idx < entry_idx:
@@ -61,35 +63,72 @@ def replay_fx_intraday_fast(ctx: dict, entry_idx: int, side: int, entry_p: float
 
     ex_idx = entry_idx + rel
     ex_ts = int(times[ex_idx])
-    assert START <= entry_ts <= ex_ts < STOP
+    enforce_pre_holdout_ts((entry_ts, ex_ts), START, STOP, context=f"whitebox_discovery:{asset}")
 
     cfg = _fx_cost_params(asset)
     s_rt = cfg["slip_rt"] if slip_rt is None else slip_rt
-    # Currency-invariant R calculation + exact USD conversion proxy (exact for USD/JPY quote pairs)
+    # Separate strictly causal entry_conv_rate (lot/risk sizing) from exit_conv_rate (realized exit PnL)
     cs = float(spec["trade_contract_size"])
+    d_entry = datetime.fromtimestamp(entry_ts, timezone.utc).date()
+    d_ex = datetime.fromtimestamp(ex_ts, timezone.utc).date()
+    usdjpy_map = ctx.get("usdjpy_close_map")
+
+    def _prior_day_rate(rmap: dict | None, ref_d) -> float | None:
+        if not rmap:
+            return None
+        for lag in range(1, 15):
+            val = rmap.get(ref_d - timedelta(days=lag))
+            if val is not None and float(val) > 0.0:
+                return float(val)
+        earlier = [k for k in rmap if k < ref_d]
+        return float(rmap[max(earlier)]) if earlier else None
+
     if spec["currency_profit"] == "USD":
-        conv = 1.0
+        entry_conv_rate = 1.0
+        exit_conv_rate = 1.0
     elif spec["currency_profit"] == "JPY":
-        conv = 1.0 / (ctx.get("usdjpy_close_map", {}).get(datetime.fromtimestamp(ex_ts, timezone.utc).date(), ex_p) if asset != "USDJPY" else ex_p)
+        if asset == "USDJPY":
+            entry_conv_rate = 1.0 / entry_p
+            exit_conv_rate = 1.0 / ex_p
+        else:
+            usdjpy_ent = _prior_day_rate(usdjpy_map, d_entry)
+            entry_conv_rate = 1.0 / (usdjpy_ent if usdjpy_ent is not None else entry_p)
+            usdjpy_ex = (
+                (usdjpy_map.get(d_ex) or _prior_day_rate(usdjpy_map, d_ex) or usdjpy_ent)
+                if usdjpy_map
+                else ex_p
+            )
+            exit_conv_rate = 1.0 / (float(usdjpy_ex) if usdjpy_ex is not None else ex_p)
+    elif spec["currency_profit"] in ("CAD", "CHF"):
+        entry_conv_rate = 1.0 / entry_p
+        exit_conv_rate = 1.0 / ex_p
     else:
-        conv = 1.0
-    gross_usd = side * (ex_p - entry_p) * cs * conv
+        entry_conv_rate = 1.0
+        exit_conv_rate = 1.0
+
+    entry_scale = cs * entry_conv_rate
+    exit_scale = cs * exit_conv_rate
+    gross_usd = side * (ex_p - entry_p) * exit_scale
     comm_usd = 5.0 if asset != "XAUUSD" else 0.0
-    slip_usd = s_rt * cs * conv
-    ftmo_net = gross_usd - comm_usd - slip_usd
-    ftmo_risk = risk_p * cs * conv + comm_usd + slip_usd
+    exit_slip_usd = s_rt * exit_scale
+    entry_slip_usd = s_rt * entry_scale
+    ftmo_net = gross_usd - comm_usd - exit_slip_usd
+    ftmo_risk = risk_p * entry_scale + comm_usd + entry_slip_usd
     if ftmo_risk <= 0:
         return None
     addon_p = 0.20 if asset == "XAUUSD" else (0.005 if asset.endswith("JPY") else 0.00005)
-    addon_usd = addon_p * cs * conv
-    base_net = ftmo_net + addon_usd
-    base_risk = max(1e-9, ftmo_risk - addon_usd)
+    addon_exit_usd = addon_p * exit_scale
+    addon_entry_usd = addon_p * entry_scale
+    base_net = ftmo_net + addon_exit_usd
+    base_risk = max(1e-9, ftmo_risk - addon_entry_usd)
     return {
-        "day": datetime.fromtimestamp(entry_ts, timezone.utc).date().isoformat(),
-        "year": datetime.fromtimestamp(entry_ts, timezone.utc).year,
+        "day": d_entry.isoformat(),
+        "year": d_entry.year,
         "entry": entry_ts, "exit": ex_ts, "side": side, "reason": reason,
-        "gross_usd": gross_usd, "ftmo_comm_slip": comm_usd + slip_usd, "ftmo_swap": 0.0,
-        "ftmo_net": ftmo_net, "ftmo_R": ftmo_net / ftmo_risk,
+        "entry_conv_rate": float(entry_conv_rate),
+        "exit_conv_rate": float(exit_conv_rate),
+        "gross_usd": gross_usd, "ftmo_comm_slip": comm_usd + exit_slip_usd, "ftmo_swap": 0.0,
+        "ftmo_net": ftmo_net, "ftmo_risk": ftmo_risk, "ftmo_R": ftmo_net / ftmo_risk,
         "base_R": base_net / base_risk,
         "ex_R_normal": base_net / base_risk, "ex_R_swapfree": base_net / base_risk,
     }

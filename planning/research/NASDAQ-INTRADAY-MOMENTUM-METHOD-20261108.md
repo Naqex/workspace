@@ -14,7 +14,7 @@ abstract có thêm10ETFs. Không suy một ETF cụ thể là QQQ chỉ từ abs
 Paper gợi ý cơ chế rebalancing/information, không chứng minh NASDAQ CFD hiện
 có lợi thế. Publisher và SSRN fullpage trả403; Reading repository có anti-bot,
 không bypass hoặc claim đã đọc fullpaper mới. Fullmethod của R051 được kế
-thừa đúng scope từ [US500 protocol](US500-CLOSE-MOMENTUM-20261108.md), không
+thừa đúng scope từ [US500 protocol](archive/US500-CLOSE-MOMENTUM-20261108.md), không
 nâng ngày review cũ thành fresh fulltext verification.
 
 Source data đã đạt: [M1 results](NASDAQ-M1-HISTORY-RESULTS-20261108.md),8books,

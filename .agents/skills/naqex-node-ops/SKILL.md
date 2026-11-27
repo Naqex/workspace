@@ -5,72 +5,26 @@ description: Operate and maintain the Windows 10 IoT LTSC Home-VPS over SSH, clo
 
 # Naqex Home-VPS & Cloud Dead-Man's-Switch Operations
 
-Keep the dedicated Windows 10 Home-VPS (`naqex-node1`), cloud dead-man's-switch monitor (`<HEROKU_DEADMAN_APP>`), alert bot (`<TELEGRAM_GUARD_BOT>`), and read-only shadow collectors reliable, synchronized, secret-free, and fail-closed.
+Keep the dedicated Windows 10 Home-VPS (`naqex-node1`), cloud dead-man's-switch monitor (`<HEROKU_DEADMAN_APP>`), and alert bot (`<TELEGRAM_GUARD_BOT>`) reliable, synchronized, secret-free, and fail-closed.
 
-> **2-Layer OPSEC Rule:** This public Layer-1 skill uses generic placeholders only. Read live node parameters (real LAN/Tailscale IPs, SSH user, cloud app name, alert handle, account login, and local backup paths) from local gitignored `private_vault/ops/naqex-node1-topology.md` when present — never commit real IPs, handles, or broker logins into Layer 1.
-
-## Topology & Fixed Storage Contract
-
-- **SSH Aliases (main dev PC -> `naqex-node1`, exact values in `private_vault/ops/naqex-node1-topology.md`):**
-  - LAN primary (`<1ms`, router DHCP pin): `ssh naqex-node1` (`<SSH_USER>@<LAN_IP>`)
-  - Tailscale remote fallback: `ssh naqex-node1-ts` (`<SSH_USER>@<TAILSCALE_IP>`)
-  - Windows OpenSSH Admin key path on node: `C:\ProgramData\ssh\administrators_authorized_keys` (ASCII/UTF-8 no BOM, `icacls /inheritance:r /grant '*S-1-5-32-544:F' /grant '*S-1-5-18:F'`).
-- **3-Drive Allocation on `naqex-node1`:**
-  - `C:` (`119 GB` healthy Samsung SSD): Windows 10 IoT Enterprise LTSC, Pagefile locked strictly to `C:\pagefile.sys` (`AutomaticManagedPagefile = False`), `C:\Naqex\{mt5, ops, logs, tools, crypto-shadow}`.
-  - `D:` (`465 GB` healthy Seagate HDD): `D:\NaqexBackup\daily\YYYYMMDD\` (30-day rolling log/audit/heartbeat backup at `05:30`).
-  - `E:` (`111 GB` secondary SSD with broken SATA latch): `E:\Scratch\` non-critical scratch ONLY. **Never place MT5, live bots, databases, or pagefile on `E:`.**
-- **Cloud Monitor & Alerts:**
-  - Cloud app `<HEROKU_DEADMAN_APP>`: `1 × Basic` (`7 USD/mo`, 24/7 no sleep) + `heroku-postgresql:essential-0` (`5 USD/mo`, auto-pruned `10,000` rows) = `12 USD/mo <= 13 USD/mo` student credit cap (`312 USD` credit, `2026-10-01 -> 2028-09-30`; review/cancel gate `2028-09-25` before card billing).
-  - Local gitignored connection pointer on main PC: `.runtime/ops-cloud/heroku_connection_local.json`.
-  - Alert bot: `<TELEGRAM_GUARD_BOT>` (`TELEGRAM_BOT_TOKEN` & `TELEGRAM_CHAT_ID` stored strictly in cloud Config Vars).
+> **2-Layer OPSEC Rule:** This public Layer-1 skill uses generic placeholders only (`<LAN_IP>`, `<TAILSCALE_IP>`, `<SSH_USER>`, `<HEROKU_DEADMAN_APP>`, `<TELEGRAM_GUARD_BOT>`). Read live parameters strictly from gitignored `private_vault/ops/naqex-node1-topology.md` — never commit real IPs, handles, or broker logins into Layer 1.
 
 ## Hard Safety Boundaries (Fail-Closed)
 
-1. **`OrderSend = 0` & Manual Broker Auth:** All ops scripts, heartbeats, watchdogs, cloud monitor, and crypto shadow collectors are strictly read-only (`OrderSend = 0`). Broker login happens manually inside MT5 Portable GUI — never store broker passwords in scripts, env files, chat logs, or Git (neither Layer 1 nor Layer 2).
-2. **Flat-Only Mutation Rule:** Never overwrite `.ex5` binaries, swap active presets, stop/restart `terminal64.exe`, or reboot `naqex-node1` while `MQL5\Files\naqex_heartbeat.json` shows `open_positions > 0`. Always wait for flat (`open_positions == 0`) or weekend close (`Fri 22:00 UTC -> Sun 21:00 UTC`).
-2b. **Pre-Restart Auto-Login Persistence Gate:** Before stopping or restarting `terminal64.exe` (even when flat), inspect `C:\Naqex\mt5\Config\common.ini` (and `C:\Naqex\mt5\connector.ini`) to confirm `KeepPrivate=1` with NO blank-password `Login=` override. If `KeepPrivate=0` is found, change it to `KeepPrivate=1` and warn the owner BEFORE restarting — restarting while `KeepPrivate=0` drops the live broker session and requires one-time manual GUI login (MT5 encrypts `accounts.dat` per machine and zero broker passwords are stored in scripts/Git).
-3. **Zero-Secret Handling:** Never print, log, or pass tokens (`HEROKU_API_KEY`, `NAQEX_INGEST_TOKEN`, `NAQEX_VIEW_TOKEN`, `TELEGRAM_BOT_TOKEN`) via CLI arguments or tracked files. Inject remote node tokens strictly over encrypted SSH stdin into Windows Machine Environment Variables; `SYSTEM` Scheduled Tasks must load Machine env live from Registry (via `C:\Naqex\ops\run_heroku_heartbeat.ps1`) so Task Scheduler never reads stale pre-boot env caches.
-4. **Windows 10 IoT LTSC Supply-Chain Guard & Control-vs-Execution Separation:** LTSC has no Microsoft Store/`winget`. Install or upgrade runtime tools only from official Microsoft/GitHub/Astral release archives (`uv`, `MinGit`, `PowerShell 7`, `Sysinternals Autologon`) and binary Python wheels (`uv pip install --only-binary=:all:`). Never run blind `curl | bash` or `irm | iex` pipelines. Keep `naqex-node1` strictly as a minimal deterministic Execution Plane (`OrderSend = 0` scripts + MT5 Portable) — **never** install AI/LLM CLIs (`agy`, `codex-cli`, `claude`), Node.js, Docker, Chrome, or MT5 MCP Server on the live trading node; run AI agents on the dev PC and control the node over SSH.
-5. **Holdout & Scope Isolation:** Never touch sealed `2025+` Holdout (`NATIVE_FTMO_HOLDOUT_LOCK.json`), global `AGENTS.md`, or unrelated submodules (`projects/vi-dubber`, `projects/trader`).
+1. **`OrderSend = 0` & Manual Broker Auth:** All ops scripts, heartbeats, watchdogs, and cloud monitors are strictly read-only (`OrderSend = 0`). Broker login happens manually inside MT5 Portable GUI — never store broker passwords in scripts, env files, chat, or Git.
+2. **Flat-Only Mutation & `KeepPrivate=1` Gate:** Never overwrite `.ex5` binaries, swap active presets, stop/restart `terminal64.exe`, or reboot `naqex-node1` while `naqex_heartbeat.json` shows `open_positions > 0` or `terminal_connected != true`. Before any MT5 restart, confirm `Config\common.ini` and `connector.ini` set `KeepPrivate=1` with NO blank `Login=` override.
+3. **3-Node Plane Isolation:** `naqex-node1` is strictly the 24/5 Execution Plane (`C:\Naqex\{mt5,ops,logs,tools}`, pagefile locked to `C:\pagefile.sys`, NEVER place MT5/DB/pagefile on broken-latch `E:`). Never install AI CLIs, Node.js, Docker, Chrome, or MT5 MCP on `naqex-node1`; never run backtests/Monte Carlo there; never connect `<X13_WORKER>` directly to `naqex-node1`.
+4. **Zero-Secret & LTSC Supply-Chain Guard:** Never pass tokens (`HEROKU_API_KEY`, `NAQEX_*_TOKEN`, `TELEGRAM_BOT_TOKEN`) via CLI arguments or tracked files. Install/upgrade tools only from official Microsoft/GitHub/Astral archives and `--only-binary=:all:` wheels (never `curl | bash` or `irm | iex`).
+5. **Holdout & Scope Isolation:** Never touch sealed `2025+` Holdout (`NATIVE_FTMO_HOLDOUT_LOCK.json`), global `AGENTS.md`, or unrelated submodules.
 
-## Operational Workflows
+## Quick Operational Workflow
 
-### 1. Health Check & Pre-Built Single-Command Toolkit (`C:\Naqex\scripts\*.py`)
+1. **Single-Command Health Audit (`< 0.5s`, `0%` background CPU):** Run [node_ctl.py](../../../tooling/ai-engines/ops_cloud/node_ctl.py) (`status | logs | integrity | maint | audit`; single-handshake LAN `naqex-node1` -> Tailscale `naqex-node1-ts` on `rc=255`). Never call `MetaTrader5.initialize()` from SSH Session `0`.
+2. **Verify Core Invariants:** Clock drift `< 2s` (`< 1s` before live quote captures), `C:` free `> 20 GB`, daily backup on `D:\NaqexBackup\daily\`, Win10 IoT LTSC anti-auto-reboot + `DISKIDLE=0` + `AutoAdminLogon=1`, Heroku `/health` (`12 USD/mo <= 13 USD/mo` student cap) + `/api/status` (`X-Naqex-View-Token`, heartbeat `< 120s`).
+3. **Flat-Only `.ex5` / Red-News Sync:** Compile locally into `.runtime/mt5-compiled-ex5/`, verify `open_positions == 0` via [sync_updated_ex5_when_flat.ps1](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/sync_updated_ex5_when_flat.ps1), verify SHA-256 match bit-for-bit, restart via Scheduled Task, and confirm `[PROPGUARD-OK]` in `MQL5\Logs\YYYYMMDD.log`.
+4. **Detailed Runbook (Load On Demand):** Read [references/win10-vps-runbook.md](references/win10-vps-runbook.md) for SSH key ACLs, 3-drive storage contract, Scheduled Tasks, `KeepPrivate=1` recovery, weekend reboot checks, and Heroku deploy steps.
 
-Prefer the pre-built 1-command JSON scripts on `naqex-node1` via Dev wrapper [node_ctl.py](../../../tooling/ai-engines/ops_cloud/node_ctl.py) (`status | logs | integrity | maint | audit`, auto LAN `naqex-node1` -> Tailscale `naqex-node1-ts`, `0%` background CPU, `< 0.5s`) instead of composing long inline PowerShell 5.1 commands over SSH:
+## Workflow Handoffs
 
-- **Clock Drift (`< 2s` vs UTC):** Verify `w32time` is `Running` (`Automatic`) and synced to `time.cloudflare.com` / `time.google.com`. Clock drift breaks red-news UTC windows and triggers false cloud `STALE` alerts.
-- **Storage & Pagefile:** Confirm `C:` free space `> 20 GB`, `D:\NaqexBackup\daily\` has today's snapshot, and `Win32_PageFileSetting` lists ONLY `C:\pagefile.sys`.
-- **Power, Anti-Auto-Reboot & Unattended Power-Restore Policy (Win10 IoT LTSC 24/5 Lock):** Confirm `HiberbootEnabled = 0`, Sleep/Hibernate/Disk timeouts = `0` (`powercfg /query SCHEME_CURRENT SUB_DISK DISKIDLE` -> `0x00000000`, never default `0x00000384` = `900s`), `AU` keys (`NoAutoUpdate = 1`, `AUOptions = 2`, `NoAutoRebootWithLoggedOnUsers = 1`, `AlwaysAutoRebootAtScheduledTime = 0`, `AUPowerManagement = 0`), root `WindowsUpdate` policy (`SetActiveHours = 1`, `ConfigureDeadlineNoAutoRebootForQualityUpdates = 1`, `ExcludeWUDriversInQualityUpdate = 1`), `\Microsoft\Windows\UpdateOrchestrator\Reboot_AC` / `Reboot_Battery` not armed mid-week, and **`AutoAdminLogon = 1`** configured manually via official `C:\Naqex\tools\Sysinternals\Autologon64.exe` (Windows LSA Secret encrypted; never store Windows passwords in scripts, chat, or Git) so an unattended power outage automatically restores the desktop session and MT5.
-- **Scheduled Tasks (`SYSTEM`):** Check `LastTaskResult == 0` for `Naqex_Heroku_Heartbeat_NODE1` (1m), `Naqex_Daily_Backup_D` (05:30), `Naqex_Crypto_Shadow_5m` (5m), and `Naqex_Crypto_Maker_Probe_5m` (5m); verify `Naqex_MT5_Watchdog_NODE1` (2m) reports `0` when MT5 is live (exit `2` is expected only when MT5 is intentionally closed).
-- **Cloud Readiness:** Query `GET /health` (`ok=true`, `persistence="postgres"`, `order_send_count=0`) and `GET /api/status` with header `X-Naqex-View-Token` (`Authorization: Bearer` is strictly for `POST /api/heartbeat` ingest) on `<HEROKU_DEADMAN_APP>`, confirming `NAQEX_NODE1` heartbeat age `< 120s`.
-
-### 2. Fail-Closed `.ex5`, Preset & Red-News Updates
-
-1. Compile all `9/9 .ex5` locally on dev PC into `.runtime/mt5-compiled-ex5/` (`0` `.ex5` binaries inside tracked `tooling/ai-engines/exports/`) and run `verify_deployment_kit.py --build --require-ex5`.
-2. Check remote `C:\Naqex\mt5\MQL5\Files\naqex_heartbeat.json` — abort immediately if `open_positions > 0` (also enforced by [sync_updated_ex5_when_flat.ps1](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/sync_updated_ex5_when_flat.ps1)); verify `Config\common.ini` / `connector.ini` preserve `KeepPrivate=1` with zero blank `Login=` override before stopping `terminal64.exe`.
-3. Transfer updated `.ex5` / `naqex_red_news_utc.csv` / `.set` profiles over LAN `scp` and verify `9/9` SHA-256 bit-for-bit match against `C:\Naqex\ops\ex5_expected_sha256.json`.
-4. Never copy `accounts.dat`, `terminal.lic`, or broker credentials between machines.
-5. **Post-Restart Proof:** After restarting MT5 (`Start-ScheduledTask -TaskName 'Naqex_MT5_Portable_AutoStart'`), inspect `MQL5\Logs\YYYYMMDD.log` (not just `Logs\YYYYMMDD.log`) to confirm all `9` charts logged `[PROPGUARD-OK] Loaded ... red-news events`, `[ORCH-INIT]`, and `0` `[PROPGUARD-WARN]` file-lock warnings, and confirm `naqex_heartbeat.json` shows `"terminal_connected": true` with expected `dry_run`.
-
-**Windows SSH & Session Pitfalls (`naqex-node1`):**
-- Never call `MetaTrader5.initialize()` from an SSH (Session `0`) process against an interactive Session `1` `terminal64.exe` — cross-session IPC hangs until timeout; inspect `naqex_heartbeat.json`, `Logs\YYYYMMDD.log`, and `MQL5\Logs\YYYYMMDD.log` instead.
-- Default OpenSSH shell is `cmd.exe` and PowerShell 5.1 emits `CLIXML` noise while long `-EncodedCommand` strings hit cmdline limits; prefer the pre-built `C:\Naqex\scripts\*.py` JSON probes via `node_ctl.py` (or `C:\Naqex\tools\pwsh\pwsh.exe` 7 for ad-hoc queries), and for multi-step scripts `scp` a temp file, execute it, and delete it afterward.
-
-### 3. Windows & Crypto Shadow Maintenance
-
-- **Weekend Maintenance Window:** Apply Windows security patches or reboot `naqex-node1` only during weekend market close (`open_positions == 0`) or a verified flat controlled window if an unscheduled `UpdateOrchestrator\Reboot_AC` is already armed. After reboot, verify BIOS AC power-restore, desktop logon (`Naqex_MT5_Portable_AutoStart`), `sshd`, Tailscale, NTP sync, and all `SYSTEM` tasks automatically resume.
-- **Read-Only Crypto Shadow Collectors:** Keep `crypto_shadow_runner.py` and `crypto_maker_shadow_probe.py` running in `--once` 5-minute Scheduled Tasks under `C:\Naqex\crypto-shadow\` (never inside dev IDE background jobs), and pull JSONL logs over LAN `scp` to main PC `.runtime/live-overnight/` whenever running TCA audits.
-
-### 4. Cloud Dead-Man's-Switch & Alert Bot Operations
-
-- **Budget Lock:** Never scale beyond `1 × Basic` + `Postgres Essential-0` (`12 USD/mo <= 13 USD/mo`) without explicit owner approval.
-- **Deploy Source Update:** Package `tooling/ai-engines/ops_cloud/heroku_deadman/` via Heroku Sources/Builds API (pass explicit empty header `Content-Type: ""` on S3 presigned PUT to avoid `403`), wait for build `succeeded`, then verify `GET /health` and unauthenticated `GET /` returning `401`.
-- **Alert Bot:** Store `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` strictly in cloud Config Vars; verify delivery with one test message after initial setup or token rotation.
-
-## Canonical Scripts & References
-
-- Home-VPS bootstrap & checklist: [setup_win10_home_vps.ps1](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/setup_win10_home_vps.ps1), [WIN10-HOME-VPS-CHECKLIST.md](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/WIN10-HOME-VPS-CHECKLIST.md)
-- 24/5 MT5 kit & flat-only sync: [install_vps_24x5.ps1](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/install_vps_24x5.ps1), [sync_updated_ex5_when_flat.ps1](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/sync_updated_ex5_when_flat.ps1), [VPS-24X5-RUNBOOK.md](../../../tooling/ai-engines/exports/deployment_kit/vps_kit/VPS-24X5-RUNBOOK.md)
-- Cloud Dead-Man's-Switch & PC sender: [app.py](../../../tooling/ai-engines/ops_cloud/heroku_deadman/app.py), [pc_heartbeat_sender.py](../../../tooling/ai-engines/ops_cloud/heroku_deadman/pc_heartbeat_sender.py)
-- Local Quant Factory & `system_doctor.py`: [quant-factory-ops](../quant-factory-ops/SKILL.md)
+- **Pre-deploy audit:** Run [adversarial-self-audit](../adversarial-self-audit/SKILL.md) on every new ops script, collector, or sync change before touching `naqex-node1`.
+- **Peer & downstream skills:** [quant-factory-ops](../quant-factory-ops/SKILL.md) for local builds/doctor, [strategy-qualification](../strategy-qualification/SKILL.md) for gate eligibility, [evidence-continuity](../evidence-continuity/SKILL.md) for ops receipts, and [github-issue-workflow](../github-issue-workflow/SKILL.md) for clean repo commits/PRs (Layer-1 sanitized only).

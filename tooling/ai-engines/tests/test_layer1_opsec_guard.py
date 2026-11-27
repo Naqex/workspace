@@ -16,17 +16,33 @@ re-introduces:
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
 import subprocess
 import unittest
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 ORDER_SEND_COUNT = 0
 
 _TEXT_EXTS = {
-    ".py", ".md", ".txt", ".json", ".yml", ".yaml", ".ps1", ".sh",
-    ".mq5", ".mqh", ".set", ".ini", ".toml", ".cfg", ".js", ".ts", ".html", ".css",
+    ".py",
+    ".md",
+    ".txt",
+    ".json",
+    ".yml",
+    ".yaml",
+    ".ps1",
+    ".sh",
+    ".mq5",
+    ".mqh",
+    ".set",
+    ".ini",
+    ".toml",
+    ".cfg",
+    ".js",
+    ".ts",
+    ".html",
+    ".css",
 }
 
 # Build sensitive patterns dynamically so this guard never trips Gitleaks or self-matches.
@@ -44,7 +60,10 @@ _REAL_SECRET_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("OPENAI_KEY", re.compile(r"\b" + "sk-" + r"(?:proj-)?[A-Za-z0-9_-]{32,}\b")),
     ("GOOGLE_API_KEY", re.compile(r"\b" + "AIza" + r"[0-9A-Za-z_-]{35}\b")),
     ("TELEGRAM_BOT_TOKEN", re.compile(r"\b\d{8,12}:[A-Za-z0-9_-]{33,}\b")),
-    ("DISCORD_WEBHOOK", re.compile(r"https?://(?:discord\.com|discordapp\.com)/api/webhooks/\d{15,}/[A-Za-z0-9_-]{50,}")),
+    (
+        "DISCORD_WEBHOOK",
+        re.compile(r"https?://(?:discord\.com|discordapp\.com)/api/webhooks/\d{15,}/[A-Za-z0-9_-]{50,}"),
+    ),
     ("POSTGRES_CRED_DSN", re.compile(r"postgres(?:ql)?://[^\s:/@<]+:[^\s/@<]{6,}@[^\s/<]+")),
 )
 
@@ -62,16 +81,40 @@ def _git_tracked_files() -> list[str]:
 
 def _iter_layer1_guarded_files(tracked: list[str]) -> list[tuple[str, Path]]:
     """Return tracked Layer-1 code/docs/skills guarded by permanent OPSEC CI checks."""
+    candidates = list(tracked)
+    if "pyproject.toml" not in candidates and (ROOT / "pyproject.toml").is_file():
+        candidates.append("pyproject.toml")
     out: list[tuple[str, Path]] = []
-    for rel in tracked:
+    for rel in candidates:
         if rel.startswith(("projects/", "private_vault/", ".runtime/")):
             continue
         if rel == "tooling/ai-engines/tests/test_layer1_opsec_guard.py":
             continue
         in_scope = (
-            rel.startswith(("tooling/ai-engines/", ".agents/", "knowledge/"))
+            rel in ("AGENTS.md", "planning/CURRENT-CONTEXT.md", "pyproject.toml")
+            or rel.startswith(
+                (
+                    "tooling/ai-engines/",
+                    "tooling/knowledge/",
+                    "tooling/search/",
+                    "tooling/agent-workflow/",
+                    ".agents/",
+                    "knowledge/",
+                )
+            )
             or rel == "planning/TOP1-SOLO-QUANT-MASTER-PLAN.md"
-            or (rel.startswith("planning/research/") and "/" not in rel[len("planning/research/"):] and rel.endswith(".md"))
+            or (
+                rel.startswith("planning/research/")
+                and "/" not in rel[len("planning/research/") :]
+                and rel.endswith(".md")
+            )
+            or (
+                rel.startswith("planning/archive/")
+                and "/" not in rel[len("planning/archive/") :]
+                and rel.endswith(".md")
+            )
+            or (rel.startswith("docs/") and rel.endswith(".md"))
+            or rel.startswith(".github/")
         )
         if not in_scope:
             continue
@@ -96,7 +139,11 @@ class Layer1OpsecGuardTests(unittest.TestCase):
         cls.tracked = _git_tracked_files()
         cls.guarded = _iter_layer1_guarded_files(cls.tracked)
         cls.contents: list[tuple[str, bool, str]] = [
-            (rel, ("/tests/" in rel or Path(rel).name.startswith("test_")), path.read_text(encoding="utf-8", errors="replace"))
+            (
+                rel,
+                ("/tests/" in rel or Path(rel).name.startswith("test_")),
+                path.read_text(encoding="utf-8", errors="replace"),
+            )
             for rel, path in cls.guarded
         ]
 
@@ -125,7 +172,7 @@ class Layer1OpsecGuardTests(unittest.TestCase):
                     violations.append(f"REAL_TAILSCALE_IP {rel}:{_line_no(text, m.start())}")
                 elif not is_test:
                     for m_ts in _ANY_CGNAT_TS_RE.finditer(text):
-                        if text[m_ts.start():m_ts.end() + 3] == "100.64.0.0/10":
+                        if text[m_ts.start() : m_ts.end() + 3] == "100.64.0.0/10":
                             continue
                         violations.append(f"CGNAT_TS_IP {rel}:{_line_no(text, m_ts.start())}")
                         break
@@ -174,7 +221,14 @@ class Layer1OpsecGuardTests(unittest.TestCase):
         self.assertIsNotNone(_HEROKU_APP_RE.search("app " + "naqex-" + "deadman-eu"))
         self.assertIsNotNone(_TG_BOT_HANDLE_RE.search("@" + "naqex_" + "guard_bot"))
         self.assertIsNotNone(_WIN_USER_PATH_RE.search("C:" + "\\Users\\" + "Alice\\Desktop"))
-        for safe in ("<LAN_IP>", "<TAILSCALE_IP>", "<HEROKU_DEADMAN_APP>", "<TELEGRAM_GUARD_BOT>", "100.64.0.0/10", "C:\\Users\\<USER>\\file"):
+        for safe in (
+            "<LAN_IP>",
+            "<TAILSCALE_IP>",
+            "<HEROKU_DEADMAN_APP>",
+            "<TELEGRAM_GUARD_BOT>",
+            "100.64.0.0/10",
+            "C:\\Users\\<USER>\\file",
+        ):
             self.assertIsNone(_REAL_LAN_HOST_RE.search(safe))
             self.assertIsNone(_REAL_TAILSCALE_RE.search(safe))
             self.assertIsNone(_HEROKU_APP_RE.search(safe))
@@ -183,7 +237,22 @@ class Layer1OpsecGuardTests(unittest.TestCase):
 
     def test_read_only_invariant(self) -> None:
         self.assertEqual(ORDER_SEND_COUNT, 0)
-        self.assertGreater(len(self.guarded), 100, "Expected Layer-1 OPSEC guard to scan > 100 tracked files")
+        self.assertGreater(len(self.guarded), 150, "Expected expanded Layer-1 OPSEC guard to scan > 150 files")
+        guarded_rels = {rel for rel, _ in self.guarded}
+        for required in (
+            "AGENTS.md",
+            "planning/CURRENT-CONTEXT.md",
+            ".github/workflows/workspace.yml",
+            ".github/pull_request_template.md",
+            "pyproject.toml",
+        ):
+            if (ROOT / required).is_file():
+                self.assertIn(required, guarded_rels, f"Expanded OPSEC scan missing {required}")
+        self.assertTrue(any(r.startswith(".github/ISSUE_TEMPLATE/") for r in guarded_rels))
+        self.assertTrue(any(r.startswith("docs/") and r.endswith(".md") for r in guarded_rels))
+        self.assertTrue(any(r.startswith("tooling/knowledge/") for r in guarded_rels))
+        self.assertTrue(any(r.startswith("tooling/search/") for r in guarded_rels))
+        self.assertTrue(any(r.startswith("tooling/agent-workflow/") for r in guarded_rels))
 
 
 if __name__ == "__main__":

@@ -27,7 +27,6 @@ import sys
 import time
 
 import numpy as np
-from scipy.optimize import minimize
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -77,6 +76,8 @@ def fit_l2_logistic(
         grad_w = xs.T @ diff + (l2_reg / max(1, n)) * w
         grad_b = float(np.sum(diff))
         return loss, np.r_[grad_w, grad_b]
+
+    from scipy.optimize import minimize
 
     res = minimize(_loss_and_grad, w0, jac=True, method="L-BFGS-B", options={"maxiter": 250, "ftol": 1e-10})
     params = res.x if np.all(np.isfinite(res.x)) else w0

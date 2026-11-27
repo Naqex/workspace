@@ -14,6 +14,7 @@ import urllib.error
 import urllib.request
 
 import numpy as np
+import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
 AI_ENGINES = ROOT / "tooling/ai-engines"
@@ -59,6 +60,7 @@ def test_lab10_catalog_walkforward_sltp_and_pacing_invariants():
     assert rep["study_1b_walk_forward_sl_tp"]["port_7e_aggregate"]["n_oos_trades"] > 2000
 
 
+@pytest.mark.local_cache
 def test_mql5_propguard_fill_price_fix_and_compiled_ex5():
     pg_src = (ROOT / "tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh").read_text(encoding="utf-8")
     assert "ResolveExecutedFillPrice" in pg_src
@@ -140,6 +142,7 @@ def test_cockpit_safety_cover_2step_and_prop_terms_audit(tmp_path: Path):
         srv.server_close()
 
 
+@pytest.mark.local_cache
 def test_vps_24x5_install_and_flat_only_sync_scripts(tmp_path: Path):
     vps_dir = ROOT / "tooling/ai-engines/exports/deployment_kit/vps_kit"
     install_ps = vps_dir / "install_vps_24x5.ps1"

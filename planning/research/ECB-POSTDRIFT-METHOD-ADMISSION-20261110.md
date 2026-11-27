@@ -1,6 +1,6 @@
 # Sau R092: phản ứng chậm sau họp báo ECB, kiểm cách chuyển thành bot
 
-10/11/2026, kế thừa [R092](INDEX-PAIR-FORMATION-RESULTS-20261110.md) khôngqua
+10/11/2026, kế thừa [R092](archive/INDEX-PAIR-FORMATION-RESULTS-20261110.md) khôngqua
 fixedlinearformation và [WTI](WTI-GAP-TICK-RESULTS-20261110.md) thiếu tick.
 Catalogue92/58 giữ; chưaR093/accountpolicy hoặc financialtrial tronglượtmethod.
 Đây là scheduledmacro/postinformation, relatedR027/R028/R086/R088 nhưng

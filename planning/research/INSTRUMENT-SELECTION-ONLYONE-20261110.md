@@ -6,7 +6,7 @@ khác trước khi chọn; không ưu tiên chỉ vì project có sẵn dữ li�
 **Kết luận hiện hành11/11:** owner đã chọn **US500 — ưu tiên nghiên cứu tiếp**
 cho vòng onlyone M15, intraday/FTMO Standard. EURUSD giữ làm tham chiếu;
 owner đã đồng ý EURUSD khảo sát nhẹ và screening tiếp11/11. [Hai exact rules
-đã chạy offline](US500-M15-OPENING-SCREEN-RESULTS-20261111.md), chưa giữ bản
+đã chạy offline](archive/US500-M15-OPENING-SCREEN-RESULTS-20261111.md), chưa giữ bản
 challenge/risk thật. Các mục “chưa dispatch” bên dưới là checkpoint trước run.
 Đích là bot phù hợp challenge và
 payout bền vững, không chọn sản phẩm chỉ vì chạy mạnh hoặc cộng đồng thích.
@@ -33,7 +33,7 @@ Spec trên là evidence lịch sử đúng ngày, không fresh broker contract. 
 [public symbol/clock admission](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md),
 [pilot bốn sản phẩm](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md),
 [FX negatives](EURUSD-CATALOGUE13-RESULTS-20261108.md),
-[US500 close negatives](US500-CLOSE-MOMENTUM-RESULTS-20261108.md).
+[US500 close negatives](archive/US500-CLOSE-MOMENTUM-RESULTS-20261108.md).
 Pilot4ngày chỉ là source/proxy-cost evidence; không dùng để dự báo lời/winrate.
 
 ### Khoảng thiếu đã kiểm ở bộ đánh giá hiện có
@@ -114,7 +114,7 @@ Lineage bắt buộc giữ: R016/R017 FX opening-range; R019 prior-day retest đ
 không retained (catalogue hiện hành, thay trạng thái ý tưởng ở review08/11);
 R065 NASDAQ first5 direction/10R không retained sau conditional review;
 R048 US500 noise và R051 first→last30 cũng không retained theo
-[explicit-source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md).
+[explicit-source correction](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md).
 Không chuyển các bản đó sang M15 rồi gọi độc lập hoặc “đã được paper chứng minh”.
 Cash-open range khác prior-day FX level/first5direction/noise band về thông tin
 tín hiệu, nhưng vẫn một transfer trial liên quan và phải tính vào trial history.

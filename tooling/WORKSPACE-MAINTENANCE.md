@@ -88,7 +88,7 @@ Tên thư mục cache tự nó không cấp quyền xóa.
 V11 đã dùng API này xóa đúng 17 target trên E trong manifest V10:
 119.790.227.244 logical bytes, 100.287 files, 12.101 folders. Biên nhận và
 snapshot trước/sau nằm trong private job được dẫn ở
-[báo cáo V11](../planning/research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md).
+[báo cáo V11](../planning/research/archive/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md).
 Không áp lại manifest đã hoàn thành hoặc mở rộng sang source/research khác.
 
 Theo dõi D/E bằng lệnh đọc, không tự xóa:
@@ -122,5 +122,5 @@ dependency/source/fixture. Merkle bằng nhau chỉ chứng minh content tại t
 điểm kiểm, không tự cho phép xóa. Không có mutation trong consumer này vì
 chưa chứng minh cây nào có thể được retire cùng canonical/consumer của nó.
 V10→V12 D chỉ tăng 1.925.237 bytes; 211,77 decimal GB và khoảng 197,22 GiB
-không là bằng chứng tăng 15GB. [Báo cáo V13](../planning/research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
+không là bằng chứng tăng 15GB. [Báo cáo V13](../planning/research/archive/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
 giữ census cùng scope và bảng giảm thực/biến động snapshot riêng.

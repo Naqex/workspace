@@ -110,7 +110,7 @@ Kiểm tra 01/10/2026 xác nhận workspace gốc và bốn repo sản phẩm đ
 
 ## Áp dụng lần này / để owner làm sau
 
-Đã compact hai research draft trước yêu cầu bổ sung review worker; giữ full bytes và source citations ở archive, không coi đó là product review. [Review worker 26/09](WORKER-REVIEW-2026-09-26.md) đối chiếu lại source/ledger và có focused tests; kết luận **chưa full acceptance, còn findings**. Active MT5/Dubber PLAN, ledger và product code giữ nguyên. Bản review là handoff ngắn cho việc mở; owner vẫn cần cập nhật/tách lịch sử trong PLAN nguồn sau khi reconcile trạng thái và quyền writer.
+Đã compact hai research draft trước yêu cầu bổ sung review worker; giữ full bytes và source citations ở archive, không coi đó là product review. [Review worker 26/09](archive/2026-09/WORKER-REVIEW-2026-09-26.md) đối chiếu lại source/ledger và có focused tests; kết luận **chưa full acceptance, còn findings**. Active MT5/Dubber PLAN, ledger và product code giữ nguyên. Bản review là handoff ngắn cho việc mở; owner vẫn cần cập nhật/tách lịch sử trong PLAN nguồn sau khi reconcile trạng thái và quyền writer.
 
 Lượt mới: **current context → review việc trước → compact giữ việc mở → reuse audit → targeted research → decision → executable plan → implement → review/acceptance → compact → cập nhật context**. Research nền mới có thể tiếp dựa trên scope đã biết, nhưng implementation phụ thuộc capability nào thì phải chờ gate capability đó. Thêm skill/CLI chỉ khi lần lặp chứng minh convention không đủ.
 

@@ -33,7 +33,7 @@ chứng nhận độc lập hoặc bảng trạng thái runtime đang hoạt đ�
 | Kiểm khôi phục job nghiên cứu | Đã ngắt/restore bài 442.341 tick; state, quyết định và các file cuối khớp lượt không ngắt. Checkpoint cũ thiếu state bị từ chối | Có resume hoạt động trong trường hợp đã kiểm | Không chứng minh mọi job cũ resume được, hoặc broker/MT5 sẽ khôi phục giống job offline |
 | Log/version/lỗi | Có protocol, source/input hashes, trạng thái tiến độ, failure và output riêng. Ví dụ cache không hợp phiên bản đã dừng trước numerical; sau đó chỉ kiểm/tái dùng phần dữ liệu có bằng chứng | Có thể lần ngược những lượt gần đây và phân biệt failed/completed/inconclusive | Hồ sơ đầy đủ không tự chứng minh giả thuyết kiếm tiền đúng |
 
-Nguồn: [sửa dữ liệu US500](INDEX-LONG-EXPLICIT-RESULTS-20261108.md),
+Nguồn: [sửa dữ liệu US500](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md),
 [kiểm screen và tiền](SCREEN-CALIBRATION-REPAIR-RESULTS-20261108.md),
 [annual tick comparison](H1-NATIVE-SURVIVORS-RESULTS-20261108.md),
 [resume](NATIVE-RESUME-REVIEW-20261108.md).
@@ -91,7 +91,7 @@ Nguồn: [origin/transfer map](STRATEGY-ORIGIN-TRANSFER-REVIEW-20261108.md),
 Nguồn chi tiết: [FX](EURUSD-CATALOGUE13-RESULTS-20261108.md),
 [ML](DISCOVERY5-RESULTS-20261108.md), [Gold](GOLD-SMA50K-REVIEW-20261108.md),
 [native](H1-NATIVE-SURVIVORS-RESULTS-20261108.md),
-[US500](INDEX-LONG-EXPLICIT-RESULTS-20261108.md),
+[US500](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md),
 [gap](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md).
 
 ## 4. Hai việc mới nhất có làm thay đổi quyết định không?
@@ -365,9 +365,9 @@ Nguồn: [FX624](EURUSD-CATALOGUE13-RESULTS-20261108.md),
 [R056](PRE-ECB-SESSION-RISK-RESULTS-20261108.md),
 [Gold](GOLD-SMA50K-REVIEW-20261108.md),
 [transfer](STRATEGY-ORIGIN-TRANSFER-REVIEW-20261108.md),
-[source correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md),
+[source correction](archive/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md),
 [catalogue](STRATEGY-CATALOGUE-20261107.json),
-[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md).
+[R080](archive/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md).
 
 ### Quy mô: tách raw observations khỏi bằng chứng độc lập
 

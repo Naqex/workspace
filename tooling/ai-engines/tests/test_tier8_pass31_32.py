@@ -130,6 +130,7 @@ def test_pass32_causal_cluster_a_weights_invariants():
         assert sum(w.values()) == pytest.approx(budget, rel=1e-6)
 
 
+@pytest.mark.local_cache
 def test_tier8_artifacts_holdout_seal_and_anti_bloat():
     assert len(assert_holdout_locked()) == 64
 

@@ -1,3 +1,16 @@
+# Global LF protection for source, MQL5, configs, data & scripts under Windows core.autocrlf=true
+*.py text eol=lf
+*.mq5 text eol=lf
+*.mqh text eol=lf
+*.csv text eol=lf
+*.json text eol=lf
+*.set text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.ps1 text eol=lf
+
 # Preserve bytes used by archive and recovery checksum manifests.
 planning/archive/** -text -diff
 planning/checkpoints/workspace-next-stage/CLEANUP-20261001/recovered-notes/** -text -diff

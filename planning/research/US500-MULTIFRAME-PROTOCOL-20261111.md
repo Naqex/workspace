@@ -1,6 +1,6 @@
 # Đăng ký US500 pullback A/B/C — 11/11/2026
 
-Owner yêu cầu backtest sau khi chốt [A/B/C](US500-MULTITIMEFRAME-DRAFT-20261111.md),
+Owner yêu cầu backtest sau khi chốt [A/B/C](archive/US500-MULTITIMEFRAME-DRAFT-20261111.md),
 7 mức đệm và sáu cấu hình MA sensitivity. Đây là development screen liên quan
 R004/R094, không 27 edge độc lập. Không mua challenge, broker, fetch, AI inference
 hoặc đọc 2025+. Freeze protocol/code/tests bằng Git trước financial outcomes.
