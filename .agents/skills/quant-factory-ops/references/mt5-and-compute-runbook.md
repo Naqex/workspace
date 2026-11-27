@@ -62,3 +62,18 @@ Only install a local Python speedup/testing package when a profiled bottleneck w
    `uv pip install --python .runtime/quant-audit-v24/Scripts/python.exe --only-binary=:all: <package>`
 3. Smoke-test parity + measured speedup immediately and run `system_doctor.py --mode full`.
 4. Ask the owner first before any paid tool, OAuth/secret, global config change, or persistent daemon.
+
+## 6. Local Services Map, Data Priority, Zero-Popup Windows & CI Hygiene
+
+1. **Inspect Existing Workspace Services & Data Tools Before Advising External Alternatives:**
+   - **Trader `CLIProxyAPI` vs External Windows Instance ([LOCAL-SERVICES.md](../../../../projects/trader/foundation_v2/docs/LOCAL-SERVICES.md)):** Workspace-owned Trader `CLIProxyAPI` runs on loopback **`127.0.0.1:17852`** (resolve runtime `home`/`configPath`/`executable` dynamically via `.runtime/paperclip/gateway-owner.json` instead of hardcoding a static path; block external third-party routes via a sanitized temp config without mutating `managed.yaml`; `OPERATIONS.md` policy `request-retry: 0`, degrade cleanly to `NEUTRAL / SKIP_OFFLINE` on `429` or offline). Windows port **`8317`** is an external host instance — NEVER modify its config, auth, keys, or lifecycle.
+   - **Data Source Priority When Dukascopy HTTP Hits AWS WAF (`403`/`202`):** NEVER bypass WAF or CAPTCHA. Inspect existing **`QDM CLI 125.2692`** ([quantdatamanager.md](../../../../projects/trader/docs/quantdatamanager.md), `TW_V2_QDM_HOME`, export cache `<= 2024-12-31`) and local **`FTMO-Demo` portable M1** (`<= 2024-12-31`, `holdout_rows = 0`) BEFORE adding any new downloader.
+2. **Zero-Popup Windows Background Automation:**
+   - All Windows Scheduled Tasks running background Python scripts MUST execute **`.runtime\quant-audit-v24\Scripts\pythonw.exe`** with `Hidden = $true` (never console `python.exe`).
+   - EVERY `subprocess.run` / `subprocess.Popen` call inside scheduled or router modules (`watchdog_15m.py`, `morning_briefing.py`, `compute_router.py` — including `ssh`, `scp`, `git`, `w32tm`, `nvidia-smi`) MUST pass `creationflags = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0`; otherwise Windows spawns a visible black `cmd`/`conhost` window for every child console command launched from windowless `pythonw.exe`.
+3. **MT5 Same-Feed vs Cross-Feed Parity & Live `OnnxRun()` Verification:**
+   - Separate **cross-feed broker drift** (`FTMO 00:00 EET` D1 vs `Dukascopy 00:00 UTC` D1 + production CSV lacking 2018–2024 non-USD events + 1s post-news re-entry) from EA logic bugs: certify `>= 98%` formula parity on **same-feed FTMO M1 + identical calendar** before Demo Burn-In, and note `MQL_TESTER` skips `LogExecAuditFor`/`LogMasterShadowRowV103` unless explicitly enabled via a tester flag.
+   - When exporting ML models to MT5 ONNX (`OnnxRun`), force pure `float32` tensors (`zipmap = False`) and verify numerical parity **`Python == onnxruntime == MT5 Strategy Tester OnnxRun() <= 1e-5`** (retain a pure-MQL5 `.mqh` fallback if the MT5 ONNX runtime rejects an operator).
+4. **CI `@pytest.mark.local_cache` Marker & Clean Multi-Repo Git Hygiene:**
+   - Mark any pytest reading gitignored `private_vault/` or `.runtime/` caches with `@pytest.mark.local_cache` while keeping pure synthetic offline assertions active in GitHub Actions CI.
+   - Never run `git add -A` in the superproject: stage explicit paths only, assert `0` unintended `:160000` gitlinks, `0` `.ex5` in `private_vault/` or tracked `exports/`, and preserve untouched owner WIP in `projects/vi-dubber`.

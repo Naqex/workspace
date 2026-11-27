@@ -69,6 +69,7 @@ _FORBIDDEN_DEV_TOKENS: tuple[str, ...] = (
 _QUNS_BUSY_STATES: frozenset[int] = frozenset({2, 3, 4})
 _BELOW_NORMAL_PRIORITY_CLASS = 0x00004000
 _NORMAL_PRIORITY_CLASS = 0x00000020
+_NO_WINDOW_FLAGS: int = int(getattr(subprocess, "CREATE_NO_WINDOW", 0)) if os.name == "nt" else 0
 
 
 class _LastInputInfo(ctypes.Structure):
@@ -444,6 +445,7 @@ def probe_x13_worker(
                 encoding="utf-8",
                 errors="replace",
                 timeout=timeout,
+                creationflags=_NO_WINDOW_FLAGS,
             )
         except (subprocess.SubprocessError, OSError) as exc:
             last_reason = f"x13_ssh_timeout_or_error({alias}:{type(exc).__name__})"
@@ -955,6 +957,7 @@ def _current_git_sha() -> str:
             capture_output=True,
             text=True,
             timeout=5,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if proc.returncode == 0:
             return proc.stdout.strip()
@@ -1361,7 +1364,8 @@ def _run_local_dev_job(
         env.update(extra_env)
     flags = 0
     if os.name == "nt":
-        flags = _BELOW_NORMAL_PRIORITY_CLASS if priority == "BELOW_NORMAL" else _NORMAL_PRIORITY_CLASS
+        prio_flag = _BELOW_NORMAL_PRIORITY_CLASS if priority == "BELOW_NORMAL" else _NORMAL_PRIORITY_CLASS
+        flags = prio_flag | _NO_WINDOW_FLAGS
     t0 = time.perf_counter()
     proc = subprocess.run(
         [sys.executable, str(entry_script), *(extra_args or [])],
@@ -1419,6 +1423,7 @@ def pull_results(
         ["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias,
          f'if exist "{X13_BASE_DIR}\\results\\{jid}\\manifest.sha256.json" (echo READY) else (echo NOT_READY)'],
         capture_output=True, text=True, timeout=10,
+        creationflags=_NO_WINDOW_FLAGS,
     )
     if chk.returncode != 0 or "READY" not in (chk.stdout or ""):
         return {
@@ -1436,6 +1441,7 @@ def pull_results(
             ["scp", "-r", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes",
              f"{alias}:C:/NaqexResearch/results/{jid}", str(stage)],
             capture_output=True, text=True, timeout=120,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if scp.returncode != 0:
             return {"ok": False, "status": "SCP_PULL_FAILED", "stderr": scp.stderr.strip(), "job_id": jid}
@@ -1458,6 +1464,7 @@ def pull_results(
             ["ssh", "-o", "ConnectTimeout=4", "-o", "BatchMode=yes", alias,
              f'rmdir /s /q "{X13_BASE_DIR}\\jobs\\{jid}" "{X13_BASE_DIR}\\results\\{jid}"'],
             capture_output=True, text=True, timeout=15,
+            creationflags=_NO_WINDOW_FLAGS,
         )
     return {
         "ok": final_verify["ok"],
@@ -1533,6 +1540,7 @@ def _execute_x13_bundle(
             capture_output=True,
             text=True,
             timeout=15,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if mk.returncode != 0:
             raise RuntimeError(f"x13_mkdir_failed(rc={mk.returncode})")
@@ -1551,6 +1559,7 @@ def _execute_x13_bundle(
                 capture_output=True,
                 text=True,
                 timeout=60,
+                creationflags=_NO_WINDOW_FLAGS,
             )
             if cp.returncode != 0:
                 raise RuntimeError(f"x13_scp_upload_failed({local_p.name},rc={cp.returncode})")
@@ -1569,6 +1578,7 @@ def _execute_x13_bundle(
                 capture_output=True,
                 text=True,
                 timeout=timeout,
+                creationflags=_NO_WINDOW_FLAGS,
             )
             if run_p.returncode == _X13_LOCK_BUSY_RC:
                 if remaining_lease > 0.0 and lock_retries < 5:
@@ -2552,6 +2562,7 @@ def sync_dev_cache(
             capture_output=True,
             text=True,
             timeout=15,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         for local_p in (packed["tar_path"], packed["manifest_path"], unpack_local):
             subprocess.run(
@@ -2568,6 +2579,7 @@ def sync_dev_cache(
                 capture_output=True,
                 text=True,
                 timeout=300,
+                creationflags=_NO_WINDOW_FLAGS,
             )
 
         unpack_cmd = f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\cache_staging\\unpack_cache.py" "{X13_BASE_DIR}"'
@@ -2577,6 +2589,7 @@ def sync_dev_cache(
             capture_output=True,
             text=True,
             timeout=300,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         remote_receipt = json.loads((proc.stdout or "{}").strip())
         summary["archive_sha256"] = packed["manifest"]["archive_sha256"]
@@ -2738,6 +2751,7 @@ def _query_x13_m1_hashes(alias: str) -> dict[str, str]:
             capture_output=True,
             text=True,
             timeout=15,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         subprocess.run(
             [
@@ -2753,6 +2767,7 @@ def _query_x13_m1_hashes(alias: str) -> dict[str, str]:
             capture_output=True,
             text=True,
             timeout=30,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         cmd = f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\cache_staging\\m1_sha_inventory.py" "{X13_BASE_DIR}"'
         proc = subprocess.run(
@@ -2761,6 +2776,7 @@ def _query_x13_m1_hashes(alias: str) -> dict[str, str]:
             capture_output=True,
             text=True,
             timeout=120,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         payload = json.loads((proc.stdout or "{}").strip())
         hashes = payload.get("hashes")
@@ -2788,6 +2804,7 @@ def _scp_upload_m1_file(alias: str, local_path: Path, rel_posix: str) -> None:
         capture_output=True,
         text=True,
         timeout=15,
+        creationflags=_NO_WINDOW_FLAGS,
     )
     subprocess.run(
         [
@@ -2803,6 +2820,7 @@ def _scp_upload_m1_file(alias: str, local_path: Path, rel_posix: str) -> None:
         capture_output=True,
         text=True,
         timeout=300,
+        creationflags=_NO_WINDOW_FLAGS,
     )
 
 

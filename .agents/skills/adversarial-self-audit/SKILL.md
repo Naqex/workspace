@@ -5,7 +5,7 @@ description: Run falsification-first internal red-team self-audits on Naqex quan
 
 # Adversarial Self-Audit (Internal Red-Team Verifier)
 
-Replace external audit rounds by actively trying to **break your own implementation and claims** before presenting results to the owner. Passing happy-path unit tests is necessary but never sufficient.
+Actively try to **break your own code and claims** before reporting done. Passing happy-path tests is never sufficient.
 
 ## Hard Boundaries (Fail-Closed)
 
@@ -33,6 +33,7 @@ Run every vector applicable to the task before declaring `PASS`:
    - Recalculate headline counts, sums, win/tie/loss counts, and exact SHA-256 hashes from raw `.htm`/`.csv`/`.json` files; confirm every report table matches raw receipts with `0` unexplained deltas.
 7. **Negative-Mutation Proof (`>= 1` Deliberate Break):**
    - Before closing a gate/comparator/validator, prove via unit test that injecting at least 1 realistic defect (flipped SELL slippage sign, 1-sec spoof, future date, missing position close, swapped config field) flips the gate from `PASS` to `FAIL`.
+- **Bug catalog (on demand):** Read [references/offensive3-bug-patterns.md](references/offensive3-bug-patterns.md) for zero-gap, PowerShell, `tzdata`, lot-floor & LLM traps.
 
 ## Execution Pattern & 9-Stage Workflow Handoffs
 
