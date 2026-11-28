@@ -55,3 +55,10 @@ Check the reported transition plus affected keyboard, small-screen and error
 states. A copy-only change needs build and a focused rendered check, not an
 unrelated full workflow/load suite. Use project QA for the checks that matter.
 Record any deliberate difference between modes; do not label all differences bugs.
+
+- For read-only operational views added to `projects/trader/foundation_v2/web/`
+  (such as `?view=prop-fleet`), code-split via `React.lazy` (`0 B` critical
+  bundle delta), enforce `execution_capability: false` with `0` `/api/*` calls,
+  preserve `sharedUiPins` and `DEMO_VIEWS` unchanged, and run the stale-asset
+  check (`prune_dist_assets` -> `stale_count == 0`) before committing so
+  repeated builds never leave orphaned files in `dist/assets/`.
