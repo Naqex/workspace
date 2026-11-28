@@ -1,0 +1,1176 @@
+{
+  "schema_version": "naqex-ssot-evaluation-taxonomy-v1",
+  "updated_utc": "2026-11-28T07:15:00Z",
+  "holdout_cutoff_date": "2024-12-31",
+  "holdout_rows_analysed": 0,
+  "order_send_count": 0,
+  "grade_bands": [
+    "BAD",
+    "ADEQUATE",
+    "GOOD",
+    "TOP_1_PCT",
+    "UNKNOWN_LEGACY_UNINSTRUMENTED"
+  ],
+  "grade_band_specs": {
+    "BAD": {
+      "rank": 0,
+      "is_numeric_grade": true,
+      "label_vi": "Xấu",
+      "label_en": "Bad",
+      "semantic_role": "danger"
+    },
+    "ADEQUATE": {
+      "rank": 1,
+      "is_numeric_grade": true,
+      "label_vi": "Đủ dùng",
+      "label_en": "Adequate",
+      "semantic_role": "warning"
+    },
+    "GOOD": {
+      "rank": 2,
+      "is_numeric_grade": true,
+      "label_vi": "Tốt",
+      "label_en": "Good",
+      "semantic_role": "success"
+    },
+    "TOP_1_PCT": {
+      "rank": 3,
+      "is_numeric_grade": true,
+      "label_vi": "Top 1% thực tế",
+      "label_en": "Top 1% Realistic",
+      "semantic_role": "info"
+    },
+    "UNKNOWN_LEGACY_UNINSTRUMENTED": {
+      "rank": -1,
+      "is_numeric_grade": false,
+      "label_vi": "Chưa tách số liệu (Đợt cũ)",
+      "label_en": "Unknown (Legacy Uninstrumented)",
+      "semantic_role": "stale"
+    }
+  },
+  "legacy_grade_mapping": {
+    "XAU": "BAD",
+    "BAD": "BAD",
+    "DU_DUNG": "ADEQUATE",
+    "ADEQUATE": "ADEQUATE",
+    "TOT": "GOOD",
+    "GOOD": "GOOD",
+    "TOP_1_PCT": "TOP_1_PCT",
+    "UNKNOWN": "UNKNOWN_LEGACY_UNINSTRUMENTED",
+    "UNKNOWN_LEGACY_UNINSTRUMENTED": "UNKNOWN_LEGACY_UNINSTRUMENTED"
+  },
+  "evidence_stages": [
+    "DEV_IS",
+    "DEV_BLIND_OOS",
+    "DEV_CONSUMED_OOS",
+    "HOLDOUT_SEALED_ONCE",
+    "SHADOW_DEMO",
+    "LIVE_REAL"
+  ],
+  "evidence_stage_specs": {
+    "DEV_IS": {
+      "order": 0,
+      "is_out_of_sample": false,
+      "is_live_evidence": false,
+      "label_vi": "Quá khứ huấn luyện (Dev IS)"
+    },
+    "DEV_BLIND_OOS": {
+      "order": 1,
+      "is_out_of_sample": true,
+      "is_live_evidence": false,
+      "label_vi": "Ngoài mẫu mù trên Dev (chưa xem M1)"
+    },
+    "DEV_CONSUMED_OOS": {
+      "order": 2,
+      "is_out_of_sample": false,
+      "is_live_evidence": false,
+      "label_vi": "Backtest quá khứ Dev đã dùng để chọn lọc"
+    },
+    "HOLDOUT_SEALED_ONCE": {
+      "order": 3,
+      "is_out_of_sample": true,
+      "is_live_evidence": false,
+      "label_vi": "Holdout 2025+ niêm phong (chỉ mở 1 lần)"
+    },
+    "SHADOW_DEMO": {
+      "order": 4,
+      "is_out_of_sample": true,
+      "is_live_evidence": false,
+      "label_vi": "Chạy Demo/Trial thực địa trên sàn"
+    },
+    "LIVE_REAL": {
+      "order": 5,
+      "is_out_of_sample": true,
+      "is_live_evidence": true,
+      "label_vi": "Tiền thật đã rút thưởng"
+    }
+  },
+  "legacy_evidence_stage_mapping": {
+    "BACKTEST_DEV_SEALED_LE_2024": "DEV_CONSUMED_OOS",
+    "CONSUMED_DEV_CLB_TEMPORAL_OOS": "DEV_CONSUMED_OOS",
+    "DEV_IS": "DEV_IS",
+    "DEV_BLIND_OOS": "DEV_BLIND_OOS",
+    "DEV_CONSUMED_OOS": "DEV_CONSUMED_OOS",
+    "HOLDOUT_SEALED_ONCE": "HOLDOUT_SEALED_ONCE",
+    "SHADOW_DEMO": "SHADOW_DEMO",
+    "LIVE_REAL": "LIVE_REAL"
+  },
+  "data_resolutions": [
+    "TICK_REAL",
+    "M1_BID_ASK",
+    "M1_BID_SPREAD",
+    "M1_SINGLE_SIDE",
+    "APPROX_DAILY"
+  ],
+  "data_resolution_specs": {
+    "TICK_REAL": {
+      "fidelity_rank": 4,
+      "label_vi": "Tick thực tế từ sàn"
+    },
+    "M1_BID_ASK": {
+      "fidelity_rank": 3,
+      "label_vi": "Nến M1 hai chiều Bid/Ask thật"
+    },
+    "M1_BID_SPREAD": {
+      "fidelity_rank": 2,
+      "label_vi": "Nến M1 Bid kèm spread thực tế"
+    },
+    "M1_SINGLE_SIDE": {
+      "fidelity_rank": 1,
+      "label_vi": "Nến M1 một phía (cộng spread SSOT)"
+    },
+    "APPROX_DAILY": {
+      "fidelity_rank": 0,
+      "label_vi": "XẤP XỈ CẤP NGÀY"
+    }
+  },
+  "legacy_resolution_mapping": {
+    "APPROX_DAILY_RESOLUTION": "APPROX_DAILY",
+    "APPROX_DAILY": "APPROX_DAILY",
+    "M1_SINGLE_SIDE": "M1_SINGLE_SIDE",
+    "M1_BID_SPREAD": "M1_BID_SPREAD",
+    "M1_BID_ASK": "M1_BID_ASK",
+    "TICK_REAL": "TICK_REAL"
+  },
+  "pricing_regimes": [
+    "ALL_REGULAR_SSOT",
+    "BLACK_FRIDAY_PROMO"
+  ],
+  "pricing_regime_specs": {
+    "ALL_REGULAR_SSOT": {
+      "is_model_assumption": false,
+      "is_primary_baseline": true,
+      "label_vi": "Giá niêm yết chuẩn (SSOT)"
+    },
+    "BLACK_FRIDAY_PROMO": {
+      "is_model_assumption": true,
+      "is_primary_baseline": false,
+      "label_vi": "Giả định giá khuyến mãi Black Friday (không cam kết hợp đồng)"
+    }
+  },
+  "legacy_pricing_regime_mapping": {
+    "ALL_REGULAR_SSOT": "ALL_REGULAR_SSOT",
+    "MODEL_ASSUMPTION_PROMO_DAY0": "BLACK_FRIDAY_PROMO",
+    "BLACK_FRIDAY_PROMO": "BLACK_FRIDAY_PROMO"
+  },
+  "eval_scopes": [
+    "SINGLE_TICKET",
+    "MULTI_ACCOUNT_FLEET"
+  ],
+  "eval_scope_specs": {
+    "SINGLE_TICKET": {
+      "allows_retry": false,
+      "label_vi": "Đơn vé không thử lại (Single Ticket Zero-Retry)"
+    },
+    "MULTI_ACCOUNT_FLEET": {
+      "allows_retry": true,
+      "label_vi": "Đội tài khoản chạy chung đường thị trường (Shared-Path Fleet)"
+    }
+  },
+  "domain_tiers": [
+    "T1_CFD_PROP",
+    "T2_CME_FUTURES",
+    "T3_MULTI_ASSET_OWNBOOK",
+    "T4_LIVE_OPS"
+  ],
+  "eval_phases": [
+    "p1",
+    "p2",
+    "pass_eval",
+    "funded_12m",
+    "overall_36m"
+  ],
+  "risk_spectrum_tiers": [
+    "T1_ULTRA_SAFE",
+    "T2_CONSERVATIVE",
+    "T3_BALANCED",
+    "T4_AGGRESSIVE_SPRINT",
+    "T5_MAX_THROTTLE_YOLO"
+  ],
+  "risk_spectrum_tier_specs": {
+    "T1_ULTRA_SAFE": {
+      "risk_rank": 1,
+      "label_vi": "T1 Siêu an toàn (giữ vốn tối đa)",
+      "target_ruin_cap_pct": 0.5
+    },
+    "T2_CONSERVATIVE": {
+      "risk_rank": 2,
+      "label_vi": "T2 Thận trọng",
+      "target_ruin_cap_pct": 1.0
+    },
+    "T3_BALANCED": {
+      "risk_rank": 3,
+      "label_vi": "T3 Cân bằng (điểm ngọt Pareto)",
+      "target_ruin_cap_pct": 2.5
+    },
+    "T4_AGGRESSIVE_SPRINT": {
+      "risk_rank": 4,
+      "label_vi": "T4 Tăng tốc vượt vòng thi",
+      "target_ruin_cap_pct": 10.0
+    },
+    "T5_MAX_THROTTLE_YOLO": {
+      "risk_rank": 5,
+      "label_vi": "T5 Cực mạo hiểm (tối đa tốc độ)",
+      "target_ruin_cap_pct": 35.0
+    }
+  },
+  "alpha_lifecycle_states": [
+    "DISCOVERED",
+    "CLUSTER_A_PASS",
+    "BLIND_B_VERIFIED",
+    "BENCH_READY",
+    "SHADOW_INCUBATION",
+    "ACTIVE_1X",
+    "DECAY_AMBER_0_5X",
+    "RETIRED",
+    "KILLED"
+  ],
+  "bottleneck_codes": [
+    "PF_BELOW_TARGET",
+    "CALMAR_BELOW_TARGET",
+    "SHARPE_BELOW_TARGET",
+    "EV_PER_FEE_BELOW_TARGET",
+    "FUNDED_12M_BLOWUP_HIGH",
+    "RUIN_36M_HIGH",
+    "P_LE_ZERO_24M_HIGH",
+    "PAYOUT_1_SLOW",
+    "SLIPPAGE_BREAKEVEN_LOW",
+    "P1_PASS_RATE_LOW",
+    "P2_PASS_RATE_LOW",
+    "PASS_EVAL_RATE_LOW",
+    "P1_UNINSTRUMENTED_LEGACY",
+    "P2_UNINSTRUMENTED_LEGACY",
+    "EXECUTION_UNMEASURED_DEMO",
+    "DATA_RESOLUTION_APPROX_DAILY",
+    "PRICING_PROMO_ASSUMPTION",
+    "EVIDENCE_STAGE_DEV_ONLY",
+    "CME_EOD_TRAILING_RISK",
+    "LIVE_OPS_RECON_GAP"
+  ],
+  "bottleneck_catalog": {
+    "PF_BELOW_TARGET": {
+      "metric_id": "profit_factor",
+      "label_vi": "Hệ số lợi nhuận (PF) sau phí còn dưới mục tiêu"
+    },
+    "CALMAR_BELOW_TARGET": {
+      "metric_id": "calmar",
+      "label_vi": "Tỷ lệ Calmar (lãi năm / sụt giảm đỉnh) còn thấp"
+    },
+    "SHARPE_BELOW_TARGET": {
+      "metric_id": "sharpe",
+      "label_vi": "Độ êm lợi nhuận (Sharpe) chưa đạt ngưỡng mục tiêu"
+    },
+    "EV_PER_FEE_BELOW_TARGET": {
+      "metric_id": "ev_per_fee",
+      "label_vi": "Kỳ vọng lãi trên 1 đồng phí thi quỹ còn dưới mục tiêu"
+    },
+    "FUNDED_12M_BLOWUP_HIGH": {
+      "metric_id": "funded_12m_blowup",
+      "label_vi": "Tỷ lệ cháy tài khoản Funded trong 12 tháng vượt ngưỡng an toàn"
+    },
+    "RUIN_36M_HIGH": {
+      "metric_id": "ruin_36m",
+      "label_vi": "Xác suất cạn ngân sách thi quỹ 36 tháng vượt ngưỡng"
+    },
+    "P_LE_ZERO_24M_HIGH": {
+      "metric_id": "p_le_zero_24m",
+      "label_vi": "Xác suất lỗ hoặc hòa vốn sau 24 tháng còn cao"
+    },
+    "PAYOUT_1_SLOW": {
+      "metric_id": "payout_1_cal_days",
+      "label_vi": "Thời gian chờ trung vị tới lần rút tiền đầu tiên còn dài"
+    },
+    "SLIPPAGE_BREAKEVEN_LOW": {
+      "metric_id": "slippage_breakeven",
+      "label_vi": "Biên chịu trượt giá hòa vốn còn mỏng"
+    },
+    "P1_PASS_RATE_LOW": {
+      "metric_id": "p1_pass_rate",
+      "label_vi": "Tỷ lệ đậu Vòng 1 (P1) còn dưới ngưỡng mục tiêu"
+    },
+    "P2_PASS_RATE_LOW": {
+      "metric_id": "p2_pass_rate",
+      "label_vi": "Tỷ lệ đậu Vòng 2 (P2) còn dưới ngưỡng mục tiêu"
+    },
+    "PASS_EVAL_RATE_LOW": {
+      "metric_id": "pass_eval_rate",
+      "label_vi": "Tỷ lệ vượt đủ vòng thi vào Funded còn thấp"
+    },
+    "P1_UNINSTRUMENTED_LEGACY": {
+      "metric_id": "p1_pass_rate",
+      "label_vi": "Chưa tách riêng P1/P2 ở dữ liệu Đợt 4"
+    },
+    "P2_UNINSTRUMENTED_LEGACY": {
+      "metric_id": "p2_pass_rate",
+      "label_vi": "Chưa tách riêng P1/P2 ở dữ liệu Đợt 4"
+    },
+    "EXECUTION_UNMEASURED_DEMO": {
+      "metric_id": "execution_status",
+      "label_vi": "Chưa đo trượt giá và khớp lệnh thực tế trên Demo của hãng"
+    },
+    "DATA_RESOLUTION_APPROX_DAILY": {
+      "metric_id": "data_resolution",
+      "label_vi": "Mô phỏng vòng đời đang ở độ phân giải XẤP XỈ CẤP NGÀY"
+    },
+    "PRICING_PROMO_ASSUMPTION": {
+      "metric_id": "pricing_regime",
+      "label_vi": "Đang dùng giả định giá khuyến mãi không cam kết hợp đồng"
+    },
+    "EVIDENCE_STAGE_DEV_ONLY": {
+      "metric_id": "evidence_stage",
+      "label_vi": "Bằng chứng mới ở mức quá khứ Dev, chưa qua Holdout mù và Demo/Live"
+    },
+    "CME_EOD_TRAILING_RISK": {
+      "metric_id": "funded_12m_blowup",
+      "label_vi": "Rủi ro chạm sàn Trailing EOD trên quỹ Futures CME còn cao"
+    },
+    "LIVE_OPS_RECON_GAP": {
+      "metric_id": "slippage_breakeven",
+      "label_vi": "Độ lệch vận hành thực tế hoặc biên ma sát thực địa chưa đạt chuẩn"
+    }
+  },
+  "blindness_tier_mapping": {
+    "source_immutable_ref": "tooling/ai-engines/configs/ssot/ftmo_specs_28.json",
+    "note": "Read-only Wave 5 mapping overlay; ftmo_specs_28.json stays strictly untouched.",
+    "canonical_tiers": [
+      "DEV_CLB_CONSUMED_12OLD",
+      "M1_UNSEEN_D1_VIEWED"
+    ],
+    "raw_to_wave5": {
+      "DEV_CLB_CONSUMED_12OLD": "DEV_CLB_CONSUMED_12OLD",
+      "OLD12": "DEV_CLB_CONSUMED_12OLD",
+      "NEW9_D1_VIEWED_M1_UNSEEN": "M1_UNSEEN_D1_VIEWED",
+      "TRUE_BLIND_CLB_NEW7_CROSSES": "M1_UNSEEN_D1_VIEWED"
+    }
+  },
+  "legacy_uninstrumented_presentation_state": {
+    "availability": "ready",
+    "freshness": "partial",
+    "certainty": "unknown",
+    "label": "Chưa tách riêng P1/P2 ở dữ liệu Đợt 4",
+    "ariaLabel": "Chưa tách riêng P1/P2 ở dữ liệu Đợt 4"
+  },
+  "metric_intervals": {
+    "profit_factor": {
+      "metric_id": "profit_factor",
+      "display_name_vi": "Profit Factor (PF)",
+      "unit": "ratio",
+      "direction": "higher_is_better",
+      "record_field": "profit_factor",
+      "bottleneck_code": "PF_BELOW_TARGET",
+      "bands": [
+        {
+          "grade": "BAD",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 1.1,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (< 1,10)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 1.1,
+          "lower_inclusive": true,
+          "upper_bound": 1.25,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (1,10 đến < 1,25)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 1.25,
+          "lower_inclusive": true,
+          "upper_bound": 1.5,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (1,25 đến < 1,50)"
+        },
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": 1.5,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (>= 1,50)"
+        }
+      ]
+    },
+    "calmar": {
+      "metric_id": "calmar",
+      "display_name_vi": "Calmar (Lãi năm / Max DD)",
+      "unit": "ratio",
+      "direction": "higher_is_better",
+      "record_field": "calmar",
+      "bottleneck_code": "CALMAR_BELOW_TARGET",
+      "bands": [
+        {
+          "grade": "BAD",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 0.6,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (< 0,60)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 0.6,
+          "lower_inclusive": true,
+          "upper_bound": 1.2,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (0,60 đến < 1,20)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 1.2,
+          "lower_inclusive": true,
+          "upper_bound": 2.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (1,20 đến < 2,00)"
+        },
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": 2.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (>= 2,00)"
+        }
+      ]
+    },
+    "sharpe": {
+      "metric_id": "sharpe",
+      "display_name_vi": "Sharpe (Độ êm lợi nhuận)",
+      "unit": "ratio",
+      "direction": "higher_is_better",
+      "record_field": "sharpe",
+      "bottleneck_code": "SHARPE_BELOW_TARGET",
+      "bands": [
+        {
+          "grade": "BAD",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 0.8,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (< 0,80)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 0.8,
+          "lower_inclusive": true,
+          "upper_bound": 1.2,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (0,80 đến < 1,20)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 1.2,
+          "lower_inclusive": true,
+          "upper_bound": 2.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (1,20 đến < 2,00)"
+        },
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": 2.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (>= 2,00)"
+        }
+      ]
+    },
+    "ev_per_fee": {
+      "metric_id": "ev_per_fee",
+      "display_name_vi": "Kỳ vọng lãi / 1 đồng phí (EV/Phí)",
+      "unit": "multiple",
+      "direction": "higher_is_better",
+      "record_field": "ev_per_fee",
+      "bottleneck_code": "EV_PER_FEE_BELOW_TARGET",
+      "bands": [
+        {
+          "grade": "BAD",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 1.0,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (< +1,0x)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 1.0,
+          "lower_inclusive": true,
+          "upper_bound": 3.0,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (+1,0x đến < +3,0x)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 3.0,
+          "lower_inclusive": true,
+          "upper_bound": 5.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (+3,0x đến < +5,0x)"
+        },
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": 5.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (>= +5,0x)"
+        }
+      ]
+    },
+    "funded_12m_blowup": {
+      "metric_id": "funded_12m_blowup",
+      "display_name_vi": "Tỷ lệ cháy Funded 12 tháng (%)",
+      "unit": "percent",
+      "direction": "lower_is_better",
+      "record_field": "funded_12m_blowup_pct",
+      "bottleneck_code": "FUNDED_12M_BLOWUP_HIGH",
+      "bands": [
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 0.5,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (< 0,5%)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 0.5,
+          "lower_inclusive": true,
+          "upper_bound": 1.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (0,5% đến < 1,0%)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 1.0,
+          "lower_inclusive": true,
+          "upper_bound": 5.0,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (1,0% đến < 5,0%)"
+        },
+        {
+          "grade": "BAD",
+          "lower_bound": 5.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (>= 5,0%)"
+        }
+      ]
+    },
+    "ruin_36m": {
+      "metric_id": "ruin_36m",
+      "display_name_vi": "Xác suất cháy sạch ngân sách 36 tháng (%)",
+      "unit": "percent",
+      "direction": "lower_is_better",
+      "record_field": "ruin_36m_pct",
+      "bottleneck_code": "RUIN_36M_HIGH",
+      "bands": [
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 1.0,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (< 1,0%)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 1.0,
+          "lower_inclusive": true,
+          "upper_bound": 5.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (1,0% đến < 5,0%)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 5.0,
+          "lower_inclusive": true,
+          "upper_bound": 25.0,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (5,0% đến < 25,0%)"
+        },
+        {
+          "grade": "BAD",
+          "lower_bound": 25.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (>= 25,0%)"
+        }
+      ]
+    },
+    "p_le_zero_24m": {
+      "metric_id": "p_le_zero_24m",
+      "display_name_vi": "Xác suất lỗ hoặc hòa vốn sau 24 tháng (%)",
+      "unit": "percent",
+      "direction": "lower_is_better",
+      "record_field": "p_le_zero_24m_pct",
+      "bottleneck_code": "P_LE_ZERO_24M_HIGH",
+      "bands": [
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 15.0,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (< 15,0%)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 15.0,
+          "lower_inclusive": true,
+          "upper_bound": 30.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (15,0% đến < 30,0%)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 30.0,
+          "lower_inclusive": true,
+          "upper_bound": 50.0,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (30,0% đến < 50,0%)"
+        },
+        {
+          "grade": "BAD",
+          "lower_bound": 50.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (>= 50,0%)"
+        }
+      ]
+    },
+    "payout_1_cal_days": {
+      "metric_id": "payout_1_cal_days",
+      "display_name_vi": "Trung vị ngày lịch tới Payout #1",
+      "unit": "cal_days",
+      "direction": "lower_is_better",
+      "record_field": "payout_1_cal_days",
+      "bottleneck_code": "PAYOUT_1_SLOW",
+      "bands": [
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 120.0,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (< 120 ngày / dưới 4 tháng)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 120.0,
+          "lower_inclusive": true,
+          "upper_bound": 300.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (120 đến < 300 ngày)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 300.0,
+          "lower_inclusive": true,
+          "upper_bound": 540.0,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (300 đến < 540 ngày)"
+        },
+        {
+          "grade": "BAD",
+          "lower_bound": 540.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (>= 540 ngày)"
+        }
+      ]
+    },
+    "slippage_breakeven": {
+      "metric_id": "slippage_breakeven",
+      "display_name_vi": "Ngưỡng trượt giá hòa vốn (x chi phí chuẩn)",
+      "unit": "multiple",
+      "direction": "higher_is_better",
+      "record_field": "slippage_breakeven_mult",
+      "bottleneck_code": "SLIPPAGE_BREAKEVEN_LOW",
+      "bands": [
+        {
+          "grade": "BAD",
+          "lower_bound": null,
+          "lower_inclusive": false,
+          "upper_bound": 1.25,
+          "upper_inclusive": false,
+          "label_vi": "Xấu (< 1,25x)"
+        },
+        {
+          "grade": "ADEQUATE",
+          "lower_bound": 1.25,
+          "lower_inclusive": true,
+          "upper_bound": 1.5,
+          "upper_inclusive": false,
+          "label_vi": "Đủ dùng (1,25x đến < 1,50x)"
+        },
+        {
+          "grade": "GOOD",
+          "lower_bound": 1.5,
+          "lower_inclusive": true,
+          "upper_bound": 2.0,
+          "upper_inclusive": false,
+          "label_vi": "Tốt (1,50x đến < 2,00x)"
+        },
+        {
+          "grade": "TOP_1_PCT",
+          "lower_bound": 2.0,
+          "lower_inclusive": true,
+          "upper_bound": null,
+          "upper_inclusive": false,
+          "label_vi": "Top 1% (>= 2,00x)"
+        }
+      ]
+    }
+  },
+  "domain_tier_thresholds": {
+    "T1_CFD_PROP": {
+      "tier_id": "T1_CFD_PROP",
+      "label_vi": "Tầng 1 — Bot thi quỹ CFD Prop (FTMO / The5ers)",
+      "phases": {
+        "p1": {
+          "applicable": true,
+          "metrics": {
+            "p1_pass_rate": {
+              "record_field": "p1_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P1_PASS_RATE_LOW",
+              "adequate": 35.0,
+              "good": 55.0,
+              "top_1": 75.0
+            }
+          }
+        },
+        "p2": {
+          "applicable": true,
+          "metrics": {
+            "p2_pass_rate": {
+              "record_field": "p2_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P2_PASS_RATE_LOW",
+              "adequate": 55.0,
+              "good": 70.0,
+              "top_1": 85.0
+            }
+          }
+        },
+        "pass_eval": {
+          "applicable": true,
+          "metrics": {
+            "pass_eval_rate": {
+              "record_field": "pass_eval_12m_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "PASS_EVAL_RATE_LOW",
+              "adequate": 25.0,
+              "good": 45.0,
+              "top_1": 65.0
+            }
+          }
+        },
+        "funded_12m": {
+          "applicable": true,
+          "metrics": {
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "FUNDED_12M_BLOWUP_HIGH",
+              "adequate": 5.0,
+              "good": 1.0,
+              "top_1": 0.5
+            }
+          }
+        },
+        "overall_36m": {
+          "applicable": true,
+          "metrics": {
+            "ev_per_fee": {
+              "record_field": "ev_per_fee",
+              "direction": "higher_is_better",
+              "unit": "multiple",
+              "bottleneck_code": "EV_PER_FEE_BELOW_TARGET",
+              "adequate": 1.0,
+              "good": 3.0,
+              "top_1": 5.0
+            },
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "FUNDED_12M_BLOWUP_HIGH",
+              "adequate": 5.0,
+              "good": 1.0,
+              "top_1": 0.5
+            },
+            "ruin_36m": {
+              "record_field": "ruin_36m_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "RUIN_36M_HIGH",
+              "adequate": 25.0,
+              "good": 5.0,
+              "top_1": 1.0
+            },
+            "p_le_zero_24m": {
+              "record_field": "p_le_zero_24m_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P_LE_ZERO_24M_HIGH",
+              "adequate": 50.0,
+              "good": 30.0,
+              "top_1": 15.0
+            },
+            "payout_1_cal_days": {
+              "record_field": "payout_1_cal_days",
+              "direction": "lower_is_better",
+              "unit": "cal_days",
+              "bottleneck_code": "PAYOUT_1_SLOW",
+              "adequate": 540.0,
+              "good": 300.0,
+              "top_1": 120.0
+            }
+          }
+        }
+      }
+    },
+    "T2_CME_FUTURES": {
+      "tier_id": "T2_CME_FUTURES",
+      "label_vi": "Tầng 2 — Quỹ Futures CME Intraday (15:10 CT, Trailing EOD)",
+      "phases": {
+        "p1": {
+          "applicable": true,
+          "metrics": {
+            "p1_pass_rate": {
+              "record_field": "p1_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P1_PASS_RATE_LOW",
+              "adequate": 25.0,
+              "good": 40.0,
+              "top_1": 60.0
+            }
+          }
+        },
+        "p2": {
+          "applicable": false,
+          "metrics": {
+            "p2_pass_rate": {
+              "record_field": "p2_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P2_PASS_RATE_LOW",
+              "adequate": 50.0,
+              "good": 70.0,
+              "top_1": 85.0
+            }
+          }
+        },
+        "pass_eval": {
+          "applicable": true,
+          "metrics": {
+            "pass_eval_rate": {
+              "record_field": "pass_eval_12m_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "PASS_EVAL_RATE_LOW",
+              "adequate": 25.0,
+              "good": 40.0,
+              "top_1": 60.0
+            }
+          }
+        },
+        "funded_12m": {
+          "applicable": true,
+          "metrics": {
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "CME_EOD_TRAILING_RISK",
+              "adequate": 15.0,
+              "good": 5.0,
+              "top_1": 1.0
+            }
+          }
+        },
+        "overall_36m": {
+          "applicable": true,
+          "metrics": {
+            "ev_per_fee": {
+              "record_field": "ev_per_fee",
+              "direction": "higher_is_better",
+              "unit": "multiple",
+              "bottleneck_code": "EV_PER_FEE_BELOW_TARGET",
+              "adequate": 1.0,
+              "good": 2.5,
+              "top_1": 4.5
+            },
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "CME_EOD_TRAILING_RISK",
+              "adequate": 15.0,
+              "good": 5.0,
+              "top_1": 1.0
+            },
+            "ruin_36m": {
+              "record_field": "ruin_36m_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "RUIN_36M_HIGH",
+              "adequate": 25.0,
+              "good": 5.0,
+              "top_1": 1.0
+            },
+            "p_le_zero_24m": {
+              "record_field": "p_le_zero_24m_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P_LE_ZERO_24M_HIGH",
+              "adequate": 50.0,
+              "good": 30.0,
+              "top_1": 15.0
+            },
+            "payout_1_cal_days": {
+              "record_field": "payout_1_cal_days",
+              "direction": "lower_is_better",
+              "unit": "cal_days",
+              "bottleneck_code": "PAYOUT_1_SLOW",
+              "adequate": 365.0,
+              "good": 180.0,
+              "top_1": 90.0
+            }
+          }
+        }
+      }
+    },
+    "T3_MULTI_ASSET_OWNBOOK": {
+      "tier_id": "T3_MULTI_ASSET_OWNBOOK",
+      "label_vi": "Tầng 3 — Tổng danh mục đa tài sản / Sổ vốn riêng",
+      "phases": {
+        "p1": {
+          "applicable": false,
+          "metrics": {
+            "p1_pass_rate": {
+              "record_field": "p1_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P1_PASS_RATE_LOW",
+              "adequate": 35.0,
+              "good": 55.0,
+              "top_1": 75.0
+            }
+          }
+        },
+        "p2": {
+          "applicable": false,
+          "metrics": {
+            "p2_pass_rate": {
+              "record_field": "p2_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P2_PASS_RATE_LOW",
+              "adequate": 55.0,
+              "good": 70.0,
+              "top_1": 85.0
+            }
+          }
+        },
+        "pass_eval": {
+          "applicable": false,
+          "metrics": {
+            "pass_eval_rate": {
+              "record_field": "pass_eval_12m_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "PASS_EVAL_RATE_LOW",
+              "adequate": 25.0,
+              "good": 45.0,
+              "top_1": 65.0
+            }
+          }
+        },
+        "funded_12m": {
+          "applicable": true,
+          "metrics": {
+            "calmar": {
+              "record_field": "calmar",
+              "direction": "higher_is_better",
+              "unit": "ratio",
+              "bottleneck_code": "CALMAR_BELOW_TARGET",
+              "adequate": 0.6,
+              "good": 1.2,
+              "top_1": 2.0
+            },
+            "sharpe": {
+              "record_field": "sharpe",
+              "direction": "higher_is_better",
+              "unit": "ratio",
+              "bottleneck_code": "SHARPE_BELOW_TARGET",
+              "adequate": 0.8,
+              "good": 1.2,
+              "top_1": 2.0
+            }
+          }
+        },
+        "overall_36m": {
+          "applicable": true,
+          "metrics": {
+            "profit_factor": {
+              "record_field": "profit_factor",
+              "direction": "higher_is_better",
+              "unit": "ratio",
+              "bottleneck_code": "PF_BELOW_TARGET",
+              "adequate": 1.1,
+              "good": 1.25,
+              "top_1": 1.5
+            },
+            "calmar": {
+              "record_field": "calmar",
+              "direction": "higher_is_better",
+              "unit": "ratio",
+              "bottleneck_code": "CALMAR_BELOW_TARGET",
+              "adequate": 0.6,
+              "good": 1.2,
+              "top_1": 2.0
+            },
+            "sharpe": {
+              "record_field": "sharpe",
+              "direction": "higher_is_better",
+              "unit": "ratio",
+              "bottleneck_code": "SHARPE_BELOW_TARGET",
+              "adequate": 0.8,
+              "good": 1.2,
+              "top_1": 2.0
+            },
+            "slippage_breakeven": {
+              "record_field": "slippage_breakeven_mult",
+              "direction": "higher_is_better",
+              "unit": "multiple",
+              "bottleneck_code": "SLIPPAGE_BREAKEVEN_LOW",
+              "adequate": 1.25,
+              "good": 1.5,
+              "top_1": 2.0
+            }
+          }
+        }
+      }
+    },
+    "T4_LIVE_OPS": {
+      "tier_id": "T4_LIVE_OPS",
+      "label_vi": "Tầng 4 — Hạ tầng Live-Ops, Đối soát & Forensics",
+      "phases": {
+        "p1": {
+          "applicable": false,
+          "metrics": {
+            "p1_pass_rate": {
+              "record_field": "p1_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P1_PASS_RATE_LOW",
+              "adequate": 35.0,
+              "good": 55.0,
+              "top_1": 75.0
+            }
+          }
+        },
+        "p2": {
+          "applicable": false,
+          "metrics": {
+            "p2_pass_rate": {
+              "record_field": "p2_pass_rate_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "P2_PASS_RATE_LOW",
+              "adequate": 55.0,
+              "good": 70.0,
+              "top_1": 85.0
+            }
+          }
+        },
+        "pass_eval": {
+          "applicable": false,
+          "metrics": {
+            "pass_eval_rate": {
+              "record_field": "pass_eval_12m_pct",
+              "direction": "higher_is_better",
+              "unit": "percent",
+              "bottleneck_code": "PASS_EVAL_RATE_LOW",
+              "adequate": 25.0,
+              "good": 45.0,
+              "top_1": 65.0
+            }
+          }
+        },
+        "funded_12m": {
+          "applicable": true,
+          "metrics": {
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "FUNDED_12M_BLOWUP_HIGH",
+              "adequate": 2.5,
+              "good": 1.0,
+              "top_1": 0.25
+            }
+          }
+        },
+        "overall_36m": {
+          "applicable": true,
+          "metrics": {
+            "slippage_breakeven": {
+              "record_field": "slippage_breakeven_mult",
+              "direction": "higher_is_better",
+              "unit": "multiple",
+              "bottleneck_code": "LIVE_OPS_RECON_GAP",
+              "adequate": 1.25,
+              "good": 1.5,
+              "top_1": 2.0
+            },
+            "funded_12m_blowup": {
+              "record_field": "funded_12m_blowup_pct",
+              "direction": "lower_is_better",
+              "unit": "percent",
+              "bottleneck_code": "FUNDED_12M_BLOWUP_HIGH",
+              "adequate": 2.5,
+              "good": 1.0,
+              "top_1": 0.25
+            }
+          }
+        }
+      }
+    }
+  }
+}
