@@ -1,19 +1,76 @@
 {
   "schema": "naqex-portfolio-registry-v1",
-  "updated_utc": "2026-11-27T03:45:00+00:00",
-  "status": "ACTIVE_CANDIDATE_C10_NEWS_ON_MASTER_PROP7E_0VND",
+  "updated_utc": "2026-11-28T09:10:00+00:00",
+  "status": "ACTIVE_CANDIDATE_V103_IMMUTABLE_SPRINT_PORT_V5_EQ_7E_0VND",
   "holdout_v1_2025_2026": "CONSUMED (commit 521926f)",
   "holdout_v2_prospective": "SEALED (>= 2026-12-01)",
   "current_candidate": {
-    "candidate_id": "C10_NEWS_ON",
+    "candidate_id": "v1.03-Sprint",
+    "schedule_id": "T3_BALANCED_EV",
+    "schedule_multipliers": {
+      "p1_mult": 4.5,
+      "p2_mult": 3.5,
+      "funded_mult": 1.0,
+      "static_kill_pct": 8.0
+    },
     "portfolio_id": "PORT_7E_P28_CORE",
-    "master_ea": "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5",
+    "port_v5_equals_port_7e": true,
+    "master_ea": "tooling/ai-engines/exports/Naqex_Master_Prop7E_v103.mq5",
+    "master_ea_sha256": "e6b1b88be00a8470505c86dd1878664e08ce12d8e45203c05f733825f35c9ef5",
+    "master_ea_immutability": "IMMUTABLE_LIVE_CANDIDATE",
+    "legacy_master_ea": "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5",
+    "legacy_candidate_id": "C10_NEWS_ON",
     "red_news_csv": "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv",
     "red_news_events": 492,
     "dev_6ccy_calendar": "tooling/ai-engines/configs/calendars/red_news_official_2018_2024_6ccy.json",
     "roadmap_ssot": "planning/TOP1-SOLO-QUANT-MASTER-PLAN.md",
+    "wave5_master_report": "planning/research/WAVE5-DEEP-ALPHA-FACTORY-AND-CHALLENGE-SPECTRUM-20261128.md",
     "order_send_count": 0,
     "financial_spend_vnd": 0
+  },
+  "research_ea_architecture": {
+    "ea_id": "Naqex_Master_Modular_v105",
+    "mq5_path": "tooling/ai-engines/exports/Naqex_Master_Modular_v105.mq5",
+    "mq5_sha256": "efefe7031e6a2ed95cab27e0294e1a548f232eb252942ca66ecba624ff0a9ce5",
+    "slot_registry_mqh": "tooling/ai-engines/exports/Include/Naqex_EngineSlotRegistry.mqh",
+    "ml_filter_mqh": "tooling/ai-engines/exports/Include/Naqex_ML_Filter_v105.mqh",
+    "slot_capacity": 16,
+    "active_core_slots": 7,
+    "approval_status": "RESEARCH_PROTOTYPE_NOT_LIVE_APPROVED",
+    "auto_deploy_permitted": false,
+    "mt5_build_6230_gates_passed": "15/15",
+    "compat_v103_exact_cent_delta_usd": 0.0,
+    "compat_v103_trades_matched": "469/469",
+    "live_feature_parity_matched": "777/777",
+    "live_feature_f0_f6_max_abs_err": 2.2e-07,
+    "four_way_parity_500_max_abs_err": 5.907e-08,
+    "closes_findings": [
+      "W4-RT1-P1-01",
+      "W4G05-F01"
+    ],
+    "ml_v105_arena_verdict": "REJECT_V105_ML_KEEP_V103",
+    "bellman_dp_verdict": "BASELINES_HOLD_EDGE_OVER_DP_ON_BLIND_CLUSTER_B_NO_PROMOTION",
+    "alpha_factory_e2e_drills": "5/5",
+    "alpha_factory_ledger_root_sha256": "7d509eaf6045cadc0035d6a1bc2e9e4da0fe65631b8ac7f2d88bcf128a1113d9",
+    "exports_ex5_count": 0
+  },
+  "evaluation_catalog": {
+    "duckdb_path": ".runtime/experiments/unified_eval_catalog.duckdb",
+    "duckdb_sha256": "6da12129ffa1b879271fb612cdc0ec2411feb6893a606217a84ed638261909a4",
+    "registry_sqlite_path": ".runtime/experiments/unified_eval_registry.sqlite3",
+    "registry_sqlite_sha256": "7804b75e1c541b6daa165be8c008dbac8d9a174436ae25980550930b0db88189",
+    "taxonomy_ssot": "tooling/ai-engines/configs/ssot/evaluation_taxonomy.json",
+    "taxonomy_sha256": "2cda67d72328d1e7f136dc1650c77e07082050497b2a9acb1a1af49ebc8209ff",
+    "ui_scorecard_contract": "UI/contracts/evaluation-scorecard/1.0.0/schema.json",
+    "ui_scorecard_schema_sha256": "3b924760577fd021682620bdb23cd349f024b48d1ece909c19556259bf8ff230",
+    "legacy_trials_distinct_count": 1342,
+    "mc_cases_catalog_count": 1250,
+    "runs_catalog_count": 122,
+    "registry_events": 126,
+    "pydantic_v2_all_valid": true,
+    "wave5_master_metrics_path": ".runtime/offensive5/wave5_master_metrics.json",
+    "wave5_master_metrics_report_sha256": "152b707fe0440963b9e7c8adac3c24daf280b5caa4152bb2c7ee40f5a9ff86eb",
+    "wave5_reconciled_artifacts": 26
   },
   "holdout_lock": {
     "cutoff_utc": "2025-01-01T00:00:00Z",
@@ -41,7 +98,28 @@
     "assets_sealed_native_bid_ask": [
       "USDJPY", "GBPUSD", "EURUSD", "GBPJPY", "AUDUSD", "USDCAD",
       "EURJPY", "XAUUSD", "US500", "US100", "GER40", "BTCUSD"
-    ]
+    ],
+    "sealed_m1_universe_28": {
+      "symbol_count": 28,
+      "total_m1_bars": 67845762,
+      "global_max_date_utc": "2024-12-31",
+      "usoil_quarantined_rows": 2753,
+      "mt5_hcc_ready_count": 18,
+      "mt5_hcc_missing_count": 10,
+      "by_resolution": {
+        "M1_BID_ASK": [
+          "AUDUSD", "BTCUSD", "EURJPY", "EURUSD", "GBPJPY", "GBPUSD",
+          "GER40", "US100", "US500", "USDCAD", "USDJPY", "XAUUSD"
+        ],
+        "M1_BID_SPREAD": [
+          "AUDJPY", "CADJPY", "CHFJPY", "EURAUD", "EURCAD",
+          "EURGBP", "GBPAUD", "NZDJPY", "NZDUSD", "XAGUSD"
+        ],
+        "M1_SINGLE_SIDE": [
+          "JP225", "UK100", "UKOIL", "US30", "USDCHF", "USOIL"
+        ]
+      }
+    }
   },
   "demo_spec_bindings": {
     "ftmo_standard_full13": "planning/research/FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json",
@@ -168,6 +246,19 @@
     "PORT_7E_P28_CORE": {
       "engines": ["E1_USDJPY_TOKYO", "E2_USDJPY_EXP80", "E3_GBPUSD_VH", "E4_US100_SESS40", "E5_US100_RS1130", "E6_EURJPY_VOLCOMP", "E7_USDJPY_NY10ET"],
       "dev_m1_floating": {"ann_pct": 7.73, "peak_dd_pct": 6.36, "calmar": 1.21, "red_news_us_retained_pct": 91.7}
+    },
+    "PORT_V5_WAVE5": {
+      "equals_port_7e": true,
+      "engines": ["E1_USDJPY_TOKYO", "E2_USDJPY_EXP80", "E3_GBPUSD_VH", "E4_US100_SESS40", "E5_US100_RS1130", "E6_EURJPY_VOLCOMP", "E7_USDJPY_NY10ET"],
+      "n_core7_engines": 7,
+      "n_added_engines": 0,
+      "m1_arena_trials_evaluated": 355,
+      "cluster_a_finalists": 6,
+      "cluster_b_tier1_survivors_8_of_8": 0,
+      "alpha_bench_reserve": ["F5D_US30_TO_UK100_CNV_L2_LB30_A"],
+      "verdict": "PASS_W5_G07_W5_G08_W5_G09_HONEST_ZERO_ADDITIONS",
+      "tapes_npz": ".runtime/offensive5/alpha/port_v5_tapes.npz",
+      "tapes_npz_sha256": "0a9a2abe0ebf354cbf7aec7c586667f4f4e01bdd3cfff63055ec823f52389dde"
     },
     "PORT_9E_P28_TURBO": {
       "engines": ["E1_USDJPY_TOKYO", "E2_USDJPY_EXP80", "E3_GBPUSD_VH", "E4_US100_SESS40", "E5_US100_RS1130", "E6_EURJPY_VOLCOMP", "E7_USDJPY_NY10ET", "S6_FX_USD_BSK", "S7_XAU_EXP120"],

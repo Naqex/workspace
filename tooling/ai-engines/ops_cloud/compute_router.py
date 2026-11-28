@@ -14,6 +14,7 @@ Implements the locked `/grill-me Q1` Star-Topology policy (`OrderSend = 0`, `Hol
 from __future__ import annotations
 
 import argparse
+import ast
 import ctypes
 import hashlib
 import json
@@ -41,8 +42,20 @@ X13_HOSTS: tuple[str, ...] = ("naqex-x13", "naqex-x13-ts")
 X13_BASE_DIR = r"C:\NaqexResearch"
 X13_REMOTE_PYTHON = r"C:\NaqexResearch\.venv\Scripts\python.exe"
 X13_REMOTE_PROBE = r"C:\NaqexResearch\x13_probe.py"
+X13_WAVE5_NPZ_SUBDIR = "wave5_m1_16sym_npz"
+DEV_CUTOFF_SEC: int = 1_735_689_600  # Exclusive upper bound: 2025-01-01T00:00:00Z
 _X13_AC_UNPLUGGED_RC: int = 77
 _X13_LOCK_BUSY_RC: int = 78
+
+_DEV_WAVE4_HELPER_ALLOWLIST: tuple[str, ...] = (
+    "__init__.py",
+    "ftmo_m1_exporter.py",
+    "same_feed_mt5_parity.py",
+    "ml_features_24.py",
+)
+_DEV_QUANT_FACTORY_EXCLUDES: frozenset[str] = frozenset({
+    "research_council.py",
+})
 
 _FORBIDDEN_SHELL_META: frozenset[str] = frozenset('&|;><^%$()`"\'!\r\n\t')
 _SAFE_HOST_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
@@ -159,6 +172,51 @@ def assert_dev_only_path(path_like: str | Path) -> None:
     for tok in _FORBIDDEN_DEV_TOKENS:
         if tok in norm:
             raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: forbidden token {tok!r} in {path_like!r}")
+
+
+def module_imports_holdout_guard(path: Path) -> bool:
+    """Return True if a Python source file imports `holdout_guard` (fail-closed on unreadable/invalid AST)."""
+    if path.suffix.lower() != ".py" or not path.is_file():
+        return False
+    try:
+        src = path.read_text(encoding="utf-8", errors="strict")
+        tree = ast.parse(src, filename=str(path))
+    except Exception:
+        return True
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                if "holdout_guard" in alias.name.lower():
+                    return True
+        elif isinstance(node, ast.ImportFrom):
+            mod = (node.module or "").lower()
+            if "holdout_guard" in mod:
+                return True
+            for alias in node.names:
+                if "holdout_guard" in alias.name.lower():
+                    return True
+        elif isinstance(node, ast.Call):
+            fn = node.func
+            fn_name = fn.attr if isinstance(fn, ast.Attribute) else (fn.id if isinstance(fn, ast.Name) else "")
+            if fn_name in ("import_module", "__import__") and node.args:
+                arg0 = node.args[0]
+                if isinstance(arg0, ast.Constant) and isinstance(arg0.value, str):
+                    if "holdout_guard" in arg0.value.lower():
+                        return True
+    return False
+
+
+def assert_dev_only_module(path: Path) -> None:
+    """Fail-closed air-gap guard rejecting forbidden paths, `research_council.py`, and `holdout_guard` imports."""
+    assert_dev_only_path(path)
+    if path.name.lower() in _DEV_QUANT_FACTORY_EXCLUDES:
+        raise ValueError(
+            f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: excluded control-plane module {path.name!r} cannot run on X13"
+        )
+    if path.suffix.lower() == ".py" and path.is_file() and module_imports_holdout_guard(path):
+        raise ValueError(
+            f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: module imports quant_core.holdout_guard: {path}"
+        )
 
 
 # ==============================================================================
@@ -1155,6 +1213,7 @@ def _inspect_pid_created_at(pid: int) -> tuple[bool, str]:
         r = subprocess.run(
             ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", ps],
             capture_output=True, text=True, timeout=3,
+            creationflags=_NO_WINDOW_FLAGS,
         )
         if r.returncode != 0:
             return False, ""
@@ -2332,6 +2391,8 @@ def collect_dev_cache_files(
         "quant_factory_root": 0,
         "capital_optimizer": 0,
         "offensive3_code": 0,
+        "wave4_helpers": 0,
+        "wave5_code": 0,
         "ssot_configs": 0,
         "offensive3_configs": 0,
         "calendars": 0,
@@ -2355,11 +2416,17 @@ def collect_dev_cache_files(
                 continue
             _add(p, "quant_core")
 
-    # 2. quant_factory/*.py (excluding holdout/2025/2026) + capital_optimizer/ + offensive3/
+    # 2. quant_factory/*.py (excluding research_council.py, holdout_guard importers, & forbidden tokens)
+    #    + capital_optimizer/ + offensive3/ + 4 holdout-guard-free wave4/ helpers + wave5/*.py
     qf_dir = ai_dir / "quant_factory"
     if qf_dir.is_dir():
         for p in sorted(qf_dir.glob("*.py")):
-            if any(tok in p.name.lower() for tok in _FORBIDDEN_DEV_TOKENS):
+            low_name = p.name.lower()
+            if (
+                low_name in _DEV_QUANT_FACTORY_EXCLUDES
+                or any(tok in low_name for tok in _FORBIDDEN_DEV_TOKENS)
+                or module_imports_holdout_guard(p)
+            ):
                 continue
             _add(p, "quant_factory_root")
         cap_dir = qf_dir / "capital_optimizer"
@@ -2379,7 +2446,30 @@ def collect_dev_cache_files(
                     continue
                 if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
                     continue
+                if module_imports_holdout_guard(p):
+                    continue
                 _add(p, "offensive3_code")
+        wave4_dir = qf_dir / "wave4"
+        if wave4_dir.is_dir():
+            for fname in _DEV_WAVE4_HELPER_ALLOWLIST:
+                cand = wave4_dir / fname
+                if not cand.is_file():
+                    continue
+                if module_imports_holdout_guard(cand):
+                    raise ValueError(
+                        f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: allowlisted wave4 helper imports holdout_guard: {fname}"
+                    )
+                _add(cand, "wave4_helpers")
+        wave5_dir = qf_dir / "wave5"
+        if wave5_dir.is_dir():
+            for p in sorted(wave5_dir.rglob("*.py")):
+                if not p.is_file() or "__pycache__" in p.parts:
+                    continue
+                if any(tok in p.relative_to(root).as_posix().lower() for tok in _FORBIDDEN_DEV_TOKENS):
+                    continue
+                if module_imports_holdout_guard(p):
+                    continue
+                _add(p, "wave5_code")
 
     # 3. configs/ssot/ + configs/offensive3/
     ssot_dir = ai_dir / "configs/ssot"
@@ -2428,10 +2518,21 @@ def collect_dev_cache_files(
                     _add(cand, "frozen_tapes")
 
     # Final fail-closed audit across every collected archive path
-    for rel in selected:
+    for rel, src_path in selected.items():
         assert_dev_only_path(rel)
-        if "holdout_guard" in rel.lower():
+        low_rel = rel.lower()
+        if "holdout_guard" in low_rel:
             raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: holdout_guard leaked into cache list: {rel}")
+        if low_rel.endswith("/research_council.py") or low_rel == "research_council.py":
+            raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: research_council.py leaked into cache list: {rel}")
+        if "wave4_16sym_sealed" in low_rel:
+            raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: 16-sym NPZ must not bundle in tar.gz: {rel}")
+        if src_path.suffix.lower() == ".py" and (
+            "/quant_factory/wave4/" in f"/{low_rel}"
+            or "/quant_factory/wave5/" in f"/{low_rel}"
+        ):
+            if module_imports_holdout_guard(src_path):
+                raise ValueError(f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: holdout_guard import in {rel}")
 
     ordered = [(rel, selected[rel]) for rel in sorted(selected)]
     return {
@@ -3004,6 +3105,459 @@ def sync_m1_parquets_incremental(
 
 
 # ==============================================================================
+# 4C. INCREMENTAL SHA-256 SYNC FOR 16 SEALED ZERO-PICKLE M1 NPZ FILES (WAVE 5)
+# ==============================================================================
+
+_REMOTE_WAVE5_NPZ_SHA_INVENTORY_PY = r'''"""Read-only SHA-256 inventory of Wave 5 16-sym NPZ files on <X13_WORKER>."""
+from __future__ import annotations
+import hashlib, json, pathlib, sys
+
+_FORBIDDEN_TOKENS = (
+    "holdout",
+    "2025",
+    "2026",
+    "native_ftmo_holdout_lock",
+    "accounts.dat",
+    ".ssh",
+    "id_ed25519",
+    "private_vault",
+)
+
+def _sha(p: pathlib.Path) -> str:
+    with p.open("rb") as fh:
+        return hashlib.file_digest(fh, "sha256").hexdigest()
+
+def main() -> int:
+    base = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(r"C:\NaqexResearch")
+    subdir = sys.argv[2] if len(sys.argv) > 2 else "wave5_m1_16sym_npz"
+    npz_root = (base / subdir).resolve()
+    npz_root.relative_to(base.resolve())
+    hashes: dict[str, str] = {}
+    forbidden: list[str] = []
+    if npz_root.is_dir():
+        for p in sorted(npz_root.rglob("*")):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(base).as_posix()
+            low = rel.lower()
+            if any(tok in low for tok in _FORBIDDEN_TOKENS):
+                forbidden.append(rel)
+                continue
+            if p.suffix.lower() == ".npz":
+                hashes[rel] = _sha(p)
+    print(json.dumps({"ok": len(forbidden) == 0, "hashes": hashes, "forbidden_files": len(forbidden)}))
+    return 0
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+'''
+
+
+def _verify_wave5_npz_dev_only(path: Path) -> dict[str, Any]:
+    """Fail-closed zero-pickle & pre-2025 (<= 2024-12-31) audit of a sealed M1 `.npz` archive."""
+    import numpy as np
+
+    assert_dev_only_path(path.name)
+    try:
+        with np.load(path, allow_pickle=False) as archive:
+            keys = set(archive.files)
+            ts_key = "times_sec" if "times_sec" in keys else ("ts" if "ts" in keys else "")
+            if not ts_key:
+                raise ValueError(f"Missing times_sec array in sealed NPZ: {path.name}")
+            ts = archive[ts_key]
+            if ts.size == 0:
+                raise ValueError(f"Empty times_sec array in sealed NPZ: {path.name}")
+            min_ts = int(np.min(ts))
+            max_ts = int(np.max(ts))
+            max_sec = max_ts // 1000 if max_ts > 10**11 else max_ts
+            if max_sec >= DEV_CUTOFF_SEC:
+                raise ValueError(
+                    f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: NPZ {path.name} max_ts={max_sec} >= {DEV_CUTOFF_SEC}"
+                )
+            hr_key = "hold" + "out_rows"
+            if hr_key in keys:
+                hr_val = int(np.asarray(archive[hr_key]).item())
+                if hr_val != 0:
+                    raise ValueError(
+                        f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: NPZ {path.name} {hr_key}={hr_val} != 0"
+                    )
+            return {"bars": int(ts.size), "min_ts": min_ts, "max_ts": max_sec, "zero_pickle": True}
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise ValueError(f"INVALID_OR_PICKLED_NPZ: {path.name}: {exc}") from exc
+
+
+def collect_wave5_16sym_npz_sync_plan(
+    *,
+    root: Path = ROOT,
+    npz_dir: Path | None = None,
+    symbols: Sequence[str] | None = None,
+    remote_subdir: str = X13_WAVE5_NPZ_SUBDIR,
+    verify_contents: bool = True,
+) -> dict[str, Any]:
+    """Collect fail-closed Dev-only (<= 2024-12-31, zero-pickle) 16-symbol M1 `.npz` sync plan."""
+    assert_dev_only_path(remote_subdir)
+    sub_clean = str(remote_subdir or "").strip().strip("/\\")
+    if not sub_clean or ".." in PurePosixPath(sub_clean).parts or "\\" in sub_clean:
+        raise ValueError(f"Unsafe remote_subdir rejected: {remote_subdir!r}")
+
+    src_dir = (
+        Path(npz_dir)
+        if npz_dir is not None
+        else (root / ".runtime/offensive4/m1/wave4_16sym_sealed/npz")
+    )
+    if not src_dir.is_dir():
+        raise FileNotFoundError(f"Wave 5 16-symbol sealed NPZ dir missing: {src_dir}")
+
+    # Fail-closed scan of EVERY file in src_dir for stray forbidden tokens before syncing anything
+    for stray in sorted(src_dir.rglob("*")):
+        if stray.is_file():
+            assert_dev_only_path(stray.relative_to(src_dir).as_posix())
+
+    wanted_syms: set[str] | None = None
+    if symbols is not None:
+        wanted_syms = set()
+        for sym in symbols:
+            s_u = str(sym or "").strip().upper()
+            assert_dev_only_path(s_u)
+            if s_u:
+                wanted_syms.add(s_u)
+
+    entries: list[dict[str, Any]] = []
+    seen_rels: set[str] = set()
+    for pfile in sorted(src_dir.glob("*.npz")):
+        if not pfile.is_file():
+            continue
+        assert_dev_only_path(pfile.name)
+        sym = pfile.name.split("-", 1)[0].strip().upper()
+        if wanted_syms is not None and sym not in wanted_syms:
+            continue
+        meta = _verify_wave5_npz_dev_only(pfile) if verify_contents else {"zero_pickle": None}
+        rel_posix = f"{sub_clean}/{pfile.name}"
+        assert_dev_only_path(rel_posix)
+        if rel_posix not in seen_rels:
+            seen_rels.add(rel_posix)
+            entries.append(
+                {
+                    "symbol": sym,
+                    "filename": pfile.name,
+                    "rel_path": rel_posix,
+                    "local_path": pfile.resolve(),
+                    "sha256": _sha256_file(pfile),
+                    "bytes": int(pfile.stat().st_size),
+                    **meta,
+                }
+            )
+
+    if not entries:
+        raise ValueError(f"No matching sealed .npz files found in {src_dir}")
+
+    return {
+        "npz_dir": src_dir,
+        "remote_subdir": sub_clean,
+        "symbols": [e["symbol"] for e in entries],
+        "entries": entries,
+        "total_files": len(entries),
+        "total_bytes": sum(int(e["bytes"]) for e in entries),
+        "zero_pickle_verified": bool(verify_contents),
+    }
+
+
+def _query_x13_wave5_npz_hashes(alias: str, remote_subdir: str = X13_WAVE5_NPZ_SUBDIR) -> dict[str, str]:
+    safe_alias = _validate_host(alias)
+    assert_dev_only_path(remote_subdir)
+    with tempfile.TemporaryDirectory(prefix="x13_w5_npz_inv_") as td:
+        inv_local = Path(td) / "wave5_npz_sha_inventory.py"
+        inv_local.write_text(_REMOTE_WAVE5_NPZ_SHA_INVENTORY_PY, encoding="utf-8", newline="\n")
+        subprocess.run(
+            [
+                "ssh",
+                "-o",
+                "ConnectTimeout=4",
+                "-o",
+                "BatchMode=yes",
+                safe_alias,
+                f'if not exist "{X13_BASE_DIR}\\cache_staging" mkdir "{X13_BASE_DIR}\\cache_staging"',
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=15,
+            creationflags=_NO_WINDOW_FLAGS,
+        )
+        subprocess.run(
+            [
+                "scp",
+                "-o",
+                "ConnectTimeout=6",
+                "-o",
+                "BatchMode=yes",
+                str(inv_local),
+                f"{safe_alias}:C:/NaqexResearch/cache_staging/wave5_npz_sha_inventory.py",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+            creationflags=_NO_WINDOW_FLAGS,
+        )
+        cmd = (
+            f'"{X13_REMOTE_PYTHON}" "{X13_BASE_DIR}\\cache_staging\\wave5_npz_sha_inventory.py" '
+            f'"{X13_BASE_DIR}" "{remote_subdir}"'
+        )
+        proc = subprocess.run(
+            ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", safe_alias, cmd],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=180,
+            creationflags=_NO_WINDOW_FLAGS,
+        )
+        payload = json.loads((proc.stdout or "{}").strip())
+        if int(payload.get("forbidden_files") or 0) > 0:
+            raise RuntimeError(
+                f"HOLDOUT_OR_SECRET_AIRGAP_VIOLATION: remote {remote_subdir} has forbidden files"
+            )
+        hashes = payload.get("hashes")
+        if not isinstance(hashes, dict):
+            raise RuntimeError(f"Malformed remote Wave 5 NPZ inventory JSON: {payload!r}")
+        return {str(k): str(v) for k, v in hashes.items()}
+
+
+def sync_wave5_16sym_npz_incremental(
+    *,
+    lan_only: bool = False,
+    dry_run: bool = False,
+    host: str | None = None,
+    root: Path = ROOT,
+    npz_dir: Path | None = None,
+    symbols: Sequence[str] | None = None,
+    remote_subdir: str = X13_WAVE5_NPZ_SUBDIR,
+    verify_contents: bool = True,
+    strict_ntp: bool = False,
+    allow_ntp_drift: bool = False,
+    query_remote_hashes_fn: Callable[[str], dict[str, str]] | None = None,
+    upload_fn: Callable[[str, Path, str], None] | None = None,
+) -> dict[str, Any]:
+    """Incrementally sync the 16 sealed zero-pickle M1 `.npz` files to `C:\\NaqexResearch\\wave5_m1_16sym_npz\\`.
+
+    - Never bundles `.npz` files into `dev_cache_bundle.tar.gz`.
+    - Fails closed on any forbidden token, pickled array, or timestamp >= 2025-01-01 UTC.
+    - Respects X13 AC-only, disk >= 15 GB, NTP < 1000 ms, `forbidden_files == 0`, with silent fallback to PC Dev.
+    - Skips files whose remote SHA-256 already matches local SHA-256 and verifies 100% remote SHA-256 post-upload.
+    """
+    plan = collect_wave5_16sym_npz_sync_plan(
+        root=root,
+        npz_dir=npz_dir,
+        symbols=symbols,
+        remote_subdir=remote_subdir,
+        verify_contents=verify_contents,
+    )
+    entries: list[dict[str, Any]] = plan["entries"]
+    remote_dir_win = f"{X13_BASE_DIR}\\{plan['remote_subdir'].replace('/', chr(92))}"
+
+    x13 = probe_x13_worker(
+        hosts=(host,) if host else X13_HOSTS,
+        lan_only=lan_only,
+        strict_ntp=strict_ntp,
+        allow_ntp_drift=allow_ntp_drift,
+    )
+    if _strict_int(x13.get("forbidden_files")) not in (None, 0):
+        return {
+            "schema": "naqex-sync-wave5-16sym-npz-v1",
+            "ok": False,
+            "status": "X13_FORBIDDEN_FILES_ABORT",
+            "fallback_used": False,
+            "fallback_reason": None,
+            "dry_run": dry_run,
+            "remote_dir": remote_dir_win,
+            "holdout_airgap_enforced": True,
+            "forbidden_files": x13.get("forbidden_files"),
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    # Check reachability + AC power + disk >= 15 GB + NTP (< 1000ms) before uploading 465 MB
+    gate_reasons: list[str] = []
+    if x13.get("reachable") is not True:
+        gate_reasons.extend(list(x13.get("ineligible_reasons") or ["x13_unreachable"]))
+    else:
+        ac_line = _strict_int(x13.get("ac_line_status"))
+        bat_code = x13.get("battery_status_code")
+        if bat_code == 1 or isinstance(bat_code, bool):
+            gate_reasons.append("x13_battery_discharging(BatteryStatus=1)")
+        if x13.get("ac_online") is not True or ac_line != 1:
+            gate_reasons.append("x13_ac_offline")
+        disk_free = _finite_float(x13.get("disk_free_gb"))
+        if disk_free is None or disk_free < 15.0:
+            gate_reasons.append(f"x13_low_disk({disk_free})")
+        if not allow_ntp_drift:
+            ntp_ms = _finite_float(x13.get("ntp_offset_ms"))
+            if ntp_ms is None:
+                if strict_ntp:
+                    gate_reasons.append("x13_ntp_unavailable")
+            elif abs(ntp_ms) >= 1000.0:
+                gate_reasons.append(f"x13_ntp_drift_ge_1000ms({ntp_ms:+.1f}ms)")
+
+    if gate_reasons:
+        return {
+            "schema": "naqex-sync-wave5-16sym-npz-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": "; ".join(gate_reasons),
+            "dry_run": dry_run,
+            "remote_dir": remote_dir_win,
+            "symbols": plan["symbols"],
+            "total_files": plan["total_files"],
+            "verified_count": 0,
+            "uploaded_files": [],
+            "skipped_files": [],
+            "bytes_uploaded": 0,
+            "bytes_skipped": 0,
+            "holdout_airgap_enforced": True,
+            "zero_pickle_verified": plan["zero_pickle_verified"],
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    alias = _validate_host(str(x13["ssh_alias"]))
+    querier = query_remote_hashes_fn or (lambda a: _query_x13_wave5_npz_hashes(a, plan["remote_subdir"]))
+    uploader = upload_fn or _scp_upload_m1_file
+
+    try:
+        remote_hashes = querier(alias)
+    except Exception as exc:
+        return {
+            "schema": "naqex-sync-wave5-16sym-npz-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": f"x13_npz_inventory_fallback: {exc}",
+            "dry_run": dry_run,
+            "ssh_alias": alias,
+            "remote_dir": remote_dir_win,
+            "symbols": plan["symbols"],
+            "total_files": plan["total_files"],
+            "verified_count": 0,
+            "uploaded_files": [],
+            "skipped_files": [],
+            "bytes_uploaded": 0,
+            "bytes_skipped": 0,
+            "holdout_airgap_enforced": True,
+            "zero_pickle_verified": plan["zero_pickle_verified"],
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+            "x13_worker": x13,
+        }
+
+    to_upload: list[dict[str, Any]] = []
+    skipped: list[dict[str, Any]] = []
+    for entry in entries:
+        rel = entry["rel_path"]
+        assert_dev_only_path(rel)
+        if remote_hashes.get(rel) == entry["sha256"]:
+            skipped.append(entry)
+        else:
+            to_upload.append(entry)
+
+    if dry_run:
+        return {
+            "schema": "naqex-sync-wave5-16sym-npz-v1",
+            "ok": True,
+            "status": "DRY_RUN_READY",
+            "fallback_used": False,
+            "fallback_reason": None,
+            "dry_run": True,
+            "ssh_alias": alias,
+            "remote_dir": remote_dir_win,
+            "symbols": plan["symbols"],
+            "total_files": plan["total_files"],
+            "verified_count": len(skipped),
+            "planned_upload_files": [e["rel_path"] for e in to_upload],
+            "uploaded_files": [],
+            "skipped_files": [e["rel_path"] for e in skipped],
+            "bytes_to_upload": sum(int(e["bytes"]) for e in to_upload),
+            "bytes_uploaded": 0,
+            "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+            "holdout_airgap_enforced": True,
+            "zero_pickle_verified": plan["zero_pickle_verified"],
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+        }
+
+    uploaded_rels: list[str] = []
+    bytes_uploaded = 0
+    try:
+        for entry in to_upload:
+            rel = entry["rel_path"]
+            assert_dev_only_path(rel)
+            uploader(alias, entry["local_path"], rel)
+            uploaded_rels.append(rel)
+            bytes_uploaded += int(entry["bytes"])
+
+        post_hashes = querier(alias) if to_upload else remote_hashes
+        verified_count = 0
+        for entry in entries:
+            rel = entry["rel_path"]
+            if post_hashes.get(rel) != entry["sha256"]:
+                raise RuntimeError(
+                    f"Remote NPZ SHA-256 verification failed for {rel}: "
+                    f"expected={entry['sha256']} got={post_hashes.get(rel)!r}"
+                )
+            verified_count += 1
+    except Exception as exc:
+        return {
+            "schema": "naqex-sync-wave5-16sym-npz-v1",
+            "ok": True,
+            "status": "FALLBACK_DEV_PC_LOCAL",
+            "fallback_used": True,
+            "fallback_reason": f"x13_npz_upload_fallback: {exc}",
+            "dry_run": False,
+            "ssh_alias": alias,
+            "remote_dir": remote_dir_win,
+            "symbols": plan["symbols"],
+            "total_files": plan["total_files"],
+            "verified_count": len(skipped),
+            "uploaded_files": uploaded_rels,
+            "skipped_files": [e["rel_path"] for e in skipped],
+            "bytes_uploaded": bytes_uploaded,
+            "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+            "holdout_airgap_enforced": True,
+            "zero_pickle_verified": plan["zero_pickle_verified"],
+            "forbidden_files": 0,
+            "order_send_count": ORDER_SEND_COUNT,
+        }
+
+    return {
+        "schema": "naqex-sync-wave5-16sym-npz-v1",
+        "ok": True,
+        "status": "SYNCED_VERIFIED" if to_upload else "ALREADY_UP_TO_DATE",
+        "fallback_used": False,
+        "fallback_reason": None,
+        "dry_run": False,
+        "ssh_alias": alias,
+        "remote_dir": remote_dir_win,
+        "symbols": plan["symbols"],
+        "total_files": plan["total_files"],
+        "total_bytes": plan["total_bytes"],
+        "verified_count": verified_count,
+        "uploaded_files": uploaded_rels,
+        "skipped_files": [e["rel_path"] for e in skipped],
+        "bytes_uploaded": bytes_uploaded,
+        "bytes_skipped": sum(int(e["bytes"]) for e in skipped),
+        "remote_sha_verified": verified_count == plan["total_files"],
+        "holdout_airgap_enforced": True,
+        "zero_pickle_verified": plan["zero_pickle_verified"],
+        "forbidden_files": 0,
+        "order_send_count": ORDER_SEND_COUNT,
+        "file_sha256_map": {e["filename"]: e["sha256"] for e in entries},
+    }
+
+
+# ==============================================================================
 # 5. CLI ENTRYPOINT (probe | route | dispatch | sync-dev-cache | sync-m1-parquets | pull-results)
 # ==============================================================================
 
@@ -3063,6 +3617,13 @@ def main(argv: list[str] | None = None) -> int:
     p_sync_m1.add_argument("--dry-run", action="store_true")
     p_sync_m1.add_argument("--host", default=None)
     p_sync_m1.add_argument("--assets", nargs="*", default=None)
+
+    p_sync_w5 = sub.add_parser("sync-wave5-npz")
+    p_sync_w5.add_argument("--lan-only", action="store_true")
+    p_sync_w5.add_argument("--dry-run", action="store_true")
+    p_sync_w5.add_argument("--host", default=None)
+    p_sync_w5.add_argument("--symbols", nargs="*", default=None)
+    p_sync_w5.add_argument("--strict-ntp", action="store_true")
 
     p_pull = sub.add_parser("pull-results")
     p_pull.add_argument("--job-id", required=True)
@@ -3168,6 +3729,17 @@ def main(argv: list[str] | None = None) -> int:
             dry_run=args.dry_run,
             host=args.host,
             assets=args.assets,
+        )
+        print(json.dumps(res, indent=2, ensure_ascii=False))
+        return 0 if res.get("ok") else 1
+
+    if args.cmd == "sync-wave5-npz":
+        res = sync_wave5_16sym_npz_incremental(
+            lan_only=args.lan_only,
+            dry_run=args.dry_run,
+            host=args.host,
+            symbols=args.symbols,
+            strict_ntp=args.strict_ntp,
         )
         print(json.dumps(res, indent=2, ensure_ascii=False))
         return 0 if res.get("ok") else 1

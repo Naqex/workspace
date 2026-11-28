@@ -1,0 +1,565 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://annam.local/trading-ui/evaluation-scorecard/1.0.0/schema.json",
+  "title": "Naqex Evaluation Scorecard Contract 1.0.0",
+  "description": "Candidate trading-domain UI & backend scorecard contract binding SSOT evaluation taxonomy, per-phase grades (p1, p2, pass_eval, funded_12m), presentation-state@1.0.0 semantics, and ordered plain-Vietnamese bottlenecks.",
+  "$defs": {
+    "BottleneckItem": {
+      "additionalProperties": false,
+      "description": "Exact machine-readable & plain-Vietnamese bottleneck entry.",
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "metric_id": {
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "p1",
+            "p2",
+            "pass_eval",
+            "funded_12m",
+            "overall_36m"
+          ],
+          "title": "Phase",
+          "type": "string"
+        },
+        "current_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Value"
+        },
+        "target_threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Threshold"
+        },
+        "target_grade": {
+          "enum": [
+            "BAD",
+            "ADEQUATE",
+            "GOOD",
+            "TOP_1_PCT",
+            "UNKNOWN_LEGACY_UNINSTRUMENTED"
+          ],
+          "title": "Target Grade",
+          "type": "string"
+        },
+        "severity_rank": {
+          "minimum": 1,
+          "title": "Severity Rank",
+          "type": "integer"
+        },
+        "label_vi": {
+          "title": "Label Vi",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "metric_id",
+        "phase",
+        "target_grade",
+        "severity_rank",
+        "label_vi"
+      ],
+      "title": "BottleneckItem",
+      "type": "object"
+    },
+    "HorizonPartitionPct": {
+      "additionalProperties": false,
+      "description": "Exact 100%-sum Pass / Fail / Pending partition for one evaluation horizon.",
+      "properties": {
+        "pass_pct": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Pass Pct",
+          "type": "number"
+        },
+        "fail_pct": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Fail Pct",
+          "type": "number"
+        },
+        "pending_pct": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Pending Pct",
+          "type": "number"
+        }
+      },
+      "required": [
+        "pass_pct",
+        "fail_pct",
+        "pending_pct"
+      ],
+      "title": "HorizonPartitionPct",
+      "type": "object"
+    },
+    "PhaseGradeDetail": {
+      "additionalProperties": false,
+      "description": "Per-phase grade with explicit `presentation-state@1.0.0` metadata.",
+      "properties": {
+        "phase": {
+          "enum": [
+            "p1",
+            "p2",
+            "pass_eval",
+            "funded_12m",
+            "overall_36m"
+          ],
+          "title": "Phase",
+          "type": "string"
+        },
+        "grade": {
+          "enum": [
+            "BAD",
+            "ADEQUATE",
+            "GOOD",
+            "TOP_1_PCT",
+            "UNKNOWN_LEGACY_UNINSTRUMENTED"
+          ],
+          "title": "Grade",
+          "type": "string"
+        },
+        "grade_vi": {
+          "title": "Grade Vi",
+          "type": "string"
+        },
+        "presentation_state": {
+          "$ref": "#/$defs/PresentationState"
+        },
+        "metric_grades": {
+          "additionalProperties": {
+            "enum": [
+              "BAD",
+              "ADEQUATE",
+              "GOOD",
+              "TOP_1_PCT",
+              "UNKNOWN_LEGACY_UNINSTRUMENTED"
+            ],
+            "type": "string"
+          },
+          "title": "Metric Grades",
+          "type": "object"
+        },
+        "pass_rate_pct": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pass Rate Pct"
+        },
+        "fail_rate_pct": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fail Rate Pct"
+        },
+        "pending_rate_pct": {
+          "anyOf": [
+            {
+              "maximum": 100.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pending Rate Pct"
+        },
+        "bottlenecks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BottleneckItem"
+          },
+          "title": "Bottlenecks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "phase",
+        "grade",
+        "grade_vi",
+        "presentation_state"
+      ],
+      "title": "PhaseGradeDetail",
+      "type": "object"
+    },
+    "PresentationState": {
+      "additionalProperties": false,
+      "description": "Exact Pydantic v2 mirror of `UI-Systems/core/contracts/presentation-state/1.0.0/schema.json`.",
+      "properties": {
+        "availability": {
+          "enum": [
+            "loading",
+            "ready",
+            "empty",
+            "unavailable",
+            "error",
+            "denied"
+          ],
+          "title": "Availability",
+          "type": "string"
+        },
+        "freshness": {
+          "anyOf": [
+            {
+              "enum": [
+                "current",
+                "stale",
+                "partial",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Freshness"
+        },
+        "certainty": {
+          "anyOf": [
+            {
+              "enum": [
+                "known",
+                "uncertain",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Certainty"
+        },
+        "reasonCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reasoncode"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "ariaLabel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Arialabel"
+        }
+      },
+      "required": [
+        "availability"
+      ],
+      "title": "PresentationState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "naqex-evaluation-scorecard-v1",
+      "default": "naqex-evaluation-scorecard-v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "contract_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "taxonomy_version": {
+      "title": "Taxonomy Version",
+      "type": "string"
+    },
+    "taxonomy_sha256": {
+      "title": "Taxonomy Sha256",
+      "type": "string"
+    },
+    "record_id": {
+      "title": "Record Id",
+      "type": "string"
+    },
+    "domain_tier": {
+      "enum": [
+        "T1_CFD_PROP",
+        "T2_CME_FUTURES",
+        "T3_MULTI_ASSET_OWNBOOK",
+        "T4_LIVE_OPS"
+      ],
+      "title": "Domain Tier",
+      "type": "string"
+    },
+    "eval_scope": {
+      "enum": [
+        "SINGLE_TICKET",
+        "MULTI_ACCOUNT_FLEET"
+      ],
+      "title": "Eval Scope",
+      "type": "string"
+    },
+    "pricing_regime": {
+      "enum": [
+        "ALL_REGULAR_SSOT",
+        "BLACK_FRIDAY_PROMO"
+      ],
+      "title": "Pricing Regime",
+      "type": "string"
+    },
+    "evidence_stage": {
+      "enum": [
+        "DEV_IS",
+        "DEV_BLIND_OOS",
+        "DEV_CONSUMED_OOS",
+        "HOLDOUT_SEALED_ONCE",
+        "SHADOW_DEMO",
+        "LIVE_REAL"
+      ],
+      "title": "Evidence Stage",
+      "type": "string"
+    },
+    "data_resolution": {
+      "enum": [
+        "TICK_REAL",
+        "M1_BID_ASK",
+        "M1_BID_SPREAD",
+        "M1_SINGLE_SIDE",
+        "APPROX_DAILY"
+      ],
+      "title": "Data Resolution",
+      "type": "string"
+    },
+    "resolution_label_vi": {
+      "title": "Resolution Label Vi",
+      "type": "string"
+    },
+    "execution_status": {
+      "title": "Execution Status",
+      "type": "string"
+    },
+    "risk_spectrum_tier": {
+      "anyOf": [
+        {
+          "enum": [
+            "T1_ULTRA_SAFE",
+            "T2_CONSERVATIVE",
+            "T3_BALANCED",
+            "T4_AGGRESSIVE_SPRINT",
+            "T5_MAX_THROTTLE_YOLO"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Risk Spectrum Tier"
+    },
+    "legacy_grade_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Legacy Grade Code"
+    },
+    "unified_grade_code": {
+      "enum": [
+        "BAD",
+        "ADEQUATE",
+        "GOOD",
+        "TOP_1_PCT",
+        "UNKNOWN_LEGACY_UNINSTRUMENTED"
+      ],
+      "title": "Unified Grade Code",
+      "type": "string"
+    },
+    "overall_grade": {
+      "enum": [
+        "BAD",
+        "ADEQUATE",
+        "GOOD",
+        "TOP_1_PCT",
+        "UNKNOWN_LEGACY_UNINSTRUMENTED"
+      ],
+      "title": "Overall Grade",
+      "type": "string"
+    },
+    "overall_grade_vi": {
+      "title": "Overall Grade Vi",
+      "type": "string"
+    },
+    "presentation_state": {
+      "$ref": "#/$defs/PresentationState"
+    },
+    "phase_grades": {
+      "additionalProperties": {
+        "$ref": "#/$defs/PhaseGradeDetail"
+      },
+      "propertyNames": {
+        "enum": [
+          "p1",
+          "p2",
+          "pass_eval",
+          "funded_12m"
+        ]
+      },
+      "title": "Phase Grades",
+      "type": "object"
+    },
+    "metric_grades": {
+      "additionalProperties": {
+        "enum": [
+          "BAD",
+          "ADEQUATE",
+          "GOOD",
+          "TOP_1_PCT",
+          "UNKNOWN_LEGACY_UNINSTRUMENTED"
+        ],
+        "type": "string"
+      },
+      "title": "Metric Grades",
+      "type": "object"
+    },
+    "metric_pass_map": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Metric Pass Map",
+      "type": "object"
+    },
+    "exact_bottlenecks": {
+      "items": {
+        "$ref": "#/$defs/BottleneckItem"
+      },
+      "title": "Exact Bottlenecks",
+      "type": "array"
+    },
+    "monthly_pass_fail_pending": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "$ref": "#/$defs/HorizonPartitionPct"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Monthly Pass Fail Pending"
+    },
+    "gap_to_top_1_pct_vi": {
+      "title": "Gap To Top 1 Pct Vi",
+      "type": "string"
+    },
+    "holdout_rows_analysed": {
+      "const": 0,
+      "default": 0,
+      "title": "Holdout Rows Analysed",
+      "type": "integer"
+    },
+    "order_send_count": {
+      "const": 0,
+      "default": 0,
+      "title": "Order Send Count",
+      "type": "integer"
+    },
+    "execution_capability": {
+      "const": false,
+      "default": false,
+      "title": "Execution Capability",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "taxonomy_version",
+    "taxonomy_sha256",
+    "record_id",
+    "domain_tier",
+    "eval_scope",
+    "pricing_regime",
+    "evidence_stage",
+    "data_resolution",
+    "resolution_label_vi",
+    "execution_status",
+    "unified_grade_code",
+    "overall_grade",
+    "overall_grade_vi",
+    "presentation_state",
+    "phase_grades",
+    "metric_grades",
+    "metric_pass_map",
+    "exact_bottlenecks",
+    "gap_to_top_1_pct_vi"
+  ],
+  "type": "object"
+}

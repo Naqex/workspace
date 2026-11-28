@@ -76,3 +76,10 @@ Before a Prop/Report/Replay slice is treated as a reusable contract consumer:
 
 This M1 contract is additive. Runtime shared components remain project-local until two real consumers demonstrate reuse and the shared release/versioning gate is satisfied.
 
+## Candidate domain contracts
+
+Additive versioned candidate contracts under `UI/contracts/` (promoted only after two real consumers demonstrate reuse and focused QA receipts pass; zero changes to `UI-Systems/` or existing `sharedUiPins`):
+
+- **Evaluation scorecard `1.0.0` (`status: candidate`):** [CONTRACT.md](../contracts/evaluation-scorecard/1.0.0/CONTRACT.md) and [schema.json](../contracts/evaluation-scorecard/1.0.0/schema.json) — binds the SSOT four-tier evaluation taxonomy, per-phase grading (`p1`, `p2`, `pass_eval`, `funded_12m`), ordered plain-language bottlenecks, and `presentation-state@1.0.0` (`UNKNOWN_LEGACY_UNINSTRUMENTED` never rendered as zero or green).
+
+

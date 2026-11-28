@@ -24,3 +24,15 @@ On-demand falsification catalog loaded from [adversarial-self-audit/SKILL.md](..
 ## 5. LLM Retrospective Training-Data Contamination (`Wave 4 Audit`)
 - Modern LLMs have seen historical news through `2025–2026`. Never feed un-anonymized historical dates or named shocks (`2024-08-05 BoJ`, `SVB`, `COVID`) into an LLM to claim backtest alpha improvement.
 - Anonymize dates, institutions, and tickers strictly for structural JSON, latency, cost, and degrade-on-`429` tests; measure real trading value exclusively via SHA-256 stamped **Prospective Shadow** forward logs (`>= 30` live calendar days).
+
+## 6. MQL5 ML/ONNX Filter Re-Entry & Train-Serve Feature Skew (`W4G05-F01`, `W4-RT1-P1-01`)
+- **Lock session day on ML rejection (`W4G05-F01`):** Whenever an ML/meta-filter rejects a signal (`!mlAllowed`), the EA MUST immediately call `MarkEngineTraded(magic, session_day_key)` so it cannot chase a delayed or flipped re-entry on subsequent bars (missing this caused `121` delayed/flipped entries and `-57.43 USD` drag on Full-2024 MT5).
+- **Precomputed ONNX parity != live feature parity (`W4-RT1-P1-01`):** Verifying `Python == ORT == MT5 OnnxRun() <= 1e-5` on precomputed feature vectors does NOT certify live MQL5 feature extraction. Always audit **end-to-end feature-extraction parity** (e.g., Python Wilder RMA `D1 ATR(14)` on `UTC` day vs MQL5 `iATR(PERIOD_D1, 14)` SMA on broker `EET/EEST` day, and fixed `1.0x` vs `InpBasePhaseMult`-scaled DD — which skewed `76/180 = 42.2%` of tree splits).
+
+## 7. Pareto Static-Kill Ratchet & Dual-Language FSM Fail-Open (`Wave 2A`, `RT2 P0-A / P1-01`)
+- **Static-floor ratchet parity:** Verify `static_kill` checks compare against the exact EA floor (`s_bal > ea_static_floor + 1e-9`) without accidental trailing ratchets (a subtle ratchet bug inflated 12m Funded blowup `10x`, from `0.17–0.44%` to `2.92–4.73%`).
+- **Dual-language fail-closed parity (Python + JS):** Whenever fleet/risk gates are implemented in both Python (`fleet_admission_and_edge_cases.py`) and browser JS (`propFleetModel.js`), run negative fail-closed tests on BOTH sides for every hazard: e.g., `BOT_BUG` MUST block admission until `fix_verified == True`, and `E2` MUST guard all post-payout phases including `S7`.
+
+## 8. Production SSOT Mutation by Tests & Linux CI Environment Parity (`RT4 P0-B`, `Wave 4C CI`)
+- **Tests must never mutate production SSOT artifacts:** Every pytest exercising a report/runner function MUST pass `write_output_path=None` or `tmp_path`. Assert SHA-256 invariance of production SSOT JSONs before and after full pytest runs.
+- **Linux CI LF vs Windows CRLF SHA-256 & pinned submodule imports:** Never hash tracked text files raw in cross-platform CI assertions without LF normalization (`\r\n -> \n`), because Linux GitHub Actions checks out LF while Windows working trees may hold CRLF (`AGENTS.md` `10,812 B` vs `10,901 B`). Guard optional cross-submodule imports (e.g., `quant_lab.funding_carry_v2` in `projects/quant-trading`) with lazy imports so CI passes against pinned submodule commits; enforce `*.ini text eol=lf` and `.gitattributes text eol=lf` in `private_vault/.gitattributes`.
